@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import "../../AdminDashboard/AdminPage.css";
 import api from "../../../config/axios";
-import { useParams } from "react-router-dom";
 import { UploadOutlined } from "@ant-design/icons";
 
 export default function AdminDiamond() {
