@@ -1,0 +1,52 @@
+.table-deliver {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  font-size: 20px;
+  color: #999;
+}
+
+.search-bar .form-control {
+  padding-left: 35px;
+}
+
+.table-deliver h1 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.table-deliver .btn-group .btn {
+  font-size: 16px;
+  padding: 10px 20px;
+}
+
+.table-deliver .table {
+  margin-top: 20px;
+}
+
+.table-deliver .table th {
+  background-color: #343a40;
+  color: #fff;
+  font-size: 16px;
+}
+
+.table-deliver .table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.table-deliver .table tbody tr:hover {
+  background-color: #f1f1f1;
+}

@@ -1,16 +1,16 @@
-.header-price{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-weight: bold;
+.header-price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
 }
-.price-title{
-    display: flex;
-    justify-content: center;
-    margin-top: 2%;
-}  
-.price-table td{
-    width: 16.66%;
-    text-align: center;
+.price-title {
+  display: flex;
+  justify-content: center;
+  margin-top: 2%;
+}
+.price-table td {
+  width: 16.66%;
+  text-align: center;
 }

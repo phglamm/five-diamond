@@ -48,7 +48,7 @@ function SaleEventPage() {
             <img src={Product5} /> {/* earring */}
           </div>
           <div className="button" id="outlined">
-            <Link to={routes.saleproduct}>
+            <Link to={routes.saleProduct}>
               <OutlinedButtons text={"Xem tất cả"} />
             </Link>
           </div>

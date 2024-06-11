@@ -1,77 +1,77 @@
-import React from 'react';
-import { Table } from 'antd';
+import React from "react";
+import { Table } from "antd";
 const columns = [
   {
-    title: 'Full Name',
+    title: "Full Name",
     width: 100,
-    dataIndex: 'name',
-    fixed: 'left',
+    dataIndex: "name",
+    fixed: "left",
   },
   {
-    title: 'Age',
+    title: "Age",
     width: 100,
-    dataIndex: 'age',
+    dataIndex: "age",
   },
   {
-    title: 'Column 1',
-    dataIndex: 'address',
-    fixed: 'left',
+    title: "Column 1",
+    dataIndex: "address",
+    fixed: "left",
   },
   {
-    title: 'Column 2',
-    dataIndex: 'address',
+    title: "Column 2",
+    dataIndex: "address",
   },
   {
-    title: 'Column 3',
-    dataIndex: 'address',
+    title: "Column 3",
+    dataIndex: "address",
   },
   {
-    title: 'Column 4',
-    dataIndex: 'address',
+    title: "Column 4",
+    dataIndex: "address",
   },
   {
-    title: 'Column 5',
-    dataIndex: 'address',
+    title: "Column 5",
+    dataIndex: "address",
   },
   {
-    title: 'Column 6',
-    dataIndex: 'address',
+    title: "Column 6",
+    dataIndex: "address",
   },
   {
-    title: 'Column 7',
-    dataIndex: 'address',
+    title: "Column 7",
+    dataIndex: "address",
   },
   {
-    title: 'Column 8',
-    dataIndex: 'address',
+    title: "Column 8",
+    dataIndex: "address",
   },
   {
-    title: 'Action 1',
-    fixed: 'right',
+    title: "Action 1",
+    fixed: "right",
     width: 90,
     render: () => <a>action</a>,
   },
   {
-    title: 'Action 2',
+    title: "Action 2",
     width: 90,
     render: () => <a>action</a>,
   },
   {
-    title: 'Action 3',
-    fixed: 'right',
+    title: "Action 3",
+    fixed: "right",
     width: 90,
     render: () => <a>action</a>,
   },
 ];
 const data = [
   {
-    key: '1',
-    name: 'John Brown',
+    key: "1",
+    name: "John Brown",
     age: 32,
-    address: 'New York Park',
+    address: "New York Park",
   },
 ];
-const App = () => (
+const TableANTD = () => (
   <Table
     columns={columns}
     dataSource={data}
@@ -82,4 +82,4 @@ const App = () => (
     bordered
   />
 );
-export default App;
+export default TableANTD;

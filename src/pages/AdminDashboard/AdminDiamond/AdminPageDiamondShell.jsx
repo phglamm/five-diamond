@@ -1,5 +1,5 @@
 import SideBar from "../../../components/SideBar/SideBar";
-import { Button, Form, Image, Input, Modal, Space, Table } from "antd";
+import { Button, Form, Image, Input, Modal, Select, Space, Table } from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import "../../AdminDashboard/AdminPage.css";
@@ -20,6 +20,7 @@ export default function AdminDiamondShell() {
       await api.post("material", value);
       setMessage("Thêm vỏ kim cương thành công");
       setDiamondshell([...diamondshell, value]);
+      33;
     } catch (error) {
       setMessage("Đã có lỗi trong lúc thêm vỏ kim cương");
       console.log(error.response.data);
@@ -29,22 +30,6 @@ export default function AdminDiamondShell() {
   async function fetchProduct() {
     const response = await api.get("material");
     setDiamondshell(response.data);
-  }
-
-  async function deleteProduct(id) {
-    console.log(id);
-    try {
-      await api.delete(`diamond//${id}`);
-      setdeleteMessage("Xóa thành công");
-      setDiamondshell(
-        diamondshell.filter((gem) => {
-          return gem.id !== id;
-        })
-      );
-    } catch (error) {
-      setdeleteMessage("Đã có lỗi trong lúc Xóa");
-      console.log(error.response.data);
-    }
   }
 
   useEffect(() => {
@@ -64,12 +49,6 @@ export default function AdminDiamondShell() {
       key: "type",
     },
     {
-      title: "Image URL ",
-      dataIndex: "imgURL",
-      key: "imgURL",
-      render: (value) => <Image src={value} />,
-    },
-    {
       title: "Metal",
       dataIndex: "metal",
       key: "metal",
@@ -86,9 +65,9 @@ export default function AdminDiamondShell() {
       key: "typeOfSub",
     },
     {
-      title: "weightOfSub",
-      dataIndex: "weightOfSub",
-      key: "weightOfSub",
+      title: "caratOfSub",
+      dataIndex: "caratOfSub",
+      key: "caratOfSub",
     },
     {
       title: "quantityOfSub",
@@ -102,24 +81,43 @@ export default function AdminDiamondShell() {
     },
     {
       title: "Hành Động",
-      render: () => (
-        <Space size="middle">
-          <Button onClick={hanldeClickSubmit}>Xóa</Button>
-        </Space>
-      ),
+      render: (values) => {
+        return (
+          <>
+            <Button
+              onClick={(e) => {
+                deleteDiamondShell(values);
+              }}
+            >
+              Xóa
+            </Button>
+          </>
+        );
+      },
     },
   ];
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+  async function deleteDiamondShell(values) {
+    console.log(values);
+    try {
+      Modal.confirm({
+        title: "Bạn có chắc muốn xóa sản phẩm này ?",
+        onOk: () => {
+          api.delete(`material/${values.id}`);
+          setdeleteMessage("Xóa thành công");
+          setDiamondshell(
+            diamondshell.filter((gem) => {
+              return gem.id !== values.id;
+            })
+          );
+        },
+      });
+    } catch (error) {
+      setdeleteMessage("Đã có lỗi trong lúc Xóa");
+      console.log(error.response.data);
+    }
+  }
+
   return (
     <div className="Admin">
       <SideBar></SideBar>
@@ -136,6 +134,7 @@ export default function AdminDiamondShell() {
           <div className="form-content-main">
             <div className="form-content">
               <Form.Item
+                initialValue="GOLD"
                 className="label-form"
                 label="Kim Loại"
                 name="metal"
@@ -146,7 +145,7 @@ export default function AdminDiamondShell() {
                   },
                 ]}
               >
-                <Input type="text" required />
+                <Input type="text" required readOnly />
               </Form.Item>
 
               <Form.Item
@@ -160,7 +159,10 @@ export default function AdminDiamondShell() {
                   },
                 ]}
               >
-                <Input type="text" required />
+                <Select className="select-input" placeholder="chọn Karat">
+                  <Select.Option value="24K">24K</Select.Option>
+                  <Select.Option value="18K">18K</Select.Option>
+                </Select>
               </Form.Item>
               <Form.Item
                 className="label-form"
@@ -173,16 +175,19 @@ export default function AdminDiamondShell() {
                   },
                 ]}
               >
-                <Input type="text" required />
+                <Select className="select-input" placeholder="chọn loại đá phụ">
+                  <Select.Option value="DIAMOND">Diamond</Select.Option>
+                  <Select.Option value="MOISSANITE">Moissanite</Select.Option>
+                </Select>
               </Form.Item>
               <Form.Item
                 className="label-form"
                 label="Nặng"
-                name="weightOfSub"
+                name="caratOfSub"
                 rules={[
                   {
                     required: true,
-                    message: "Nhập weightOfSub ",
+                    message: "Nhập caratOfSub ",
                   },
                 ]}
               >
@@ -192,7 +197,7 @@ export default function AdminDiamondShell() {
             <div className="form-content">
               <Form.Item
                 className="label-form"
-                label="quantityOfSub"
+                label="Số Lượng Đá Phụ"
                 name="quantityOfSub"
                 rules={[
                   {
@@ -205,34 +210,7 @@ export default function AdminDiamondShell() {
               </Form.Item>
 
               <Form.Item
-                className="label-form"
-                label="Giá"
-                name="price"
-                rules={[
-                  {
-                    required: true,
-                    message: "Nhập giá ",
-                  },
-                ]}
-              >
-                <Input type="text" required />
-              </Form.Item>
-
-              <Form.Item
-                className="label-form"
-                label="Image URL "
-                name="imgURL"
-                rules={[
-                  {
-                    required: true,
-                    message: "Nhập đường dẫn hình ảnh",
-                  },
-                ]}
-              >
-                <Input type="text" />
-              </Form.Item>
-
-              <Form.Item
+                initialValue="COVER"
                 className="label-form"
                 label="Loại"
                 name="type"
@@ -243,7 +221,7 @@ export default function AdminDiamondShell() {
                   },
                 ]}
               >
-                <Input type="text" />
+                <Input type="text" readOnly />
               </Form.Item>
             </div>
           </div>

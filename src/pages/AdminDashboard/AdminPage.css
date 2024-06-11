@@ -57,3 +57,33 @@
   margin-top: 10%;
   text-align: center;
 }
+
+.certificate-form {
+  width: 95%;
+  display: flex;
+}
+
+.certificate-form input {
+  width: 90%;
+}
+
+.certificate-form button {
+  width: 32%;
+}
+
+.action-button {
+  width: 100%;
+}
+
+.delete-button {
+  width: 35%;
+}
+
+.update-button {
+  width: 60%;
+  margin-left: 5%;
+}
+
+.ant-table-filter-dropdown {
+  width: 150% !important;
+}

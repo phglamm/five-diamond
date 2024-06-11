@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { routes } from ".";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectUser } from "../redux/features/counterSlice";
 
 const ProtectedRoute = ({ children, role }) => {

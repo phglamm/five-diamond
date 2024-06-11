@@ -64,9 +64,6 @@
 }
 
 .tips {
-  /* text-align: center;
-    font-size: 1.8em;
-    margin-top: 50px; */
   margin: 20px;
   text-align: center;
   font-size: 1.8em;
@@ -121,7 +118,7 @@
 .Size-Guide .link {
   margin: 0 15px;
   text-decoration: none;
-  color: #000; /* Default link color */
+  color: #000;
   font-size: 18px;
   position: relative;
 }
@@ -132,7 +129,7 @@
   display: block;
   width: 0;
   height: 2px;
-  background: #000; /* Color for the underline effect */
+  background: #000;
   transition: width 0.3s;
   position: absolute;
   left: 0;

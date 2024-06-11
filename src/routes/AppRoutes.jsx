@@ -8,7 +8,6 @@ import FAQPage from "../pages/FAQPage/FAQPage";
 import CollectionPage from "../pages/CollectionPage/CollectionPage";
 import Blog from "../pages/BlogPage/Blog";
 import SaleEventPage from "../pages/SaleEventPage/SaleEventPage";
-// import SizingTutor from "../pages/SizingTutorialPage/SizingTutor";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import AboutPage from "../pages/AboutPage/AboutPage";
 import ChainSizePage from "../pages/ChainSizePage/ChainSizePage";
@@ -22,9 +21,15 @@ import AdminManageOrder from "../pages/AdminDashboard/AdminManageOrder/AdmiManag
 import AdminCategory from "../pages/AdminDashboard/AdminCategory/AdminCategory";
 import ProtectedRoute from "./protectedRoute";
 import AdminDiamondShell from "../pages/AdminDashboard/AdminDiamond/AdminPageDiamondShell";
-import ProductDetailPage from "../pages/ProductPage/ProductDetailPage";
+import CartPage from "../pages/CartPage/CartPage";
+import CheckOut from "../pages/CheckOut/CheckOut";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import DiamondPricePage from "../pages/DiamondPricePage/DiamondPricePage";
+import ProductPage from "../pages/ProductPage/ProductDetailPage";
+import SaleProductPage from "../pages/SaleProductPage/SaleProductPage";
+import TrackingPage from "../pages/TrackingPage/TrackingPage";
 import SaleStaffPage from "../pages/SaleStaffPage/SaleStaffPage";
+import DeliveryStaffPage from "../pages/DeliveryStaffPage/DeliveryStaffPage";
 
 export default function AppRoute() {
   return (
@@ -39,8 +44,6 @@ export default function AppRoute() {
       <Route path={routes.blog} element={<Blog />} />
       <Route path={routes.sale} element={<SaleEventPage />} />
       <Route path={routes.diamondprice} element={<DiamondPricePage />} />
-      <Route path={routes.salestaff} element={<SaleStaffPage />} />
-      <Route path={routes.productdetail} element={<ProductDetailPage />} />
       <Route
         path={routes.profile}
         element={
@@ -57,7 +60,7 @@ export default function AppRoute() {
       <Route
         path={routes.adminProduct}
         element={
-          <ProtectedRoute role="admin">
+          <ProtectedRoute role="ADMIN">
             <AdminProduct />
           </ProtectedRoute>
         }
@@ -65,7 +68,7 @@ export default function AppRoute() {
       <Route
         path={routes.adminDiamond}
         element={
-          <ProtectedRoute role="admin">
+          <ProtectedRoute role="ADMIN">
             <AdminDiamond />
           </ProtectedRoute>
         }
@@ -81,7 +84,7 @@ export default function AppRoute() {
       <Route
         path={routes.adminmanageorder}
         element={
-          <ProtectedRoute role="admin">
+          <ProtectedRoute role="ADMIN">
             <AdminManageOrder />
           </ProtectedRoute>
         }
@@ -89,12 +92,26 @@ export default function AppRoute() {
       <Route
         path={routes.adminCategory}
         element={
-          <ProtectedRoute role="admin">
+          <ProtectedRoute role="ADMIN">
             <AdminCategory />
           </ProtectedRoute>
         }
       />
-      {/* <Route path={routes.notfound} element={<NotFound />} /> */}
+      <Route path={routes.notfound} element={<ErrorPage />} />
+
+      <Route path={routes.cart} element={<CartPage />} />
+      <Route path={routes.checkout} element={<CheckOut />} />
+      <Route path={routes.priceDiamond} element={<DiamondPricePage />} />
+      <Route path={routes.productdetail} element={<ProductPage />} />
+      <Route path={routes.saleEvent} element={<SaleEventPage />} />
+
+      <Route path={routes.saleProduct} element={<SaleProductPage />} />
+
+      <Route path={routes.productdetail} element={<ProductPage />} />
+
+      <Route path={routes.tracking} element={<TrackingPage />} />
+      <Route path={routes.saleStaff} element={<SaleStaffPage />} />
+      <Route path={routes.deliveryStaff} element={<DeliveryStaffPage />} />
     </Routes>
   );
 }

@@ -1,107 +1,123 @@
 .tracking-container {
-    margin-top: 80px;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    justify-content: center;
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: center;
 }
 
 .tracking-left-container .tracking-payment {
-    margin-top: 30px;
-
+  margin-top: 30px;
 }
 
-.order-tracking {
-    margin-top: 30px;
+.order-tracking-content {
+    margin-top: 10px;
 }
 
 .payment-method {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .shipping-info {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .separator {
-    margin: 0 10px;
+  margin: 0 10px;
 }
 
-
+.product-info {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
 
 .product-info img {
-    max-width: 50%;
+    width: 60%;
+    /* Reduce the size of the image */
     height: auto;
     display: block;
-    margin-bottom: 10px;
+    margin-right: 10px;/
 }
 
 .product-info p {
-    font-size: 12px;
-    line-height: 1.4;
-    margin-bottom: 8px;
+  font-size: 12px;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.price-info {
+    padding: 0;
+    text-align: left;
 }
 
 .price-info p {
+  font-size: 12px;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  margin-bottom: 5px;
     font-size: 12px;
     line-height: 1.4;
     margin-bottom: 8px;
     margin-bottom: 5px;
-
 }
 
 .total-price {
+  padding-top: 20px;
     padding-top: 20px;
+    text-align: left;
 }
-
 
 h3,
 h4 {
-    color: #38A9B8;
-    margin-bottom: 30px;
+  color: #38a9b8;
+  margin-bottom: 30px;
 }
 
 .card {
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
 .card-body {
-    padding: 20px;
+  padding: 20px;
 }
 
 .form-group {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .form-control {
-    border-radius: 5px;
-    padding: 10px;
+  border-radius: 5px;
+  padding: 10px;
 }
 
 .text-right {
-    text-align: right;
+  text-align: right;
 }
 
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 .mt-3 {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 .mt-5 {
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
-
-
 
 .container {
     flex-grow: 1;
+}
+
+.order-tracking-content .order-tracking-id {
+    text-align: left;
 }

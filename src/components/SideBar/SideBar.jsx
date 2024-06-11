@@ -13,8 +13,8 @@ import { logout, selectUser } from "../../redux/features/counterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import LogoutIcon from "@mui/icons-material/Logout";
 export default function SideBar() {
-  const user = useSelector(selectUser);
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -26,7 +26,9 @@ export default function SideBar() {
         <span>Five Diamond</span>
       </div>
       <hr className="rounded" />
-      <h1>Admin DashBoard</h1>
+      <h1>
+        Xin Chào, {user.firstname} {user.lastname}
+      </h1>
       <hr className="rounded" />
 
       <li>
@@ -68,16 +70,6 @@ export default function SideBar() {
         <EventIcon color="info" fontSize="large"></EventIcon>
         <Link to="">Quản Lý Sự Kiện Sale</Link>
       </li>
-
-      {/* <Link to={routes.login}>
-        <BasicButton
-          text={"Đăng Xuất"}
-          icon={"pi pi-sign-in"}
-          onClick={handleLogout}
-          className="admin-button-logout"
-        ></BasicButton>
-      </Link> */}
-
       <li>
         <LogoutIcon color="info" fontSize="large"></LogoutIcon>
         <Link onClick={handleLogout} to={routes.login}>

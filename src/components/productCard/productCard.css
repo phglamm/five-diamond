@@ -4,11 +4,19 @@
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   text-align: center;
+  background-color: #fafafa;
+  padding-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
 }
 
 .product-img img {
   width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
+
 .product-text a {
   color: black;
   text-decoration: none;
@@ -17,4 +25,54 @@
 .product-text {
   flex-wrap: wrap;
   font-size: 18px;
+}
+
+.price-info {
+  font-style: italic;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+.sale-price {
+  color: #c48c46;
+  /* Highlighted color for sale price */
+  font-size: 20px;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.retail-price-sale {
+  font-size: 14px;
+  text-decoration: line-through;
+  /* Strike-through for SaleProductPage */
+  color: gray;
+  display: inline;
+}
+
+.retail-price-guest {
+  font-size: 14px;
+  color: #c48c46;
+  /* Highlighted color for retail price in GuestPage */
+  display: inline;
+}
+
+.sale-percent {
+  font-size: 14px;
+  color: gray;
+  display: inline;
+  margin-left: 5px;
+}
+
+.star-rating {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  font-size: 13px;
+  color: #FFD700;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }

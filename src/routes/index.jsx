@@ -15,7 +15,6 @@ export const routes = {
   kienthuc: "/kien-thuc-kim-cuong",
   accessoryInfor: "/kien-thuc-trang-suc",
   warrantyPolicy: "/chinh-sach-bao-hanh",
-  diamondprice: "/bang-gia-kim-cuong",
 
   admin: "/admin",
   adminProduct: "/admin-san-pham",
@@ -23,9 +22,17 @@ export const routes = {
   adminDiamond: "/admin-kim-cuong",
   adminAdd: "/admin-them-san-pham",
   adminmanageorder: "/admin-quan-li-don-hang",
-  adminCategory: "/admin-danh-muc",
   productdetail: "/chi-tiet-san-pham",
-
+  diamondprice: "/bang-gia-kim-cuong",
+  adminCategory: "/admin-danh-muc",
   notfound: "/notfound",
-  salestaff: "/nhan-vien-sale",
+
+  cart: "/gio-hang",
+  checkout: "/tien-hanh-thanh-toan",
+  priceDiamond: "/bang-gia-kim-cuong",
+  saleEvent: "/chuong-trinh-khuyen-mai",
+  saleProduct: "/san-pham-khuyen-mai",
+  tracking: "/theo-doi-don-hang",
+  saleStaff: "/nhan-vien-sale",
+  deliveryStaff: "/nhan-vien-giao-hang",
 };

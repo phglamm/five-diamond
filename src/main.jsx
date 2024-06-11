@@ -7,7 +7,6 @@ import { Provider } from "react-redux";
 import { persistor, store } from "./redux/store.js";
 import { PersistGate } from "redux-persist/integration/react";
 import { PrimeReactProvider } from "primereact/api";
-// import "primeflex/primeflex.css";
 import "primereact/resources/primereact.css";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";

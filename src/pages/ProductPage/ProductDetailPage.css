@@ -1,67 +1,65 @@
 .product-detail {
-    display: flex;
-    margin-top: 50px;
+  display: flex;
+  margin-top: 50px;
 }
 
 .select-material {
-    display: flex;
-    gap: 20px;
+  display: flex;
+  gap: 20px;
 }
 
 .select-size {
-    display: flex;
-    gap: 55px;
+  display: flex;
+  gap: 55px;
 }
 
 .select-quantity {
-    display: flex;
-    gap: 20px;
+  display: flex;
+  gap: 20px;
 }
 
 .button-buy {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
-.ant-btn {
-    padding-left: 250px !important;
-    padding-right: 250px !important;
+.button-buy button {
+  width: 100%;
 }
 
 .header-product-info {
-    color: #38A9B8;
-    font-weight: bold;
-    border-bottom: 2px solid #38A9B8;
-    padding-bottom: 10px;
+  color: #38a9b8;
+  font-weight: bold;
+  border-bottom: 2px solid #38a9b8;
+  padding-bottom: 10px;
 }
 
 .product-info {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .info-detail {
-    display: flex;
-    gap: 10px;
-    flex: 1 1 45%;
-    box-sizing: border-box;
-    padding: 10px;
+  display: flex;
+  gap: 10px;
+  flex: 1 1 45%;
+  box-sizing: border-box;
+  padding: 10px;
 }
 
 .info-detail:nth-child(3) {
-    flex-basis: 100%;
+  flex-basis: 100%;
 }
 
 .header-relevant-product {
-    font-weight: bold;
-    margin-left: 5%;
+  font-weight: bold;
+  margin-left: 5%;
 }
-.relevant-product-list{
-display: flex;
-    align-items: center;
-    justify-content: center;
+.relevant-product-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .relevant-productcard {
-    width: 25%;
-    /* margin-left: 20%; */
+  width: 25%;
 }

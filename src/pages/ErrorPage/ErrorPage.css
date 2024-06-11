@@ -1,0 +1,46 @@
+.mainbox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.numbers {
+  display: flex;
+}
+
+.err,
+.err2 {
+  font-size: 11rem;
+  font-weight: bold;
+  color: #fdfdfd;
+  margin: 0 5px; /* Giảm khoảng cách giữa các số */
+}
+
+.my-image {
+  margin-bottom: -6%;
+  width: 300px;
+  height: auto;
+  margin-left: -15%;
+  margin-right: -17%;
+}
+
+.msg {
+  text-align: center;
+  color: #ffffff;
+  font-size: 1.6rem;
+  margin-top: -65px;
+}
+
+a {
+  color: #000000;
+  text-decoration: underline;
+}

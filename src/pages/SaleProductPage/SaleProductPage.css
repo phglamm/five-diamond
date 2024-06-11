@@ -1,61 +1,51 @@
-/* SaleProductPage.css */
-
-.sale-product-banner {}
-
-
 .sale-content {
-    margin: 30px 0;
-    font-size: 20px;
+  margin: 30px 0;
+  font-size: 20px;
 }
 
 .sale-product-card {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: -10px;
-    /* Adjust for Bootstrap's negative margin on columns */
-    margin-right: -10px;
-    /* Adjust for Bootstrap's negative margin on columns */
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -10px;
+  margin-right: -10px;
 }
 
 .col-2 {
-    flex: 0 0 20%;
-    /* Each column takes up 20% of the container width */
-    padding-left: 10px;
-    /* Adjust for Bootstrap's gutter */
-    padding-right: 10px;
-    /* Adjust for Bootstrap's gutter */
+  flex: 0 0 20%;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    margin: 10px;
-    padding: 15px;
-    text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 10px;
+  padding: 15px;
+  text-align: center;
 }
 
 .card img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
 
 .card h3 {
-    font-size: 16px;
-    margin-top: 10px;
+  font-size: 16px;
+  margin-top: 10px;
 }
 
 .card h3:last-child {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .card h3.price {
-    color: #007bff;
-    /* Blue color for price */
+  color: #007bff;
+  /* Blue color for price */
 }
 
 .pagination {
-    margin-top: 30px;
-    justify-content: center;
+  margin-top: 30px;
+  justify-content: center;
 }

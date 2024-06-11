@@ -1,23 +1,21 @@
 .Admin {
-    display: flex;
-  }
-  
-  .SideBar {
-    flex: 0 0 250px; /* Adjust the width as necessary */
-  }
-  
-  .content {
-    margin: 20%;
-    flex: 1;
-    padding: 20px;
-    overflow: auto;
+  display: flex;
+}
 
-  }
-  .content{
-    margin-left: 20%;
-  }
-  
-.content_category{
-    margin-left: 20%;
+.SideBar {
+  flex: 0 0 250px; /* Adjust the width as necessary */
+}
 
+.content {
+  margin: 20%;
+  flex: 1;
+  padding: 20px;
+  overflow: auto;
+}
+.content {
+  margin-left: 20%;
+}
+
+.content_category {
+  margin-left: 20%;
 }

@@ -51,7 +51,7 @@ export default function Header() {
             <p>HỆ THỐNG PHÂN PHỐI</p>
           </div>
         </Col>
-        <Col xs={4} className="Header-logo">
+        <Col xs={3} className="Header-logo">
           <Link to={routes.home}>
             <img src={logo} alt="" />
           </Link>
@@ -63,10 +63,15 @@ export default function Header() {
           ></SearchBar>
         </Col>
         {user ? (
-          <Col xs={2} className="Header-login">
-            <Link to={routes.profile}>
+          <Col xs={3} className="Header-login">
+            <Link to={routes.profile} className="profile-name">
               {/* <p>{user.email}</p> */}
-              <p>
+
+              <span
+                className="pi pi-user"
+                style={{ fontSize: "1.5rem" }}
+              ></span>
+              <p className="username">
                 {user.firstname} {user.lastname}
               </p>
             </Link>
@@ -95,7 +100,7 @@ export default function Header() {
         )}
       </Row>
 
-      <Row className="Bottom-header">
+      <Col className="Bottom-header">
         <Col className="Header-navigation">
           <Link to={routes.about}>Giới Thiệu</Link>
         </Col>
@@ -128,7 +133,7 @@ export default function Header() {
         <Col className="Header-navigation">
           <Link to={routes.faq}>Câu Hỏi Thường Gặp</Link>
         </Col>
-      </Row>
+      </Col>
     </Container>
   );
 }

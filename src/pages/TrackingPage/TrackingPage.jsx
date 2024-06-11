@@ -1,3 +1,4 @@
+//TrackingPage
 import React, { useRef } from "react";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import Header from "../../components/Header/Header";
@@ -117,8 +118,8 @@ const TrackingPage = () => {
                     <div className="order-tracking">
                         <h3>THEO DÕI ĐƠN HÀNG</h3>
                         <Card>
-                            <Card.Body>
-                                <p>Mã ID: DM20241652003</p>
+                            <Card.Body className="order-tracking-content">
+                                <p className="order-tracking-id">Mã ID: DM20241652003</p>
                                 <hr />
                                 <p className="shipping-info">
                                     Ngày giao hàng dự kiến: 16/05/2024
