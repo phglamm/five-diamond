@@ -30,6 +30,7 @@ import SaleProductPage from "../pages/SaleProductPage/SaleProductPage";
 import TrackingPage from "../pages/TrackingPage/TrackingPage";
 import SaleStaffPage from "../pages/SaleStaffPage/SaleStaffPage";
 import DeliveryStaffPage from "../pages/DeliveryStaffPage/DeliveryStaffPage";
+import AdminCertificate from "../pages/AdminDashboard/AdminCertificate/AdminCertificate";
 
 export default function AppRoute() {
   return (
@@ -94,6 +95,14 @@ export default function AppRoute() {
         element={
           <ProtectedRoute role="ADMIN">
             <AdminCategory />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routes.adminCertificate}
+        element={
+          <ProtectedRoute role="ADMIN">
+            <AdminCertificate />
           </ProtectedRoute>
         }
       />

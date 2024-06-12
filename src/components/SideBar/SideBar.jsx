@@ -60,6 +60,10 @@ export default function SideBar() {
       </li>
       <li>
         <CategoryIcon color="info" fontSize="large"></CategoryIcon>
+        <Link to={routes.adminCertificate}>Quản Lý Chứng Chỉ</Link>
+      </li>
+      <li>
+        <CategoryIcon color="info" fontSize="large"></CategoryIcon>
         <Link to={routes.adminCategory}>Quản Lý Danh Mục</Link>
       </li>
       <li>

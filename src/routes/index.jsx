@@ -25,8 +25,8 @@ export const routes = {
   productdetail: "/chi-tiet-san-pham",
   diamondprice: "/bang-gia-kim-cuong",
   adminCategory: "/admin-danh-muc",
+  adminCertificate: "/admin-chung-chi",
   notfound: "/notfound",
-
   cart: "/gio-hang",
   checkout: "/tien-hanh-thanh-toan",
   priceDiamond: "/bang-gia-kim-cuong",
