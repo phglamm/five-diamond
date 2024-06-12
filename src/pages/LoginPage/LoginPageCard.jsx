@@ -24,7 +24,6 @@ function LoginPageCard() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
   const [error, setError] = useState("");
@@ -46,8 +45,11 @@ function LoginPageCard() {
           navigate(routes.home);
         } else if (userApi.data.role === "ADMIN") {
           navigate(routes.adminDiamond);
+        } else if (userApi.data.role === "SALES") {
+          navigate(routes.home);
+        } else if (userApi.data.role === "DELIVERY") {
+          navigate(routes.home);
         }
-
         dispatch(login(userApi.data));
       });
     } catch (error) {

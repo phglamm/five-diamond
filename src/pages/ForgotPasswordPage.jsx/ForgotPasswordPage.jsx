@@ -15,20 +15,12 @@ import { Link } from "react-router-dom";
 import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { login, selectUser } from "../../redux/features/counterSlice";
 
 function ForgotPasswordPage() {
   const [form] = useForm();
   function hanldeClickSubmit() {
     form.submit();
   }
-  const user = useSelector(selectUser);
-  const dispatch = useDispatch();
-
-  const handleLogout = () => {
-    dispatch(logout());
-  };
 
   async function handleSubmit(value) {
     console.log(value);
@@ -37,8 +29,6 @@ function ForgotPasswordPage() {
         "http://157.245.145.162:8080/api/forgot-password",
         value
       );
-      const userData = { email };
-      dispatch(login(userData));
       console.log(response);
     } catch (error) {
       console.log(error.response.data);
@@ -81,7 +71,7 @@ function ForgotPasswordPage() {
                   form={form}
                   onFinish={handleSubmit}
                   id="form"
-                  className="form-main"
+                  className=""
                 >
                   <Form.Item
                     label="Email"
@@ -123,14 +113,6 @@ function ForgotPasswordPage() {
                   className="link-to"
                 >
                   Đổi Mật Khẩu
-                </a>
-              </div>
-              <div className="d-flex flex-row justify-content-start">
-                <a href="#!" className="small text-muted me-1">
-                  {/* Terms of use. */}
-                </a>
-                <a href="#!" className="small text-muted">
-                  {/* Privacy policy */}
                 </a>
               </div>
             </MDBCardBody>

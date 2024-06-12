@@ -2,6 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import "./ErrorPage.css";
 import error from "/assets/images/Error/error.png";
+import { Link } from "react-router-dom";
 
 const ErrorPage = () => {
   return (
@@ -29,7 +30,7 @@ const ErrorPage = () => {
       <div className="msg">
         Đi đâu đây? Tìm kim cương
         <p>
-          Kim cương có ở <a href="/">đây</a> nè
+          Kim cương có ở <Link to="/">đây</Link> nè
         </p>
       </div>
     </div>

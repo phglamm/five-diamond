@@ -117,20 +117,30 @@ export default function AppRoute() {
         }
       />
       <Route path={routes.notfound} element={<ErrorPage />} />
-
       <Route path={routes.cart} element={<CartPage />} />
       <Route path={routes.checkout} element={<CheckOut />} />
       <Route path={routes.priceDiamond} element={<DiamondPricePage />} />
       <Route path={routes.productdetail} element={<ProductPage />} />
       <Route path={routes.saleEvent} element={<SaleEventPage />} />
-
       <Route path={routes.saleProduct} element={<SaleProductPage />} />
-
       <Route path={routes.productdetail} element={<ProductPage />} />
-
       <Route path={routes.tracking} element={<TrackingPage />} />
-      <Route path={routes.saleStaff} element={<SaleStaffPage />} />
-      <Route path={routes.deliveryStaff} element={<DeliveryStaffPage />} />
+      <Route
+        path={routes.saleStaff}
+        element={
+          <ProtectedRoute role="SALES">
+            <SaleStaffPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routes.deliveryStaff}
+        element={
+          <ProtectedRoute role="DELIVERY">
+            <DeliveryStaffPage />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }

@@ -31,26 +31,36 @@ export default function Header() {
   return (
     <Container fluid className="Header" id="header">
       <Row className="Top-header">
-        <Col xs={4} className="Header-left">
-          <div className="Header-left-component">
-            {/* <Link to={routes.adminDiamond}>
-              {" "}
-              <p>Vào Trang admin</p>
-            </Link> */}
-          </div>
-          <div className="Header-left-component">
-            <i className="pi pi-phone"></i>
-            <p>1800 1168</p>
-          </div>
-          <div className="Header-left-component">
-            <i className="pi pi-building"></i>
-            <p>HỆ THỐNG SHOWROOM</p>
-          </div>
-          <div className="Header-left-component">
-            <i className="pi pi-map"></i>
-            <p>HỆ THỐNG PHÂN PHỐI</p>
-          </div>
-        </Col>
+        {user.role === "SALES" || user.role === "DELIVERY" ? (
+          <Col xs={4} className="Header-left">
+            <div className="Header-left-component">
+              <Link to={routes.saleStaff} className="sale-staff">
+                <p>Theo Dõi Đơn Hàng Cần Xử Lý</p>
+              </Link>
+            </div>
+            <div className="Header-left-component">
+              <Link to={routes.deliveryStaff} className="sale-staff">
+                <p>Theo Dõi Đơn Hàng Cần Giao Đi</p>
+              </Link>
+            </div>
+          </Col>
+        ) : (
+          <Col xs={4} className="Header-left">
+            <div className="Header-left-component">
+              <i className="pi pi-phone"></i>
+              <p>1800 1168</p>
+            </div>
+            <div className="Header-left-component">
+              <i className="pi pi-building"></i>
+              <p>HỆ THỐNG SHOWROOM</p>
+            </div>
+            <div className="Header-left-component">
+              <i className="pi pi-map"></i>
+              <p>HỆ THỐNG PHÂN PHỐI</p>
+            </div>
+          </Col>
+        )}
+
         <Col xs={3} className="Header-logo">
           <Link to={routes.home}>
             <img src={logo} alt="" />
@@ -90,7 +100,6 @@ export default function Header() {
               <BasicButton text={"Đăng nhập"} icon={"pi pi-user"}></BasicButton>
             </Link>
             <Link to={routes.register}>
-              {/* <button>Đăng ký</button> */}
               <BasicButton
                 text={"Đăng ký"}
                 icon={"pi pi-sign-in"}
@@ -128,7 +137,7 @@ export default function Header() {
           <Link to={routes.blog}>Kiến Thức</Link>
         </Col>
         <Col className="Header-navigation">
-          <Link to="">Bảng Giá Kim Cương</Link>
+          <Link to={routes.priceDiamond}>Bảng Giá Kim Cương</Link>
         </Col>
         <Col className="Header-navigation">
           <Link to={routes.faq}>Câu Hỏi Thường Gặp</Link>
