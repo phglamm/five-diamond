@@ -75,8 +75,6 @@ export default function Header() {
         {user ? (
           <Col xs={3} className="Header-login">
             <Link to={routes.profile} className="profile-name">
-              {/* <p>{user.email}</p> */}
-
               <span
                 className="pi pi-user"
                 style={{ fontSize: "1.5rem" }}
@@ -94,7 +92,7 @@ export default function Header() {
             </Link>
           </Col>
         ) : (
-          <Col xs={2} className="Header-login">
+          <Col xs={3} className="Header-login">
             <Link to={routes.login}>
               {" "}
               <BasicButton text={"Đăng nhập"} icon={"pi pi-user"}></BasicButton>

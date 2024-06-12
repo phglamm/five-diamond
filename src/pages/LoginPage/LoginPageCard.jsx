@@ -173,7 +173,7 @@ function LoginPageCard() {
                     <Button onClick={hanldeClickSubmit} className="form-button">
                       Đăng Nhập
                     </Button>
-                    <p>Hoặc</p>
+                    <h5 style={{ textAlign: "center", marginTop: 20 }}>Hoặc</h5>
                   </Form>
                   <div className="google-btn-container">
                     <button onClick={handleLoginGG} className="google-button">

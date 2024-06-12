@@ -11,10 +11,12 @@ import forgotbanner from "../../../public/assets/images/LoginBanner/forgotbanner
 
 import logo from "../../../public/assets/images/Logo/logo.png";
 import { routes } from "../../routes";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
 import axios from "axios";
+import api from "../../config/axios";
+import { toast } from "react-toastify";
 
 function ForgotPasswordPage() {
   const [form] = useForm();
@@ -22,15 +24,14 @@ function ForgotPasswordPage() {
     form.submit();
   }
 
-  async function handleSubmit(value) {
+  async function ForgotPassword(value) {
     console.log(value);
     try {
-      const response = await axios.post(
-        "http://157.245.145.162:8080/api/forgot-password",
-        value
-      );
+      const response = await api.post("forgot-password", value);
       console.log(response);
+      toast.success("Đã gửi yêu cầu đến Email của bạn");
     } catch (error) {
+      toast.success("Có sự cố khi gửi yêu cầu đến Email của bạn");
       console.log(error.response.data);
     }
   }
@@ -69,7 +70,7 @@ function ForgotPasswordPage() {
               <div className="form">
                 <Form
                   form={form}
-                  onFinish={handleSubmit}
+                  onFinish={ForgotPassword}
                   id="form"
                   className=""
                 >
@@ -107,13 +108,13 @@ function ForgotPasswordPage() {
                   Đăng ký tài khoản mới
                 </Link>
 
-                <a
+                <Link
                   to={routes.changePassword}
                   style={{ color: "#393f81" }}
                   className="link-to"
                 >
                   Đổi Mật Khẩu
-                </a>
+                </Link>
               </div>
             </MDBCardBody>
           </MDBCol>

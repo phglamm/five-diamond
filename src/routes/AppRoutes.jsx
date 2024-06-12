@@ -32,14 +32,18 @@ import DeliveryStaffPage from "../pages/DeliveryStaffPage/DeliveryStaffPage";
 import AdminCertificate from "../pages/AdminDashboard/AdminCertificate/AdminCertificate";
 import AdminUser from "../pages/AdminDashboard/AdminUser/AdminUser";
 import AdminOrder from "../pages/AdminDashboard/AdminManageOrder/AdmiManageOrder";
+import ChangePasswordPage from "../pages/ChangePassword/ChangePassword";
 
 export default function AppRoute() {
   return (
     <Routes>
       <Route path={routes.home} element={<GuestPage />} />
+
       <Route path={routes.login} element={<LoginPageCard />} />
       <Route path={routes.register} element={<RegisterPageCard />} />
       <Route path={routes.forgot} element={<ForgotPasswordPage />} />
+      <Route path={routes.changePassword} element={<ChangePasswordPage />} />
+
       <Route path={routes.faq} element={<FAQPage />} />
       <Route path={routes.size} element={<SizePage />} />
       <Route path={routes.bst} element={<CollectionPage />} />

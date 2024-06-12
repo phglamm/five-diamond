@@ -1,5 +1,5 @@
 import SideBar from "../../../components/SideBar/SideBar";
-import { Button, Form, Input, Modal, Table } from "antd";
+import { Button, Form, Input, Modal, Table, Upload } from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import "../../AdminDashboard/AdminPage.css";
@@ -8,6 +8,7 @@ import "./AdminCertificate.css";
 import api from "../../../config/axios";
 import { UploadOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
+import uploadFile from "../../../utils/upload";
 
 export default function AdminCertificate() {
   const [form] = useForm();
@@ -16,6 +17,7 @@ export default function AdminCertificate() {
 
   const [certificate, setCertificate] = useState([]);
   const [selectedCertificate, setSelectedCertificate] = useState(null);
+  const [file, setFile] = useState(null);
 
   function hanldeUpdateClickSubmit() {
     formUpdate.submit();
@@ -28,9 +30,18 @@ export default function AdminCertificate() {
   async function AddCertificate(value) {
     console.log(value);
     try {
-      await api.post("certificate", value);
+      const file = value.fileURL.file.originFileObj;
+      const fileURL = await uploadFile(file);
+
+      console.log(file);
+      const certificateData = {
+        ...value,
+        fileURL,
+      };
+      await api.post("certificate", certificateData);
+      setCertificate([...certificate, certificateData]);
+
       toast.success("Thêm Chứng Chỉ thành công");
-      setCertificate([...certificate, value]);
       fetchCertificate();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc thêm chứng chỉ");
@@ -89,7 +100,6 @@ export default function AdminCertificate() {
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
   };
-
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
 
   const handleUpdateOk = () => {
@@ -173,12 +183,6 @@ export default function AdminCertificate() {
                       className="label-form"
                       label="Số Chứng Chỉ"
                       name="giaReportNumber"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Nhập số Chứng Chỉ ",
-                        },
-                      ]}
                     >
                       <Input type="number" required />
                     </Form.Item>
@@ -192,9 +196,7 @@ export default function AdminCertificate() {
                           message: "Nhập fireURL",
                         },
                       ]}
-                    >
-                      <Input type="text" required />
-                    </Form.Item>
+                    ></Form.Item>
                   </div>
                 </div>
                 <Button
@@ -251,7 +253,20 @@ export default function AdminCertificate() {
                   },
                 ]}
               >
-                <Input type="text" required />
+                <Upload
+                  fileList={file ? [file] : []}
+                  beforeUpload={(file) => {
+                    if (file.type !== "application/pdf") {
+                      toast.error("Chỉ chọn file PDF");
+                      setFile(null);
+                    } else setFile(file);
+                  }}
+                  onRemove={() => {
+                    setFile(null);
+                  }}
+                >
+                  <Button icon={<UploadOutlined />}>Upload</Button>
+                </Upload>
               </Form.Item>
             </div>
           </div>

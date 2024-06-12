@@ -12,6 +12,8 @@ import { routes } from "../../routes";
 import { logout, selectUser } from "../../redux/features/counterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import LogoutIcon from "@mui/icons-material/Logout";
+import FindInPageIcon from "@mui/icons-material/FindInPage";
+import InventoryIcon from "@mui/icons-material/Inventory";
 export default function SideBar() {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
@@ -27,7 +29,7 @@ export default function SideBar() {
       </div>
       <hr className="rounded" />
       <h1>
-        Xin Chào, {user.firstname} {user.lastname}
+        {user.firstname} {user.lastname}
       </h1>
       <hr className="rounded" />
 
@@ -47,7 +49,7 @@ export default function SideBar() {
         <Link to={routes.adminmanageorder}>Quản Lý Đơn Hàng</Link>
       </li>
       <li>
-        <DiamondIcon color="info" fontSize="large"></DiamondIcon>
+        <InventoryIcon color="info" fontSize="large"></InventoryIcon>
         <Link to={routes.adminProduct}>Quản Lý Sản Phẩm</Link>
       </li>
       <li>
@@ -59,7 +61,7 @@ export default function SideBar() {
         <Link to={routes.adminDiamondshell}>Quản Lý Vỏ Kim Cương</Link>
       </li>
       <li>
-        <CategoryIcon color="info" fontSize="large"></CategoryIcon>
+        <FindInPageIcon color="info" fontSize="large"></FindInPageIcon>
         <Link to={routes.adminCertificate}>Quản Lý Chứng Chỉ</Link>
       </li>
       <li>

@@ -23,7 +23,7 @@ function RegisterPageCard() {
   const dateFormat = "DD/MM/YYYY";
 
   const [form] = useForm();
-  async function handleSubmit(value) {
+  async function RegisterAccount(value) {
     console.log(value);
     try {
       const response = await api.post("register", value);
@@ -75,7 +75,7 @@ function RegisterPageCard() {
               <div className="form">
                 <Form
                   form={form}
-                  onFinish={handleSubmit}
+                  onFinish={RegisterAccount}
                   id="form"
                   className=""
                 >
