@@ -31,7 +31,7 @@ export default function Header() {
   return (
     <Container fluid className="Header" id="header">
       <Row className="Top-header">
-        {user.role === "SALES" || user.role === "DELIVERY" ? (
+        {user && (user.role === "SALES" || user.role === "DELIVERY") ? (
           <Col xs={4} className="Header-left">
             <div className="Header-left-component">
               <Link to={routes.saleStaff} className="sale-staff">

@@ -6,15 +6,18 @@ import "../../AdminDashboard/AdminPage.css";
 
 import api from "../../../config/axios";
 import { UploadOutlined } from "@ant-design/icons";
+import { toast } from "react-toastify";
 
 export default function AdminCategory() {
-  const [message, setMessage] = useState("");
-  const [deleteMessage, setdeleteMessage] = useState("");
-  const [updateMessage, setUpdateMessage] = useState("");
-
+  const [newData, setNewData] = useState("");
   const [form] = useForm();
-
+  const [formUpdate] = useForm();
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [category, setCategory] = useState([]);
+
+  function hanldeUpdateClickSubmit() {
+    formUpdate.submit();
+  }
   function hanldeClickSubmit() {
     form.submit();
   }
@@ -23,10 +26,11 @@ export default function AdminCategory() {
     console.log(value);
     try {
       await api.post("category", value);
-      setMessage("Thêm danh mục thành công");
       setCategory([...category, value]);
+      toast.success("Thêm Danh Mục thành công");
+      fetchCategory();
     } catch (error) {
-      setMessage("Đã có lỗi trong lúc thêm danh mục");
+      toast.error("Đã có lỗi trong lúc thêm danh mục");
       console.log(error.response.data);
     }
   }
@@ -34,18 +38,13 @@ export default function AdminCategory() {
   async function fetchCategory() {
     const response = await api.get("category");
     setCategory(response.data);
-    console.log("data....", response.data);
   }
 
   useEffect(() => {
     fetchCategory();
   }, []);
 
-  useEffect(() => {
-    if (category) {
-      console.log("category...", category); // Log the diamond id when diamond state is updated
-    }
-  }, [category]); // Only re-run this effect when diamond changes
+  useEffect(() => {}, [category]); // Only re-run this effect when diamond changes
 
   async function deleteCategory(values) {
     console.log(values.id);
@@ -54,7 +53,7 @@ export default function AdminCategory() {
         title: "Bạn có chắc muốn xóa danh mục này ?",
         onOk: () => {
           api.delete(`category/${values.id}`);
-          setdeleteMessage("Xóa thành công");
+          toast.success("Xóa thành công");
           setCategory(
             category.filter((cat) => {
               return cat.id !== values.id;
@@ -62,32 +61,37 @@ export default function AdminCategory() {
           );
         },
       });
-      console.log(deleteMessage);
+      fetchCategory();
     } catch (error) {
-      setdeleteMessage("Đã có lỗi trong lúc Xóa");
+      toast.error("Đã có lỗi trong lúc Xóa");
       console.log(error.response.data);
     }
   }
 
   async function updateCategory(values) {
-    console.log("haha...", values);
+    const dataUpdate = {
+      ...newData,
+    };
     try {
-      await api.put(`category/${values.id}`, values);
-      setUpdateMessage("Chỉnh sửa thành công");
-      setCategory(
-        category.filter((cat) => {
-          return cat.id !== values.id;
-        })
-      );
-      console.log(updateMessage);
+      await api.put(`category/${values.id}`, dataUpdate);
+      setIsModalUpdateOpen(false);
+      toast.success("Chỉnh sửa thành công");
+      fetchCategory();
     } catch (error) {
-      console.log("chỉnh sửa thất bại, có lỗi");
-      setUpdateMessage("chỉnh sửa thất bại, có lỗi");
+      toast.error("chỉnh sửa thất bại, có lỗi");
       console.log(error.response.data);
     }
   }
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
+  };
+
+  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
+  const handleUpdateOk = () => {
+    setIsModalUpdateOpen(false);
+  };
+  const handleUpdateCancel = () => {
+    setIsModalUpdateOpen(false);
   };
 
   const columns = [
@@ -125,37 +129,83 @@ export default function AdminCategory() {
               <Button
                 icon={<UploadOutlined />}
                 className="admin-upload-button update-button"
-                onClick={showModalUpdate}
+                onClick={() => {
+                  setSelectedCategory(values);
+                  formUpdate.setFieldsValue(values);
+                  setIsModalUpdateOpen(true);
+                }}
               >
                 Chỉnh sửa
               </Button>
             </div>
 
             <Modal
-              className="modal-add-form"
+              className="modal-updateCategory-form"
               footer={false}
-              title="Chỉnh Sửa"
+              title="Chỉnh Sửa Danh Mục"
               okText={"Lưu"}
               open={isModalUpdateOpen}
               onOk={handleUpdateOk}
               onCancel={handleUpdateCancel}
-            ></Modal>
+              mask={false}
+            >
+              <Form
+                initialValues={selectedCategory}
+                onValuesChange={(changedValues, allValues) => {
+                  setNewData(allValues);
+                }}
+                form={formUpdate}
+                onFinish={(values) => {
+                  updateCategory(selectedCategory);
+                }}
+                id="form-update"
+                className="form-main"
+              >
+                <div className="form-content-main">
+                  <div className="form-content">
+                    <Form.Item
+                      className="label-form"
+                      label="Tên Danh Mục"
+                      name="name"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập Tên Danh Mục ",
+                        },
+                      ]}
+                    >
+                      <Input type="text" required />
+                    </Form.Item>
+                    <Form.Item
+                      className="label-form"
+                      label="Mô Tả"
+                      name="description"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập Mô Tả",
+                        },
+                      ]}
+                    >
+                      <Input type="text" required />
+                    </Form.Item>
+                  </div>
+                </div>
+                <Button
+                  onClick={(e) => {
+                    hanldeUpdateClickSubmit();
+                  }}
+                  className="form-button"
+                >
+                  Chỉnh Sửa Danh Mục
+                </Button>
+              </Form>
+            </Modal>
           </>
         );
       },
     },
   ];
-
-  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
-  const showModalUpdate = () => {
-    setIsModalUpdateOpen(true);
-  };
-  const handleUpdateOk = () => {
-    setIsModalUpdateOpen(false);
-  };
-  const handleUpdateCancel = () => {
-    setIsModalUpdateOpen(false);
-  };
 
   return (
     <div className="Admin">
@@ -203,7 +253,6 @@ export default function AdminCategory() {
           <Button onClick={hanldeClickSubmit} className="form-button">
             Thêm Danh Mục
           </Button>
-          {message && <div>{message}</div>}
         </Form>
 
         <div className="data-table">

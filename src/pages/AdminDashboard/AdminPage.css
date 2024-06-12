@@ -32,6 +32,10 @@
   width: 80% !important;
 }
 
+.modal-updateCategory-form {
+  width: 50%;
+}
+
 .admin-upload-button {
   width: 90%;
   text-align: center;

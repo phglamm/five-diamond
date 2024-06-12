@@ -3,13 +3,17 @@ import { Button, Form, Image, Input, Modal, Table } from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import "../../AdminDashboard/AdminPage.css";
+import "./AdminProduct.css";
 import api from "../../../config/axios";
 import { UploadOutlined } from "@ant-design/icons";
+import { toast } from "react-toastify";
 
 export default function AdminDiamond() {
-  const [message, setMessage] = useState("");
-  const [deleteMessage, setdeleteMessage] = useState("");
-  const [updateMessage, setUpdateMessage] = useState("");
+  const [diamond, setDiamond] = useState();
+  const [cover, setCover] = useState();
+  const [category, setCategory] = useState();
+
+  const [modalState, setModalState] = useState({});
 
   const [form] = useForm();
   const [products, setProducts] = useState([]);
@@ -22,10 +26,11 @@ export default function AdminDiamond() {
     console.log(value);
     try {
       await api.post("product", value);
-      setMessage("Thêm sản phẩm thành công");
       setProducts([...products, value]);
+      toast.success("Thêm sản phẩm thành công");
+      fetchProduct();
     } catch (error) {
-      setMessage("Đã có lỗi trong lúc thêm sản phẩm");
+      toast.error("Đã có lỗi trong lúc thêm sản phẩm");
       console.log(error.response.data);
     }
   }
@@ -33,19 +38,9 @@ export default function AdminDiamond() {
   async function fetchProduct() {
     const response = await api.get("product");
     setProducts(response.data);
-    console.log("data....", response.data);
   }
 
-  useEffect(() => {
-    fetchProduct();
-  }, [products]); // Empty dependency array means this runs once when the component mounts
-
-  // Use useEffect to log diamond.id whenever diamond state changes
-  useEffect(() => {
-    if (products) {
-      console.log("products...", products); // Log the diamond id when diamond state is updated
-    }
-  }, [products]); // Only re-run this effect when diamond changes
+  useEffect(() => {}, [products]);
 
   async function deleteProduct(values) {
     console.log(values.id);
@@ -54,7 +49,7 @@ export default function AdminDiamond() {
         title: "Bạn có chắc muốn xóa sản phẩm này ?",
         onOk: () => {
           api.delete(`product/${values.id}`);
-          setdeleteMessage("Xóa thành công");
+          toast.success("Xóa thành công");
           setProducts(
             products.filter((product) => {
               return product.id !== values.id;
@@ -62,10 +57,9 @@ export default function AdminDiamond() {
           );
         },
       });
-      console.log(deleteMessage);
+      fetchProduct;
     } catch (error) {
-      setdeleteMessage("Đã có lỗi trong lúc Xóa");
-      console.log(deleteMessage);
+      toast.error("Đã có lỗi trong lúc Xóa");
       console.log(error.response.data);
     }
   }
@@ -74,17 +68,14 @@ export default function AdminDiamond() {
     console.log("haha...", values);
     try {
       await api.put(`product/${values.id}`, values);
-      setUpdateMessage("Chỉnh sửa thành công");
       setProducts(
         products.filter((product) => {
           return product.id !== values.id;
         })
       );
-      console.log(updateMessage);
+      toast.success("Chỉnh sửa thành công");
     } catch (error) {
-      setUpdateMessage("chỉnh sửa thất bại, có lỗi");
-      console.log(updateMessage);
-
+      toast.error("chỉnh sửa thất bại, có lỗi");
       console.log(error.response.data);
     }
   }
@@ -190,63 +181,103 @@ export default function AdminDiamond() {
       <div className="admin-content">
         <h1>Thêm Sản Phẩm</h1>
         <Form form={form} onFinish={AddProduct} id="form" className="form-main">
-          <div className="form-content-main">
+          <div className="form-content-main-product">
             <div className="form-content">
               <Form.Item
                 className="label-form"
-                label="priceRate"
+                label="Tỉ lệ áp giá"
                 name="priceRate"
                 rules={[
                   {
                     required: true,
-                    message: "Nhập priceRate",
+                    message: "Nhập Tỉ lệ áp giá",
                   },
                 ]}
               >
-                <Input type="text" required />
+                <Input type="number" required min={0} />
               </Form.Item>
 
               <Form.Item
                 className="label-form"
-                label="weight"
+                label="Số Chỉ"
                 name="weight"
                 rules={[
                   {
                     required: true,
-                    message: "Nhập weight",
+                    message: "Nhập Số Chỉ",
                   },
                 ]}
               >
-                <Input type="number" required />
+                <Input type="number" required min={0} />
               </Form.Item>
-              <Form.Item
-                className="label-form"
-                label="materialID"
-                name="materialID"
-                rules={[
-                  {
-                    required: true,
-                    message: "Nhập materialID ",
-                  },
-                ]}
-              >
-                <Input type="text" required />
-              </Form.Item>
-
-              <Form.Item
-                className="label-form"
-                label="categoryID"
-                name="categoryID"
-                rules={[
-                  {
-                    required: true,
-                    message: "Nhập categoryID ",
-                  },
-                ]}
-              >
-                <Input type="text" required />
-              </Form.Item>
+              <div className="Material-form">
+                <Form.Item
+                  className="label-form"
+                  label="Kim Cương"
+                  name="materialID"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Chọn Kim Cương",
+                    },
+                  ]}
+                >
+                  <Input type="text" required readOnly />
+                </Form.Item>
+                <Button
+                  icon={<UploadOutlined />}
+                  className="admin-upload-button"
+                  onClick=""
+                >
+                  Chọn Kim Cương
+                </Button>
+              </div>
+              <div className="Material-form">
+                <Form.Item
+                  className="label-form"
+                  label="Vỏ Kim Cương"
+                  name="categoryID"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Chọn Vỏ Kim Cương ",
+                    },
+                  ]}
+                >
+                  <Input type="text" required readOnly />
+                </Form.Item>
+                <Button
+                  icon={<UploadOutlined />}
+                  className="admin-upload-button"
+                  onClick=""
+                >
+                  Chọn Vỏ Kim Cương
+                </Button>
+              </div>
+              <div className="Material-form">
+                <Form.Item
+                  className="label-form"
+                  label="Danh Mục"
+                  name="categoryID"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Nhập Danh Mục ",
+                    },
+                  ]}
+                >
+                  <Input type="text" required readOnly />
+                </Form.Item>
+                <Button
+                  icon={<UploadOutlined />}
+                  className="admin-upload-button"
+                  onClick=""
+                >
+                  Chọn Danh Mục
+                </Button>
+              </div>
             </div>
+
             <div className="form-content">
               <Form.Item
                 className="label-form"
@@ -275,7 +306,6 @@ export default function AdminDiamond() {
           <Button onClick={hanldeClickSubmit} className="form-button">
             Thêm Sản Phẩm
           </Button>
-          {message && <div>{message}</div>}
         </Form>
 
         <div className="data-table">

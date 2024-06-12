@@ -1,5 +1,5 @@
 import SideBar from "../../../components/SideBar/SideBar";
-import { Button, DatePicker, Form, Input, Modal, Table } from "antd";
+import { Button, Form, Input, Modal, Table } from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import "../../AdminDashboard/AdminPage.css";
@@ -7,15 +7,20 @@ import "./AdminCertificate.css";
 
 import api from "../../../config/axios";
 import { UploadOutlined } from "@ant-design/icons";
+import { toast } from "react-toastify";
 
 export default function AdminCertificate() {
-  const [message, setMessage] = useState("");
-  const [deleteMessage, setdeleteMessage] = useState("");
-  const [updateMessage, setUpdateMessage] = useState("");
-
   const [form] = useForm();
+  const [formUpdate] = useForm();
+  const [newData, setNewData] = useState("");
 
   const [certificate, setCertificate] = useState([]);
+  const [selectedCertificate, setSelectedCertificate] = useState(null);
+
+  function hanldeUpdateClickSubmit() {
+    formUpdate.submit();
+  }
+
   function hanldeClickSubmit() {
     form.submit();
   }
@@ -24,10 +29,11 @@ export default function AdminCertificate() {
     console.log(value);
     try {
       await api.post("certificate", value);
-      setMessage("Thêm Chứng Chỉ thành công");
+      toast.success("Thêm Chứng Chỉ thành công");
       setCertificate([...certificate, value]);
+      fetchCertificate();
     } catch (error) {
-      setMessage("Đã có lỗi trong lúc thêm chứng chỉ");
+      toast.error("Đã có lỗi trong lúc thêm chứng chỉ");
       console.log(error.response.data);
     }
   }
@@ -42,11 +48,7 @@ export default function AdminCertificate() {
     fetchCertificate();
   }, []);
 
-  useEffect(() => {
-    if (certificate) {
-      console.log("diamond...", certificate); // Log the diamond id when diamond state is updated
-    }
-  }, [certificate]); // Only re-run this effect when diamond changes
+  useEffect(() => {}, [certificate]);
 
   async function deleteCertificate(values) {
     console.log(values.id);
@@ -55,7 +57,7 @@ export default function AdminCertificate() {
         title: "Bạn có chắc muốn xóa chứng chỉ này ?",
         onOk: () => {
           api.delete(`certificate/${values.id}`);
-          setdeleteMessage("Xóa thành công");
+          toast.success("Xóa thành công");
           setCertificate(
             certificate.filter((cer) => {
               return cer.id !== values.id;
@@ -63,27 +65,24 @@ export default function AdminCertificate() {
           );
         },
       });
-      console.log(deleteMessage);
+      fetchCertificate();
     } catch (error) {
-      setdeleteMessage("Đã có lỗi trong lúc Xóa");
+      toast.error("Đã có lỗi trong lúc Xóa");
       console.log(error.response.data);
     }
   }
 
   async function updateCertificate(values) {
-    console.log("haha...", values);
+    const dataUpdate = {
+      ...newData,
+    };
     try {
-      await api.put(`certificate/${values.id}`, values);
-      setUpdateMessage("Chỉnh sửa thành công");
-      setCertificate(
-        certificate.filter((cer) => {
-          return cer.id !== values.id;
-        })
-      );
-      console.log(updateMessage);
+      await api.put(`certificate/${values.id}`, dataUpdate);
+      setIsModalUpdateOpen(false);
+      toast.success("Chỉnh sửa thành công");
+      fetchCertificate();
     } catch (error) {
-      console.log("chỉnh sửa thất bại, có lỗi");
-      setUpdateMessage("chỉnh sửa thất bại, có lỗi");
+      toast.error("chỉnh sửa thất bại, có lỗi");
       console.log(error.response.data);
     }
   }
@@ -91,6 +90,14 @@ export default function AdminCertificate() {
     console.log("params", pagination, filters, sorter, extra);
   };
 
+  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
+
+  const handleUpdateOk = () => {
+    setIsModalUpdateOpen(false);
+  };
+  const handleUpdateCancel = () => {
+    setIsModalUpdateOpen(false);
+  };
   const columns = [
     {
       title: "ID",
@@ -111,12 +118,6 @@ export default function AdminCertificate() {
       key: "fileURL",
     },
     {
-      title: "dateOfIssues",
-      dataIndex: "dateOfIssues",
-      key: "dateOfIssues",
-    },
-
-    {
       title: "Hành Động",
       render: (values) => {
         return (
@@ -134,37 +135,83 @@ export default function AdminCertificate() {
               <Button
                 icon={<UploadOutlined />}
                 className="admin-upload-button update-button"
-                onClick={showModalUpdate}
+                onClick={() => {
+                  setSelectedCertificate(values);
+                  formUpdate.setFieldsValue(values);
+                  setIsModalUpdateOpen(true);
+                }}
               >
                 Chỉnh sửa
               </Button>
             </div>
 
             <Modal
-              className="modal-add-form"
+              className="modal-updateCategory-form"
               footer={false}
-              title="Chỉnh Sửa"
+              title="Chỉnh Sửa Chứng Chỉ"
               okText={"Lưu"}
               open={isModalUpdateOpen}
               onOk={handleUpdateOk}
               onCancel={handleUpdateCancel}
-            ></Modal>
+              mask={false}
+            >
+              <Form
+                initialValues={selectedCertificate}
+                onValuesChange={(changedValues, allValues) => {
+                  setNewData(allValues);
+                }}
+                form={formUpdate}
+                onFinish={(values) => {
+                  updateCertificate(selectedCertificate);
+                }}
+                id="form-update"
+                className="form-main"
+              >
+                <div className="form-content-main">
+                  <div className="form-content">
+                    <Form.Item
+                      className="label-form"
+                      label="Số Chứng Chỉ"
+                      name="giaReportNumber"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập số Chứng Chỉ ",
+                        },
+                      ]}
+                    >
+                      <Input type="number" required />
+                    </Form.Item>
+                    <Form.Item
+                      className="label-form"
+                      label="fileURL"
+                      name="fileURL"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập fireURL",
+                        },
+                      ]}
+                    >
+                      <Input type="text" required />
+                    </Form.Item>
+                  </div>
+                </div>
+                <Button
+                  onClick={(e) => {
+                    hanldeUpdateClickSubmit();
+                  }}
+                  className="form-button"
+                >
+                  Chỉnh Sửa Chứng Chỉ
+                </Button>
+              </Form>
+            </Modal>
           </>
         );
       },
     },
   ];
-
-  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
-  const showModalUpdate = () => {
-    setIsModalUpdateOpen(true);
-  };
-  const handleUpdateOk = () => {
-    setIsModalUpdateOpen(false);
-  };
-  const handleUpdateCancel = () => {
-    setIsModalUpdateOpen(false);
-  };
 
   return (
     <div className="Admin">
@@ -195,8 +242,8 @@ export default function AdminCertificate() {
               </Form.Item>
               <Form.Item
                 className="label-form"
-                label="fireURL"
-                name="fireURL"
+                label="fileURL"
+                name="fileURL"
                 rules={[
                   {
                     required: true,
@@ -206,29 +253,12 @@ export default function AdminCertificate() {
               >
                 <Input type="text" required />
               </Form.Item>
-              <Form.Item
-                className="label-form"
-                label="dateOfIssues"
-                name="dateOfIssues"
-                rules={[
-                  {
-                    required: true,
-                    message: "Chọn dateOfIssues",
-                  },
-                ]}
-              >
-                <DatePicker
-                  placeholder="Chọn dateOfIssues"
-                  className="datepicker"
-                ></DatePicker>
-              </Form.Item>
             </div>
           </div>
 
           <Button onClick={hanldeClickSubmit} className="form-button">
             Thêm Chứng Chỉ
           </Button>
-          {message && <div>{message}</div>}
         </Form>
 
         <div className="data-table">

@@ -11,16 +11,15 @@ import "./RegisterPage.css";
 import registerbanner from "../../../public/assets/images/LoginBanner/registerbanner.jpg";
 import logo from "../../../public/assets/images/Logo/logo.png";
 import { routes } from "../../routes";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, DatePicker, Form, Input, Select } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { Option } from "antd/es/mentions";
-import { useState } from "react";
 import api from "../../config/axios";
+import { toast } from "react-toastify";
 
 function RegisterPageCard() {
-  const [message, setMessage] = useState("");
-
+  const navigate = useNavigate();
   const dateFormat = "DD/MM/YYYY";
 
   const [form] = useForm();
@@ -29,10 +28,10 @@ function RegisterPageCard() {
     try {
       const response = await api.post("register", value);
       console.log(response);
-      // navigate(routes.login);
-      setMessage("Tài Khoản của bạn đã được tạo thành công");
+      toast.success("Tài Khoản của bạn đã được tạo thành công");
+      navigate(routes.login);
     } catch (error) {
-      setMessage("Đã có lỗi trong việc tạo tài khoản của bạn");
+      toast.error("Đã có lỗi trong việc tạo tài khoản của bạn");
       console.log(error.response.data);
     }
   }
@@ -225,7 +224,6 @@ function RegisterPageCard() {
                   >
                     <Input type="password" required />
                   </Form.Item>
-                  {message && <div>{message}</div>}
 
                   <Button onClick={hanldeClickSubmit} className="form-button ">
                     Đăng Ký
@@ -242,15 +240,6 @@ function RegisterPageCard() {
                   Đăng Nhập Ngay
                 </Link>
               </p>
-
-              {/* <div className="d-flex flex-row justify-content-start">
-                <a href="#!" className="small text-muted me-1">
-                  Terms of use.
-                </a>
-                <a href="#!" className="small text-muted">
-                  Privacy policy
-                </a>
-              </div> */}
             </MDBCardBody>
           </MDBCol>
         </MDBRow>

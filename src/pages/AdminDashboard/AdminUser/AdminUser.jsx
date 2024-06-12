@@ -10,19 +10,13 @@ export default function AdminUser() {
   async function fetchAccount() {
     const response = await api.get("accounts");
     setAccount(response.data);
-    console.log("data....", response.data);
   }
 
   useEffect(() => {
     fetchAccount();
-  }, [account]); // Empty dependency array means this runs once when the component mounts
+  }, []);
 
-  // Use useEffect to log diamond.id whenever diamond state changes
-  useEffect(() => {
-    if (account) {
-      console.log("products...", account); // Log the diamond id when diamond state is updated
-    }
-  }, [account]); // Only re-run this effect when diamond changes
+  useEffect(() => {}, [account]);
 
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
