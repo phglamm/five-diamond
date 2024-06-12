@@ -1,5 +1,5 @@
 import SideBar from "../../../components/SideBar/SideBar";
-import { Button, Form, Image, Input, Modal, Select, Space, Table } from "antd";
+import { Button, Form, Image, Input, Modal, Table } from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import "../../AdminDashboard/AdminPage.css";
@@ -12,25 +12,20 @@ export default function AdminDiamond() {
   const [updateMessage, setUpdateMessage] = useState("");
 
   const [form] = useForm();
-  const [formUpdate] = useForm();
   const [products, setProducts] = useState([]);
 
   function hanldeClickSubmit() {
     form.submit();
   }
 
-  function hanldeUpdateClickSubmit() {
-    formUpdate.submit();
-  }
-
-  async function handleSubmit(value) {
+  async function AddProduct(value) {
     console.log(value);
     try {
       await api.post("product", value);
       setMessage("Thêm sản phẩm thành công");
       setProducts([...products, value]);
     } catch (error) {
-      setMessage("Đã có lỗi trong lúc thêm kim cương");
+      setMessage("Đã có lỗi trong lúc thêm sản phẩm");
       console.log(error.response.data);
     }
   }
@@ -46,20 +41,11 @@ export default function AdminDiamond() {
   }, [products]); // Empty dependency array means this runs once when the component mounts
 
   // Use useEffect to log diamond.id whenever diamond state changes
-  // useEffect(() => {
-  //   if (products) {
-  //     console.log("products...", products); // Log the diamond id when diamond state is updated
-  //   }
-  // }, [products]); // Only re-run this effect when diamond changes
-
-  async function fetchCertificate() {
-    const certificate = await api.get("certificate/not-yet-used");
-    setCertificate(certificate.data);
-  }
-
   useEffect(() => {
-    fetchCertificate();
-  }, []);
+    if (products) {
+      console.log("products...", products); // Log the diamond id when diamond state is updated
+    }
+  }, [products]); // Only re-run this effect when diamond changes
 
   async function deleteProduct(values) {
     console.log(values.id);
@@ -76,8 +62,10 @@ export default function AdminDiamond() {
           );
         },
       });
+      console.log(deleteMessage);
     } catch (error) {
       setdeleteMessage("Đã có lỗi trong lúc Xóa");
+      console.log(deleteMessage);
       console.log(error.response.data);
     }
   }
@@ -85,17 +73,18 @@ export default function AdminDiamond() {
   async function updateProduct(values) {
     console.log("haha...", values);
     try {
-      await api.put(`material/${values.id}`, values);
+      await api.put(`product/${values.id}`, values);
       setUpdateMessage("Chỉnh sửa thành công");
       setProducts(
         products.filter((product) => {
           return product.id !== values.id;
         })
       );
-      console.log("chỉnh sửa thành công");
+      console.log(updateMessage);
     } catch (error) {
-      console.log("chỉnh sửa thất bại, có lỗi");
       setUpdateMessage("chỉnh sửa thất bại, có lỗi");
+      console.log(updateMessage);
+
       console.log(error.response.data);
     }
   }
@@ -176,208 +165,12 @@ export default function AdminDiamond() {
               open={isModalUpdateOpen}
               onOk={handleUpdateOk}
               onCancel={handleUpdateCancel}
-            >
-              {/* <Form
-                form={formUpdate}
-                onFinish={(e) => {
-                  updateProduct(values);
-                }}
-                id="form-update"
-                className="form-main"
-              >
-                <div className="form-content-main">
-                  <div className="form-content">
-                    <Form.Item
-                      className="label-form"
-                      label="Hình Dáng"
-                      name="shape"
-                    >
-                      <Input type="text" required value={values.shape} />
-                    </Form.Item>
-
-                    <Form.Item className="label-form" label="Size" name="size">
-                      <Input
-                        type="number"
-                        required
-                        defaultValue={values.size}
-                      />
-                    </Form.Item>
-
-                    <Form.Item
-                      className="label-form"
-                      label="Màu sắc"
-                      name="color"
-                    >
-                      <Input type="text" required defaultValue={values.color} />
-                    </Form.Item>
-                    <Form.Item
-                      className="label-form"
-                      label="Độ Tinh Khiết"
-                      name="clarity"
-                    >
-                      <Input
-                        type="text"
-                        required
-                        defaultValue={values.clarity}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      className="label-form"
-                      label="Carat"
-                      name="carat"
-                    >
-                      <Input
-                        type="number"
-                        required
-                        defaultValue={values.carat}
-                      />
-                    </Form.Item>
-                    <Form.Item className="label-form" label="Độ Cắt" name="cut">
-                      <Input type="text" required defaultValue={values.cut} />
-                    </Form.Item>
-                  </div>
-                  <div className="form-content">
-                    <Form.Item
-                      className="label-form"
-                      label="Nguồn gốc"
-                      name="origin"
-                    >
-                      <Input
-                        type="text"
-                        required
-                        defaultValue={values.origin}
-                      />
-                    </Form.Item>
-
-                    <Form.Item className="label-form" label="Giá" name="price">
-                      <Input
-                        type="number"
-                        required
-                        defaultValue={values.price}
-                      />
-                    </Form.Item>
-
-                    <Form.Item
-                      className="label-form"
-                      label="Image URL "
-                      name="imgURL"
-                    >
-                      <Input type="text" defaultValue={values.imgURL} />
-                    </Form.Item>
-                  </div>
-                </div>
-                <Button
-                  onClick={(e) => {
-                    hanldeUpdateClickSubmit();
-                  }}
-                  className="form-button"
-                >
-                  Chỉnh Sửa Kim Cương
-                </Button>
-                {updateMessage && <div>{updateMessage}</div>}
-              </Form> */}
-              {/* <Input
-                value={values.shape}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, shape: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.size}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, size: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.color}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, color: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.clarity}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, clarity: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.carat}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, carat: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.cut}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, cut: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.imgURL}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, imgURL: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.price}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, price: e.target.value };
-                  });
-                }}
-              />
-              <Button onClick={updateMaterial(values,)}></Button> */}
-            </Modal>
+            ></Modal>
           </>
         );
       },
     },
   ];
-
-  const columnsGIA = [
-    {
-      title: "Report Number",
-      dataIndex: "giaReportNumber",
-      key: "giaReportNumber",
-      sorter: (a, b) => a.giaReportNumber - b.giaReportNumber,
-      defaultSortOrder: "ascend",
-    },
-    {
-      title: "File URL",
-      dataIndex: "fileURL",
-      key: "fileURL",
-    },
-    {
-      title: "Date Of Issues",
-      dataIndex: "dateOfIssues",
-      key: "dateOfIssues",
-    },
-  ];
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
 
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
   const showModalUpdate = () => {
@@ -396,21 +189,7 @@ export default function AdminDiamond() {
 
       <div className="admin-content">
         <h1>Thêm Sản Phẩm</h1>
-        {/* <Modal
-          className="modal-add-form"
-          footer={false}
-          title="Thêm kim cương"
-          okText={""}
-          open={isModalOpen}
-          onOk={handleOk}
-          onCancel={handleCancel}
-        > */}
-        <Form
-          form={form}
-          onFinish={handleSubmit}
-          id="form"
-          className="form-main"
-        >
+        <Form form={form} onFinish={AddProduct} id="form" className="form-main">
           <div className="form-content-main">
             <div className="form-content">
               <Form.Item

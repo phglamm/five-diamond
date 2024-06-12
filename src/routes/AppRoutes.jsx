@@ -17,7 +17,6 @@ import AccessoryInfor from "../pages/AccessoryInforPage/AccessoryInforPage";
 import WarrantyPolicyPage from "../pages/WarrantyPolicyPage/WarrantyPolicyPage";
 import AdminProduct from "../pages/AdminDashboard/AdminProduct/AdminProduct";
 import AdminDiamond from "../pages/AdminDashboard/AdminDiamond/AdminPageDiamond";
-import AdminManageOrder from "../pages/AdminDashboard/AdminManageOrder/AdmiManageOrder";
 import AdminCategory from "../pages/AdminDashboard/AdminCategory/AdminCategory";
 import ProtectedRoute from "./protectedRoute";
 import AdminDiamondShell from "../pages/AdminDashboard/AdminDiamond/AdminPageDiamondShell";
@@ -31,6 +30,8 @@ import TrackingPage from "../pages/TrackingPage/TrackingPage";
 import SaleStaffPage from "../pages/SaleStaffPage/SaleStaffPage";
 import DeliveryStaffPage from "../pages/DeliveryStaffPage/DeliveryStaffPage";
 import AdminCertificate from "../pages/AdminDashboard/AdminCertificate/AdminCertificate";
+import AdminUser from "../pages/AdminDashboard/AdminUser/AdminUser";
+import AdminOrder from "../pages/AdminDashboard/AdminManageOrder/AdmiManageOrder";
 
 export default function AppRoute() {
   return (
@@ -82,14 +83,7 @@ export default function AppRoute() {
           </ProtectedRoute>
         }
       />
-      <Route
-        path={routes.adminmanageorder}
-        element={
-          <ProtectedRoute role="ADMIN">
-            <AdminManageOrder />
-          </ProtectedRoute>
-        }
-      />
+
       <Route
         path={routes.adminCategory}
         element={
@@ -103,6 +97,22 @@ export default function AppRoute() {
         element={
           <ProtectedRoute role="ADMIN">
             <AdminCertificate />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routes.adminUser}
+        element={
+          <ProtectedRoute role="ADMIN">
+            <AdminUser />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routes.adminmanageorder}
+        element={
+          <ProtectedRoute role="ADMIN">
+            <AdminOrder />
           </ProtectedRoute>
         }
       />

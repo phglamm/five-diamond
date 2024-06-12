@@ -68,7 +68,7 @@ export default function SideBar() {
       </li>
       <li>
         <PersonIcon color="info" fontSize="large"></PersonIcon>
-        <Link to="">Quản Lý Khách Hàng</Link>
+        <Link to={routes.adminUser}>Quản Lý Người Dùng</Link>
       </li>
       <li>
         <EventIcon color="info" fontSize="large"></EventIcon>

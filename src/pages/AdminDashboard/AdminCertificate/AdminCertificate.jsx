@@ -20,7 +20,7 @@ export default function AdminCertificate() {
     form.submit();
   }
 
-  async function handleSubmit(value) {
+  async function AddCertificate(value) {
     console.log(value);
     try {
       await api.post("certificate", value);
@@ -70,7 +70,7 @@ export default function AdminCertificate() {
     }
   }
 
-  async function updateMaterial(values) {
+  async function updateCertificate(values) {
     console.log("haha...", values);
     try {
       await api.put(`certificate/${values.id}`, values);
@@ -148,172 +148,7 @@ export default function AdminCertificate() {
               open={isModalUpdateOpen}
               onOk={handleUpdateOk}
               onCancel={handleUpdateCancel}
-            >
-              {/* <Form
-                form={formUpdate}
-                onFinish={(e) => {
-                  updateMaterial(values);
-                }}
-                id="form-update"
-                className="form-main"
-              >
-                <div className="form-content-main">
-                  <div className="form-content">
-                    <Form.Item
-                      className="label-form"
-                      label="Hình Dáng"
-                      name="shape"
-                    >
-                      <Input type="text" required value={values.shape} />
-                    </Form.Item>
-
-                    <Form.Item className="label-form" label="Size" name="size">
-                      <Input
-                        type="number"
-                        required
-                        defaultValue={values.size}
-                      />
-                    </Form.Item>
-
-                    <Form.Item
-                      className="label-form"
-                      label="Màu sắc"
-                      name="color"
-                    >
-                      <Input type="text" required defaultValue={values.color} />
-                    </Form.Item>
-                    <Form.Item
-                      className="label-form"
-                      label="Độ Tinh Khiết"
-                      name="clarity"
-                    >
-                      <Input
-                        type="text"
-                        required
-                        defaultValue={values.clarity}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      className="label-form"
-                      label="Carat"
-                      name="carat"
-                    >
-                      <Input
-                        type="number"
-                        required
-                        defaultValue={values.carat}
-                      />
-                    </Form.Item>
-                    <Form.Item className="label-form" label="Độ Cắt" name="cut">
-                      <Input type="text" required defaultValue={values.cut} />
-                    </Form.Item>
-                  </div>
-                  <div className="form-content">
-                    <Form.Item
-                      className="label-form"
-                      label="Nguồn gốc"
-                      name="origin"
-                    >
-                      <Input
-                        type="text"
-                        required
-                        defaultValue={values.origin}
-                      />
-                    </Form.Item>
-
-                    <Form.Item className="label-form" label="Giá" name="price">
-                      <Input
-                        type="number"
-                        required
-                        defaultValue={values.price}
-                      />
-                    </Form.Item>
-
-                    <Form.Item
-                      className="label-form"
-                      label="Image URL "
-                      name="imgURL"
-                    >
-                      <Input type="text" defaultValue={values.imgURL} />
-                    </Form.Item>
-                  </div>
-                </div>
-                <Button
-                  onClick={(e) => {
-                    hanldeUpdateClickSubmit();
-                  }}
-                  className="form-button"
-                >
-                  Chỉnh Sửa Kim Cương
-                </Button>
-                {updateMessage && <div>{updateMessage}</div>}
-              </Form> */}
-              {/* <Input
-                value={values.shape}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, shape: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.size}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, size: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.color}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, color: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.clarity}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, clarity: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.carat}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, carat: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.cut}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, cut: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.imgURL}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, imgURL: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.price}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, price: e.target.value };
-                  });
-                }}
-              />
-              <Button onClick={updateMaterial(values,)}></Button> */}
-            </Modal>
+            ></Modal>
           </>
         );
       },
@@ -339,7 +174,7 @@ export default function AdminCertificate() {
         <h1>Thêm Chứng Chỉ</h1>
         <Form
           form={form}
-          onFinish={handleSubmit}
+          onFinish={AddCertificate}
           id="form"
           className="form-main"
         >

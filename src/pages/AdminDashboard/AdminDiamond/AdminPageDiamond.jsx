@@ -25,7 +25,7 @@ export default function AdminDiamond() {
     formUpdate.submit();
   }
 
-  async function handleSubmit(value) {
+  async function AddDiamond(value) {
     console.log(value);
     try {
       await api.post("material", value);
@@ -63,7 +63,7 @@ export default function AdminDiamond() {
     fetchCertificate();
   }, []);
 
-  async function deleteMaterial(values) {
+  async function deleteDiamond(values) {
     console.log(values.id);
     try {
       Modal.confirm({
@@ -84,7 +84,7 @@ export default function AdminDiamond() {
     }
   }
 
-  async function updateMaterial(values) {
+  async function updateDiamond(values) {
     console.log("haha...", values);
     try {
       await api.put(`material/${values.id}`, values);
@@ -212,7 +212,7 @@ export default function AdminDiamond() {
             <div className="action-button">
               <Button
                 onClick={(e) => {
-                  deleteMaterial(values);
+                  deleteDiamond(values);
                 }}
                 className="delete-button"
               >
@@ -456,21 +456,8 @@ export default function AdminDiamond() {
 
       <div className="admin-content">
         <h1>Thêm Viên Kim Cương</h1>
-        {/* <Modal
-          className="modal-add-form"
-          footer={false}
-          title="Thêm kim cương"
-          okText={""}
-          open={isModalOpen}
-          onOk={handleOk}
-          onCancel={handleCancel}
-        > */}
-        <Form
-          form={form}
-          onFinish={handleSubmit}
-          id="form"
-          className="form-main"
-        >
+
+        <Form form={form} onFinish={AddDiamond} id="form" className="form-main">
           <div className="form-content-main">
             <div className="form-content">
               <Form.Item
@@ -662,7 +649,6 @@ export default function AdminDiamond() {
           </Button>
           {message && <div>{message}</div>}
         </Form>
-        {/* </Modal> */}
 
         <Modal
           className="modal-add-form"
@@ -673,12 +659,6 @@ export default function AdminDiamond() {
           onOk={handleOk}
           onCancel={handleCancel}
         >
-          <Form
-            form={form}
-            onFinish={handleSubmit}
-            id="form"
-            className="form-main"
-          ></Form>
           <Table
             dataSource={certificate}
             columns={columnsGIA}

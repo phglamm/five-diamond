@@ -1,11 +1,11 @@
 import SideBar from "../../../components/SideBar/SideBar";
-import { Button, Form, Image, Input, Modal, Select, Space, Table } from "antd";
+import { Button, Form, Input, Modal, Select, Table } from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import "../../AdminDashboard/AdminPage.css";
 import api from "../../../config/axios";
 
-export default function AdminDiamondShell() { 
+export default function AdminDiamondShell() {
   const [message, setMessage] = useState("");
   const [deleteMessage, setdeleteMessage] = useState("");
   const [form] = useForm();
@@ -14,7 +14,7 @@ export default function AdminDiamondShell() {
   function hanldeClickSubmit() {
     form.submit();
   }
-  async function handleSubmit(value) {
+  async function AddDiamondShell(value) {
     console.log(value);
     try {
       await api.post("material", value);
@@ -27,14 +27,37 @@ export default function AdminDiamondShell() {
     }
   }
 
-  async function fetchProduct() {
+  async function fetchDiamondShell() {
     const response = await api.get("material");
     setDiamondshell(response.data);
   }
 
   useEffect(() => {
-    fetchProduct();
+    fetchDiamondShell();
   }, []);
+
+  async function deleteDiamondShell(values) {
+    console.log(values);
+    try {
+      Modal.confirm({
+        title: "Bạn có chắc muốn xóa sản phẩm này ?",
+        onOk: () => {
+          api.delete(`material/${values.id}`);
+          setdeleteMessage("Xóa thành công");
+          setDiamondshell(
+            diamondshell.filter((gem) => {
+              return gem.id !== values.id;
+            })
+          );
+        },
+      });
+      console.log(deleteMessage);
+    } catch (error) {
+      setdeleteMessage("Đã có lỗi trong lúc Xóa");
+      console.log(deleteMessage);
+      console.log(error.response.data);
+    }
+  }
 
   const columns = [
     {
@@ -97,27 +120,6 @@ export default function AdminDiamondShell() {
     },
   ];
 
-  async function deleteDiamondShell(values) {
-    console.log(values);
-    try {
-      Modal.confirm({
-        title: "Bạn có chắc muốn xóa sản phẩm này ?",
-        onOk: () => {
-          api.delete(`material/${values.id}`);
-          setdeleteMessage("Xóa thành công");
-          setDiamondshell(
-            diamondshell.filter((gem) => {
-              return gem.id !== values.id;
-            })
-          );
-        },
-      });
-    } catch (error) {
-      setdeleteMessage("Đã có lỗi trong lúc Xóa");
-      console.log(error.response.data);
-    }
-  }
-
   return (
     <div className="Admin">
       <SideBar></SideBar>
@@ -127,7 +129,7 @@ export default function AdminDiamondShell() {
 
         <Form
           form={form}
-          onFinish={handleSubmit}
+          onFinish={AddDiamondShell}
           id="form"
           className="form-main"
         >
