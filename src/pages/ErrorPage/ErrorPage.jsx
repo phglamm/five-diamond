@@ -1,5 +1,5 @@
-import React from 'react';
-import './ErrorPage.css';
+import React from "react";
+import "./ErrorPage.css";
 import error from "/assets/images/Error/error.png";
 
 const ErrorPage = () => {
@@ -10,8 +10,14 @@ const ErrorPage = () => {
           background-color: #95c2de;
         }
       `}</style>
-      <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;900&display=swap" rel="stylesheet" />
-      <script src="https://kit.fontawesome.com/4b9ba14b0f.js" crossOrigin="anonymous"></script>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;900&display=swap"
+        rel="stylesheet"
+      />
+      <script
+        src="https://kit.fontawesome.com/4b9ba14b0f.js"
+        crossOrigin="anonymous"
+      ></script>
 
       <div className="content">
         <div className="err">𝟒</div>
@@ -20,10 +26,12 @@ const ErrorPage = () => {
       </div>
       <div className="msg">
         <p>Page Not found</p>
-        <a href="/" className="home-button">Home</a>
+        <a href="/" className="home-button">
+          Home
+        </a>
       </div>
     </div>
   );
-}
+};
 
 export default ErrorPage;
