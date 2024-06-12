@@ -2,6 +2,7 @@ import React from "react";
 import "./ErrorPage.css";
 import error from "/assets/images/Error/error.png";
 import { Link } from "react-router-dom";
+import { routes } from "../../routes";
 
 const ErrorPage = () => {
   return (
@@ -27,9 +28,9 @@ const ErrorPage = () => {
       </div>
       <div className="msg">
         <p>Page Not found</p>
-        <a href="/" className="home-button">
+        <Link to={routes.home} className="home-button">
           Home
-        </a>
+        </Link>
       </div>
     </div>
   );
