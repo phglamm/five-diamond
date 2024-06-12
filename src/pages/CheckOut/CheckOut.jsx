@@ -1,23 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import './CheckOut.css';
 
-const provinces = [
-  "Hà Nội","Hồ Chí Minh","Hải Phòng","Cần Thơ","Đà Nẵng","An Giang","Bà Rịa - Vũng Tàu","Bạc Liêu","Bắc Giang","Bắc Kạn","Bắc Ninh","Bến Tre","Bình Định","Bình Dương","Bình Phước","Bình Thuận","Cà Mau","Cao Bằng","Đắk Lắk","Đắk Nông","Điện Biên","Đồng Nai","Đồng Tháp","Gia Lai","Hà Giang","Hà Nam","Hà Tĩnh","Hải Dương","Hậu Giang","Hòa Bình","Hưng Yên","Khánh Hòa","Kiên Giang","Kon Tum","Lai Châu","Lâm Đồng","Lạng Sơn","Lào Cai","Long An","Nam Định","Nghệ An","Ninh Bình","Ninh Thuận","Phú Thọ","Quảng Bình","Quảng Nam","Quảng Ngãi","Quảng Ninh","Quảng Trị","Sóc Trăng","Sơn La","Tây Ninh","Thái Bình","Thái Nguyên","Thanh Hóa","Thừa Thiên Huế","Tiền Giang","Trà Vinh","Tuyên Quang","Vĩnh Long","Vĩnh Phúc","Yên Bái",
-  // Add more provinces as needed
-];
 
 export default function CheckOut() {
-  const [selectedProvince, setSelectedProvince] = useState("");
+
+  const [provinces, setProvinces] = useState([])
   const [districts, setDistricts] = useState([]);
+
+  const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [wards, setWards] = useState([]);
   const [selectedWard, setSelectedWard] = useState("");
   const [deliveryStandard, setDeliveryStandard] = useState(false);
   const [deliveryTime, setDeliveryTime] = useState(false);
   const [deliveryOption, setDeliveryOption] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://vapi.vnappmob.com/api/province/');
+      setProvinces(response.data.results)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`https://vapi.vnappmob.com/api/province/district/${selectedProvince}`);
+      setDistricts(response.data.results)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  
+console.log({districts})
+
+
 
   const handleProvinceChange = (e) => {
     setSelectedProvince(e.target.value);
@@ -79,7 +109,7 @@ export default function CheckOut() {
       <Header />
       <Container className="container">
         <Form>
-          <Row>
+          <Row className="Rowall">
             <Col md={8} className="Col8">
               <h4>THÔNG TIN NGƯỜI MUA</h4>
 
@@ -115,8 +145,8 @@ export default function CheckOut() {
                     <Form.Control as="select" value={selectedProvince} onChange={handleProvinceChange}>
                       <option value="">Chọn Tỉnh/TP</option>
                       {provinces.map((province) => (
-                        <option key={province} value={province}>
-                          {province}
+                        <option key={province.province_id} value={province.province_id}>
+                          {province.province_name}
                         </option>
                       ))}
                     </Form.Control>
@@ -217,37 +247,72 @@ export default function CheckOut() {
                 <Form.Control as="textarea" rows={3} placeholder="Để lại lời nhắn" />
               </Form.Group>
             </Col>
-
-            <Col md={4}>
+            {/* <Col md={4}>
               <h4>THÔNG TIN ĐƠN HÀNG</h4>
               <div className="order-item">
-                <img src="https://tnj.vn/75169-large_default/nhan-bac-nu-dinh-da-10mm-nn0440.jpg" alt="Product Image" className="product-image" />
+                <img src="https://tnj.vn/75169-large_default/nhan-bac-nu-dinh-da-10mm-nn0440.jpg" alt="Product Image" className="checkout-image" />
                 <div className="order-item-details">
                   <p>HOA TAI 18K AFEC00043BD2DA1</p>
                   <p>MSP: AFEC00043BD2DA1</p>
                   <p>SỐ LƯỢNG: 1</p>
                   <p>Giá bán: 42,820,000đ</p>
                   <p>Tạm tính: 42,820,000đ</p>
+                  <p style={{ color: 'red' }}>Thành tiền: 42,820,000đ</p>
                 </div>
               </div>
               <div className="order-item">
-                <img src="https://tnj.vn/60913-large_default/nhan-kim-cuong-moissanite-dinh-da-nnm0010.jpg" alt="Product Image" className="product-image" />
+                <img src="https://tnj.vn/60913-large_default/nhan-kim-cuong-moissanite-dinh-da-nnm0010.jpg" alt="Product Image" className="checkout-image" />
                 <div className="order-item-details">
                   <p>NHẪN ĐÍNH HÔN KIM CƯƠNG ENR3111W</p>
                   <p>MSP: ENR3111W</p>
                   <p>SỐ LƯỢNG: 1</p>
                   <p>Giá bán: 44,520,000đ</p>
                   <p>Tạm tính: 44,520,000đ</p>
+                  <p style={{ color: 'red' }}>Giá bán: 44,520,000đ</p>
                 </div>
               </div>
-              <h5>Tạm tính: 87,340,000đ</h5>
+              <h5 style={{ color: 'red' }}>Tạm tính: 87,340,000đ</h5>
               <Form.Group controlId="formVoucher">
                 <p>Mã giảm giá/Voucher</p>
                 <Form.Control type="text" />
               </Form.Group>
               <p>Phí vận chuyển: 50,000đ</p>
-              <h5>Tổng tiền: 87,390,000đ</h5>
-            </Col>
+              <h5 style={{ color: 'red' }}>Tổng tiền: 87,390,000đ</h5>
+            </Col> */}
+            <Col md={4}>
+  <h4>THÔNG TIN ĐƠN HÀNG</h4>
+  <div className="order-item">
+    <img src="https://tnj.vn/75169-large_default/nhan-bac-nu-dinh-da-10mm-nn0440.jpg" alt="Product Image" className="checkout-image" />
+    <div className="order-item-details">
+      <p>HOA TAI 18K AFEC00043BD2DA1</p>
+      <p>MSP: AFEC00043BD2DA1</p>
+      <p>SỐ LƯỢNG: 1</p>
+      <p>Giá bán: <span>42,820,000đ</span></p>
+      <p>Tạm tính: <span>42,820,000đ</span></p>
+      <p>Thành tiền: <span style={{ color: 'red' }}>42,820,000đ</span></p>
+    </div>
+  </div>
+  <div className="order-item">
+    <img src="https://tnj.vn/60913-large_default/nhan-kim-cuong-moissanite-dinh-da-nnm0010.jpg" alt="Product Image" className="checkout-image" />
+    <div className="order-item-details">
+      <p>NHẪN ĐÍNH HÔN KIM CƯƠNG ENR3111W</p>
+      <p>MSP: ENR3111W</p>
+      <p>SỐ LƯỢNG: 1</p>
+      <p>Giá bán: <span>44,520,000đ</span></p>
+      <p>Tạm tính: <span>44,520,000đ</span></p>
+      <p>Thành tiền: <span style={{ color: 'red' }}>44,520,000đ</span></p>
+    </div>
+  </div>
+  <h5>Tạm tính: <span style={{ color: 'red' }}>87,340,000đ</span></h5>
+  <Form.Group controlId="formVoucher">
+    <p>Mã giảm giá/Voucher</p>
+    <Form.Control type="text" />
+  </Form.Group>
+  <p>Phí vận chuyển: <span>50,000đ</span></p>
+  <h5>Tổng tiền: <span style={{ color: 'red' }}>87,390,000đ</span></h5>
+</Col>
+
+
           </Row>
         </Form>
         <div className="order-btn">
