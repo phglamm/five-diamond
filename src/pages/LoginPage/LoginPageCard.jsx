@@ -7,7 +7,6 @@ import {
   MDBCol,
 } from "mdb-react-ui-kit";
 import "./LoginPageCard.css";
-import logobanner from "../../../public/assets/images/LoginBanner/loginbanner.jpg";
 import logo from "../../../public/assets/images/Logo/logo.png";
 import { routes } from "../../routes";
 import { Link, useNavigate } from "react-router-dom";
@@ -84,13 +83,13 @@ function LoginPageCard() {
           <MDBRow className="g-0">
             <MDBCol md="6">
               <MDBCardImage
-                src={logobanner}
+                src={"https://drive.google.com/thumbnail?id=18f6-V6q7B032ACan6Xro2re0fMZUe89_&sz=w1000"}
                 alt="login form"
                 className="rounded-start w-100"
-              />
+              />  
             </MDBCol>
 
-            <MDBCol md="6">
+            <MDBCol md="6"> 
               <MDBCardBody className="d-flex flex-column">
                 <Link to={routes.home} className="form-comeback">
                   <i
@@ -100,7 +99,7 @@ function LoginPageCard() {
                   <span className="">Quay Lại Trang Chủ</span>
                 </Link>
                 <div className="d-flex flex-row mt-2 form-header">
-                  <img src={logo} alt="" className="form-logo" />
+                  <img src={"https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"} alt="" className="form-logo" />
                   <span className="h1 fw-bold mb-0">Five Diamond</span>
                 </div>
 

@@ -1,4 +1,4 @@
-import logo from "/assets/images/Logo/logo.png";
+
 import "./Header.css";
 import { Col, Container, Row } from "react-bootstrap";
 
@@ -53,7 +53,7 @@ export default function Header() {
         </Col>
         <Col xs={3} className="Header-logo">
           <Link to={routes.home}>
-            <img src={logo} alt="" />
+            <img src={"https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"} alt="" />
           </Link>
         </Col>
         <Col xs={2} className="Header-search">
