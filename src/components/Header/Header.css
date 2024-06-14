@@ -141,6 +141,10 @@
   text-decoration: underline;
 }
 
+.cart-icon {
+  font-size: 23px;
+}
+
 @media screen and (max-width: 1440px) {
   .Header-navigation {
     font-size: 15px !important;

@@ -17,6 +17,7 @@
   font-weight: bold;
   text-align: center;
   position: relative;
+  margin-top: 5%;
 }
 
 .size-title::after {
@@ -51,6 +52,10 @@
   padding: 20px;
   box-sizing: border-box;
   min-width: 300px;
+}
+
+.main-container{
+  margin-bottom: 5% !important;
 }
 
 .method-image {
