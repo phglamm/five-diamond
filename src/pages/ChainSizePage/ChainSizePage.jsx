@@ -46,8 +46,9 @@ export default function ChainSizePage() {
                 </Container>
 
                 <div className="chain-img-container">
+                    
                     <img
-                        src="https://images.ctfassets.net/7m8i36sp5l90/2hG4xx6stwn0NWirWhAlru/eb47233b36b9c3e178358269fda1de71/Necklace-Guide.jpg?fit=scale&fm=webp&q=100&w=1248"
+                        src="https://drive.google.com/thumbnail?id=1NmlQGiBLg8Qe3-Bd0TOPpMvIOJmAxyNL&sz=w1000"
                         alt="chain1"
                         className="chain-img"
                     />
@@ -63,7 +64,7 @@ export default function ChainSizePage() {
                         </Col>
                         <Col md={7}>
                             <img
-                                src="https://images.ctfassets.net/7m8i36sp5l90/1aCkVmbUkSmpHunJ4LBcSl/c634fed305b74ebaca9fd610202edca2/Choose-chain.jpg?fit=scale&fm=webp&q=100&w=771"
+                                src="https://drive.google.com/thumbnail?id=1YVjw-0foY4IQ92HMevKqYlbHBmmcDhmY&sz=w1000"
                                 alt="chain2"
                                 className="chain-img2"
                             />
