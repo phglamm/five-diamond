@@ -18,3 +18,11 @@
 .form-content-main-product input {
   width: 150% !important;
 }
+
+.choose-modal {
+  width: 80% !important;
+}
+
+.choose-table {
+  width: 100% !important;
+}
