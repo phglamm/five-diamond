@@ -9,6 +9,7 @@ import api from "../../../config/axios";
 import { UploadOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import uploadFile from "../../../utils/upload";
+import { storage } from "../../../config/firebase";
 
 export default function AdminCertificate() {
   const [form] = useForm();
@@ -18,6 +19,7 @@ export default function AdminCertificate() {
   const [certificate, setCertificate] = useState([]);
   const [selectedCertificate, setSelectedCertificate] = useState(null);
   const [file, setFile] = useState(null);
+  const [fileUpdate, setFileUpdate] = useState(null);
 
   function hanldeUpdateClickSubmit() {
     formUpdate.submit();
@@ -84,6 +86,7 @@ export default function AdminCertificate() {
   }
 
   async function updateCertificate(values) {
+    console.log(values);
     const dataUpdate = {
       ...newData,
     };
@@ -190,13 +193,22 @@ export default function AdminCertificate() {
                       className="label-form"
                       label="fileURL"
                       name="fileURL"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Nhập fireURL",
-                        },
-                      ]}
-                    ></Form.Item>
+                    >
+                      <Upload
+                        fileList={fileUpdate ? [fileUpdate] : []}
+                        beforeUpload={(file) => {
+                          if (file.type !== "application/pdf") {
+                            toast.error("Chỉ chọn file PDF");
+                            setFileUpdate(null);
+                          } else setFileUpdate(file);
+                        }}
+                        onRemove={() => {
+                          setFileUpdate(null);
+                        }}
+                      >
+                        <Button icon={<UploadOutlined />}>Upload</Button>
+                      </Upload>
+                    </Form.Item>
                   </div>
                 </div>
                 <Button

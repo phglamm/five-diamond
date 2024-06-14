@@ -72,6 +72,7 @@ export default function AdminCategory() {
     const dataUpdate = {
       ...newData,
     };
+
     try {
       await api.put(`category/${values.id}`, dataUpdate);
       setIsModalUpdateOpen(false);
@@ -153,6 +154,7 @@ export default function AdminCategory() {
                 initialValues={selectedCategory}
                 onValuesChange={(changedValues, allValues) => {
                   setNewData(allValues);
+                  console.log(allValues);
                 }}
                 form={formUpdate}
                 onFinish={(values) => {
@@ -210,7 +212,6 @@ export default function AdminCategory() {
   return (
     <div className="Admin">
       <SideBar></SideBar>
-
       <div className="admin-content">
         <h1>Thêm Danh Mục</h1>
         <Form

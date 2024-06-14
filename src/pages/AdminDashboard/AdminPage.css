@@ -91,3 +91,7 @@
 .ant-table-filter-dropdown {
   width: 150% !important;
 }
+
+.data-table {
+  width: 80% !important;
+}
