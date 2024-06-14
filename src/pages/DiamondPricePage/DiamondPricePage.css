@@ -4,11 +4,16 @@
   align-items: center;
   text-align: center;
   font-weight: bold;
+  margin-top: 5%;
+}
+.body-pricepage{
+  margin-bottom: 5%;
 }
 .price-title {
   display: flex;
   justify-content: center;
-  margin-top: 2%;
+  margin-top: 5%;
+  margin-bottom: 2%;
 }
 .price-table td {
   width: 16.66%;

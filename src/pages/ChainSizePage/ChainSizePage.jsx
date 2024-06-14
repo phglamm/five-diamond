@@ -29,7 +29,7 @@ export default function ChainSizePage() {
                         <Link to={routes.chain}>Dây chuyền và Vòng cổ</Link>
                     </Col>
                     <Col xs="auto">
-                        <Link to="#">Kiến Thức Kim Cương</Link>
+                        <Link to={routes.diamondprice}>Kiến Thức Kim Cương</Link>
                     </Col>
                 </Row>
 
