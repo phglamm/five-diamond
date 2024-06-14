@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import DropdownContent from "./DropdownContent/DropdownContent";
 
-
 export default function Header() {
   const [isProductDropdownOpen, setIsProductDropdownOpen] = useState(false);
   const [isCartDropdownOpen, setIsCartDropdownOpen] = useState(false);
@@ -40,7 +39,6 @@ export default function Header() {
   return (
     <Container fluid className="Header" id="header">
       <Row className="Top-header">
-<<<<<<< HEAD
         {user && (user.role === "SALES" || user.role === "DELIVERY") ? (
           <Col xs={4} className="Header-left">
             <div className="Header-left-component">
@@ -71,38 +69,18 @@ export default function Header() {
           </Col>
         )}
 
-=======
-        <Col xs={4} className="Header-left">
-          <div className="Header-left-component">
-            <i className="pi pi-phone"></i>
-            <p>1800 1168</p>
-          </div>
-          <div className="Header-left-component">
-            <i className="pi pi-building"></i>
-            <p>HỆ THỐNG SHOWROOM</p>
-          </div>
-          <div className="Header-left-component">
-            <i className="pi pi-map"></i>
-            <p>HỆ THỐNG PHÂN PHỐI</p>
-          </div>
-        </Col>
->>>>>>> newnhat
         <Col xs={3} className="Header-logo">
           <Link to={routes.home}>
-            <img src={logo} alt="Logo" />
+            <img src={logo} alt="" />
           </Link>
         </Col>
         <Col xs={2} className="Header-search">
-          <SearchBar
-            placeholder={"Tìm Kiếm Sản Phẩm"}
-            icon={"pi pi-search"}
-          />
+          <SearchBar placeholder={"Tìm Kiếm Sản Phẩm"} icon={"pi pi-search"} />
         </Col>
 
         {user ? (
           <Col xs={3} className="Header-login">
             <Link to={routes.profile} className="profile-name">
-<<<<<<< HEAD
               <span
                 className="pi pi-user"
                 style={{ fontSize: "1.5rem" }}
@@ -110,49 +88,42 @@ export default function Header() {
               <p className="username">
                 {user.firstname} {user.lastname}
               </p>
-=======
               <div
                 className="cart-wrapper"
-                // onMouseOver={handleMouseOverCart}
-                // onMouseLeave={handleMouseLeaveCart}
+                onMouseOver={handleMouseOverCart}
+                onMouseLeave={handleMouseLeaveCart}
               >
                 <Link to={routes.cart} className="cart-button">
                   <ImCart className="cart-icon" />
                 </Link>
                 {/* {isCartDropdownOpen && <CartDropdown />} */}
               </div>
-              <span className="pi pi-user" style={{ fontSize: "1.5rem" }}></span>
-              <p className="username">{user.firstname} {user.lastname}</p>
->>>>>>> newnhat
             </Link>
             <Link to={routes.login}>
               <BasicButton
                 text={"Đăng Xuất"}
                 icon={"pi pi-sign-in"}
                 onClick={handleLogout}
-              />
+              ></BasicButton>
             </Link>
           </Col>
         ) : (
           <Col xs={3} className="Header-login">
             <Link to={routes.login}>
-              <BasicButton text={"Đăng nhập"} icon={"pi pi-user"} />
+              {" "}
+              <BasicButton text={"Đăng nhập"} icon={"pi pi-user"}></BasicButton>
             </Link>
             <Link to={routes.register}>
-<<<<<<< HEAD
               <BasicButton
                 text={"Đăng ký"}
                 icon={"pi pi-sign-in"}
               ></BasicButton>
-=======
-              <BasicButton text={"Đăng ký"} icon={"pi pi-sign-in"} />
->>>>>>> newnhat
             </Link>
           </Col>
         )}
       </Row>
 
-      <Row className="Bottom-header">
+      <Col className="Bottom-header">
         <Col className="Header-navigation">
           <Link to={routes.about}>Giới Thiệu</Link>
         </Col>
@@ -162,12 +133,14 @@ export default function Header() {
         <Col
           className="Header-navigation dropdownContainer"
           onMouseOver={handleMouseOverProduct}
-          onMouseLeave={handleMouseLeaveProduct}
         >
           <Link to="">Sản Phẩm Về Kim Cương</Link>
           {isProductDropdownOpen && (
-            <div className="dropdownWrapper">
-              <DropdownContent />
+            <div
+              className="dropdownWrapper"
+              onMouseLeave={handleMouseLeaveProduct}
+            >
+              <DropdownContent></DropdownContent>
             </div>
           )}
         </Col>
@@ -183,7 +156,7 @@ export default function Header() {
         <Col className="Header-navigation">
           <Link to={routes.faq}>Câu Hỏi Thường Gặp</Link>
         </Col>
-      </Row>
+      </Col>
     </Container>
   );
 }
