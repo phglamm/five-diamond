@@ -9,6 +9,7 @@
   width: 25%;
   margin-left: 40%;
 }
+
 .dropdownWrapper {
   position: absolute;
   display: flex;
@@ -18,6 +19,12 @@
   left: 0;
   z-index: 1000;
   /* background: #ffffff; */
+}
+
+.dropdownContainer {
+  /* position: relative; */
+  /* text-align: center; */
+  /* margin-top: 19px; */
 }
 
 .dropdownContainer a {
@@ -120,6 +127,11 @@
   gap: 0 10px;
 }
 
+.Header-left-component i {
+  color: #06b6d4;
+  /* Ensure icons inherit the color */
+}
+
 .username {
   align-items: center;
   color: black;
@@ -141,14 +153,4 @@
   justify-content: center;
   align-items: flex-start;
   gap: 3vh;
-}
-
-.sale-staff {
-  font-size: 15px;
-  color: black;
-}
-
-.sale-staff:hover {
-  color: black;
-  text-decoration: underline;
 }

@@ -1,8 +1,9 @@
 .accessory-infor-container {
-  margin: 0 auto;
-  margin-bottom: 100px;
-  width: 70%;
+  margin: 5% auto;
+  width: 70% !important;
   font-family: "Arial", sans-serif;
+  justify-content: center;
+  align-items: center;
 }
 
 .accessory-infor-container h1 {
@@ -10,7 +11,8 @@
   text-align: center;
   font-weight: bold;
   font-size: 40px;
-  margin-top: 30px;
+  margin-top: 10px !important;
+  margin-bottom: 50px;
 }
 
 .accessory-infor-container h2 {
@@ -29,7 +31,6 @@
 .accessory-infor {
   padding-bottom: 50px;
   border-bottom: 1px solid #e0e0e0;
-  /* margin: 10px 0 20px 0; */
   margin-top: 3%;
 }
 
@@ -58,7 +59,13 @@
   margin-top: 50px;
   font-size: 16px;
   line-height: 1.6;
-  font-weight: normal;
+  font-weight: bold;
+}
+
+.accessory-infor-container-end {
+  text-align: center;
+  font-weight: 100;
+  font-style: italic;
 }
 
 @media (max-width: 768px) {
