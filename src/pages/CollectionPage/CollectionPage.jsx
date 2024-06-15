@@ -1,5 +1,4 @@
-import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import RowCollection from "../../components/RowCollection/RowCollection";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";

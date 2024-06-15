@@ -155,3 +155,7 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+.page-container {
+  background-color: #ffffff !important;
+}

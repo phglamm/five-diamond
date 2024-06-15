@@ -1,7 +1,9 @@
     .about-container {
-        padding-top: 40px;
-        padding-bottom: 30px;
-        width: 60%;
+        margin-top: 5% !important;
+        /* padding-bottom: 30px; */
+        margin-bottom: 5% !important;
+        width: 70% !important;
+        padding: 0 50px;
     }
 
     .about-banner-img {

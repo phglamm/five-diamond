@@ -22,11 +22,14 @@ export const routes = {
   adminDiamond: "/admin-kim-cuong",
   adminAdd: "/admin-them-san-pham",
   adminmanageorder: "/admin-quan-li-don-hang",
+  adminCategory: "/admin-danh-muc",
+  adminCertificate: "/admin-chung-chi",
+  adminUser: "/admin-nguoi-dung",
+
   productdetail: "/chi-tiet-san-pham",
   diamondprice: "/bang-gia-kim-cuong",
-  adminCategory: "/admin-danh-muc",
-  notfound: "/notfound",
 
+  notfound: "/notfound",
   cart: "/gio-hang",
   checkout: "/tien-hanh-thanh-toan",
   priceDiamond: "/bang-gia-kim-cuong",

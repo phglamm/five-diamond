@@ -10,55 +10,57 @@ export default function DiamondPricePage() {
     return (
         <div>
             <Header />
-            <Container>
-                <h1 className='header-price'>Bảng giá kim cương thiên nhiên kiểm định quốc tế hôm nay XX/XX/2024</h1>
-                <div>
-                    <p className='price-title'>Giá Kim Cương Siêu Rẻ 3ly6</p>
-                    <Table bordered className='price-table'>
-                        <thead>
-                            <tr>
-                                <th>3.6MM</th>
-                                {columnHeaders.map((header, index) => (
-                                    <th key={index}>{header}</th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {rowHeaders.map((rowHeader, rowIndex) => (
-                                <tr key={rowIndex}>
-                                    <th>{rowHeader}</th>
-                                    {columnHeaders.map((_, colIndex) => (
-                                        <td key={colIndex}></td>
+            <div className='body-pricepage'>
+                <Container>
+                    <h1 className='header-price'>Bảng giá kim cương thiên nhiên kiểm định quốc tế hôm nay XX/XX/2024</h1>
+                    <div>
+                        <p className='price-title'>Giá Kim Cương Siêu Rẻ 3ly6</p>
+                        <Table bordered className='price-table'>
+                            <thead>
+                                <tr>
+                                    <th>3.6MM</th>
+                                    {columnHeaders.map((header, index) => (
+                                        <th key={index}>{header}</th>
                                     ))}
                                 </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </div>
-                <div>
-                    <p className='price-title'>Giá Kim Cương 3ly9</p>
-                    <Table bordered className='price-table'>
-                        <thead>
-                            <tr>
-                                <th>3.6MM</th>
-                                {columnHeaders.map((header, index) => (
-                                    <th key={index}>{header}</th>
+                            </thead>
+                            <tbody>
+                                {rowHeaders.map((rowHeader, rowIndex) => (
+                                    <tr key={rowIndex}>
+                                        <th>{rowHeader}</th>
+                                        {columnHeaders.map((_, colIndex) => (
+                                            <td key={colIndex}></td>
+                                        ))}
+                                    </tr>
                                 ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {rowHeaders.map((rowHeader, rowIndex) => (
-                                <tr key={rowIndex}>
-                                    <th>{rowHeader}</th>
-                                    {columnHeaders.map((_, colIndex) => (
-                                        <td key={colIndex}></td>
+                            </tbody>
+                        </Table>
+                    </div>
+                    <div>
+                        <p className='price-title'>Giá Kim Cương 3ly9</p>
+                        <Table bordered className='price-table'>
+                            <thead>
+                                <tr>
+                                    <th>3.6MM</th>
+                                    {columnHeaders.map((header, index) => (
+                                        <th key={index}>{header}</th>
                                     ))}
                                 </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </div>
-            </Container>
+                            </thead>
+                            <tbody>
+                                {rowHeaders.map((rowHeader, rowIndex) => (
+                                    <tr key={rowIndex}>
+                                        <th>{rowHeader}</th>
+                                        {columnHeaders.map((_, colIndex) => (
+                                            <td key={colIndex}></td>
+                                        ))}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </div>
+                </Container>
+            </div>
             <Footer />
         </div>
     );

@@ -1,83 +1,100 @@
 import SideBar from "../../../components/SideBar/SideBar";
-import { Button, Form, Input, Modal, Table } from "antd";
+import { Button, Form, Input, Modal, Table, Upload } from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import "../../AdminDashboard/AdminPage.css";
+import "./AdminCertificate.css";
 
 import api from "../../../config/axios";
 import { UploadOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
+import uploadFile from "../../../utils/upload";
+import { storage } from "../../../config/firebase";
 
-export default function AdminCategory() {
-  const [newData, setNewData] = useState("");
+export default function AdminCertificate() {
   const [form] = useForm();
   const [formUpdate] = useForm();
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [category, setCategory] = useState([]);
+  const [newData, setNewData] = useState("");
+
+  const [certificate, setCertificate] = useState([]);
+  const [selectedCertificate, setSelectedCertificate] = useState(null);
+  const [file, setFile] = useState(null);
+  const [fileUpdate, setFileUpdate] = useState(null);
 
   function hanldeUpdateClickSubmit() {
     formUpdate.submit();
   }
+
   function hanldeClickSubmit() {
     form.submit();
   }
 
-  async function AddCategory(value) {
+  async function AddCertificate(value) {
     console.log(value);
     try {
-      await api.post("category", value);
-      setCategory([...category, value]);
-      toast.success("Thêm Danh Mục thành công");
-      fetchCategory();
+      const file = value.fileURL.file.originFileObj;
+      const fileURL = await uploadFile(file);
+
+      console.log(file);
+      const certificateData = {
+        ...value,
+        fileURL,
+      };
+      await api.post("certificate", certificateData);
+      setCertificate([...certificate, certificateData]);
+
+      toast.success("Thêm Chứng Chỉ thành công");
+      fetchCertificate();
     } catch (error) {
-      toast.error("Đã có lỗi trong lúc thêm danh mục");
+      toast.error("Đã có lỗi trong lúc thêm chứng chỉ");
       console.log(error.response.data);
     }
   }
 
-  async function fetchCategory() {
-    const response = await api.get("category");
-    setCategory(response.data);
+  async function fetchCertificate() {
+    const response = await api.get("certificate");
+    setCertificate(response.data);
+    console.log("data....", response.data);
   }
 
   useEffect(() => {
-    fetchCategory();
+    fetchCertificate();
   }, []);
 
-  useEffect(() => {}, [category]); // Only re-run this effect when diamond changes
+  useEffect(() => {}, [certificate]);
 
-  async function deleteCategory(values) {
+  async function deleteCertificate(values) {
     console.log(values.id);
     try {
       Modal.confirm({
-        title: "Bạn có chắc muốn xóa danh mục này ?",
+        title: "Bạn có chắc muốn xóa chứng chỉ này ?",
         onOk: () => {
-          api.delete(`category/${values.id}`);
+          api.delete(`certificate/${values.id}`);
           toast.success("Xóa thành công");
-          setCategory(
-            category.filter((cat) => {
-              return cat.id !== values.id;
+          setCertificate(
+            certificate.filter((cer) => {
+              return cer.id !== values.id;
             })
           );
         },
       });
-      fetchCategory();
+      fetchCertificate();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc Xóa");
       console.log(error.response.data);
     }
   }
 
-  async function updateCategory(values) {
+  async function updateCertificate(values) {
+    console.log(values);
     const dataUpdate = {
       ...newData,
     };
-
     try {
-      await api.put(`category/${values.id}`, dataUpdate);
+      await api.put(`certificate/${values.id}`, dataUpdate);
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công");
-      fetchCategory();
+      fetchCertificate();
     } catch (error) {
       toast.error("chỉnh sửa thất bại, có lỗi");
       console.log(error.response.data);
@@ -86,15 +103,14 @@ export default function AdminCategory() {
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
   };
-
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
+
   const handleUpdateOk = () => {
     setIsModalUpdateOpen(false);
   };
   const handleUpdateCancel = () => {
     setIsModalUpdateOpen(false);
   };
-
   const columns = [
     {
       title: "ID",
@@ -103,14 +119,16 @@ export default function AdminCategory() {
       sorter: (a, b) => a.id - b.id,
     },
     {
-      title: "name",
-      dataIndex: "name",
-      key: "name",
+      title: "giaReportNumber",
+      dataIndex: "giaReportNumber",
+      key: "giaReportNumber",
+      sorter: (c, d) => c.giaReportNumber - d.giaReportNumber,
+      defaultSortOrder: "ascend",
     },
     {
-      title: "description",
-      dataIndex: "description",
-      key: "description",
+      title: "fileURL",
+      dataIndex: "fileURL",
+      key: "fileURL",
     },
     {
       title: "Hành Động",
@@ -120,7 +138,7 @@ export default function AdminCategory() {
             <div className="action-button">
               <Button
                 onClick={(e) => {
-                  deleteCategory(values);
+                  deleteCertificate(values);
                 }}
                 className="delete-button"
               >
@@ -131,7 +149,7 @@ export default function AdminCategory() {
                 icon={<UploadOutlined />}
                 className="admin-upload-button update-button"
                 onClick={() => {
-                  setSelectedCategory(values);
+                  setSelectedCertificate(values);
                   formUpdate.setFieldsValue(values);
                   setIsModalUpdateOpen(true);
                 }}
@@ -143,7 +161,7 @@ export default function AdminCategory() {
             <Modal
               className="modal-updateCategory-form"
               footer={false}
-              title="Chỉnh Sửa Danh Mục"
+              title="Chỉnh Sửa Chứng Chỉ"
               okText={"Lưu"}
               open={isModalUpdateOpen}
               onOk={handleUpdateOk}
@@ -151,14 +169,13 @@ export default function AdminCategory() {
               mask={false}
             >
               <Form
-                initialValues={selectedCategory}
+                initialValues={selectedCertificate}
                 onValuesChange={(changedValues, allValues) => {
                   setNewData(allValues);
-                  console.log(allValues);
                 }}
                 form={formUpdate}
                 onFinish={(values) => {
-                  updateCategory(selectedCategory);
+                  updateCertificate(selectedCertificate);
                 }}
                 id="form-update"
                 className="form-main"
@@ -167,29 +184,30 @@ export default function AdminCategory() {
                   <div className="form-content">
                     <Form.Item
                       className="label-form"
-                      label="Tên Danh Mục"
-                      name="name"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Nhập Tên Danh Mục ",
-                        },
-                      ]}
+                      label="Số Chứng Chỉ"
+                      name="giaReportNumber"
                     >
-                      <Input type="text" required />
+                      <Input type="number" required />
                     </Form.Item>
                     <Form.Item
                       className="label-form"
-                      label="Mô Tả"
-                      name="description"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Nhập Mô Tả",
-                        },
-                      ]}
+                      label="fileURL"
+                      name="fileURL"
                     >
-                      <Input type="text" required />
+                      <Upload
+                        fileList={fileUpdate ? [fileUpdate] : []}
+                        beforeUpload={(file) => {
+                          if (file.type !== "application/pdf") {
+                            toast.error("Chỉ chọn file PDF");
+                            setFileUpdate(null);
+                          } else setFileUpdate(file);
+                        }}
+                        onRemove={() => {
+                          setFileUpdate(null);
+                        }}
+                      >
+                        <Button icon={<UploadOutlined />}>Upload</Button>
+                      </Upload>
                     </Form.Item>
                   </div>
                 </div>
@@ -199,7 +217,7 @@ export default function AdminCategory() {
                   }}
                   className="form-button"
                 >
-                  Chỉnh Sửa Danh Mục
+                  Chỉnh Sửa Chứng Chỉ
                 </Button>
               </Form>
             </Modal>
@@ -212,11 +230,12 @@ export default function AdminCategory() {
   return (
     <div className="Admin">
       <SideBar></SideBar>
+
       <div className="admin-content">
-        <h1>Thêm Danh Mục</h1>
+        <h1>Thêm Chứng Chỉ</h1>
         <Form
           form={form}
-          onFinish={AddCategory}
+          onFinish={AddCertificate}
           id="form"
           className="form-main"
         >
@@ -224,42 +243,55 @@ export default function AdminCategory() {
             <div className="form-content">
               <Form.Item
                 className="label-form"
-                label="Tên Danh Mục"
-                name="name"
+                label="Số Chứng Chỉ"
+                name="giaReportNumber"
                 rules={[
                   {
                     required: true,
-                    message: "Nhập Tên Danh Mục ",
+                    message: "Nhập số Chứng Chỉ ",
                   },
                 ]}
               >
-                <Input type="text" required />
+                <Input type="number" required />
               </Form.Item>
               <Form.Item
                 className="label-form"
-                label="Mô Tả"
-                name="description"
+                label="fileURL"
+                name="fileURL"
                 rules={[
                   {
                     required: true,
-                    message: "Nhập Mô Tả",
+                    message: "Nhập fireURL",
                   },
                 ]}
               >
-                <Input type="text" required />
+                <Upload
+                  fileList={file ? [file] : []}
+                  beforeUpload={(file) => {
+                    if (file.type !== "application/pdf") {
+                      toast.error("Chỉ chọn file PDF");
+                      setFile(null);
+                    } else setFile(file);
+                  }}
+                  onRemove={() => {
+                    setFile(null);
+                  }}
+                >
+                  <Button icon={<UploadOutlined />}>Upload</Button>
+                </Upload>
               </Form.Item>
             </div>
           </div>
 
           <Button onClick={hanldeClickSubmit} className="form-button">
-            Thêm Danh Mục
+            Thêm Chứng Chỉ
           </Button>
         </Form>
 
         <div className="data-table">
-          <h1>Quản Lý Danh Mục</h1>
+          <h1>Quản Lý Chứng Chỉ</h1>
           <Table
-            dataSource={category}
+            dataSource={certificate}
             columns={columns}
             onChange={onChange}
             pagination={{ pageSize: 5 }}

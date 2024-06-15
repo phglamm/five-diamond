@@ -1,4 +1,3 @@
-//DeliveryStaffPage
 import { Container, ButtonGroup, Button, Form } from "react-bootstrap";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -13,7 +12,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { Select, Upload, message } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { UploadOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
 import {
   deliveryRows as initialDeliveryRows,
   updateRows as initialUpdateRows,
@@ -44,8 +43,8 @@ const uploadProps = {
 
 export default function DeliveryStaffPage() {
   const deliveryColumns = [
-    { id: "shipmentId", label: "Mã vận chuyển", minWidth: 100 },
-    { id: "orderId", label: "Mã đơn hàng", minWidth: 100 },
+    { id: "shipmentId", label: "Mã vận chuyển", minWidth: 100, sortable: true },
+    { id: "orderId", label: "Mã đơn hàng", minWidth: 100, sortable: true },
     { id: "deliveryStaff", label: "Nhân viên giao hàng", minWidth: 170 },
     { id: "recipient", label: "Người nhận", minWidth: 170 },
     { id: "address", label: "Địa chỉ", minWidth: 200 },
@@ -55,24 +54,11 @@ export default function DeliveryStaffPage() {
   ];
 
   const updateColumns = [
-    { id: "dateDeliver", label: "Ngày giao hàng", minWidth: 150 },
-    { id: "shipmentId", label: "Mã vận chuyển", minWidth: 50 },
-    { id: "orderId", label: "Mã đơn hàng", minWidth: 50 },
+    { id: "dateDeliver", label: "Ngày giao hàng", minWidth: 150, sortable: true },
+    { id: "shipmentId", label: "Mã vận chuyển", minWidth: 50, sortable: true },
+    { id: "orderId", label: "Mã đơn hàng", minWidth: 50, sortable: true },
     { id: "address", label: "Địa chỉ", minWidth: 200 },
     { id: "phone", label: "Số điện thoại", minWidth: 150 },
-    {
-      id: "deliveryStaffNote",
-      label: "Ghi chú NVGH",
-      minWidth: 150,
-      render: (value, rowIndex) => (
-        <Form.Control
-          as="textarea"
-          rows={3}
-          value={value}
-          onChange={(e) => handleNoteChange(e.target.value, rowIndex)}
-        />
-      ),
-    },
     {
       id: "upload",
       label: "Upload Image",
@@ -102,7 +88,7 @@ export default function DeliveryStaffPage() {
       ),
     },
     {
-      id: "update-status",
+      id: "updateStatus",
       label: "Cập nhật",
       minWidth: 100,
       render: (value, rowIndex) => (
@@ -138,7 +124,7 @@ export default function DeliveryStaffPage() {
   const [searchTerm, setSearchTerm] = React.useState("");
   const [sortConfig, setSortConfig] = React.useState({
     key: null,
-    direction: "asc",
+    direction: null,
   });
 
   React.useEffect(() => {
@@ -200,35 +186,32 @@ export default function DeliveryStaffPage() {
     let direction = "asc";
     if (sortConfig.key === columnId && sortConfig.direction === "asc") {
       direction = "desc";
+    } else if (sortConfig.key === columnId && sortConfig.direction === "desc") {
+      direction = null;
     }
     setSortConfig({ key: columnId, direction });
 
-    const sortedData = [...rows].sort((a, b) => {
-      if (columnId === "shipmentId" || columnId === "orderId") {
-        return direction === "asc"
-          ? a[columnId] - b[columnId]
-          : b[columnId] - a[columnId];
-      } else if (columnId === "phone") {
-        return direction === "asc"
-          ? a[columnId].localeCompare(b[columnId])
-          : b[columnId].localeCompare(a[columnId]);
-      } else if (columnId === "deliveryStaff" || columnId === "recipient") {
-        return direction === "asc"
-          ? a[columnId].localeCompare(b[columnId])
-          : b[columnId].localeCompare(a[columnId]);
-      } else if (columnId === "address" || columnId === "payment") {
-        return direction === "asc"
-          ? a[columnId].localeCompare(b[columnId])
-          : b[columnId].localeCompare(a[columnId]);
-      } else {
-        return 0;
-      }
-    });
+    if (direction !== null) {
+      const sortedData = [...rows].sort((a, b) => {
+        let aValue = a[columnId];
+        let bValue = b[columnId];
 
-    if (selectedTable === "deliver") {
-      setDeliveryData(sortedData);
-    } else {
-      setUpdateData(sortedData);
+        if (columnId === "shipmentId" || columnId === "orderId") {
+          aValue = parseInt(a[columnId].replace(/\D/g, ''), 10);
+          bValue = parseInt(b[columnId].replace(/\D/g, ''), 10);
+        } else if (columnId === "dateDeliver") {
+          aValue = new Date(a[columnId]);
+          bValue = new Date(b[columnId]);
+        }
+
+        if (direction === "asc") {
+          return aValue > bValue ? 1 : -1;
+        } else {
+          return aValue < bValue ? 1 : -1;
+        }
+      });
+
+      selectedTable === "deliver" ? setDeliveryData(sortedData) : setUpdateData(sortedData);
     }
   };
 
@@ -239,7 +222,8 @@ export default function DeliveryStaffPage() {
     return columns.some((column) => {
       const value = row[column.id];
       return (
-        value &&
+        value !== undefined &&
+        value !== null &&
         value.toString().toLowerCase().includes(searchTerm.toLowerCase())
       );
     });
@@ -247,8 +231,7 @@ export default function DeliveryStaffPage() {
 
   return (
     <div>
-      <Header></Header>
-      <Container className="table-deliver">
+      <Container fluid className="table-deliver">
         <ButtonGroup className="mb-3">
           <Button
             variant={
@@ -275,7 +258,7 @@ export default function DeliveryStaffPage() {
           <AiOutlineSearch className="search-icon" />
           <Form.Control
             type="text"
-            placeholder="Search..."
+            placeholder="Search "
             value={searchTerm}
             onChange={handleSearch}
           />
@@ -289,15 +272,16 @@ export default function DeliveryStaffPage() {
                     <TableCell
                       key={column.id}
                       align={column.align}
-                      style={{ minWidth: column.minWidth, cursor: "pointer" }}
-                      onClick={() => handleSort(column.id)}
+                      style={{ minWidth: column.minWidth, cursor: column.sortable ? "pointer" : "default" }}
+                      onClick={() => column.sortable && handleSort(column.id)}
                     >
                       {column.label}
-                      {sortConfig.key === column.id
-                        ? sortConfig.direction === "asc"
-                          ? " 🔼"
-                          : " 🔽"
-                        : ""}
+                      {column.sortable && sortConfig.key === column.id &&
+                        (sortConfig.direction === "asc" ? (
+                          <UpOutlined />
+                        ) : sortConfig.direction === "desc" ? (
+                          <DownOutlined />
+                        ) : null)}
                     </TableCell>
                   ))}
                 </TableRow>
@@ -339,12 +323,10 @@ export default function DeliveryStaffPage() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
-        <Button variant="success" className="mt-3" onClick={handleSave}>
+        <Button variant="success" className="delivery-button" onClick={handleSave}>
           Lưu
         </Button>
       </Container>
-
-      <Footer></Footer>
     </div>
   );
 }

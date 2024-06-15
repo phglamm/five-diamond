@@ -1,9 +1,9 @@
 import { Container } from "react-bootstrap";
 import "./AccessoryInforPage.css";
-import anhqc1 from "/assets/images/AccessoryInfor/anhqc1.jpg";
-import bracelet from "/assets/images/AccessoryInfor/bracelet.jpg";
-import earring from "/assets/images/AccessoryInfor/earring.jpg";
-import necklace from "/assets/images/AccessoryInfor/necklace.jpg";
+import lisa from "/assets/images/AccessoryInfor/lisa.jpg";
+import rose from "/assets/images/AccessoryInfor/rose.jpg";
+import jennie1 from "/assets/images/AccessoryInfor/jennie1.webp";
+import jisoo1 from "/assets/images/AccessoryInfor/jisoo1.png";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import MyBreadcrumb from "../../components/Breadcrumb/Breadcrumb";
@@ -14,7 +14,7 @@ export default function AccessoryInfor() {
   return (
     <div>
       <Header />
-      <Container className="accessory-infor-container">
+      <Container>
         <MyBreadcrumb
           title1="KIẾN THỨC"
           link1={routes.blog}
@@ -25,13 +25,13 @@ export default function AccessoryInfor() {
           link3={routes.sale}
         ></MyBreadcrumb>
         <AccessoryInforImage
-          pic5={anhqc1}
-          pic6={bracelet}
-          pic7={earring}
-          pic8={necklace}
+          pic5={lisa}
+          pic6={rose}
+          pic7={jennie1}
+          pic8={jisoo1}
         />
 
-        <div>
+        <div className="accessory-infor-container">
           <div className="accessory-infor">
             <h1 className="accessory-info-title">KIẾN THỨC TRANG SỨC</h1>
             <p>
@@ -45,7 +45,7 @@ export default function AccessoryInfor() {
 
           <div className="accessory-infor">
             <div>
-              <img src={anhqc1} alt="nhan" className="accessory-infor-img" />
+              <img src={lisa} alt="lisa" className="accessory-infor-img" />
             </div>
             <h2 className="title-center">Nhẫn</h2>
             <p>
@@ -85,8 +85,8 @@ export default function AccessoryInfor() {
           <div className="accessory-infor">
             <div>
               <img
-                src={necklace}
-                alt="necklace"
+                src={rose}
+                alt="rose"
                 className="accessory-infor-img"
               />
             </div>
@@ -103,8 +103,8 @@ export default function AccessoryInfor() {
           <div className="accessory-infor">
             <div>
               <img
-                src={bracelet}
-                alt="bracelet"
+                src={jennie1}
+                alt="jennie1"
                 className="accessory-infor-img"
               />
             </div>
@@ -123,8 +123,8 @@ export default function AccessoryInfor() {
           <div className="accessory-infor">
             <div>
               <img
-                src={earring}
-                alt="earring"
+                src={jisoo1}
+                alt="jisoo1"
                 className="accessory-infor-img"
               />
             </div>
@@ -180,7 +180,7 @@ export default function AccessoryInfor() {
             </p>
           </div>
 
-          <h6>
+          <h6 className="accessory-infor-container-end">
             Trang sức cao cấp 5Diamond hy vọng với những chia sẻ kinh nghiệm như
             trên bạn sẽ tự tin lựa chọn những sản phẩm trang sức phù hợp với bạn
             nhất. Ngoài ra, khi lựa chọn trang sức bạn cũng nên chú ý về hoàn

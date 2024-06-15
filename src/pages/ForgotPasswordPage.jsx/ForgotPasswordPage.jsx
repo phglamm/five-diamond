@@ -11,36 +11,27 @@ import forgotbanner from "../../../public/assets/images/LoginBanner/forgotbanner
 
 import logo from "../../../public/assets/images/Logo/logo.png";
 import { routes } from "../../routes";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { login, selectUser } from "../../redux/features/counterSlice";
+import api from "../../config/axios";
+import { toast } from "react-toastify";
 
 function ForgotPasswordPage() {
   const [form] = useForm();
   function hanldeClickSubmit() {
     form.submit();
   }
-  const user = useSelector(selectUser);
-  const dispatch = useDispatch();
 
-  const handleLogout = () => {
-    dispatch(logout());
-  };
-
-  async function handleSubmit(value) {
+  async function ForgotPassword(value) {
     console.log(value);
     try {
-      const response = await axios.post(
-        "http://157.245.145.162:8080/api/forgot-password",
-        value
-      );
-      const userData = { email };
-      dispatch(login(userData));
+      const response = await api.post("forgot-password", value);
       console.log(response);
+      toast.success("Đã gửi yêu cầu đến Email của bạn");
     } catch (error) {
+      toast.success("Có sự cố khi gửi yêu cầu đến Email của bạn");
       console.log(error.response.data);
     }
   }
@@ -79,9 +70,9 @@ function ForgotPasswordPage() {
               <div className="form">
                 <Form
                   form={form}
-                  onFinish={handleSubmit}
+                  onFinish={ForgotPassword}
                   id="form"
-                  className="form-main"
+                  className=""
                 >
                   <Form.Item
                     label="Email"
@@ -117,21 +108,13 @@ function ForgotPasswordPage() {
                   Đăng ký tài khoản mới
                 </Link>
 
-                <a
+                <Link
                   to={routes.changePassword}
                   style={{ color: "#393f81" }}
                   className="link-to"
                 >
                   Đổi Mật Khẩu
-                </a>
-              </div>
-              <div className="d-flex flex-row justify-content-start">
-                <a href="#!" className="small text-muted me-1">
-                  {/* Terms of use. */}
-                </a>
-                <a href="#!" className="small text-muted">
-                  {/* Privacy policy */}
-                </a>
+                </Link>
               </div>
             </MDBCardBody>
           </MDBCol>

@@ -121,6 +121,7 @@ const SaleProductPage = () => {
 
 export default SaleProductPage;
 
+/*-----------------------------------------------------------------------------------------------------------------------------*/
 
 // import React, { useState } from "react";
 // import { Container } from "react-bootstrap";
@@ -154,7 +155,6 @@ export default SaleProductPage;
 
 //     // Pagination handler
 //     const onChange = (pageNumber) => {
-//         console.log('Page: ', pageNumber);
 //         setCurrentPage(pageNumber);
 //     };
 
@@ -162,7 +162,7 @@ export default SaleProductPage;
 //     const startIndex = (currentPage - 1) * pageSize;
 //     const endIndex = startIndex + pageSize;
 
-//     // Filter products by category
+//     // Filter products by category and other filters
 //     const filteredProducts = saleProducts.filter(product => {
 //         return (
 //             (selectedCategory ? product.category === selectedCategory : true) &&
@@ -236,6 +236,16 @@ export default SaleProductPage;
 //                             onChange={(value) => setPriceRange(value)}
 //                             tooltipVisible
 //                         />
+
+//                         <Slider
+//                             range
+//                             step={1}
+//                             min={0}
+//                             max={100}
+//                             defaultValue={weightRange}
+//                             onChange={(value) => setWeightRange(value)}
+//                             tooltipVisible
+//                         />
 //                         <Select
 //                             placeholder="Chọn chất liệu"
 //                             onChange={(value) => setMaterial(value)}
@@ -246,15 +256,6 @@ export default SaleProductPage;
 //                             <Option value="platinum">Platinum</Option>
 //                             <Option value="alloy">Hợp kim</Option>
 //                         </Select>
-//                         <Slider
-//                             range
-//                             step={1}
-//                             min={0}
-//                             max={100}
-//                             defaultValue={weightRange}
-//                             onChange={(value) => setWeightRange(value)}
-//                             tooltipVisible
-//                         />
 //                         <Select
 //                             placeholder="Chọn tuổi vàng"
 //                             onChange={(value) => setGoldPurity(value)}
@@ -332,5 +333,7 @@ export default SaleProductPage;
 // };
 
 // export default SaleProductPage;
+
+
 
 
