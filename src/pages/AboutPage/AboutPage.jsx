@@ -1,18 +1,13 @@
-
-
-
 import { Col, Container, Row } from "react-bootstrap";
-import banner5 from "/assets/images/Banner/banner5.jpg";
-import banner6 from "/assets/images/Banner/banner6.jpg";
-import banner7 from "/assets/images/Banner/banner7.png";
-import banner8 from "/assets/images/Banner/banner8.jpg";
 import "./AboutPage.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 
-const AboutImage = ({ src }) => <img src={src} alt="about-banner" className="about-banner-img" />;
-
 export default function AboutPage() {
+  // const AboutImage = ({ src }) => <img src={src} alt="about-banner" className="about-banner-img" />;
+  // const imageUrl = "https://drive.google.com/uc?export=view&id=YOUR_FILE_ID";
+  // const imageUrl = "https://drive.google.com/uc?export=view&id=16C7eBsBnFCGEtzYvZIwFKTTjbZaBIlsJ";
+
   return (
     <div>
       <Header />
@@ -20,7 +15,16 @@ export default function AboutPage() {
       <Container className="about-container">
         <Row className="about-content-row">
           <Col className="about-banner-big">
-            <AboutImage src="https://drive.google.com/thumbnail?id=16C7eBsBnFCGEtzYvZIwFKTTjbZaBIlsJ&sz=w1000" alt="anh1"/>
+            {/* <AboutImage src='https://jemmia.vn/wp-content/uploads/2022/10/About-Jemmia-4.jpg' /> */}
+            {/* <img src='https://drive.google.com/uc?export=view&id=16C7eBsBnFCGEtzYvZIwFKTTjbZaBIlsJ' alt="about-banner" /> */}
+            {/* <img src={imageUrl} alt="about-banner" /> */}
+
+            <img
+              className="about-banner-img"
+              src="https://drive.google.com/thumbnail?id=16C7eBsBnFCGEtzYvZIwFKTTjbZaBIlsJ&sz=w1000"
+              alt=""
+            />
+
             <div className="about-banner-info-big">
               <h2>VỀ CÔNG TY CỔ PHẦN FIVE DIAMOND</h2>
               <p>
@@ -35,7 +39,11 @@ export default function AboutPage() {
 
         <Row className="about-content-row">
           <Col md={6} className="d-flex">
-            <AboutImage src="https://drive.google.com/thumbnail?id=1D_a6VmfmrL-4T-7jx6J6h9gaHRLhwLjj&sz=w1000" alt="anh2" />
+            <img
+              className="about-banner-img"
+              src="https://drive.google.com/thumbnail?id=1D_a6VmfmrL-4T-7jx6J6h9gaHRLhwLjj&sz=w1000"
+              alt=""
+            />
           </Col>
           <Col md={6} className="d-flex">
             <div className="about-banner-info">
@@ -62,13 +70,21 @@ export default function AboutPage() {
             </div>
           </Col>
           <Col md={6} className="d-flex">
-            <AboutImage src="https://drive.google.com/thumbnail?id=1r7d-wL8CrMUPBdo2A8JozO7O2lyeONEE&sz=w1000" alt="anh3" />
+            <img
+              className="about-banner-img"
+              src="https://drive.google.com/thumbnail?id=1r7d-wL8CrMUPBdo2A8JozO7O2lyeONEE&sz=w1000"
+              alt=""
+            />
           </Col>
         </Row>
 
         <Row className="about-content-row">
           <Col md={6} className="d-flex">
-            <AboutImage src="https://drive.google.com/thumbnail?id=1x_QCzGrDyZpmDSI7Ckcy4TxWERrwK3YC&sz=w1000" alt="4" />
+            <img
+              className="about-banner-img"
+              src="https://drive.google.com/thumbnail?id=1x_QCzGrDyZpmDSI7Ckcy4TxWERrwK3YC&sz=w1000"
+              alt=""
+            />
           </Col>
           <Col md={6} className="d-flex">
             <div className="about-banner-info">

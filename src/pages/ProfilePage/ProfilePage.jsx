@@ -14,7 +14,7 @@ function ProfilePage() {
   const user = useSelector(selectUser);
   const inputRef = useRef(null);
   const [image, setImage] = useState("");
-  const [defaultImage, setDefaultImage] = useState(Ninja);
+  const [defaultImage, setDefaultImage] = useState("https://drive.google.com/thumbnail?id=19wLUvys3Ds_UAdufRkwYbhjEq2Gbmdfo&sz=w1000");
 
   const handleImageClick = () => {
     inputRef.current.click();

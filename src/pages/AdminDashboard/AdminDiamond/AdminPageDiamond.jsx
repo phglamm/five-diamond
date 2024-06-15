@@ -86,7 +86,7 @@ export default function AdminDiamond() {
       ...newData,
       giaReportNumber: values.certificate?.giaReportNumber,
     };
-
+    console.log(newData);
     try {
       await api.put(`material/${values.id}`, dataUpdate);
       setIsModalUpdateOpen(false);
