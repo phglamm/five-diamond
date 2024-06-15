@@ -37,7 +37,7 @@ export default function AdminCover() {
   }
 
   async function fetchCover() {
-    const response = await api.get("material");
+    const response = await api.get("material/available-cover");
     setCover(response.data);
   }
 

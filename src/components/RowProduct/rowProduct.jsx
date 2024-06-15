@@ -1,8 +1,6 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import ProductCard from "../productCard/productCard";
-import product1 from "../../../public/assets/images/product/product1.png";
-import rowbanner1 from "../../../public/assets/images/rowBanner/rowbanner1.jpg";
 import "./rowProduct.css";
 
 export default function RowProduct({ banner }) {

@@ -1,5 +1,4 @@
 import "./ErrorPage.css";
-import error from "/assets/images/Error/error.png";
 import { Link } from "react-router-dom";
 import { routes } from "../../routes";
 

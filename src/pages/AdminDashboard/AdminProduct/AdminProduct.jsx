@@ -137,7 +137,10 @@ export default function AdminDiamond() {
       ...newData,
       materialID: materialUpdate,
       categoryID: categoryUpdate?.id,
-      special: special,
+      special: values.special,
+      priceRate: values.priceRate,
+      imgURL: values.imgURL,
+      weight: values.weight,
     };
     console.log(newData);
     console.log(dataUpdate);
