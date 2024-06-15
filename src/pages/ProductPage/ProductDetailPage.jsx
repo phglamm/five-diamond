@@ -3,8 +3,6 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Container } from "react-bootstrap";
 import "./ProductDetailPage.css";
-import product6 from "../../../public/assets/images/product/product6.png";
-import product6a from "../../../public/assets/images/product/product6a.png";
 import { Rating } from "@mui/material";
 import { Button, InputNumber, Select } from "antd";
 import { ShoppingOutlined } from "@ant-design/icons";
@@ -21,8 +19,8 @@ export default function ProductPage(props) {
       <Container>
         <div className="product-detail">
           <div>
-            <img src={product6} />
-            <img src={product6a} />
+            <img src={"https://drive.google.com/thumbnail?id=1t8ScW3X5vy3SmznuT2rntrd7JYFx_-u_&sz=w1000"} />
+            <img src={"https://drive.google.com/thumbnail?id=10QO3_Hg0lx-1qk5o1VcEGovjCXmVNvOq&sz=w1000"} />
           </div>
           <div>
             <h4 className="product-title">NHẪN ĐÍNH HÔN KIM CƯƠNG ERN311W</h4>
@@ -160,21 +158,21 @@ export default function ProductPage(props) {
       <div className="relevant-product-list">
         <div className="relevant-productcard">
           <ProductCard
-            img={product6}
+            img={"https://drive.google.com/thumbnail?id=1t8ScW3X5vy3SmznuT2rntrd7JYFx_-u_&sz=w1000"}
             price={40000000}
             text={"Nhẫn kim cương ABCXYZ123456"}
           />
         </div>
         <div className="relevant-productcard">
           <ProductCard
-            img={product6}
+            img={"https://drive.google.com/thumbnail?id=1t8ScW3X5vy3SmznuT2rntrd7JYFx_-u_&sz=w1000"}
             price={40000000}
             text={"Nhẫn kim cương ABCXYZ123456"}
           />
         </div>
         <div className="relevant-productcard">
           <ProductCard
-            img={product6}
+            img={"https://drive.google.com/thumbnail?id=1t8ScW3X5vy3SmznuT2rntrd7JYFx_-u_&sz=w1000"}
             price={40000000}
             text={"Nhẫn kim cương ABCXYZ123456"}
           />
