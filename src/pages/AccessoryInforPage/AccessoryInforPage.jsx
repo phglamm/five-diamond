@@ -1,9 +1,9 @@
 import { Container } from "react-bootstrap";
 import "./AccessoryInforPage.css";
-import lisa from "/assets/images/AccessoryInfor/lisa.jpg";
-import rose from "/assets/images/AccessoryInfor/rose.jpg";
-import jennie1 from "/assets/images/AccessoryInfor/jennie1.webp";
-import jisoo1 from "/assets/images/AccessoryInfor/jisoo1.png";
+// import lisa from "/assets/images/AccessoryInfor/lisa.jpg";
+// import rose from "/assets/images/AccessoryInfor/rose.jpg";
+// import jennie1 from "/assets/images/AccessoryInfor/jennie1.webp";
+// import jisoo1 from "/assets/images/AccessoryInfor/jisoo1.png";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import MyBreadcrumb from "../../components/Breadcrumb/Breadcrumb";
@@ -24,12 +24,12 @@ export default function AccessoryInfor() {
           title3="THÔNG TIN KHUYẾN MÃI"
           link3={routes.sale}
         ></MyBreadcrumb>
-        <AccessoryInforImage
+        {/* <AccessoryInforImage
           pic5={lisa}
           pic6={rose}
           pic7={jennie1}
           pic8={jisoo1}
-        />
+        /> */}
 
         <div className="accessory-infor-container">
           <div className="accessory-infor">
@@ -45,7 +45,10 @@ export default function AccessoryInfor() {
 
           <div className="accessory-infor">
             <div>
-              <img src={lisa} alt="lisa" className="accessory-infor-img" />
+
+              <img className="accessory-infor-img" src="https://drive.google.com/thumbnail?id=1k52eu3wCqTCUODwTULRpmrClGffggUWt&sz=w1000" alt="lisa" />
+
+
             </div>
             <h2 className="title-center">Nhẫn</h2>
             <p>
@@ -84,11 +87,8 @@ export default function AccessoryInfor() {
 
           <div className="accessory-infor">
             <div>
-              <img
-                src={rose}
-                alt="rose"
-                className="accessory-infor-img"
-              />
+              <img className="accessory-infor-img" src="https://drive.google.com/thumbnail?id=1U8W7sHyhPU4fh1UMp7PozUP9fAvMdOAw&sz=w1000" alt="jisoo" />
+
             </div>
             <h2 className="title-center">Vòng cổ</h2>
             <p>
@@ -102,11 +102,8 @@ export default function AccessoryInfor() {
 
           <div className="accessory-infor">
             <div>
-              <img
-                src={jennie1}
-                alt="jennie1"
-                className="accessory-infor-img"
-              />
+              <img className="accessory-infor-img" src="https://drive.google.com/thumbnail?id=1m4gwAh51on_9U-OgOhZQUcIRBwYl6JPD&sz=w1000" alt="rose" />
+
             </div>
             <h2 className="title-center">Lắc tay</h2>
 
@@ -122,11 +119,8 @@ export default function AccessoryInfor() {
 
           <div className="accessory-infor">
             <div>
-              <img
-                src={jisoo1}
-                alt="jisoo1"
-                className="accessory-infor-img"
-              />
+              <img className="accessory-infor-img" src="https://drive.google.com/thumbnail?id=1PhbODCcsvvr92x_IyPY_LddeQGroBLXd&sz=w1000" alt="jennie" />
+
             </div>
             <h2 className="title-center">Bông tai</h2>
             <p>
