@@ -2,9 +2,6 @@ import React from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import "./DiamondKnowledgePage.css";
-import DK1 from "../../../public/assets/images/DiamondKnowledge/dk1.png";
-import DK2 from "../../../public/assets/images/DiamondKnowledge/dk2.png";
-import DK3 from "../../../public/assets/images/DiamondKnowledge/dk3.png";
 import { Container } from "react-bootstrap";
 import MyBreadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import { routes } from "../../routes";
@@ -37,7 +34,7 @@ export default function DiamondKnowledgePage() {
               hiển thị khác nhau cho trang sức.
             </p>
             <div className="dk">
-              <img src={DK1}></img>
+              <img src={"https://drive.google.com/thumbnail?id=1f8lGvjfm6dQAH7bVJYHhPfD7ettnyU3Z&sz=w1000"} alt="Diamond Knowledge 1"></img>
             </div>
           </div>
           <div className="info-content">
@@ -48,7 +45,7 @@ export default function DiamondKnowledgePage() {
               (sự phản xạ của ánh sáng) và càng được đánh giá cao.
             </p>
             <div className="dk">
-              <img src={DK2}></img>
+              <img src={"https://drive.google.com/thumbnail?id=1GymXyEe8inAwisqMJRurcErR3OlDZGjC&sz=w1000"} alt="Diamond Knowledge 2"></img>
             </div>
           </div>
           <div className="info-content">
@@ -62,7 +59,7 @@ export default function DiamondKnowledgePage() {
               thuận với nhau.
             </p>
             <div className="dk">
-              <img src={DK3}></img>
+              <img src={"https://drive.google.com/thumbnail?id=1f8lGvjfm6dQAH7bVJYHhPfD7ettnyU3Z&sz=w1000"} alt="Diamond Knowledge 3"></img>
             </div>
           </div>
         </div>
