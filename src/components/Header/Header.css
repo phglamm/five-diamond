@@ -9,20 +9,16 @@
   width: 25%;
   margin-left: 40%;
 }
+
 .dropdownWrapper {
   position: absolute;
   display: flex;
   flex-direction: column;
-  top: 20vh;
+  top: 22vh;
   width: 100% !important;
   left: 0;
   z-index: 1000;
   /* background: #ffffff; */
-}
-.dropdownContainer {
-  /* position: relative; */
-  /* text-align: center; */
-  /* margin-top: 19px; */
 }
 
 .dropdownContainer a {
@@ -125,6 +121,11 @@
   gap: 0 10px;
 }
 
+.Header-left-component i {
+  color: #06b6d4;
+  /* Ensure icons inherit the color */
+}
+
 .username {
   align-items: center;
   color: black;
@@ -132,6 +133,10 @@
 
 .username:hover {
   text-decoration: underline;
+}
+
+.cart-icon {
+  font-size: 23px;
 }
 
 @media screen and (max-width: 1440px) {

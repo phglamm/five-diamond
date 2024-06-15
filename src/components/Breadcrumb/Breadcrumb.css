@@ -1,7 +1,8 @@
 .my-breadcrump {
-  margin-top: 5%;
+  margin-top: 5px;
   font-size: larger;
   font-weight: bold;
+  /* position: absolute; */
 }
 
 .my-breadcrump-link {

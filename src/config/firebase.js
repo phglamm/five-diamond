@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { GoogleAuthProvider } from "firebase/auth";
 import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -26,5 +27,6 @@ const analytics = getAnalytics(app);
 export const provider = new GoogleAuthProvider();
 
 export const auth = getAuth();
+export const storage = getStorage();
 // To apply the default browser preference instead of explicitly setting it.
 // auth.useDeviceLanguage();

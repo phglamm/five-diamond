@@ -1,22 +1,22 @@
 import SideBar from "../../../components/SideBar/SideBar";
-import { Button, Form, Image, Input, Modal, Select, Space, Table } from "antd";
+import { Button, Form, Image, Input, Modal, Select, Table } from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import "../../AdminDashboard/AdminPage.css";
 
 import api from "../../../config/axios";
 import { UploadOutlined } from "@ant-design/icons";
+import { toast } from "react-toastify";
 
 export default function AdminDiamond() {
-  const [message, setMessage] = useState("");
-  const [deleteMessage, setdeleteMessage] = useState("");
-  const [updateMessage, setUpdateMessage] = useState("");
-
+  const [newData, setNewData] = useState("");
   const [form] = useForm();
   const [formUpdate] = useForm();
 
   const [diamond, setDiamond] = useState([]);
   const [certificate, setCertificate] = useState([]);
+  const [selectedDiamond, setSelectedDiamond] = useState(null);
+
   function hanldeClickSubmit() {
     form.submit();
   }
@@ -25,34 +25,29 @@ export default function AdminDiamond() {
     formUpdate.submit();
   }
 
-  async function handleSubmit(value) {
+  async function AddDiamond(value) {
     console.log(value);
     try {
       await api.post("material", value);
-      setMessage("Thêm kim cương thành công");
+      toast.success("Thêm Kim Cương Thành Công");
       setDiamond([...diamond, value]);
+      fetchDiamond();
     } catch (error) {
-      setMessage("Đã có lỗi trong lúc thêm kim cương");
+      toast.error("Đã có lỗi trong lúc thêm kim cương");
       console.log(error.response.data);
     }
   }
 
-  async function fetchProduct() {
+  async function fetchDiamond() {
     const response = await api.get("material");
     setDiamond(response.data);
-    console.log("data....", response.data);
   }
 
   useEffect(() => {
-    fetchProduct();
-  }, []); // Empty dependency array means this runs once when the component mounts
+    fetchDiamond();
+  }, []);
 
-  // Use useEffect to log diamond.id whenever diamond state changes
-  useEffect(() => {
-    if (diamond) {
-      console.log("diamond...", diamond); // Log the diamond id when diamond state is updated
-    }
-  }, [diamond]); // Only re-run this effect when diamond changes
+  useEffect(() => {}, [diamond]); // Only re-run this effect when diamond changes
 
   async function fetchCertificate() {
     const certificate = await api.get("certificate/available");
@@ -63,14 +58,14 @@ export default function AdminDiamond() {
     fetchCertificate();
   }, []);
 
-  async function deleteMaterial(values) {
+  async function deleteDiamond(values) {
     console.log(values.id);
     try {
       Modal.confirm({
         title: "Bạn có chắc muốn xóa sản phẩm này ?",
         onOk: () => {
           api.delete(`material/${values.id}`);
-          setdeleteMessage("Xóa thành công");
+          toast.success("Xóa thành công");
           setDiamond(
             diamond.filter((gem) => {
               return gem.id !== values.id;
@@ -78,31 +73,39 @@ export default function AdminDiamond() {
           );
         },
       });
+      fetchDiamond();
     } catch (error) {
-      setdeleteMessage("Đã có lỗi trong lúc Xóa");
+      toast.error("Đã có lỗi trong lúc Xóa");
       console.log(error.response.data);
     }
   }
 
-  async function updateMaterial(values) {
-    console.log("haha...", values);
+  async function updateDiamond(values) {
+    console.log(values);
+    const dataUpdate = {
+      ...newData,
+      giaReportNumber: values.certificate?.giaReportNumber,
+    };
+
     try {
-      await api.put(`material/${values.id}`, values);
-      setUpdateMessage("Chỉnh sửa thành công");
-      setDiamond(
-        diamond.filter((gem) => {
-          return gem.id !== values.id;
-        })
-      );
-      console.log("chỉnh sửa thành công");
+      await api.put(`material/${values.id}`, dataUpdate);
+      setIsModalUpdateOpen(false);
+      toast.success("Chỉnh sửa thành công ");
+      fetchDiamond();
     } catch (error) {
-      console.log("chỉnh sửa thất bại, có lỗi");
-      setUpdateMessage("chỉnh sửa thất bại, có lỗi");
-      console.log(error.response.data);
+      toast.error("Chỉnh sửa thất bại, có lỗi");
+      console.error(error.response.data);
     }
   }
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
+  };
+  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
+  const handleUpdateOk = () => {
+    setIsModalUpdateOpen(false);
+  };
+  const handleUpdateCancel = () => {
+    setIsModalUpdateOpen(false);
   };
 
   const columns = [
@@ -117,8 +120,9 @@ export default function AdminDiamond() {
       dataIndex: "giaReportNumber",
       // key: "giaReportNumber",
       render: (text, record) => record.certificate?.giaReportNumber || "N/A",
-      sorter: (c, d) =>
-        c.certificate?.giaReportNumber - d.certificate?.giaReportNumber,
+      sorter: (a, b) =>
+        (a.certificate?.giaReportNumber || 0) -
+        (b.certificate?.giaReportNumber || 0),
       defaultSortOrder: "ascend",
     },
     {
@@ -216,7 +220,7 @@ export default function AdminDiamond() {
             <div className="action-button">
               <Button
                 onClick={(e) => {
-                  deleteMaterial(values);
+                  deleteDiamond(values);
                 }}
                 className="delete-button"
               >
@@ -226,7 +230,11 @@ export default function AdminDiamond() {
               <Button
                 icon={<UploadOutlined />}
                 className="admin-upload-button update-button"
-                onClick={showModalUpdate}
+                onClick={() => {
+                  setSelectedDiamond(values);
+                  formUpdate.setFieldsValue(values);
+                  setIsModalUpdateOpen(true);
+                }}
               >
                 Chỉnh sửa
               </Button>
@@ -241,10 +249,14 @@ export default function AdminDiamond() {
               onOk={handleUpdateOk}
               onCancel={handleUpdateCancel}
             >
-              {/* <Form
+              <Form
+                initialValues={selectedDiamond}
+                onValuesChange={(changedValues, allValues) => {
+                  setNewData(allValues);
+                }}
                 form={formUpdate}
-                onFinish={(e) => {
-                  updateMaterial(values);
+                onFinish={(values) => {
+                  updateDiamond(selectedDiamond);
                 }}
                 id="form-update"
                 className="form-main"
@@ -256,15 +268,11 @@ export default function AdminDiamond() {
                       label="Hình Dáng"
                       name="shape"
                     >
-                      <Input type="text" required value={values.shape} />
+                      <Input type="text" required />
                     </Form.Item>
 
                     <Form.Item className="label-form" label="Size" name="size">
-                      <Input
-                        type="number"
-                        required
-                        defaultValue={values.size}
-                      />
+                      <Input type="number" required />
                     </Form.Item>
 
                     <Form.Item
@@ -272,32 +280,24 @@ export default function AdminDiamond() {
                       label="Màu sắc"
                       name="color"
                     >
-                      <Input type="text" required defaultValue={values.color} />
+                      <Input type="text" required />
                     </Form.Item>
                     <Form.Item
                       className="label-form"
                       label="Độ Tinh Khiết"
                       name="clarity"
                     >
-                      <Input
-                        type="text"
-                        required
-                        defaultValue={values.clarity}
-                      />
+                      <Input type="text" required />
                     </Form.Item>
                     <Form.Item
                       className="label-form"
                       label="Carat"
                       name="carat"
                     >
-                      <Input
-                        type="number"
-                        required
-                        defaultValue={values.carat}
-                      />
+                      <Input type="number" required />
                     </Form.Item>
                     <Form.Item className="label-form" label="Độ Cắt" name="cut">
-                      <Input type="text" required defaultValue={values.cut} />
+                      <Input type="text" required />
                     </Form.Item>
                   </div>
                   <div className="form-content">
@@ -306,19 +306,11 @@ export default function AdminDiamond() {
                       label="Nguồn gốc"
                       name="origin"
                     >
-                      <Input
-                        type="text"
-                        required
-                        defaultValue={values.origin}
-                      />
+                      <Input type="text" required />
                     </Form.Item>
 
                     <Form.Item className="label-form" label="Giá" name="price">
-                      <Input
-                        type="number"
-                        required
-                        defaultValue={values.price}
-                      />
+                      <Input type="number" required />
                     </Form.Item>
 
                     <Form.Item
@@ -326,7 +318,7 @@ export default function AdminDiamond() {
                       label="Image URL "
                       name="imgURL"
                     >
-                      <Input type="text" defaultValue={values.imgURL} />
+                      <Input type="text" />
                     </Form.Item>
                   </div>
                 </div>
@@ -338,73 +330,7 @@ export default function AdminDiamond() {
                 >
                   Chỉnh Sửa Kim Cương
                 </Button>
-                {updateMessage && <div>{updateMessage}</div>}
-              </Form> */}
-              {/* <Input
-                value={values.shape}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, shape: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.size}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, size: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.color}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, color: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.clarity}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, clarity: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.carat}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, carat: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.cut}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, cut: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.imgURL}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, imgURL: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.price}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, price: e.target.value };
-                  });
-                }}
-              />
-              <Button onClick={updateMaterial(values,)}></Button> */}
+              </Form>
             </Modal>
           </>
         );
@@ -431,7 +357,6 @@ export default function AdminDiamond() {
       key: "dateOfIssues",
     },
   ];
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
@@ -443,38 +368,14 @@ export default function AdminDiamond() {
     setIsModalOpen(false);
   };
 
-  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
-  const showModalUpdate = () => {
-    setIsModalUpdateOpen(true);
-  };
-  const handleUpdateOk = () => {
-    setIsModalUpdateOpen(false);
-  };
-  const handleUpdateCancel = () => {
-    setIsModalUpdateOpen(false);
-  };
-
   return (
     <div className="Admin">
       <SideBar></SideBar>
 
       <div className="admin-content">
         <h1>Thêm Viên Kim Cương</h1>
-        {/* <Modal
-          className="modal-add-form"
-          footer={false}
-          title="Thêm kim cương"
-          okText={""}
-          open={isModalOpen}
-          onOk={handleOk}
-          onCancel={handleCancel}
-        > */}
-        <Form
-          form={form}
-          onFinish={handleSubmit}
-          id="form"
-          className="form-main"
-        >
+
+        <Form form={form} onFinish={AddDiamond} id="form" className="form-main">
           <div className="form-content-main">
             <div className="form-content">
               <Form.Item
@@ -664,9 +565,7 @@ export default function AdminDiamond() {
           <Button onClick={hanldeClickSubmit} className="form-button">
             Thêm Viên Kim Cương
           </Button>
-          {message && <div>{message}</div>}
         </Form>
-        {/* </Modal> */}
 
         <Modal
           className="modal-add-form"
@@ -677,12 +576,6 @@ export default function AdminDiamond() {
           onOk={handleOk}
           onCancel={handleCancel}
         >
-          <Form
-            form={form}
-            onFinish={handleSubmit}
-            id="form"
-            className="form-main"
-          ></Form>
           <Table
             dataSource={certificate}
             columns={columnsGIA}

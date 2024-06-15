@@ -9,6 +9,7 @@ import InputTextField from "../../components/TextField/TextField";
 import ReadDatePickers from "../../components/Button/DatePicker";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/features/counterSlice";
+import uploadFile from "../../utils/upload";
 function ProfilePage() {
   const user = useSelector(selectUser);
   const inputRef = useRef(null);
@@ -19,28 +20,24 @@ function ProfilePage() {
     inputRef.current.click();
   };
 
-  const handleImageChange = (event) => {
+  const handleImageChange = async (event) => {
     const file = event.target.files[0];
     console.log(file);
     setImage(event.target.files[0]);
+
+    const url = await uploadFile(file);
+    console.log(url);
   };
 
-  const handleUpdateClick = () => {
-    if (image) {
-      const newDefaultImage = URL.createObjectURL(image);
-      setDefaultImage(newDefaultImage);
-      setImage(null); // Reset image state
-    }
-  };
-  
+  const handleUpdateClick = () => {};
 
   return (
     <div>
       <Header></Header>
       <div className="avatar-user">
-        <div onClick={handleImageClick} className="img-avt" >
+        <div onClick={handleImageClick} className="img-avt">
           {image ? (
-            <img id="avt-img" src={URL.createObjectURL(image)} alt=""/>
+            <img id="avt-img" src={URL.createObjectURL(image)} alt="" />
           ) : (
             <img id="avt-img" src={defaultImage} alt="Default Avatar" />
           )}
@@ -51,9 +48,11 @@ function ProfilePage() {
             style={{ display: "none" }}
           />
         </div>
-        <button className="update-img-btn" onClick={handleUpdateClick}>Cập nhật</button>
+        <button className="update-img-btn" onClick={handleUpdateClick}>
+          Cập nhật
+        </button>
       </div>
-      
+
       {/* useEffect(() => {
     const savedImage = localStorage.getItem('userImage');
     if (savedImage) {

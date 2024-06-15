@@ -1,69 +1,82 @@
-.page-container {
+.cart-page-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-.container {
+.cart-container {
   flex: 1;
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
-.Col8 {
+.cart-col8 {
   margin-bottom: 20px;
 }
 
-.product-details {
-  display: flex;
-  align-items: center;
-  margin-top: 30px;
+.cart {
+  color: #000;
 }
 
-.product-image {
+.cart-product-details {
+  display: flex;
+  align-items: left;
+  margin-top: 30px;
+  text-align: left;
+}
+
+.cart-product-image {
   width: 208px;
   height: auto;
   margin-right: 20px;
 }
 
-.price-text {
+.cart-price-text {
   margin-right: 30px;
 }
 
-.order-item-details {
+.cart-order-item-details {
   flex: 1;
 }
 
-.quantity-control {
+.cart-order-item {
+  margin-right: 0%;
+}
+
+.cart-quantity-control {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 }
 
-.quantity {
+.cart-quantity {
   margin: 0 10px;
 }
 
-.remove-but {
+.cart-remove-but {
   text-align: right;
 }
 
-.card-body {
+.cart-card-body {
   display: flex;
   flex-direction: column;
 }
 
-.btn-proceed-to-checkout {
+.cart-btn-proceed-to-checkout {
   margin-top: 20px;
 }
 
-.apply-button {
+.cart-apply-button {
   margin-left: 10px;
 }
 
 h5,
 p {
   margin: 5px 0;
+}
+
+h5{
+  text-align: left;
 }
 
 /* Button styles - no specific color */
@@ -104,36 +117,41 @@ p {
   color: #343a40;
 }
 
-.apply-button {
+.cart-apply-button {
   background-color: transparent;
   border-color: #ced4da;
   color: #495057;
 }
 
-.apply-button:hover,
-.apply-button:focus {
+.cart-apply-button:hover,
+.cart-apply-button:focus {
   background-color: transparent;
   border-color: #adb5bd;
   color: #343a40;
 }
 
-/* input.form-control {
+input.form-control {
   flex: 1;
   margin-right: 10px;
-} */
+}
 
-.continue-btn {
+.cart-continue-btn {
   width: 29%;
   margin-bottom: 20px;
 }
 
-.continue-btn .btn-light {
+.cart-continue-btn .btn-light {
   border: 2px groove #495057;
   color: #495057;
 }
 
-.Col4 {
+.cart-col4 {
   margin-top: 25%;
+}
+
+.cart-summary{
+  margin-top: 25%;
+  text-align: left;
 }
 
 .proceed-to-checkout-button {
@@ -154,4 +172,9 @@ p {
   height: 1px;
   background-color: #ced4da;
   margin: 5px 0;
+}
+
+hr.cart-solid {
+  margin-top: 0px;
+  border-top: 3px solid #ff0000;
 }

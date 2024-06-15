@@ -1,36 +1,36 @@
 import SideBar from "../../../components/SideBar/SideBar";
-import { Button, Form, Image, Input, Modal, Select, Space, Table } from "antd";
+import { Button, Form, Image, Input, Modal, Table } from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import "../../AdminDashboard/AdminPage.css";
+import "./AdminProduct.css";
 import api from "../../../config/axios";
 import { UploadOutlined } from "@ant-design/icons";
+import { toast } from "react-toastify";
 
 export default function AdminDiamond() {
-  const [message, setMessage] = useState("");
-  const [deleteMessage, setdeleteMessage] = useState("");
-  const [updateMessage, setUpdateMessage] = useState("");
+  const [diamond, setDiamond] = useState();
+  const [cover, setCover] = useState();
+  const [category, setCategory] = useState();
+
+  const [modalState, setModalState] = useState({});
 
   const [form] = useForm();
-  const [formUpdate] = useForm();
   const [products, setProducts] = useState([]);
 
   function hanldeClickSubmit() {
     form.submit();
   }
 
-  function hanldeUpdateClickSubmit() {
-    formUpdate.submit();
-  }
-
-  async function handleSubmit(value) {
+  async function AddProduct(value) {
     console.log(value);
     try {
       await api.post("product", value);
-      setMessage("Thêm sản phẩm thành công");
       setProducts([...products, value]);
+      toast.success("Thêm sản phẩm thành công");
+      fetchProduct();
     } catch (error) {
-      setMessage("Đã có lỗi trong lúc thêm kim cương");
+      toast.error("Đã có lỗi trong lúc thêm sản phẩm");
       console.log(error.response.data);
     }
   }
@@ -38,28 +38,9 @@ export default function AdminDiamond() {
   async function fetchProduct() {
     const response = await api.get("product");
     setProducts(response.data);
-    console.log("data....", response.data);
   }
 
-  useEffect(() => {
-    fetchProduct();
-  }, [products]); // Empty dependency array means this runs once when the component mounts
-
-  // Use useEffect to log diamond.id whenever diamond state changes
-  // useEffect(() => {
-  //   if (products) {
-  //     console.log("products...", products); // Log the diamond id when diamond state is updated
-  //   }
-  // }, [products]); // Only re-run this effect when diamond changes
-
-  async function fetchCertificate() {
-    const certificate = await api.get("certificate/not-yet-used");
-    setCertificate(certificate.data);
-  }
-
-  useEffect(() => {
-    fetchCertificate();
-  }, []);
+  useEffect(() => {}, [products]);
 
   async function deleteProduct(values) {
     console.log(values.id);
@@ -68,7 +49,7 @@ export default function AdminDiamond() {
         title: "Bạn có chắc muốn xóa sản phẩm này ?",
         onOk: () => {
           api.delete(`product/${values.id}`);
-          setdeleteMessage("Xóa thành công");
+          toast.success("Xóa thành công");
           setProducts(
             products.filter((product) => {
               return product.id !== values.id;
@@ -76,8 +57,9 @@ export default function AdminDiamond() {
           );
         },
       });
+      fetchProduct;
     } catch (error) {
-      setdeleteMessage("Đã có lỗi trong lúc Xóa");
+      toast.error("Đã có lỗi trong lúc Xóa");
       console.log(error.response.data);
     }
   }
@@ -85,17 +67,15 @@ export default function AdminDiamond() {
   async function updateProduct(values) {
     console.log("haha...", values);
     try {
-      await api.put(`material/${values.id}`, values);
-      setUpdateMessage("Chỉnh sửa thành công");
+      await api.put(`product/${values.id}`, values);
       setProducts(
         products.filter((product) => {
           return product.id !== values.id;
         })
       );
-      console.log("chỉnh sửa thành công");
+      toast.success("Chỉnh sửa thành công");
     } catch (error) {
-      console.log("chỉnh sửa thất bại, có lỗi");
-      setUpdateMessage("chỉnh sửa thất bại, có lỗi");
+      toast.error("chỉnh sửa thất bại, có lỗi");
       console.log(error.response.data);
     }
   }
@@ -176,208 +156,12 @@ export default function AdminDiamond() {
               open={isModalUpdateOpen}
               onOk={handleUpdateOk}
               onCancel={handleUpdateCancel}
-            >
-              {/* <Form
-                form={formUpdate}
-                onFinish={(e) => {
-                  updateProduct(values);
-                }}
-                id="form-update"
-                className="form-main"
-              >
-                <div className="form-content-main">
-                  <div className="form-content">
-                    <Form.Item
-                      className="label-form"
-                      label="Hình Dáng"
-                      name="shape"
-                    >
-                      <Input type="text" required value={values.shape} />
-                    </Form.Item>
-
-                    <Form.Item className="label-form" label="Size" name="size">
-                      <Input
-                        type="number"
-                        required
-                        defaultValue={values.size}
-                      />
-                    </Form.Item>
-
-                    <Form.Item
-                      className="label-form"
-                      label="Màu sắc"
-                      name="color"
-                    >
-                      <Input type="text" required defaultValue={values.color} />
-                    </Form.Item>
-                    <Form.Item
-                      className="label-form"
-                      label="Độ Tinh Khiết"
-                      name="clarity"
-                    >
-                      <Input
-                        type="text"
-                        required
-                        defaultValue={values.clarity}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      className="label-form"
-                      label="Carat"
-                      name="carat"
-                    >
-                      <Input
-                        type="number"
-                        required
-                        defaultValue={values.carat}
-                      />
-                    </Form.Item>
-                    <Form.Item className="label-form" label="Độ Cắt" name="cut">
-                      <Input type="text" required defaultValue={values.cut} />
-                    </Form.Item>
-                  </div>
-                  <div className="form-content">
-                    <Form.Item
-                      className="label-form"
-                      label="Nguồn gốc"
-                      name="origin"
-                    >
-                      <Input
-                        type="text"
-                        required
-                        defaultValue={values.origin}
-                      />
-                    </Form.Item>
-
-                    <Form.Item className="label-form" label="Giá" name="price">
-                      <Input
-                        type="number"
-                        required
-                        defaultValue={values.price}
-                      />
-                    </Form.Item>
-
-                    <Form.Item
-                      className="label-form"
-                      label="Image URL "
-                      name="imgURL"
-                    >
-                      <Input type="text" defaultValue={values.imgURL} />
-                    </Form.Item>
-                  </div>
-                </div>
-                <Button
-                  onClick={(e) => {
-                    hanldeUpdateClickSubmit();
-                  }}
-                  className="form-button"
-                >
-                  Chỉnh Sửa Kim Cương
-                </Button>
-                {updateMessage && <div>{updateMessage}</div>}
-              </Form> */}
-              {/* <Input
-                value={values.shape}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, shape: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.size}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, size: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.color}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, color: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.clarity}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, clarity: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.carat}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, carat: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.cut}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, cut: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.imgURL}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, imgURL: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                value={values.price}
-                onChange={(e) => {
-                  setEditingMaterial((pre) => {
-                    return { ...pre, price: e.target.value };
-                  });
-                }}
-              />
-              <Button onClick={updateMaterial(values,)}></Button> */}
-            </Modal>
+            ></Modal>
           </>
         );
       },
     },
   ];
-
-  const columnsGIA = [
-    {
-      title: "Report Number",
-      dataIndex: "giaReportNumber",
-      key: "giaReportNumber",
-      sorter: (a, b) => a.giaReportNumber - b.giaReportNumber,
-      defaultSortOrder: "ascend",
-    },
-    {
-      title: "File URL",
-      dataIndex: "fileURL",
-      key: "fileURL",
-    },
-    {
-      title: "Date Of Issues",
-      dataIndex: "dateOfIssues",
-      key: "dateOfIssues",
-    },
-  ];
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
 
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
   const showModalUpdate = () => {
@@ -396,78 +180,104 @@ export default function AdminDiamond() {
 
       <div className="admin-content">
         <h1>Thêm Sản Phẩm</h1>
-        {/* <Modal
-          className="modal-add-form"
-          footer={false}
-          title="Thêm kim cương"
-          okText={""}
-          open={isModalOpen}
-          onOk={handleOk}
-          onCancel={handleCancel}
-        > */}
-        <Form
-          form={form}
-          onFinish={handleSubmit}
-          id="form"
-          className="form-main"
-        >
-          <div className="form-content-main">
+        <Form form={form} onFinish={AddProduct} id="form" className="form-main">
+          <div className="form-content-main-product">
             <div className="form-content">
               <Form.Item
                 className="label-form"
-                label="priceRate"
+                label="Tỉ lệ áp giá"
                 name="priceRate"
                 rules={[
                   {
                     required: true,
-                    message: "Nhập priceRate",
+                    message: "Nhập Tỉ lệ áp giá",
                   },
                 ]}
               >
-                <Input type="text" required />
+                <Input type="number" required min={0} />
               </Form.Item>
 
               <Form.Item
                 className="label-form"
-                label="weight"
+                label="Số Chỉ"
                 name="weight"
                 rules={[
                   {
                     required: true,
-                    message: "Nhập weight",
+                    message: "Nhập Số Chỉ",
                   },
                 ]}
               >
-                <Input type="number" required />
+                <Input type="number" required min={0} />
               </Form.Item>
-              <Form.Item
-                className="label-form"
-                label="materialID"
-                name="materialID"
-                rules={[
-                  {
-                    required: true,
-                    message: "Nhập materialID ",
-                  },
-                ]}
-              >
-                <Input type="text" required />
-              </Form.Item>
-
-              <Form.Item
-                className="label-form"
-                label="categoryID"
-                name="categoryID"
-                rules={[
-                  {
-                    required: true,
-                    message: "Nhập categoryID ",
-                  },
-                ]}
-              >
-                <Input type="text" required />
-              </Form.Item>
+              <div className="Material-form">
+                <Form.Item
+                  className="label-form"
+                  label="Kim Cương"
+                  name="materialID"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Chọn Kim Cương",
+                    },
+                  ]}
+                >
+                  <Input type="text" required readOnly />
+                </Form.Item>
+                <Button
+                  icon={<UploadOutlined />}
+                  className="admin-upload-button"
+                  onClick=""
+                >
+                  Chọn Kim Cương
+                </Button>
+              </div>
+              <div className="Material-form">
+                <Form.Item
+                  className="label-form"
+                  label="Vỏ Kim Cương"
+                  name="categoryID"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Chọn Vỏ Kim Cương ",
+                    },
+                  ]}
+                >
+                  <Input type="text" required readOnly />
+                </Form.Item>
+                <Button
+                  icon={<UploadOutlined />}
+                  className="admin-upload-button"
+                  onClick=""
+                >
+                  Chọn Vỏ Kim Cương
+                </Button>
+              </div>
+              <div className="Material-form">
+                <Form.Item
+                  className="label-form"
+                  label="Danh Mục"
+                  name="categoryID"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Nhập Danh Mục ",
+                    },
+                  ]}
+                >
+                  <Input type="text" required readOnly />
+                </Form.Item>
+                <Button
+                  icon={<UploadOutlined />}
+                  className="admin-upload-button"
+                  onClick=""
+                >
+                  Chọn Danh Mục
+                </Button>
+              </div>
             </div>
+
             <div className="form-content">
               <Form.Item
                 className="label-form"
@@ -496,7 +306,6 @@ export default function AdminDiamond() {
           <Button onClick={hanldeClickSubmit} className="form-button">
             Thêm Sản Phẩm
           </Button>
-          {message && <div>{message}</div>}
         </Form>
 
         <div className="data-table">

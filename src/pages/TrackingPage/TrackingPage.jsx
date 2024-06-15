@@ -1,5 +1,4 @@
-//TrackingPage
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -19,7 +18,20 @@ const customDot = (dot, { status, index }) => (
 );
 
 const TrackingPage = () => {
+    const [items, setItems] = useState([
+        { name: "HOA TAI 18K AFEC0004382DDA1", msp: "AFEC0004382DDA1", quantity: 1, price: 42820000 },
+        { name: "NHẪN ĐÍNH HÔN KIM CƯƠNG ENR3111W", msp: "ENR3111W", quantity: 1, price: 44520000 },
+    ]);
+    const [voucher, setVoucher] = useState(null); // Example: {code: 'DISCOUNT10', discount: 10}
 
+    const calculateTotalPrice = () => {
+        const subtotal = items.reduce((total, item) => total + (item.price * item.quantity), 0);
+        const discount = voucher ? (subtotal * voucher.discount / 100) : 0;
+        const total = subtotal - discount;
+        return { subtotal, discount, total };
+    };
+
+    const { subtotal, discount, total } = calculateTotalPrice();
 
     return (
         <>
@@ -64,55 +76,36 @@ const TrackingPage = () => {
                                     <Form.Control as="textarea" rows={3} placeholder="Nhập ghi chú" />
                                 </Form.Group>
                             </div>
-
                         </Col>
 
                         <Col className="tracking-right-container" md={6}>
                             <h3 className="order-info">THÔNG TIN ĐƠN HÀNG</h3>
                             <Card>
                                 <Card.Body>
-                                    <Row>
-                                        <Col className="product-info" xs={8}>
-                                            <img src="https://product.hstatic.net/200000567741/product/alpk000435f2cz1_1_67aad3227a2b430d84d15a88609dd920_1024x1024.jpg" />
-                                            <p>HOA TAI 18K AFEC0004382DDA1</p>
-                                            <p>MSP: AFEC0004382DDA1</p>
-                                            <p>SỐ LƯỢNG: 1</p>
-                                        </Col>
-                                        <hr />
-                                        <Col className="price-info" xs={4} >
-                                            <p>Giá tiền: 42,820,000đ</p>
-                                            <p>Tạm tính: 42,820,000đ</p>
-                                            <p>Thành tiền: 42,820,000đ</p>
-                                        </Col>
-                                    </Row>
-
-                                    <Row>
-                                        <Col className="product-info" xs={8}>
-                                            <img src="https://product.hstatic.net/200000567741/product/afrk000423f1cz1_1_db12b314251d4b80b603f34517f830ab_1024x1024.jpg" />
-                                            <p>NHẪN ĐÍNH HÔN KIM CƯƠNG ENR3111W</p>
-                                            <p>MSP: ENR3111W</p>
-                                            <p>SỐ LƯỢNG: 1</p>
-                                        </Col>
-                                        <hr />
-                                        <Col className="price-info" xs={4} >
-                                            <p>Giá tiền: 44,520,000đ</p>
-                                            <p>Tạm tính: 44,520,000đ</p>
-                                            <p>Thành tiền: 44,520,000đ</p>
-                                        </Col>
-                                    </Row>
+                                    {items.map((item, index) => (
+                                        <Row key={index}>
+                                            <Col className="product-info" xs={8}>
+                                                <img src={`https://example.com/${item.msp}.jpg`} alt={item.name} />
+                                                <p>{item.name}</p>
+                                                <p>MSP: {item.msp}</p>
+                                                <p>SỐ LƯỢNG: {item.quantity}</p>
+                                            </Col>
+                                            <hr />
+                                            <Col className="price-info" xs={4} >
+                                                <p>Giá tiền: {item.price.toLocaleString()}đ</p>
+                                                <p>Tổng cộng: {(item.price * item.quantity).toLocaleString()}đ</p>
+                                            </Col>
+                                        </Row>
+                                    ))}
                                     <Row className="total-price">
                                         <Col xs={8}>
-                                            <h5>TỔNG CỘNG: ...đ</h5>
+                                            <h5>Giảm giá: {discount.toLocaleString()}đ</h5>
+                                            <h5>TỔNG Hóa Đơn: {total.toLocaleString()}đ</h5>
                                         </Col>
                                     </Row>
                                 </Card.Body>
-
                             </Card>
-
-
                         </Col>
-
-
                     </Row>
 
                     <div className="order-tracking">
@@ -130,7 +123,7 @@ const TrackingPage = () => {
 
                                 <h5>Hành trình đơn hàng</h5>
                                 <Steps
-                                    current={0}
+                                    current={1}
                                     progressDot={customDot}
                                     items={[
                                         {
@@ -154,9 +147,8 @@ const TrackingPage = () => {
                             </Card.Body>
                         </Card>
                     </div>
-
                 </Container>
-            </div >
+            </div>
             <Footer />
         </>
     );
