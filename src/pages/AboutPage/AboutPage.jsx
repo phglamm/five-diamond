@@ -20,7 +20,7 @@ export default function AboutPage() {
       <Container className="about-container">
         <Row className="about-content-row">
           <Col className="about-banner-big">
-            <AboutImage src={banner5} />
+            <AboutImage src="https://drive.google.com/thumbnail?id=16C7eBsBnFCGEtzYvZIwFKTTjbZaBIlsJ&sz=w1000" alt="anh1"/>
             <div className="about-banner-info-big">
               <h2>VỀ CÔNG TY CỔ PHẦN FIVE DIAMOND</h2>
               <p>
@@ -35,7 +35,7 @@ export default function AboutPage() {
 
         <Row className="about-content-row">
           <Col md={6} className="d-flex">
-            <AboutImage src={banner6} />
+            <AboutImage src="https://drive.google.com/thumbnail?id=1D_a6VmfmrL-4T-7jx6J6h9gaHRLhwLjj&sz=w1000" alt="anh2" />
           </Col>
           <Col md={6} className="d-flex">
             <div className="about-banner-info">
@@ -62,13 +62,13 @@ export default function AboutPage() {
             </div>
           </Col>
           <Col md={6} className="d-flex">
-            <AboutImage src={banner7} />
+            <AboutImage src="https://drive.google.com/thumbnail?id=1r7d-wL8CrMUPBdo2A8JozO7O2lyeONEE&sz=w1000" alt="anh3" />
           </Col>
         </Row>
 
         <Row className="about-content-row">
           <Col md={6} className="d-flex">
-            <AboutImage src={banner8} />
+            <AboutImage src="https://drive.google.com/thumbnail?id=1x_QCzGrDyZpmDSI7Ckcy4TxWERrwK3YC&sz=w1000" alt="4" />
           </Col>
           <Col md={6} className="d-flex">
             <div className="about-banner-info">
