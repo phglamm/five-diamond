@@ -1,12 +1,6 @@
 import React, { useState } from "react"; // Import useState
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import Banner4 from "../../../public/assets/images/Banner/banner4.jpg";
-import Banner5 from "../../../public/assets/images/Banner/banner5.png";
-import Product2 from "../../../public/assets/images/product/product2.png";
-import Product3 from "../../../public/assets/images/product/product3.png";
-import Product4 from "../../../public/assets/images/product/product4.png";
-import Product5 from "../../../public/assets/images/product/product5.png";
 import "./SaleEventPage.css";
 import OutlinedButtons from "../../components/Button/OutlineButton";
 import BasicButton from "../../components/Button/myButton";
@@ -32,7 +26,7 @@ function SaleEventPage() {
           link3={routes.sale}
         />
         <div className="sale-banner">
-          <img className="top-banner" src={Banner4} alt="Top Banner" />
+          <img className="top-banner" src={"https://drive.google.com/thumbnail?id=1-FggdgvD3FjG_XqeVj2WI2_gIvA9UBPa&sz=w1000"} alt="Top Banner" />
         </div>
         <div>
           <h3 className="content-header">ƯU ĐÃI ĐỘC QUYỀN ONLINE</h3>
@@ -42,10 +36,10 @@ function SaleEventPage() {
             <p onClick={() => handleFilter("diamond")}>KIM CƯƠNG ƯU ĐÃI 2%</p>
           </div>
           <div className="sale-content-img">
-            <img src={Product2} /> {/* ring */}
-            <img src={Product3} /> {/* bracelet */}
-            <img src={Product4} /> {/* necklace */}
-            <img src={Product5} /> {/* earring */}
+            <img src={"https://drive.google.com/thumbnail?id=1vbIO90dmDa8B2ZB_1s-mBwBjTSyxSilx&sz=w1000"  } /> {/* ring */}
+            <img src={"https://drive.google.com/thumbnail?id=1dKqFivVaUujuOJWGAebYB4bg3490mU9v&sz=w1000"} /> {/* bracelet */}
+            <img src={"https://drive.google.com/thumbnail?id=1JjCe0RqJsSG1IvAuxPsuUp79EZzH2Qin&sz=w1000"} /> {/* necklace */}
+            <img src={"https://drive.google.com/thumbnail?id=10BpnBo91lyNTmnwWsCmoaCxagXnsnU6l&sz=w1000"} /> {/* earring */}
           </div>
           <div className="button" id="outlined">
             <Link to={routes.saleProduct}>
@@ -57,7 +51,7 @@ function SaleEventPage() {
           <BasicButton color="primary" text2={"ƯU ĐÃI KHÁC"} />
         </div>
         <div className="sale-banner">
-          <img className="bot-banner" src={Banner5} alt="Bottom Banner" />
+          <img className="bot-banner" src={"https://drive.google.com/thumbnail?id=18MDfsinnO1ggNqEu21BgPF3EFW_jnTNo&sz=w1000"} alt="Bottom Banner" />
         </div>
       </Container>
       <Footer />

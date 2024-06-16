@@ -8,7 +8,6 @@ import {
 } from "mdb-react-ui-kit";
 import "./RegisterPage.css";
 
-import registerbanner from "../../../public/assets/images/LoginBanner/registerbanner.jpg";
 import logo from "../../../public/assets/images/Logo/logo.png";
 import { routes } from "../../routes";
 import { Link, useNavigate } from "react-router-dom";
@@ -46,7 +45,7 @@ function RegisterPageCard() {
         <MDBRow className="g-0">
           <MDBCol md="6">
             <MDBCardImage
-              src={registerbanner}
+              src={"https://drive.google.com/thumbnail?id=1rnuNBIluTA1oWyGVTdXjHy8SYDmfk6zH&sz=w1000"}
               alt="login form"
               className="rounded-start w-100"
             />

@@ -39,7 +39,7 @@ export default function AdminDiamond() {
   }
 
   async function fetchDiamond() {
-    const response = await api.get("material");
+    const response = await api.get("material/available-diamond");
     setDiamond(response.data);
   }
 
@@ -86,7 +86,7 @@ export default function AdminDiamond() {
       ...newData,
       giaReportNumber: values.certificate?.giaReportNumber,
     };
-
+    console.log(newData);
     try {
       await api.put(`material/${values.id}`, dataUpdate);
       setIsModalUpdateOpen(false);
@@ -267,11 +267,41 @@ export default function AdminDiamond() {
                       className="label-form"
                       label="Hình Dáng"
                       name="shape"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập Hình Dáng",
+                        },
+                      ]}
                     >
-                      <Input type="text" required />
+                      <Select
+                        className="select-input"
+                        placeholder="chọn Hình Dáng"
+                      >
+                        <Select.Option value="ROUND">Round</Select.Option>
+                        <Select.Option value="OVAL">Oval</Select.Option>
+                        <Select.Option value="CUSHION">Cushion</Select.Option>
+                        <Select.Option value="PEAR">Pear</Select.Option>
+                        <Select.Option value="EMERALD">Emerald</Select.Option>
+                        <Select.Option value="PRINCESS">Princess</Select.Option>
+                        <Select.Option value="RADIANT">Radiant</Select.Option>
+                        <Select.Option value="HEART">Heart</Select.Option>
+                        <Select.Option value="MARQUISE">Marquise</Select.Option>
+                        <Select.Option value="ASSHER">Assher</Select.Option>
+                      </Select>
                     </Form.Item>
 
-                    <Form.Item className="label-form" label="Size" name="size">
+                    <Form.Item
+                      className="label-form"
+                      label="Size"
+                      name="size"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập size",
+                        },
+                      ]}
+                    >
                       <Input type="number" required />
                     </Form.Item>
 
@@ -279,6 +309,12 @@ export default function AdminDiamond() {
                       className="label-form"
                       label="Màu sắc"
                       name="color"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập màu sắc ",
+                        },
+                      ]}
                     >
                       <Input type="text" required />
                     </Form.Item>
@@ -286,18 +322,66 @@ export default function AdminDiamond() {
                       className="label-form"
                       label="Độ Tinh Khiết"
                       name="clarity"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập độ tinh khiết ",
+                        },
+                      ]}
                     >
-                      <Input type="text" required />
+                      <Select
+                        className="select-input"
+                        placeholder="chọn Độ Tinh Khiết"
+                      >
+                        <Select.Option value="VVS1">VVS1</Select.Option>
+                        <Select.Option value="VVS2">VVS2</Select.Option>
+                        <Select.Option value="VS1">VS1</Select.Option>
+                        <Select.Option value="VS2">VS2</Select.Option>
+                        <Select.Option value="SI1">SI1</Select.Option>
+                        <Select.Option value="SI2">SI2</Select.Option>
+                        <Select.Option value="I1">I1</Select.Option>
+                        <Select.Option value="I2">I2</Select.Option>
+                        <Select.Option value="I3">I3</Select.Option>
+                      </Select>
                     </Form.Item>
                     <Form.Item
                       className="label-form"
                       label="Carat"
                       name="carat"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập carat",
+                        },
+                      ]}
                     >
                       <Input type="number" required />
                     </Form.Item>
-                    <Form.Item className="label-form" label="Độ Cắt" name="cut">
-                      <Input type="text" required />
+                    <Form.Item
+                      className="label-form"
+                      label="Độ Cắt"
+                      name="cut"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập độ cắt ",
+                        },
+                      ]}
+                    >
+                      <Select
+                        className="select-input"
+                        placeholder="chọn Độ Cắt"
+                      >
+                        <Select.Option value="EXCELLENT">
+                          Excellent
+                        </Select.Option>
+                        <Select.Option value="VERY GOOD">
+                          Very Good
+                        </Select.Option>
+                        <Select.Option value="GOOD">Good</Select.Option>
+                        <Select.Option value="FAIR">Fair</Select.Option>
+                        <Select.Option value="POOR">Poor</Select.Option>
+                      </Select>
                     </Form.Item>
                   </div>
                   <div className="form-content">
@@ -305,12 +389,36 @@ export default function AdminDiamond() {
                       className="label-form"
                       label="Nguồn gốc"
                       name="origin"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập nguồn gốc ",
+                        },
+                      ]}
                     >
-                      <Input type="text" required />
+                      <Select
+                        className="select-input"
+                        placeholder="chọn Nguồn Gốc"
+                      >
+                        <Select.Option value="NATURAL">Tự Nhiên</Select.Option>
+                        <Select.Option value="ARTIFICIAL">
+                          Nhân Tạo
+                        </Select.Option>
+                      </Select>
                     </Form.Item>
 
-                    <Form.Item className="label-form" label="Giá" name="price">
-                      <Input type="number" required />
+                    <Form.Item
+                      className="label-form"
+                      label="Giá"
+                      name="price"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập giá của kim cương",
+                        },
+                      ]}
+                    >
+                      <Input type="number" required min={1} />
                     </Form.Item>
 
                     <Form.Item
@@ -319,6 +427,15 @@ export default function AdminDiamond() {
                       name="imgURL"
                     >
                       <Input type="text" />
+                    </Form.Item>
+
+                    <Form.Item
+                      className="label-form"
+                      label="Loại"
+                      name="type"
+                      initialValue="DIAMOND"
+                    >
+                      <Input readOnly type="text"></Input>
                     </Form.Item>
                   </div>
                 </div>

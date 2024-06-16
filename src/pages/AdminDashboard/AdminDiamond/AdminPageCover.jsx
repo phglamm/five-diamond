@@ -7,13 +7,12 @@ import api from "../../../config/axios";
 import { toast } from "react-toastify";
 import { UploadOutlined } from "@ant-design/icons";
 
-export default function AdminDiamondShell() {
+export default function AdminCover() {
   const [form] = useForm();
   const [formUpdate] = useForm();
-  const [diamondshell, setDiamondshell] = useState([]);
-
+  const [cover, setCover] = useState([]);
   const [newData, setNewData] = useState("");
-  const [selectedDiamondshell, setSelectedDiamondshell] = useState(null);
+  const [selectedCover, setSelectedCover] = useState(null);
 
   function hanldeUpdateClickSubmit() {
     formUpdate.submit();
@@ -22,29 +21,32 @@ export default function AdminDiamondShell() {
   function hanldeClickSubmit() {
     form.submit();
   }
-  async function AddDiamondShell(value) {
+  async function AddCover(value) {
     console.log(value);
     try {
-      await api.post("material", value);
-      setDiamondshell([...diamondshell, value]);
+      const response = await api.post("material", value);
       toast.success("Thêm vỏ kim cương thành công");
-      fetchDiamondShell();
+      setSelectedCover([...selectedCover, value]);
+      fetchCover();
+      console.log(response);
     } catch (error) {
+      fetchCover();
       toast.error("Đã có lỗi trong lúc thêm vỏ kim cương");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
 
-  async function fetchDiamondShell() {
-    const response = await api.get("material");
-    setDiamondshell(response.data);
+  async function fetchCover() {
+    const response = await api.get("material/available-cover");
+    setCover(response.data);
   }
 
   useEffect(() => {
-    fetchDiamondShell();
+    fetchCover();
   }, []);
+  useEffect(() => {}, [cover]); // Only re-run this effect when diamond changes
 
-  async function deleteDiamondShell(values) {
+  async function deleteCover(values) {
     console.log(values);
     try {
       Modal.confirm({
@@ -52,21 +54,21 @@ export default function AdminDiamondShell() {
         onOk: () => {
           api.delete(`material/${values.id}`);
           toast.success("Xóa thành công");
-          setDiamondshell(
-            diamondshell.filter((gem) => {
-              return gem.id !== values.id;
+          setCover(
+            cover.filter((cover) => {
+              return cover.id !== values.id;
             })
           );
         },
       });
-      fetchDiamondShell();
+      fetchCover();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc Xóa");
       console.log(error.response.data);
     }
   }
 
-  async function updateDiamondShell(values) {
+  async function updateCover(values) {
     const dataUpdate = {
       ...newData,
       type: values.type,
@@ -78,13 +80,16 @@ export default function AdminDiamondShell() {
       await api.put(`material/${values.id}`, dataUpdate);
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công");
-      fetchDiamondShell();
+      fetchCover();
     } catch (error) {
       toast.error("chỉnh sửa thất bại, có lỗi");
       console.log(error.response.data);
     }
   }
 
+  const onChange = (pagination, filters, sorter, extra) => {
+    console.log("params", pagination, filters, sorter, extra);
+  };
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
 
   const handleUpdateOk = () => {
@@ -98,6 +103,7 @@ export default function AdminDiamondShell() {
       title: "ID",
       dataIndex: "id",
       key: "id",
+      sorter: (a, b) => a.id - b.id,
     },
 
     {
@@ -144,7 +150,7 @@ export default function AdminDiamondShell() {
             <div className="action-button">
               <Button
                 onClick={(e) => {
-                  deleteDiamondShell(values);
+                  deleteCover(values);
                 }}
                 className="delete-button"
               >
@@ -155,7 +161,7 @@ export default function AdminDiamondShell() {
                 icon={<UploadOutlined />}
                 className="admin-upload-button update-button"
                 onClick={() => {
-                  setSelectedDiamondshell(values);
+                  setCover(values);
                   formUpdate.setFieldsValue(values);
                   setIsModalUpdateOpen(true);
                 }}
@@ -175,13 +181,13 @@ export default function AdminDiamondShell() {
               mask={false}
             >
               <Form
-                initialValues={selectedDiamondshell}
+                initialValues={selectedCover}
                 onValuesChange={(changedValues, allValues) => {
                   setNewData(allValues);
                 }}
                 form={formUpdate}
                 onFinish={(values) => {
-                  updateDiamondShell(selectedDiamondshell);
+                  updateCover(selectedCover);
                 }}
                 id="form-update"
                 className="form-main"
@@ -278,12 +284,7 @@ export default function AdminDiamondShell() {
       <div className="admin-content">
         <h1>Thêm Vỏ Kim Cương</h1>
 
-        <Form
-          form={form}
-          onFinish={AddDiamondShell}
-          id="form"
-          className="form-main"
-        >
+        <Form form={form} onFinish={AddCover} id="form" className="form-main">
           <div className="form-content-main">
             <div className="form-content">
               <Form.Item
@@ -387,7 +388,8 @@ export default function AdminDiamondShell() {
         <div className="data-table">
           <h1>Quản Lý Vỏ Kim Cương</h1>
           <Table
-            dataSource={diamondshell}
+            dataSource={cover}
+            onChange={onChange}
             columns={columns}
             pagination={{ pageSize: 5 }}
             scroll={{ x: "max-content" }}

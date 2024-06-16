@@ -1,15 +1,15 @@
 import SideBar from "../../../components/SideBar/SideBar";
-import { Button, Form, Input, Modal, Table, Upload } from "antd";
+import { Button, DatePicker, Form, Input, Modal, Table, Upload } from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import "../../AdminDashboard/AdminPage.css";
 import "./AdminCertificate.css";
+import moment from "moment";
 
 import api from "../../../config/axios";
 import { UploadOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import uploadFile from "../../../utils/upload";
-import { storage } from "../../../config/firebase";
 
 export default function AdminCertificate() {
   const [form] = useForm();
@@ -21,6 +21,7 @@ export default function AdminCertificate() {
   const [file, setFile] = useState(null);
   const [fileUpdate, setFileUpdate] = useState(null);
 
+  const dateformat = "DD-MM-YYYY";
   function hanldeUpdateClickSubmit() {
     formUpdate.submit();
   }
@@ -90,13 +91,16 @@ export default function AdminCertificate() {
     const dataUpdate = {
       ...newData,
     };
+
     try {
       await api.put(`certificate/${values.id}`, dataUpdate);
+      console.log(dataUpdate);
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công");
       fetchCertificate();
     } catch (error) {
       toast.error("chỉnh sửa thất bại, có lỗi");
+      console.log(dataUpdate);
       console.log(error.response.data);
     }
   }
@@ -119,19 +123,26 @@ export default function AdminCertificate() {
       sorter: (a, b) => a.id - b.id,
     },
     {
-      title: "giaReportNumber",
+      title: "Mã GIA",
       dataIndex: "giaReportNumber",
       key: "giaReportNumber",
       sorter: (c, d) => c.giaReportNumber - d.giaReportNumber,
       defaultSortOrder: "ascend",
     },
+
     {
-      title: "fileURL",
+      title: "Đường Dẫn GIA",
       dataIndex: "fileURL",
       key: "fileURL",
     },
     {
-      title: "Hành Động",
+      title: "Ngày Cấp",
+      dataIndex: "dateOfIssues",
+      key: "dateOfIssues",
+      render: (text) => moment(text).format("DD-MM-YYYY"),
+    },
+    {
+      title: "",
       render: (values) => {
         return (
           <>
@@ -209,6 +220,13 @@ export default function AdminCertificate() {
                         <Button icon={<UploadOutlined />}>Upload</Button>
                       </Upload>
                     </Form.Item>
+                    <Form.Item
+                      className="label-form"
+                      label="Date of Issues"
+                      name="dateOfIssues"
+                    >
+                      <Input type="text" required></Input>
+                    </Form.Item>
                   </div>
                 </div>
                 <Button
@@ -279,6 +297,17 @@ export default function AdminCertificate() {
                 >
                   <Button icon={<UploadOutlined />}>Upload</Button>
                 </Upload>
+              </Form.Item>
+              <Form.Item
+                className="label-form"
+                label="Date of Issues"
+                name="dateOfIssues"
+              >
+                <DatePicker
+                  placeholder="Chọn ngày"
+                  required
+                  format={dateformat}
+                ></DatePicker>
               </Form.Item>
             </div>
           </div>

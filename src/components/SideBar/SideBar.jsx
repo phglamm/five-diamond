@@ -58,7 +58,7 @@ export default function SideBar() {
       </li>
       <li>
         <CategoryIcon color="info" fontSize="large"></CategoryIcon>
-        <Link to={routes.adminDiamondshell}>Quản Lý Vỏ Kim Cương</Link>
+        <Link to={routes.adminCover}>Quản Lý Vỏ Kim Cương</Link>
       </li>
       <li>
         <FindInPageIcon color="info" fontSize="large"></FindInPageIcon>

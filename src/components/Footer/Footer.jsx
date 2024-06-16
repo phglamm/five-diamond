@@ -1,7 +1,6 @@
 
 
 import { Col, Container, Row } from "react-bootstrap";
-import logo from "/assets/images/Logo/logo.png";
 import "./Footer.css";
 import SearchBar from "../searchBar/searchBar";
 import { useEffect, useRef } from 'react';
@@ -36,7 +35,7 @@ export default function Footer() {
         </Col>
 
         <Col xs={4} className="Footer-logo">
-          <img src={logo} alt="" />
+          <img src={"https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"} alt="" />
         </Col>
         <Col xs={4} className="Footer-center">
           <i className="pi pi-map"></i>
