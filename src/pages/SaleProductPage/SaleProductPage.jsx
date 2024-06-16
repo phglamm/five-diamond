@@ -1,10 +1,10 @@
 
 
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { Dropdown, Menu, Pagination } from 'antd';
+import { Dropdown, Menu } from 'antd';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import "./SaleProductPage.css";
@@ -15,27 +15,42 @@ import banner2 from "../../../public/assets/images/Banner/banner2.jpg";
 import banner3 from "../../../public/assets/images/Banner/banner3.jpg";
 import banner4 from "../../../public/assets/images/Banner/banner4.jpg";
 import ProductCard from "../../components/productCard/productCard";
+import BasicPagination from "../../components/BasicPagination/BasicPagination"; // Adjusted import
 
 const SaleProductPage = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 15; // Number of items per page
+    const pageSize = 20; // Number of items per page
 
-    // Pagination handler
-    const onChange = (pageNumber) => {
-        console.log('Page: ', pageNumber);
-        setCurrentPage(pageNumber);
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const page = parseInt(params.get('page')) || 1;
+        setCurrentPage(page);
+    }, [location]);
+
+    const handleChangePage = (event, value) => {
+        setCurrentPage(value);
+        navigate(`?page=${value}`);
     };
+
+    // Filter products by category
+    const filteredProducts = selectedCategory ? saleProducts.filter(product => product.category === selectedCategory) : saleProducts;
 
     // Calculate the index range for the current page
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
 
-    // Filter products by category
-    const filteredProducts = selectedCategory ? saleProducts.filter(product => product.category === selectedCategory) : saleProducts;
-
     // Slice the products array based on the current page and page size
     const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+
+    const totalPage = Math.ceil(filteredProducts.length / pageSize);
+
+    console.log('Current Page:', currentPage);
+    console.log('Start Index:', startIndex);
+    console.log('End Index:', endIndex);
+    console.log('Paginated Products:', paginatedProducts);
 
     // Function to calculate sale price
     const calculateSalePrice = (originalPrice, discountPercentage) => {
@@ -78,14 +93,13 @@ const SaleProductPage = () => {
                             Filter by Category
                         </a>
                     </Dropdown>
-
                     {/* Sale product cards */}
-                    <div className='sale-product-card'>
+                    <div className='sale-product-card' style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
                         {paginatedProducts.map((product) => {
                             const salePrice = calculateSalePrice(product.price, product.sale);
                             const salePercentage = `${product.sale * 100}%`;
                             return (
-                                <div className='col-3' key={product.id}>
+                                <div key={product.id} style={{ flex: '1 0 18%', margin: '10px' }}>
                                     <ProductCard
                                         img={product.img}
                                         text={product.name}
@@ -100,26 +114,17 @@ const SaleProductPage = () => {
                         })}
                     </div>
                 </div>
-                {/* Pagination */}
-                <Pagination
-                    className="pagination"
-                    current={currentPage}
-                    onChange={onChange}
-                    total={filteredProducts.length}
-                    pageSize={pageSize}
-                />
-                {/* Display page number in URL for page 2 and onwards */}
-                {currentPage > 1 && (
-                    <Link to={`/san-pham-giam-gia/page-${currentPage}`} className="page-link">{currentPage}</Link>
-                )}
+                <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <BasicPagination
+                        count={totalPage}
+                        page={currentPage}
+                        onChange={handleChangePage}
+                    />
+                </div>
             </Container>
             <Footer />
         </div>
-
     );
 };
 
 export default SaleProductPage;
-
-
-
