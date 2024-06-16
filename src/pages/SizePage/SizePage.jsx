@@ -72,8 +72,7 @@ export default function SizePage() {
               </ul>
             </Col>
             <Col md={6}>
-              <img
-                src="https://images.ctfassets.net/7m8i36sp5l90/3IGO4XBiD88X0HZysKlU7p/a4f221ec4f7902ff47bd76302b47006a/Method-1-Ring-Size_2x.jpg?fit=scale&fm=webp&q=100&w=1216"
+              <img src="https://drive.google.com/thumbnail?id=1BZIXmx8SoqfBfw5c0brmOBTAv-0Anxx0&sz=w1000"
                 alt="Phương Pháp 1"
                 className="method-image"
               />
@@ -83,7 +82,7 @@ export default function SizePage() {
           <Row className="split-columns">
             <Col md={6}>
               <img
-                src="https://images.ctfassets.net/7m8i36sp5l90/4JRK5VOh7QHBdp9oNd1Vch/3be80d84f9562c6143b14590bb25362a/Method-2-Ring-Size_2x.jpg?fit=scale&fm=webp&q=100&w=1216"
+                src="https://drive.google.com/thumbnail?id=1JjY_WuE15eBf6fyBc8A1Q_R5bc_aKK50&sz=w1000"
                 alt="Phương Pháp 2"
                 className="method-image"
               />
@@ -151,8 +150,7 @@ export default function SizePage() {
           <div className="size-chart-section" ref={sizeChartRef}>
             <h2>BẢNG KÍCH THƯỚC NHẪN</h2>
             <div className="size-chart-img">
-              <img
-                src="https://images.ctfassets.net/7m8i36sp5l90/vaD7moByXyjCZl408eMWc/d66f2c0b6ea920e1f9ec401c812b73b3/RingSizeChart.jpg?fit=scale&fm=webp&q=100&w=1280"
+              <img src="https://drive.google.com/thumbnail?id=17waRP6NGxSPsFbOiUIfqe4WlpAzvRqQv&sz=w1000"
                 alt="Bảng Kích Thước Nhẫn"
                 className="method-image"
               />

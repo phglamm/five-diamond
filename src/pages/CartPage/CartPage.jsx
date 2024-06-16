@@ -5,10 +5,13 @@ import Footer from "../../components/Footer/Footer";
 import { ImCart } from "react-icons/im";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import './CartPage.css';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { routes } from '../../routes';
 
 export default function CartPage() {
 
     const [cartItems, setCartItems] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         // This would normally fetch data from an API or local storage
@@ -68,6 +71,9 @@ export default function CartPage() {
         });
     };
 
+    const handleClick = () => {
+        navigate(routes.home);
+    }
     return (
 <<<<<<< Updated upstream
         <div className="cart-page-container">
@@ -77,6 +83,11 @@ export default function CartPage() {
                     <Col md={8} className="cart-col8">
                         <h5><ImCart /> Giỏ hàng ({totalItems} sản phẩm)</h5>
                         <div className='cart-continue-btn'>
+                            <Button
+                                className="w-100 mt-2"
+                                variant="light"
+                                type="button"
+                                onClick={handleClick}><IoMdArrowRoundBack /> Tiếp tục mua hàng</Button>
 =======
         <div className="page-container">
             <Header />
