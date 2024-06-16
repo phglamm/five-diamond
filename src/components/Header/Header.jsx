@@ -1,4 +1,3 @@
-
 import "./Header.css";
 import { Col, Container, Row } from "react-bootstrap";
 import { ImCart } from "react-icons/im";
@@ -71,7 +70,12 @@ export default function Header() {
 
         <Col xs={3} className="Header-logo">
           <Link to={routes.home}>
-            <img src={"https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"} alt="" />
+            <img
+              src={
+                "https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"
+              }
+              alt=""
+            />
           </Link>
         </Col>
         <Col xs={2} className="Header-search">
