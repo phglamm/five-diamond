@@ -1,26 +1,22 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { products } from "./products"; // Adjust the path as necessary
 import "./searchBar.css";
 
 export default function SearchBar({ placeholder, icon }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [searching, setSearching] = useState(false);
 
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get(`https://jsonplaceholder.typicode.com/users`);
-      const results = response.data.filter(user =>
-        user.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setSearchResults(results);
-      console.log(results); // For debugging purposes
-    } catch (error) {
-      console.error("Error fetching search results:", error);
-    }
+  const handleSearch = () => {
+    const results = products.filter(product =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    console.log(results); // Xuất kết quả tìm kiếm ra console
+    setSearching(true);
   };
 
   const handleInputChange = (e) => {
     setSearchQuery(e.target.value);
+    setSearching(false); // Khi nhập liệu mới, đặt searching về false
   };
 
   const handleKeyPress = (e) => {
@@ -28,6 +24,11 @@ export default function SearchBar({ placeholder, icon }) {
       handleSearch();
     }
   };
+
+    const clearSearchResults = () => {
+      setSearchQuery("");
+      setSearching(false);
+    };
 
   return (
     <div className="search-bar-container">
@@ -42,15 +43,12 @@ export default function SearchBar({ placeholder, icon }) {
       <button className="search-button" onClick={handleSearch}>
         <i className={icon}></i>
       </button>
-      {searchResults.length > 0 && (
-        <div className="search-results">
-          {searchResults.map((result) => (
-            <div key={result.id} className="search-result-item">
-              {result.name}
-            </div>
-          ))}
-        </div>
-      )}
+      {/* {!searching && searchQuery && (
+        // Kiểm tra không đang tìm kiếm và có kết quả tìm kiếm, hiển thị nút để xóa kết quả tìm kiếm
+        <button className="clear-button" onClick={clearSearchResults}>
+
+        </button>
+      )} */}
     </div>
   );
 }
