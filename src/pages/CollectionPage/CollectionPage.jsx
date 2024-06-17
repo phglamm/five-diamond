@@ -2,7 +2,6 @@ import { Container } from "react-bootstrap";
 import RowCollection from "../../components/RowCollection/RowCollection";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import rowbanner1 from "../../../public/assets/images/rowBanner/rowbanner1.jpg";
 import "./CollectionPage.css";
 export default function CollectionPage() {
   return (

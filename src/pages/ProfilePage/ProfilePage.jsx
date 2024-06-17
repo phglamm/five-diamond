@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import Ninja from "../../../public/assets/images/Avatar/NinjaAvatar.png";
 import "./ProfilePage.css";
 import BasicButton from "../../components/Button/myButton";
 import { Link } from "react-router-dom";

@@ -1,7 +1,6 @@
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import RowCollection from "../../components/RowCollection/RowCollection";
-import rowbanner1 from "../../../public/assets/images/rowBanner/rowbanner1.jpg";
 import { Container } from "react-bootstrap";
 import { routes } from "../../routes";
 import MyBreadcrumb from "../../components/Breadcrumb/Breadcrumb";

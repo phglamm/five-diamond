@@ -25,14 +25,14 @@ export default function AdminCover() {
     console.log(value);
     try {
       const response = await api.post("material", value);
+      console.log(response);
       toast.success("Thêm vỏ kim cương thành công");
-      setSelectedCover([...selectedCover, value]);
+      setCover([...cover, value]);
       fetchCover();
       console.log(response);
     } catch (error) {
       fetchCover();
       toast.error("Đã có lỗi trong lúc thêm vỏ kim cương");
-      // console.log(error.response.data);
     }
   }
 
@@ -161,7 +161,7 @@ export default function AdminCover() {
                 icon={<UploadOutlined />}
                 className="admin-upload-button update-button"
                 onClick={() => {
-                  setCover(values);
+                  setSelectedCover(values);
                   formUpdate.setFieldsValue(values);
                   setIsModalUpdateOpen(true);
                 }}
@@ -357,6 +357,19 @@ export default function AdminCover() {
                   {
                     required: true,
                     message: "Nhập quantityOfSub",
+                  },
+                ]}
+              >
+                <Input type="number" required />
+              </Form.Item>
+              <Form.Item
+                className="label-form"
+                label="Giá"
+                name="price"
+                rules={[
+                  {
+                    required: true,
+                    message: "Nhập Giá",
                   },
                 ]}
               >
