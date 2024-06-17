@@ -1,6 +1,4 @@
 import { Container, ButtonGroup, Button, Form } from "react-bootstrap";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
 import "./DeliveryStaffPage.css";
 import * as React from "react";
 import Paper from "@mui/material/Paper";
@@ -13,10 +11,8 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { Select, Upload, message } from "antd";
 import { UploadOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
-import {
-  deliveryRows as initialDeliveryRows,
-  updateRows as initialUpdateRows,
-} from "./FakeDataDeliver"; // Importing the fake data
+import { dataCustomerDelivery as initialMergedData } from "./FakeDataDeliver";
+
 import { AiOutlineSearch } from "react-icons/ai";
 
 const handleChange = (value) => {
@@ -75,7 +71,7 @@ export default function DeliveryStaffPage() {
       minWidth: 100,
       render: (value, rowIndex) => (
         <Select
-          defaultValue={value}
+          defaultValue={mergedData[rowIndex]?.status || "Xác nhận"}
           style={{ width: 200 }}
           onChange={(newValue) => handleStatusChange(newValue, rowIndex)}
           options={[
@@ -91,72 +87,76 @@ export default function DeliveryStaffPage() {
       id: "updateStatus",
       label: "Cập nhật",
       minWidth: 100,
-      render: (value, rowIndex) => (
-        <Select
-          defaultValue={value}
-          style={{ width: 200 }}
-          onChange={(newValue) => handleStatusChange(newValue, rowIndex)}
-          options={[
-            { value: "Khách đặt sai địa chỉ", label: "Khách đặt sai địa chỉ" },
-            {
-              value: "Hẹn lại thời gian giao",
-              label: "Hẹn lại thời gian giao",
-            },
-            { value: "Khách không có nhà", label: "Khách không có nhà" },
-            { value: "Hàng xóm nhận", label: "Hàng xóm nhận" },
-          ]}
-        />
-      ),
+      render: (value, rowIndex) => {
+        const isDelivered = mergedData[rowIndex].status === "Giao thành công";
+        return (
+          <Select
+            defaultValue={value}
+            style={{ width: 200 }}
+            onChange={(newValue) => handleStatusChange(newValue, rowIndex)}
+            disabled={isDelivered}
+            options={[
+              { value: "Khách đặt sai địa chỉ", label: "Khách đặt sai địa chỉ" },
+              { value: "Hẹn lại thời gian giao", label: "Hẹn lại thời gian giao" },
+              { value: "Khách không có nhà", label: "Khách không có nhà" },
+              { value: "Hàng xóm nhận", label: "Hàng xóm nhận" },
+            ]}
+          />
+        );
+      },
     },
   ];
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [selectedTable, setSelectedTable] = React.useState("deliver");
-  const [deliveryData, setDeliveryData] = React.useState(() => {
-    const savedData = localStorage.getItem("deliveryData");
-    return savedData ? JSON.parse(savedData) : initialDeliveryRows;
-  });
-  const [updateData, setUpdateData] = React.useState(() => {
-    const savedData = localStorage.getItem("updateData");
-    return savedData ? JSON.parse(savedData) : initialUpdateRows;
-  });
   const [searchTerm, setSearchTerm] = React.useState("");
   const [sortConfig, setSortConfig] = React.useState({
     key: null,
     direction: null,
   });
 
-  React.useEffect(() => {
-    localStorage.setItem("deliveryData", JSON.stringify(deliveryData));
-  }, [deliveryData]);
+  const [mergedData, setMergedData] = React.useState(initialMergedData);
+  // const [deliveryData, setDeliveryData] = React.useState(() => {
+  //   const savedData = localStorage.getItem("deliveryData");
+  //   return savedData ? JSON.parse(savedData) : initialDeliveryRows;
+  // });
+  // const [updateData, setUpdateData] = React.useState(() => {
+  //   const savedData = localStorage.getItem("updateData");
+  //   return savedData ? JSON.parse(savedData) : initialUpdateRows;
+  // });
 
-  React.useEffect(() => {
-    localStorage.setItem("updateData", JSON.stringify(updateData));
-  }, [updateData]);
 
-  const handleNoteChange = (newValue, rowIndex) => {
-    const newData = [...updateData];
-    newData[rowIndex].deliveryStaffNote = newValue;
-    setUpdateData(newData);
-  };
+
+  // React.useEffect(() => {
+  //   localStorage.setItem("deliveryData", JSON.stringify(deliveryData));
+  // }, [deliveryData]);
+
+  // React.useEffect(() => {
+  //   localStorage.setItem("updateData", JSON.stringify(updateData));
+  // }, [updateData]);
+
 
   const handleStatusChange = (newValue, rowIndex) => {
-    const newData =
-      selectedTable === "deliver" ? [...deliveryData] : [...updateData];
-    newData[rowIndex].status = newValue;
-    selectedTable === "deliver"
-      ? setDeliveryData(newData)
-      : setUpdateData(newData);
+    // const newData =
+    //   selectedTable === "deliver" ? [...deliveryData] : [...updateData];
+    // newData[rowIndex].status = newValue;
+    // selectedTable === "deliver"
+    //   ? setDeliveryData(newData)
+    //   : setUpdateData(newData);
 
-    // Move row to the bottom if status is "Đã nhận hàng"
-    if (newValue === "Đã nhận hàng") {
-      const movedRow = newData.splice(rowIndex, 1)[0];
-      newData.push(movedRow);
-      selectedTable === "deliver"
-        ? setDeliveryData(newData)
-        : setUpdateData(newData);
-    }
+    // // Move row to the bottom if status is "Đã nhận hàng"
+    // if (newValue === "Đã nhận hàng") {
+    //   const movedRow = newData.splice(rowIndex, 1)[0];
+    //   newData.push(movedRow);
+    //   selectedTable === "deliver"
+    //     ? setDeliveryData(newData)
+    //     : setUpdateData(newData);
+    // }
+
+    const newData = [...mergedData];
+    newData[rowIndex].status = newValue;
+    setMergedData(newData);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -173,14 +173,46 @@ export default function DeliveryStaffPage() {
   };
 
   const handleSave = () => {
-    const dataToSave = selectedTable === "deliver" ? deliveryData : updateData;
-    console.log("Saving data:", dataToSave);
+    console.log("Saving data:", mergedData);
     // Add logic to save data, e.g., API call
   };
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
+
+  // const handleSort = (columnId) => {
+  //   let direction = "asc";
+  //   if (sortConfig.key === columnId && sortConfig.direction === "asc") {
+  //     direction = "desc";
+  //   } else if (sortConfig.key === columnId && sortConfig.direction === "desc") {
+  //     direction = null;
+  //   }
+  //   setSortConfig({ key: columnId, direction });
+
+  //   if (direction !== null) {
+  //     const sortedData = [...rows].sort((a, b) => {
+  //       let aValue = a[columnId];
+  //       let bValue = b[columnId];
+
+  //       if (columnId === "shipmentId" || columnId === "orderId") {
+  //         aValue = parseInt(a[columnId].replace(/\D/g, ''), 10);
+  //         bValue = parseInt(b[columnId].replace(/\D/g, ''), 10);
+  //       } else if (columnId === "dateDeliver") {
+  //         aValue = new Date(a[columnId]);
+  //         bValue = new Date(b[columnId]);
+  //       }
+
+  //       if (direction === "asc") {
+  //         return aValue > bValue ? 1 : -1;
+  //       } else {
+  //         return aValue < bValue ? 1 : -1;
+  //       }
+  //     });
+
+  //     selectedTable === "deliver" ? setDeliveryData(sortedData) : setUpdateData(sortedData);
+  //   }
+  // };
 
   const handleSort = (columnId) => {
     let direction = "asc";
@@ -192,13 +224,13 @@ export default function DeliveryStaffPage() {
     setSortConfig({ key: columnId, direction });
 
     if (direction !== null) {
-      const sortedData = [...rows].sort((a, b) => {
+      const sortedData = [...mergedData].sort((a, b) => {
         let aValue = a[columnId];
         let bValue = b[columnId];
 
         if (columnId === "shipmentId" || columnId === "orderId") {
-          aValue = parseInt(a[columnId].replace(/\D/g, ''), 10);
-          bValue = parseInt(b[columnId].replace(/\D/g, ''), 10);
+          aValue = parseInt(a[columnId].replace(/\D/g, ""), 10);
+          bValue = parseInt(b[columnId].replace(/\D/g, ""), 10);
         } else if (columnId === "dateDeliver") {
           aValue = new Date(a[columnId]);
           bValue = new Date(b[columnId]);
@@ -211,7 +243,7 @@ export default function DeliveryStaffPage() {
         }
       });
 
-      selectedTable === "deliver" ? setDeliveryData(sortedData) : setUpdateData(sortedData);
+      setMergedData(sortedData);
     }
   };
 

@@ -14,4 +14,3 @@ export default function BasicPagination({ count, page, onChange }) {
         </Stack>
     );
 }
-k

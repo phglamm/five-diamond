@@ -1,4 +1,209 @@
-export const deliveryRows = [
+// export const deliveryRows = [
+//     {
+//         shipmentId: 'Shp101',
+//         orderId: 'Ord101',
+//         deliveryStaff: 'Nguyen Van A',
+//         recipient: 'Taylor Swift',
+//         address: '1 Nguyen Hue, Quan 1, tp HCM',
+//         phone: '0123456789',
+//         payment: 'Đã thanh toán',
+//         customerNote: 'Đưa cho bảo vệ',
+//     },
+//     {
+//         shipmentId: 'Shp102',
+//         orderId: 'Ord102',
+//         deliveryStaff: 'Tran Van B',
+//         recipient: 'Ed Sheeran',
+//         address: '123 Le Loi, Quan 1, tp HCM',
+//         phone: '0987654321',
+//         payment: 'Chưa thanh toán',
+//         customerNote: 'Gọi trước khi giao',
+//     },
+//     {
+//         shipmentId: 'Shp103',
+//         orderId: 'Ord103',
+//         deliveryStaff: 'Le Thi C',
+//         recipient: 'Ariana Grande',
+//         address: '456 Hai Ba Trung, Quan 3, tp HCM',
+//         phone: '0912345678',
+//         payment: 'Đã thanh toán',
+//         customerNote: 'Giao sau 6pm',
+//     },
+//     {
+//         shipmentId: 'Shp104',
+//         orderId: 'Ord104',
+//         deliveryStaff: 'Pham Van D',
+//         recipient: 'Bruno Mars',
+//         address: '789 Tran Hung Dao, Quan 5, tp HCM',
+//         phone: '0909876543',
+//         payment: 'Chưa thanh toán',
+//         customerNote: 'Giao cho bảo vệ',
+//     },
+//     {
+//         shipmentId: 'Shp105',
+//         orderId: 'Ord105',
+//         deliveryStaff: 'Nguyen Thi E',
+//         recipient: 'Billie Eilish',
+//         address: '101 Bui Vien, Quan 1, tp HCM',
+//         phone: '0934567890',
+//         payment: 'Đã thanh toán',
+//         customerNote: 'Để ở cửa',
+//     },
+//     {
+//         shipmentId: 'Shp106',
+//         orderId: 'Ord106',
+//         deliveryStaff: 'Tran Van F',
+//         recipient: 'Justin Bieber',
+//         address: '234 Pham Ngu Lao, Quan 1, tp HCM',
+//         phone: '0945678901',
+//         payment: 'Chưa thanh toán',
+//         customerNote: 'Liên hệ lại',
+//     },
+//     {
+//         shipmentId: 'Shp107',
+//         orderId: 'Ord107',
+//         deliveryStaff: 'Le Thi G',
+//         recipient: 'Selena Gomez',
+//         address: '567 Le Thanh Ton, Quan 1, tp HCM',
+//         phone: '0956789012',
+//         payment: 'Đã thanh toán',
+//         customerNote: 'Giao vào buổi sáng',
+//     },
+//     {
+//         shipmentId: 'Shp108',
+//         orderId: 'Ord108',
+//         deliveryStaff: 'Pham Van H',
+//         recipient: 'Shawn Mendes',
+//         address: '890 Ly Tu Trong, Quan 1, tp HCM',
+//         phone: '0967890123',
+//         payment: 'Chưa thanh toán',
+//         customerNote: 'Gọi khi đến',
+//     },
+//     {
+//         shipmentId: 'Shp109',
+//         orderId: 'Ord109',
+//         deliveryStaff: 'Nguyen Van I',
+//         recipient: 'Dua Lipa',
+//         address: '111 Pasteur, Quan 3, tp HCM',
+//         phone: '0978901234',
+//         payment: 'Đã thanh toán',
+//         customerNote: 'Giao cho quản lý',
+//     },
+//     {
+//         shipmentId: 'Shp110',
+//         orderId: 'Ord110',
+//         deliveryStaff: 'Tran Van J',
+//         recipient: 'Charlie Puth',
+//         address: '222 Cong Quynh, Quan 1, tp HCM',
+//         phone: '0989012345',
+//         payment: 'Chưa thanh toán',
+//         customerNote: 'Không có',
+//     },
+//     // Add more rows as needed
+// ];
+
+// /*---------------------------------------------------------- */
+// export const updateRows = [
+//     {
+//         shipmentId: 'Shp001',
+//         orderId: 'Ord001',
+//         recipient: 'Taylor Swift',
+//         address: '1 Nguyen Hue, Quan 1, tp HCM',
+//         phone: '0123456789',
+//         dateDeliver: '2024-06-10',
+//         payment: 'Đã thanh toán',
+
+//     },
+//     {
+//         shipmentId: 'Shp002',
+//         orderId: 'Ord002',
+//         recipient: 'Ed Sheeran',
+//         address: '123 Le Loi, Quan 1, tp HCM',
+//         phone: '0987654321',
+//         dateDeliver: '2024-06-11',
+//         payment: 'Chưa thanh toán',
+
+//     },
+//     {
+//         shipmentId: 'Shp003',
+//         orderId: 'Ord003',
+//         recipient: 'Ariana Grande',
+//         address: '456 Hai Ba Trung, Quan 3, tp HCM',
+//         phone: '0912345678',
+//         dateDeliver: '2024-06-12',
+//         payment: 'Đã thanh toán',
+
+//     },
+//     {
+//         shipmentId: 'Shp004',
+//         orderId: 'Ord004',
+//         recipient: 'Bruno Mars',
+//         address: '789 Tran Hung Dao, Quan 5, tp HCM',
+//         phone: '0909876543',
+//         dateDeliver: '2024-06-13',
+//         payment: 'Chưa thanh toán',
+
+//     },
+//     {
+//         shipmentId: 'Shp005',
+//         orderId: 'Ord005',
+//         recipient: 'Billie Eilish',
+//         address: '101 Bui Vien, Quan 1, tp HCM',
+//         phone: '0934567890',
+//         dateDeliver: '2024-06-14',
+//         payment: 'Đã thanh toán',
+
+//     },
+//     {
+//         shipmentId: 'Shp006',
+//         orderId: 'Ord006',
+//         recipient: 'Justin Bieber',
+//         address: '234 Pham Ngu Lao, Quan 1, tp HCM',
+//         phone: '0945678901',
+//         dateDeliver: '2024-06-15',
+//         payment: 'Chưa thanh toán',
+
+//     },
+//     {
+//         shipmentId: 'Shp007',
+//         orderId: 'Ord007',
+//         recipient: 'Selena Gomez',
+//         address: '567 Le Thanh Ton, Quan 1, tp HCM',
+//         phone: '0956789012',
+//         dateDeliver: '2024-06-16',
+//         payment: 'Đã thanh toán',
+//     },
+//     {
+//         shipmentId: 'Shp008',
+//         orderId: 'Ord008',
+//         recipient: 'Shawn Mendes',
+//         address: '890 Ly Tu Trong, Quan 1, tp HCM',
+//         phone: '0967890123',
+//         dateDeliver: '2024-06-17',
+//         payment: 'Chưa thanh toán',
+//     },
+//     {
+//         shipmentId: 'Shp009',
+//         orderId: 'Ord009',
+//         recipient: 'Dua Lipa',
+//         address: '111 Pasteur, Quan 3, tp HCM',
+//         phone: '0978901234',
+//         dateDeliver: '2024-06-18',
+//         payment: 'Đã thanh toán',
+//     },
+//     {
+//         shipmentId: 'Shp010',
+//         orderId: 'Ord010',
+//         recipient: 'Charlie Puth',
+//         address: '222 Cong Quynh, Quan 1, tp HCM',
+//         phone: '0989012345',
+//         dateDeliver: '2024-06-19',
+//         payment: 'Chưa thanh toán',
+//     },
+//     // Add more rows as needed
+// ];
+
+export const dataCustomerDelivery = [
     {
         shipmentId: 'Shp101',
         orderId: 'Ord101',
@@ -8,6 +213,8 @@ export const deliveryRows = [
         phone: '0123456789',
         payment: 'Đã thanh toán',
         customerNote: 'Đưa cho bảo vệ',
+        dateDeliver: '2024-06-10', // Add dateDeliver from updateRows
+        status: 'Xác nhận' // Default status if not present
     },
     {
         shipmentId: 'Shp102',
@@ -18,6 +225,8 @@ export const deliveryRows = [
         phone: '0987654321',
         payment: 'Chưa thanh toán',
         customerNote: 'Gọi trước khi giao',
+        dateDeliver: '2024-06-11',
+        status: 'Xác nhận'
     },
     {
         shipmentId: 'Shp103',
@@ -28,6 +237,8 @@ export const deliveryRows = [
         phone: '0912345678',
         payment: 'Đã thanh toán',
         customerNote: 'Giao sau 6pm',
+        dateDeliver: '2024-06-12',
+        status: 'Xác nhận'
     },
     {
         shipmentId: 'Shp104',
@@ -38,6 +249,8 @@ export const deliveryRows = [
         phone: '0909876543',
         payment: 'Chưa thanh toán',
         customerNote: 'Giao cho bảo vệ',
+        dateDeliver: '2024-06-13',
+        status: 'Xác nhận'
     },
     {
         shipmentId: 'Shp105',
@@ -48,6 +261,8 @@ export const deliveryRows = [
         phone: '0934567890',
         payment: 'Đã thanh toán',
         customerNote: 'Để ở cửa',
+        dateDeliver: '2024-06-14',
+        status: 'Xác nhận'
     },
     {
         shipmentId: 'Shp106',
@@ -58,6 +273,8 @@ export const deliveryRows = [
         phone: '0945678901',
         payment: 'Chưa thanh toán',
         customerNote: 'Liên hệ lại',
+        dateDeliver: '2024-06-15',
+        status: 'Xác nhận'
     },
     {
         shipmentId: 'Shp107',
@@ -68,6 +285,8 @@ export const deliveryRows = [
         phone: '0956789012',
         payment: 'Đã thanh toán',
         customerNote: 'Giao vào buổi sáng',
+        dateDeliver: '2024-06-16',
+        status: 'Xác nhận'
     },
     {
         shipmentId: 'Shp108',
@@ -78,6 +297,8 @@ export const deliveryRows = [
         phone: '0967890123',
         payment: 'Chưa thanh toán',
         customerNote: 'Gọi khi đến',
+        dateDeliver: '2024-06-17',
+        status: 'Xác nhận'
     },
     {
         shipmentId: 'Shp109',
@@ -88,6 +309,8 @@ export const deliveryRows = [
         phone: '0978901234',
         payment: 'Đã thanh toán',
         customerNote: 'Giao cho quản lý',
+        dateDeliver: '2024-06-18',
+        status: 'Xác nhận'
     },
     {
         shipmentId: 'Shp110',
@@ -98,112 +321,8 @@ export const deliveryRows = [
         phone: '0989012345',
         payment: 'Chưa thanh toán',
         customerNote: 'Không có',
-    },
-    // Add more rows as needed
-];
-
-/*---------------------------------------------------------- */
-export const updateRows = [
-    {
-        shipmentId: 'Shp001',
-        orderId: 'Ord001',
-        recipient: 'Taylor Swift',
-        address: '1 Nguyen Hue, Quan 1, tp HCM',
-        phone: '0123456789',
-        dateDeliver: '2024-06-10',
-        payment: 'Đã thanh toán',
-        note: 'Không có'
-    },
-    {
-        shipmentId: 'Shp002',
-        orderId: 'Ord002',
-        recipient: 'Ed Sheeran',
-        address: '123 Le Loi, Quan 1, tp HCM',
-        phone: '0987654321',
-        dateDeliver: '2024-06-11',
-        payment: 'Chưa thanh toán',
-        note: 'Gọi trước khi giao'
-    },
-    {
-        shipmentId: 'Shp003',
-        orderId: 'Ord003',
-        recipient: 'Ariana Grande',
-        address: '456 Hai Ba Trung, Quan 3, tp HCM',
-        phone: '0912345678',
-        dateDeliver: '2024-06-12',
-        payment: 'Đã thanh toán',
-        note: 'Giao sau 6pm'
-    },
-    {
-        shipmentId: 'Shp004',
-        orderId: 'Ord004',
-        recipient: 'Bruno Mars',
-        address: '789 Tran Hung Dao, Quan 5, tp HCM',
-        phone: '0909876543',
-        dateDeliver: '2024-06-13',
-        payment: 'Chưa thanh toán',
-        note: 'Giao cho bảo vệ'
-    },
-    {
-        shipmentId: 'Shp005',
-        orderId: 'Ord005',
-        recipient: 'Billie Eilish',
-        address: '101 Bui Vien, Quan 1, tp HCM',
-        phone: '0934567890',
-        dateDeliver: '2024-06-14',
-        payment: 'Đã thanh toán',
-        note: 'Để ở cửa'
-    },
-    {
-        shipmentId: 'Shp006',
-        orderId: 'Ord006',
-        recipient: 'Justin Bieber',
-        address: '234 Pham Ngu Lao, Quan 1, tp HCM',
-        phone: '0945678901',
-        dateDeliver: '2024-06-15',
-        payment: 'Chưa thanh toán',
-        note: 'Liên hệ lại'
-    },
-    {
-        shipmentId: 'Shp007',
-        orderId: 'Ord007',
-        recipient: 'Selena Gomez',
-        address: '567 Le Thanh Ton, Quan 1, tp HCM',
-        phone: '0956789012',
-        dateDeliver: '2024-06-16',
-        payment: 'Đã thanh toán',
-        note: 'Giao vào buổi sáng'
-    },
-    {
-        shipmentId: 'Shp008',
-        orderId: 'Ord008',
-        recipient: 'Shawn Mendes',
-        address: '890 Ly Tu Trong, Quan 1, tp HCM',
-        phone: '0967890123',
-        dateDeliver: '2024-06-17',
-        payment: 'Chưa thanh toán',
-        note: 'Gọi khi đến'
-    },
-    {
-        shipmentId: 'Shp009',
-        orderId: 'Ord009',
-        recipient: 'Dua Lipa',
-        address: '111 Pasteur, Quan 3, tp HCM',
-        phone: '0978901234',
-        dateDeliver: '2024-06-18',
-        payment: 'Đã thanh toán',
-        note: 'Giao cho quản lý'
-    },
-    {
-        shipmentId: 'Shp010',
-        orderId: 'Ord010',
-        recipient: 'Charlie Puth',
-        address: '222 Cong Quynh, Quan 1, tp HCM',
-        phone: '0989012345',
         dateDeliver: '2024-06-19',
-        payment: 'Chưa thanh toán',
-        note: 'Không có'
+        status: 'Xác nhận'
     },
     // Add more rows as needed
 ];
-
