@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Row,
@@ -91,16 +91,21 @@ export default function CartPage() {
     navigate(routes.home);
   };
   return (
-    <div className="page-container">
+    <div className="cart-page-container">
       <Header />
-      <Container className="container">
+      <Container className="cart-container">
         <Row>
-          <Col md={8} className="Col8 col-md-8">
-            <h4>
+          <Col md={8} className="cart-col8">
+            <h5>
               <ImCart /> Giỏ hàng ({totalItems} sản phẩm)
-            </h4>
-            <div className="continue-btn">
-              <Button variant="light" className="w-100 mt-2" type="button">
+            </h5>
+            <div className="cart-continue-btn">
+              <Button
+                className="w-100 mt-2"
+                variant="light"
+                type="button"
+                onClick={handleClick}
+              >
                 <IoMdArrowRoundBack /> Tiếp tục mua hàng
               </Button>
             </div>
@@ -108,25 +113,25 @@ export default function CartPage() {
             <Card>
               <ListGroup variant="flush">
                 {cartItems.map((item) => (
-                  <ListGroup.Item key={item.id} className="order-item">
-                    <div className="product-details">
+                  <ListGroup.Item key={item.id} className="cart-order-item">
+                    <div className="cart-product-details">
                       <Image
                         src={item.image}
                         alt={item.name}
-                        className="product-image"
+                        className="cart-product-image"
                       />
-                      <div className="order-item-details">
+                      <div className="cart-order-item-details">
                         <h5>{item.name}</h5>
                         <p>MSP: {item.code}</p>
-                        <div className="quantity-control">
+                        <div className="cart-quantity-control">
                           {/* <ButtonGroup>
                                                         <Button variant="outline-secondary" onClick={() => updateQuantity(item.id, -1)}>-</Button>
                                                         <span className="quantity">{item.quantity}</span>
                                                         <Button variant="outline-secondary" onClick={() => updateQuantity(item.id, 1)}>+</Button>
                                                     </ButtonGroup> */}
                         </div>
-                        <div className="price-info">
-                          <span className="price-text">
+                        <div className="cart-price-info">
+                          <span className="cart-price-text">
                             Giá tiền:{" "}
                             <span style={{ color: "red" }}>
                               {item.price.toLocaleString()}đ
@@ -163,8 +168,8 @@ export default function CartPage() {
               </ListGroup>
             </Card>
           </Col>
-          <Col md={4} className="col-md-4">
-            <div className="Col4">
+          <Col md={4} className="cart-col4">
+            <div className="cart-summary">
               <Card>
                 <Card.Header>
                   <h4>Tổng Tiền</h4>
@@ -176,14 +181,14 @@ export default function CartPage() {
                       {total.toLocaleString()} VNĐ
                     </span>
                   </h5>
-                  <hr class="solid"></hr>
+                  <hr className="cart-solid"></hr>
                   <h5>
                     Vận chuyển:{" "}
                     <span style={{ color: "black", float: "right" }}>
                       Miễn phí vận chuyển
                     </span>
                   </h5>
-                  <hr className="solid"></hr>
+                  <hr className="cart-solid"></hr>
                   <h5>
                     Thanh toán:{" "}
                     <span style={{ color: "black", float: "right" }}>
@@ -198,14 +203,14 @@ export default function CartPage() {
                     />
                     <Button
                       style={{ background: "#614A4A" }}
-                      className="apply-button"
+                      className="cart-apply-button"
                     >
                       Áp dụng
                     </Button>
                   </div>
                   <Button
                     style={{ background: "#ce0303", marginTop: "15px" }}
-                    className="w-100 btn-proceed-to-checkout"
+                    className="w-100 cart-btn-proceed-to-checkout"
                     type="submit"
                   >
                     Tiến hành đặt hàng

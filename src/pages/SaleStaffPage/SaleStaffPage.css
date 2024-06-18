@@ -4,8 +4,17 @@
 .filter-buttons{
     margin-top: 20px;
 }
+.filter-buttons>button{
+    border-radius: 0 !important;
+}
 .contact-text{
     display: flex;
     justify-content: center;
     align-items: center;
 }
+button.btn-success {
+    font-size: 12px !important;
+  }
+  .search-bar{
+    margin-top: 10px;
+  }

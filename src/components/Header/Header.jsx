@@ -94,13 +94,17 @@ export default function Header() {
               </p>
               <div
                 className="cart-wrapper"
-                onMouseOver={handleMouseOverCart}
-                onMouseLeave={handleMouseLeaveCart}
+                // onMouseOver={handleMouseOverCart}
+                // onMouseLeave={handleMouseLeaveCart}
               >
                 <Link to={routes.cart} className="cart-button">
                   <ImCart className="cart-icon" />
                 </Link>
-                {/* {isCartDropdownOpen && <CartDropdown />} */}
+                {/* {isCartDropdownOpen && (
+                  <div>
+                    <CartDropdown />
+                  </div>
+                )} */}
               </div>
             </Link>
             <Link to={routes.login}>

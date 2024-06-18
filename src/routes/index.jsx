@@ -29,7 +29,7 @@ export const routes = {
   productdetail: "/chi-tiet-san-pham",
   diamondprice: "/bang-gia-kim-cuong",
 
-  notfound: "/notfound",
+  notfound: "/404notfound",
   cart: "/gio-hang",
   checkout: "/tien-hanh-thanh-toan",
   priceDiamond: "/bang-gia-kim-cuong",
