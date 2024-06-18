@@ -40,11 +40,11 @@ export default function SizePage() {
 
           <div className="guide-container">
             <h2 className="guide-title">
-              Có một vài phương pháp khác nhau để tìm size nhẫn hoàn hảo của bạn.
-              Nếu bạn đã có một chiếc nhẫn vừa với ngón tay, bạn có thể đo trực
-              tiếp hoặc so sánh với bảng kích thước của chúng tôi. Nếu không, bạn
-              có thể đo ngón tay của mình để xác định kích thước. Khám phá cách đo
-              size nhẫn của bạn dưới đây.
+              Có một vài phương pháp khác nhau để tìm size nhẫn hoàn hảo của
+              bạn. Nếu bạn đã có một chiếc nhẫn vừa với ngón tay, bạn có thể đo
+              trực tiếp hoặc so sánh với bảng kích thước của chúng tôi. Nếu
+              không, bạn có thể đo ngón tay của mình để xác định kích thước.
+              Khám phá cách đo size nhẫn của bạn dưới đây.
             </h2>
           </div>
 
@@ -53,26 +53,28 @@ export default function SizePage() {
               <h3 className="size-tutorial">PHƯƠNG PHÁP 1: ĐO NHẪN</h3>
               <ul>
                 <li>
-                  Tìm một chiếc nhẫn vừa với ngón tay mà bạn dự định đeo nhẫn mới.
+                  Tìm một chiếc nhẫn vừa với ngón tay mà bạn dự định đeo nhẫn
+                  mới.
                 </li>
                 <li>
                   Đo đường kính trong của nhẫn bằng thước kẻ hoặc thước dây. Để
-                  làm điều này, đảm bảo bạn sử dụng thước có đơn vị milimét (mm),
-                  sau đó đặt nhẫn lên trên thước và đo phần bên trong của vòng
-                  tròn – tức là phần tiếp xúc với ngón tay của bạn.
+                  làm điều này, đảm bảo bạn sử dụng thước có đơn vị milimét
+                  (mm), sau đó đặt nhẫn lên trên thước và đo phần bên trong của
+                  vòng tròn – tức là phần tiếp xúc với ngón tay của bạn.
                 </li>
                 <li>
                   Sử dụng{" "}
                   <span className="link" onClick={scrollToSizeChart}>
                     Bảng Kích Thước Nhẫn
                   </span>{" "}
-                  của chúng tôi để chuyển đổi số đo đường kính của bạn thành kích
-                  thước nhẫn chính xác.
+                  của chúng tôi để chuyển đổi số đo đường kính của bạn thành
+                  kích thước nhẫn chính xác.
                 </li>
               </ul>
             </Col>
             <Col md={6}>
-              <img src="https://drive.google.com/thumbnail?id=1BZIXmx8SoqfBfw5c0brmOBTAv-0Anxx0&sz=w1000"
+              <img
+                src="https://drive.google.com/thumbnail?id=1BZIXmx8SoqfBfw5c0brmOBTAv-0Anxx0&sz=w1000"
                 alt="Phương Pháp 1"
                 className="method-image"
               />
@@ -91,7 +93,8 @@ export default function SizePage() {
               <h3 className="size-tutorial">PHƯƠNG PHÁP 2: ĐO NGÓN TAY</h3>
               <ul>
                 <li>
-                  Cắt một đoạn dây hoặc giấy có chiều dài khoảng 10 centimet (cm).
+                  Cắt một đoạn dây hoặc giấy có chiều dài khoảng 10 centimet
+                  (cm).
                 </li>
                 <li>
                   Quấn giấy hoặc dây quanh ngón tay tại điểm mà nhẫn sẽ nằm. Kéo
@@ -106,8 +109,8 @@ export default function SizePage() {
                   (mm) từ đầu đến điểm bạn đã đánh dấu bằng bút.
                 </li>
                 <li>
-                  Số đo này sẽ cho bạn chu vi ngón tay của bạn. Sử dụng nó để tìm
-                  kích thước của bạn bằng{" "}
+                  Số đo này sẽ cho bạn chu vi ngón tay của bạn. Sử dụng nó để
+                  tìm kích thước của bạn bằng{" "}
                   <span className="link" onClick={scrollToSizeChart}>
                     Bảng Kích Thước Nhẫn
                   </span>{" "}
@@ -121,7 +124,9 @@ export default function SizePage() {
             <h2>MẸO CHUYÊN NGHIỆP</h2>
             <div className="tips-columns">
               <div className="tips-column">
-                <p>1. Luôn kiểm tra lại số đo của bạn để đảm bảo độ chính xác.</p>
+                <p>
+                  1. Luôn kiểm tra lại số đo của bạn để đảm bảo độ chính xác.
+                </p>
                 <p>
                   2. Kích thước ngón tay của bạn có thể thay đổi nhẹ trong ngày,
                   theo thời gian và tùy thuộc vào nhiệt độ. Nếu bạn đo ngón tay
@@ -150,7 +155,8 @@ export default function SizePage() {
           <div className="size-chart-section" ref={sizeChartRef}>
             <h2>BẢNG KÍCH THƯỚC NHẪN</h2>
             <div className="size-chart-img">
-              <img src="https://drive.google.com/thumbnail?id=17waRP6NGxSPsFbOiUIfqe4WlpAzvRqQv&sz=w1000"
+              <img
+                src="https://drive.google.com/thumbnail?id=17waRP6NGxSPsFbOiUIfqe4WlpAzvRqQv&sz=w1000"
                 alt="Bảng Kích Thước Nhẫn"
                 className="method-image"
               />
