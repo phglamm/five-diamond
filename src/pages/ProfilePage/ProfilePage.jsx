@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import "./ProfilePage.css";
@@ -6,23 +6,24 @@ import BasicButton from "../../components/Button/myButton";
 import { Link } from "react-router-dom";
 import InputTextField from "../../components/TextField/TextField";
 import ReadDatePickers from "../../components/Button/DatePicker";
-import { useSelector } from "react-redux";
-import { selectUser } from "../../redux/features/counterSlice";
-import uploadFile from "../../utils/upload";
+import { useSelector, useDispatch } from "react-redux";
+import { selectUser, updateUser } from "../../redux/features/counterSlice";
 import { Modal, Button, Input } from "antd";
+import api from "../../config/axios";
 
 function ProfilePage() {
+  const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const inputRef = useRef(null);
-  const [image, setImage] = useState(null); // State cho ảnh người dùng
-  const [visible, setVisible] = useState(false); // State để điều khiển hiển thị modal
-  const [formValues, setFormValues] = useState({
-    firstname: user.firstname,
-    gender: user.gender,
-    dob: user.dob,
-    phone: user.phone,
-    address: user.address,
-  });
+  const [image, setImage] = useState(null); 
+  const [visible, setVisible] = useState(false); 
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('userProfile');
+    if (storedUser) {
+      dispatch(updateUser(JSON.parse(storedUser)));
+    }
+  }, [dispatch]);
 
   const handleImageClick = () => {
     inputRef.current.click();
@@ -39,27 +40,26 @@ function ProfilePage() {
   };
 
   const handleEditInfoClick = () => {
-    setVisible(true); // Mở modal khi nhấn vào nút "Chỉnh sửa thông tin"
+    setVisible(true); 
   };
 
   const handleModalCancel = () => {
-    setVisible(false); // Đóng modal khi nhấn hủy
+    setVisible(false); 
   };
 
-  const handleModalOk = () => {
-    // Xử lý khi người dùng xác nhận cập nhật thông tin
-    setVisible(false); // Đóng modal sau khi cập nhật thành công
-    // Các xử lý khác sau khi xác nhận
-    console.log("Form values:", formValues);
-    // Thực hiện logic cập nhật dữ liệu ở đây
+  const handleModalOk = async () => {
+    try {
+      await api.put(`/api/user/${user.id}`, user); 
+      setVisible(false);
+    } catch (error) {
+      console.error("Error updating user:", error);
+
+    }
   };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
+    dispatch(updateUser({ ...user, [name]: value }));
   };
 
   return (
@@ -95,7 +95,7 @@ function ProfilePage() {
             <label>Họ và tên:</label>
             <InputTextField
               name="firstname"
-              value={formValues.firstname}
+              text={user.firstname}
               onChange={handleChange}
             />
           </div>
@@ -103,7 +103,7 @@ function ProfilePage() {
             <label>Giới tính:</label>
             <InputTextField
               name="gender"
-              value={formValues.gender}
+              text={user.gender}
               onChange={handleChange}
             />
           </div>
@@ -111,7 +111,7 @@ function ProfilePage() {
             <label>Ngày sinh:</label>
             <ReadDatePickers
               name="dob"
-              value={formValues.dob}
+              text={user.dob}
               onChange={handleChange}
             />
           </div>
@@ -119,7 +119,7 @@ function ProfilePage() {
             <label>Số điện thoại:</label>
             <InputTextField
               name="phone"
-              value={formValues.phone}
+              text={user.phone}
               onChange={handleChange}
             />
           </div>
@@ -127,7 +127,7 @@ function ProfilePage() {
             <label>Địa chỉ:</label>
             <InputTextField
               name="address"
-              value={formValues.address}
+              text={user.address}
               onChange={handleChange}
             />
           </div>
@@ -156,7 +156,7 @@ function ProfilePage() {
             <label>Họ và tên:</label>
             <Input
               name="firstname"
-              value={formValues.firstname}
+              value={user.firstname}
               onChange={handleChange}
             />
           </div>
@@ -164,7 +164,7 @@ function ProfilePage() {
             <label>Giới tính:</label>
             <Input
               name="gender"
-              value={formValues.gender}
+              value={user.gender}
               onChange={handleChange}
             />
           </div>
@@ -172,7 +172,7 @@ function ProfilePage() {
             <label>Ngày sinh:</label>
             <ReadDatePickers
               name="dob"
-              value={formValues.dob}
+              value={user.dob}
               onChange={handleChange}
             />
           </div>
@@ -180,7 +180,7 @@ function ProfilePage() {
             <label>Số điện thoại:</label>
             <Input
               name="phone"
-              value={formValues.phone}
+              value={user.phone}
               onChange={handleChange}
             />
           </div>
@@ -188,7 +188,7 @@ function ProfilePage() {
             <label>Địa chỉ:</label>
             <Input
               name="address"
-              value={formValues.address}
+              value={user.address}
               onChange={handleChange}
             />
           </div>
