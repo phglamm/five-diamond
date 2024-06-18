@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import "./ProfilePage.css";
@@ -69,7 +69,7 @@ function ProfilePage() {
           {image ? (
             <img id="avt-img" src={URL.createObjectURL(image)} alt="" />
           ) : (
-            <img id="avt-img" src={defaultImage} alt="Default Avatar" />
+            <img id="avt-img" src="" alt="Default Avatar" />
           )}
           <input
             type="file"
