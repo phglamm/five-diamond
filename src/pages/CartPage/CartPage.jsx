@@ -15,49 +15,53 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import "./CartPage.css";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
+import cartItemsData from "./cartItems";
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   // This would normally fetch data from an API or local storage
+  //   const initialCartItems = [
+  //     // {
+  //     //   id: "AFEC000459D2DA1",
+  //     //   name: "Bông tai kim cương",
+  //     //   price: 38050000,
+  //     //   quantity: 1,
+  //     //   image:
+  //     //     "https://tnj.vn/75169-large_default/nhan-bac-nu-dinh-da-10mm-nn0440.jpg",
+  //     //   description:
+  //     //     "Bông tai kim cương đính hạt lớn, thiết kế đẹp mắt và sang trọng.",
+  //     //   code: "AFEC000459D2DA1",
+  //     // },
+  //     // {
+  //     //   id: "AFPB001948F2HA1",
+  //     //   name: "Mặt dây nữ kim cương",
+  //     //   price: 17370000,
+  //     //   quantity: 1,
+  //     //   image:
+  //     //     "https://lili.vn/wp-content/uploads/2022/10/Day-chuyen-bac-unisex-dinh-kim-cuong-Moissanite-dang-chuoi-da-LILI_054275_2.jpg",
+  //     //   description:
+  //     //     "Mặt dây nữ kim cương đính hạt lớn, thiết kế đẹp mắt và sang trọng.",
+  //     //   code: "AFPB001948F2HA1",
+  //     // },
+  //     // {
+  //     //   id: "AFPB001948F8BA1",
+  //     //   name: "Dây chuyền nữ kim cương",
+  //     //   price: 27790000,
+  //     //   quantity: 1,
+  //     //   image:
+  //     //     "https://lili.vn/wp-content/uploads/2022/06/Mat-day-chuyen-bac-nu-dinh-kim-cuong-Moissanite-tron-cach-dieu-LILI_413898_6-150x150.jpg",
+  //     //   description:
+  //     //     "Dây chuyền nữ kim cương đính hạt lớn, thiết kế đẹp mắt và sang trọng.",
+  //     //   code: "AFPB001948F8BA1",
+  //     // },
+  //   ];
+  //   setCartItems(initialCartItems);
+  // }, []);
   useEffect(() => {
-    // This would normally fetch data from an API or local storage
-    const initialCartItems = [
-      {
-        id: "AFEC000459D2DA1",
-        name: "Bông tai kim cương",
-        price: 38050000,
-        quantity: 1,
-        image:
-          "https://tnj.vn/75169-large_default/nhan-bac-nu-dinh-da-10mm-nn0440.jpg",
-        description:
-          "Bông tai kim cương đính hạt lớn, thiết kế đẹp mắt và sang trọng.",
-        code: "AFEC000459D2DA1",
-      },
-      {
-        id: "AFPB001948F2HA1",
-        name: "Mặt dây nữ kim cương",
-        price: 17370000,
-        quantity: 1,
-        image:
-          "https://lili.vn/wp-content/uploads/2022/10/Day-chuyen-bac-unisex-dinh-kim-cuong-Moissanite-dang-chuoi-da-LILI_054275_2.jpg",
-        description:
-          "Mặt dây nữ kim cương đính hạt lớn, thiết kế đẹp mắt và sang trọng.",
-        code: "AFPB001948F2HA1",
-      },
-      {
-        id: "AFPB001948F8BA1",
-        name: "Dây chuyền nữ kim cương",
-        price: 27790000,
-        quantity: 1,
-        image:
-          "https://lili.vn/wp-content/uploads/2022/06/Mat-day-chuyen-bac-nu-dinh-kim-cuong-Moissanite-tron-cach-dieu-LILI_413898_6-150x150.jpg",
-        description:
-          "Dây chuyền nữ kim cương đính hạt lớn, thiết kế đẹp mắt và sang trọng.",
-        code: "AFPB001948F8BA1",
-      },
-    ];
-    setCartItems(initialCartItems);
+    setCartItems(cartItemsData);
   }, []);
 
   const total = cartItems.reduce(
@@ -120,10 +124,10 @@ export default function CartPage() {
                         <p>MSP: {item.code}</p>
                         <div className="quantity-control">
                           {/* <ButtonGroup>
-                                                        <Button variant="outline-secondary" onClick={() => updateQuantity(item.id, -1)}>-</Button>
-                                                        <span className="quantity">{item.quantity}</span>
-                                                        <Button variant="outline-secondary" onClick={() => updateQuantity(item.id, 1)}>+</Button>
-                                                    </ButtonGroup> */}
+                          <Button variant="outline-secondary" onClick={() => updateQuantity(item.id, -1)}>-</Button>
+                          <span className="quantity">{item.quantity}</span>
+                          <Button variant="outline-secondary" onClick={() => updateQuantity(item.id, 1)}>+</Button>
+                          </ButtonGroup> */}
                         </div>
                         <div>
                           <span className="price-text">
