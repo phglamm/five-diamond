@@ -125,7 +125,7 @@ export default function CartPage() {
                                                         <Button variant="outline-secondary" onClick={() => updateQuantity(item.id, 1)}>+</Button>
                                                     </ButtonGroup> */}
                         </div>
-                        <div className="price-info">
+                        <div>
                           <span className="price-text">
                             Giá tiền:{" "}
                             <span style={{ color: "red" }}>
