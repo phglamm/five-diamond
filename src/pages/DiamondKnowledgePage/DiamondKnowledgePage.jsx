@@ -58,7 +58,7 @@ export default function DiamondKnowledgePage() {
               tỷ lệ thuận với nhau.
             </p>
             <div className="dk">
-              <img src={"https://drive.google.com/thumbnail?id=1f8lGvjfm6dQAH7bVJYHhPfD7ettnyU3Z&sz=w1000"} alt="Diamond Knowledge 3"></img>
+              <img src={"https://drive.google.com/thumbnail?id=1R7_5sTj6l0Ut3o_DZPHYZvbRSXbFiyUK&sz=w1000"} alt="Diamond Knowledge 3"></img>
             </div>
           </div>
         </div>

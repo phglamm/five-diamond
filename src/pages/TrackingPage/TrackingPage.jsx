@@ -44,36 +44,36 @@ const TrackingPage = () => {
                             <Form>
                                 <Form.Group controlId="formFullName">
                                     <Form.Label>Họ Tên:</Form.Label>
-                                    <Form.Control type="text" placeholder="Nhập họ tên" />
+                                    <Form.Control type="text" placeholder="Nhập họ tên" readOnly="true"/>
                                 </Form.Group>
                                 <Form.Group controlId="formPhoneNumber">
                                     <Form.Label>Điện Thoại:</Form.Label>
-                                    <Form.Control type="text" placeholder="Nhập số điện thoại" />
+                                    <Form.Control type="text" placeholder="Nhập số điện thoại" readOnly="true"/>
                                 </Form.Group>
                                 <Form.Group controlId="formEmail">
                                     <Form.Label>Email:</Form.Label>
-                                    <Form.Control type="email" placeholder="Nhập email" />
+                                    <Form.Control type="email" placeholder="Nhập email" readOnly="true"/>
                                 </Form.Group>
                                 <Form.Group controlId="formBirthDate">
                                     <Form.Label>Ngày Sinh:</Form.Label>
-                                    <Form.Control type="date" />
+                                    <Form.Control type="date" readOnly="true"/>
                                 </Form.Group>
                                 <Form.Group controlId="formAddress">
                                     <Form.Label>Địa chỉ:</Form.Label>
-                                    <Form.Control type="text" placeholder="Nhập địa chỉ" />
+                                    <Form.Control type="text" placeholder="Nhập địa chỉ" readOnly="true"/>
                                 </Form.Group>
                             </Form>
 
                             <div className="tracking-payment">
                                 <h3>HÌNH THỨC THANH TOÁN</h3>
                                 <Form.Group className="payment-method" controlId="formPaymentMethod">
-                                    <Form.Check type="radio" label="Thanh toán COD" name="paymentMethod" />
-                                    <Form.Check type="radio" label="Thanh toán chuyển khoản" name="paymentMethod" />
+                                    <Form.Check type="radio" label="Thanh toán COD" name="paymentMethod" readOnly="true"/>
+                                    <Form.Check type="radio" label="Thanh toán chuyển khoản" name="paymentMethod" readOnly="true"/>
                                 </Form.Group>
 
                                 <Form.Group controlId="formNote">
                                     <Form.Label>GHI CHÚ:</Form.Label>
-                                    <Form.Control as="textarea" rows={3} placeholder="Nhập ghi chú" />
+                                    <Form.Control as="textarea" rows={3} placeholder="Nhập ghi chú" readOnly="true"/>
                                 </Form.Group>
                             </div>
                         </Col>

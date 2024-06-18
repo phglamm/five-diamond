@@ -4,8 +4,11 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import './CheckOut.css';
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../routes";
 
 export default function CheckOut() {
+  const navigate = useNavigate();
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -122,7 +125,9 @@ export default function CheckOut() {
 
     return option.label;
   };
-
+  const handlePurchase = () => {
+    navigate(routes.tracking);
+  }
   return (
     <div className="page-container checkout-page">
       <Header />
@@ -301,7 +306,12 @@ export default function CheckOut() {
           </Row>
         </Form>
         <div className="order-btn">
-          <Button className="btn-submit" variant="primary" type="submit">
+          <Button 
+          className="btn-submit" 
+          variant="primary" 
+          type="submit"
+          onClick={handlePurchase}
+          >
             ĐẶT HÀNG
           </Button>
 
