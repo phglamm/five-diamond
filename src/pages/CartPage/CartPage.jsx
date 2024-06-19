@@ -17,9 +17,12 @@ import "./CartPage.css";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
 import cartItemsData from "./cartItems";
+import discountCodes from "./discountCodes";
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([]);
+  const [discountCode, setDiscountCode] = useState("");
+  const [appliedDiscount, setAppliedDiscount] = useState(null);
   const navigate = useNavigate();
 
   // useEffect(() => {
@@ -70,7 +73,17 @@ export default function CartPage() {
     0
   );
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-  const shippingCost = 0; // Miễn phí vận chuyển
+  const shippingCost = appliedDiscount && appliedDiscount.type === "shipping" ? appliedDiscount.value : 0;
+  // const shippingCost = 0; // Miễn phí vận chuyển
+  const discountAmount = appliedDiscount
+    ? appliedDiscount.type === "percentage"
+      ? (total * appliedDiscount.value) / 100
+      : appliedDiscount.type === "fixed"
+        ? appliedDiscount.value
+        : 0
+    : 0;
+
+  const finalTotal = total - discountAmount + shippingCost;
 
   const removeItem = (id) => {
     setCartItems(cartItems.filter((item) => item.id !== id));
@@ -93,12 +106,22 @@ export default function CartPage() {
   };
 
   const handleProceedToCheckout = () => { // <-- Define the function
-    navigate(routes.checkout, { state: { cartItems } }); // <-- Navigate to CheckOut with cartItems
+    navigate(routes.checkout, { state: { cartItems, finalTotal } }); // <-- Navigate to CheckOut with cartItems
   };
 
   const handleClick = () => {
     navigate(routes.home);
   };
+
+  const handleApplyDiscount = () => {
+    const discount = discountCodes.find((d) => d.code === discountCode.toUpperCase());
+    if (discount) {
+      setAppliedDiscount(discount);
+    } else {
+      alert("Mã giảm giá không hợp lệ");
+    }
+  };
+
   return (
     <div className="page-container">
       <Header />
@@ -129,11 +152,11 @@ export default function CartPage() {
                         <p>MSP: {item.code}</p>
                         <div className="quantity-control">
                           <ButtonGroup>
-                          <Button variant="light" onClick={() => updateQuantity(item.id, -1)}>-</Button>
-                          <div className="quantity-div">
-                            <h3 className="quantity">{item.quantity}</h3>
-                          </div>
-                          <Button variant="light" onClick={() => updateQuantity(item.id, 1)}>+</Button>
+                            <Button variant="light" onClick={() => updateQuantity(item.id, -1)}>-</Button>
+                            <div className="quantity-div">
+                              <h3 className="quantity">{item.quantity}</h3>
+                            </div>
+                            <Button variant="light" onClick={() => updateQuantity(item.id, 1)}>+</Button>
                           </ButtonGroup>
                         </div>
                         <div>
@@ -191,10 +214,20 @@ export default function CartPage() {
                   <h5>
                     Vận chuyển:{" "}
                     <span style={{ color: "black", float: "right" }}>
-                      Miễn phí vận chuyển
-                    </span>
+                      {shippingCost === 0 ? "Miễn phí vận chuyển" : `${shippingCost.toLocaleString()} VNĐ`}                    </span>
                   </h5>
                   <hr className="solid"></hr>
+                  {discountAmount > 0 && (
+                    <>
+                      <h5>
+                        Giảm giá:{" "}
+                        <span style={{ color: "black", float: "right" }}>
+                          -{discountAmount.toLocaleString()} VNĐ
+                        </span>
+                      </h5>
+                      <hr className="solid"></hr>
+                    </>
+                  )}
                   <h5>
                     Thanh toán:{" "}
                     <span style={{ color: "black", float: "right" }}>
@@ -206,10 +239,13 @@ export default function CartPage() {
                       type="text"
                       className="form-control mr-2"
                       placeholder="Mã giảm giá/Quà tặng"
+                      value={discountCode}
+                      onChange={(e) => setDiscountCode(e.target.value)}
                     />
                     <Button
                       style={{ background: "#614A4A" }}
                       className="apply-button"
+                      onClick={handleApplyDiscount}
                     >
                       Áp dụng
                     </Button>
