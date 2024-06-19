@@ -1,0 +1,14 @@
+.set-banner{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.set-banner>img{
+    width: 200%;
+}
+.collection-set-header{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    font-weight: bold;
+}
