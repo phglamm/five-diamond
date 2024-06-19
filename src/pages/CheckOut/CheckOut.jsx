@@ -9,6 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
 
 export default function CheckOut() {
+  const location = useLocation();
+  const { cartItems } = location.state || { cartItems: [] };
+
   const navigate = useNavigate();
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);

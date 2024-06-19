@@ -150,6 +150,7 @@ export default function CartPage() {
                       <div className="order-item-details">
                         <h5>{item.name}</h5>
                         <p>MSP: {item.code}</p>
+                        <p>Kích thước: {item.size}</p>
                         <div className="quantity-control">
                           <ButtonGroup>
                             <Button variant="light" onClick={() => updateQuantity(item.id, -1)}>-</Button>
@@ -204,13 +205,13 @@ export default function CartPage() {
                   <h4>Tổng Tiền</h4>
                 </Card.Header>
                 <Card.Body>
-                  {/* <h5>
+                  <h5>
                     Tạm tính:{" "}
                     <span style={{ color: "black", float: "right" }}>
                       {total.toLocaleString()} VNĐ
                     </span>
                   </h5>
-                  <hr class="solid"></hr> */}
+                  <hr class="solid"></hr>
                   <h5>
                     Vận chuyển:{" "}
                     <span style={{ color: "black", float: "right" }}>
@@ -231,7 +232,7 @@ export default function CartPage() {
                   <h5>
                     Thanh toán:{" "}
                     <span style={{ color: "black", float: "right" }}>
-                      {total.toLocaleString()} VNĐ
+                      {finalTotal.toLocaleString()} VNĐ
                     </span>
                   </h5>
                   <div className="d-flex">
