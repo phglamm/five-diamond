@@ -7,6 +7,7 @@ import {
   Card,
   ListGroup,
   Image,
+  ButtonGroup,
 } from "react-bootstrap";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -91,6 +92,10 @@ export default function CartPage() {
     });
   };
 
+  const handleProceedToCheckout = () => { // <-- Define the function
+    navigate(routes.checkout, { state: { cartItems } }); // <-- Navigate to CheckOut with cartItems
+  };
+
   const handleClick = () => {
     navigate(routes.home);
   };
@@ -104,7 +109,7 @@ export default function CartPage() {
               <ImCart /> Giỏ hàng ({totalItems} sản phẩm)
             </h4>
             <div className="continue-btn">
-              <Button variant="light" className="w-100 mt-2" type="button">
+              <Button variant="light" className="w-100 mt-2" type="button" onClick={handleClick}>
                 <IoMdArrowRoundBack /> Tiếp tục mua hàng
               </Button>
             </div>
@@ -123,11 +128,13 @@ export default function CartPage() {
                         <h5>{item.name}</h5>
                         <p>MSP: {item.code}</p>
                         <div className="quantity-control">
-                          {/* <ButtonGroup>
-                          <Button variant="outline-secondary" onClick={() => updateQuantity(item.id, -1)}>-</Button>
-                          <span className="quantity">{item.quantity}</span>
-                          <Button variant="outline-secondary" onClick={() => updateQuantity(item.id, 1)}>+</Button>
-                          </ButtonGroup> */}
+                          <ButtonGroup>
+                          <Button variant="light" onClick={() => updateQuantity(item.id, -1)}>-</Button>
+                          <div className="quantity-div">
+                            <h3 className="quantity">{item.quantity}</h3>
+                          </div>
+                          <Button variant="light" onClick={() => updateQuantity(item.id, 1)}>+</Button>
+                          </ButtonGroup>
                         </div>
                         <div>
                           <span className="price-text">
@@ -136,12 +143,12 @@ export default function CartPage() {
                               {item.price.toLocaleString()}đ
                             </span>
                           </span>
-                          <span>
+                          {/* <span>
                             Tạm tính:{" "}
                             <span style={{ color: "red" }}>
                               {(item.price * item.quantity).toLocaleString()}đ
                             </span>
-                          </span>
+                          </span> */}
                         </div>
                         <span>
                           Thành tiền:{" "}
@@ -174,13 +181,13 @@ export default function CartPage() {
                   <h4>Tổng Tiền</h4>
                 </Card.Header>
                 <Card.Body>
-                  <h5>
+                  {/* <h5>
                     Tạm tính:{" "}
                     <span style={{ color: "black", float: "right" }}>
                       {total.toLocaleString()} VNĐ
                     </span>
                   </h5>
-                  <hr class="solid"></hr>
+                  <hr class="solid"></hr> */}
                   <h5>
                     Vận chuyển:{" "}
                     <span style={{ color: "black", float: "right" }}>
@@ -210,7 +217,8 @@ export default function CartPage() {
                   <Button
                     style={{ background: "#ce0303", marginTop: "15px" }}
                     className="w-100 btn-proceed-to-checkout"
-                    type="submit"
+                    type="button"
+                    onClick={handleProceedToCheckout}
                   >
                     Tiến hành đặt hàng
                   </Button>
