@@ -10,13 +10,26 @@ import ProductCard from "../../components/productCard/productCard";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
 import productData from "../ProductPage/productData";
+import { addToCart } from "../CartPage/cartItems"
 
 
 export default function ProductPage() {
   const navigate = useNavigate()
+  const [selectedSize, setSelectedSize] = useState(null);
   const handleClickBuy = () => {
     navigate(routes.cart)
   }
+
+  const handleClickAddToCart = () => {
+    if (selectedSize) {
+      const productWithSize = { ...productData, size: selectedSize };
+      addToCart(productWithSize);
+      console.log("Product added to cart", productWithSize);
+    } else {
+      console.log("Please select a size");
+    }
+  };
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -29,6 +42,10 @@ export default function ProductPage() {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+  const handleSizeChange = (value) => {
+    setSelectedSize(value);
   };
 
   // const onChange = (value) => {
@@ -67,6 +84,7 @@ export default function ProductPage() {
                 style={{ width: 200 }}
                 placeholder="Search to Select"
                 optionFilterProp="children"
+                onChange={handleSizeChange}
                 filterOption={(input, option) =>
                   (option?.label ?? "").includes(input)
                 }
@@ -75,8 +93,8 @@ export default function ProductPage() {
                     .toLowerCase()
                     .localeCompare((optionB?.label ?? "").toLowerCase())
                 }
-                options={productData.size.map((size, index) => ({
-                  value: index + 1,
+                options={productData.size.map((size) => ({
+                  value: size,
                   label: size,
                 }))}
               />
@@ -85,7 +103,7 @@ export default function ProductPage() {
               </Button>
               <Modal
                 title="Hướng dẫn đo ni"
-                open={isModalOpen} 
+                open={isModalOpen}
                 onOk={handleOk}
                 onCancel={handleCancel}
                 bodyStyle={{ maxHeight: "60vh", overflowY: "auto" }}
@@ -123,11 +141,11 @@ export default function ProductPage() {
               <Button
                 type="primary"
                 icon={<ShoppingOutlined />}
-                size={size} c
-                onClick={handleClickBuy}
+                size={size}
+                onClick={handleClickAddToCart}
                 className="button-addtocart"
               >
-                MUA NGAY
+                THÊM VÀO GIỎ HÀNG
               </Button>
               <Button
                 type="primary"
