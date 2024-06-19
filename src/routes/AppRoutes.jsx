@@ -32,7 +32,9 @@ import AdminCertificate from "../pages/AdminDashboard/AdminCertificate/AdminCert
 import AdminUser from "../pages/AdminDashboard/AdminUser/AdminUser";
 import AdminOrder from "../pages/AdminDashboard/AdminManageOrder/AdmiManageOrder";
 import ChangePasswordPage from "../pages/ChangePassword/ChangePassword";
-import AdminCover from "../pages/AdminDashboard/AdminDiamond/AdminPageCover";
+import CollectionSet1 from "../pages/CollectionPage/CollectionSet1";
+import CollectionSet2 from "../pages/CollectionPage/CollectionSet2";
+import CollectionSet3 from "../pages/CollectionPage/CollectionSet3";
 
 export default function AppRoute() {
   return (
@@ -50,6 +52,9 @@ export default function AppRoute() {
       <Route path={routes.blog} element={<Blog />} />
       <Route path={routes.sale} element={<SaleEventPage />} />
       <Route path={routes.diamondprice} element={<DiamondPricePage />} />
+      <Route path={routes.bstset1} element={<CollectionSet1 />} />
+      <Route path={routes.bstset2} element={<CollectionSet2 />} />
+      <Route path={routes.bstset3} element={<CollectionSet3 />} />
       <Route
         path={routes.profile}
         element={
@@ -131,9 +136,10 @@ export default function AppRoute() {
       <Route
         path={routes.saleStaff}
         element={
-          <ProtectedRoute role="SALES">
-            <SaleStaffPage />
-          </ProtectedRoute>
+          <SaleStaffPage />
+          // <ProtectedRoute role="SALES">
+          //   <SaleStaffPage />
+          // </ProtectedRoute>
         }
       />
       <Route
