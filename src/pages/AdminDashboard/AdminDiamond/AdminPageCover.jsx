@@ -200,6 +200,7 @@ export default function AdminCover() {
     const dataUpdate = {
       ...newData,
     };
+
     newData.diamondID = checkedListUpdate;
     console.log(dataUpdate);
     try {
