@@ -835,6 +835,38 @@ export default function AdminCover() {
             <div className="form-content">
               <Form.Item
                 className="label-form"
+                label="Image URL "
+                name="imgURL"
+              >
+                <Upload
+                  className="admin-upload-button"
+                  fileList={img ? [img] : []}
+                  beforeUpload={(file) => {
+                    setImg(file);
+                    return false;
+                  }}
+                  onRemove={() => setImg(null)}
+                >
+                  <Button
+                    icon={<UploadOutlined />}
+                    className="admin-upload-button"
+                  >
+                    Upload Hình Ảnh
+                  </Button>
+                </Upload>{" "}
+              </Form.Item>
+
+              <Form.Item
+                className="label-form"
+                label="Tên Sản Phẩm"
+                name="name"
+                required
+              >
+                <Input type="text" required></Input>
+              </Form.Item>
+
+              <Form.Item
+                className="label-form"
                 label="Hình Dáng"
                 name="shape"
                 rules={[
@@ -1016,6 +1048,22 @@ export default function AdminCover() {
             </div>
             <div className="form-content">
               <Form.Item
+                className="label-form"
+                label="Mô Tả"
+                name="description"
+                required
+              >
+                <Input type="text" required></Input>
+              </Form.Item>
+              <Form.Item
+                className="label-form"
+                label="Tỉ Lệ Áp Giá"
+                name="priceRate"
+                required
+              >
+                <Input type="number" required></Input>
+              </Form.Item>
+              <Form.Item
                 initialValue="GOLD"
                 className="label-form"
                 label="Kim Loại"
@@ -1130,49 +1178,6 @@ export default function AdminCover() {
               >
                 Chọn Kim Cương
               </Button>
-              <Form.Item
-                className="label-form"
-                label="Image URL "
-                name="imgURL"
-              >
-                <Upload
-                  fileList={img ? [img] : []}
-                  beforeUpload={(file) => {
-                    setImg(file);
-                    return false;
-                  }}
-                  onRemove={() => setImg(null)}
-                >
-                  <Button icon={<UploadOutlined />} className="select-input">
-                    Upload
-                  </Button>
-                </Upload>{" "}
-              </Form.Item>
-
-              <Form.Item
-                className="label-form"
-                label="Tên Sản Phẩm"
-                name="name"
-                required
-              >
-                <Input type="text" required></Input>
-              </Form.Item>
-              <Form.Item
-                className="label-form"
-                label="Mô Tả"
-                name="description"
-                required
-              >
-                <Input type="text" required></Input>
-              </Form.Item>
-              <Form.Item
-                className="label-form"
-                label="Tỉ Lệ Áp Giá"
-                name="priceRate"
-                required
-              >
-                <Input type="number" required></Input>
-              </Form.Item>
             </div>
           </div>
 

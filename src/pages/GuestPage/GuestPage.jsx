@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import Header from "../../components/Header/Header";
 import ProductCard from "../../components/productCard/productCard";
@@ -30,6 +30,9 @@ export default function GuestPage() {
 
   // Lấy 5 sản phẩm đầu tiên
   const firstFiveProducts = product.slice(0, 10);
+  const specialpro = firstFiveProducts.filter(
+    (itemSpecial) => itemSpecial.special === false
+  );
 
   return (
     <div>
@@ -52,7 +55,7 @@ export default function GuestPage() {
         />
 
         <Row>
-          {firstFiveProducts.map((item, index) => (
+          {specialpro.map((item, index) => (
             <Col key={index} className="product-card-item">
               <ProductCard
                 img={item.imgURL}

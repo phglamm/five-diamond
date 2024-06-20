@@ -42,7 +42,7 @@ export default function CartPage() {
 
   async function deleteCart(id) {
     try {
-      const response = await api.delete(`cart/${id}`);
+      await api.delete(`cart/${id}`);
       setCartItems(cartItems.filter((item) => item.id !== id));
       toast.success("xóa khỏi giỏ hàng thành công");
     } catch (error) {

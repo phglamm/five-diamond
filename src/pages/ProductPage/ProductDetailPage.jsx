@@ -8,7 +8,6 @@ import { Button, Modal, Select } from "antd";
 import { ShoppingOutlined } from "@ant-design/icons";
 import ProductCard from "../../components/productCard/productCard";
 import { useNavigate, useParams } from "react-router-dom";
-import { routes } from "../../routes";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
 
@@ -19,7 +18,6 @@ export default function ProductPage() {
   const [product, setProduct] = useState();
 
   const [selectedSize, setSelectedSize] = useState(null);
-  const [size, setSize] = useState("large");
   const { id } = useParams();
 
   useEffect(() => {
@@ -188,7 +186,6 @@ export default function ProductPage() {
             </div>
             <div className="button-buy">
               <Button
-                size={size}
                 type="primary"
                 icon={<ShoppingOutlined />}
                 onClick={handleClickAddToCart}
@@ -197,7 +194,6 @@ export default function ProductPage() {
                 THÊM VÀO GIỎ HÀNG
               </Button>
               <Button
-                size={size}
                 type="primary"
                 icon={<ShoppingOutlined />}
                 className="button-buybuy"
