@@ -428,15 +428,6 @@ export default function AdminDiamond() {
                     >
                       <Input type="text" />
                     </Form.Item>
-
-                    <Form.Item
-                      className="label-form"
-                      label="Loại"
-                      name="type"
-                      initialValue="DIAMOND"
-                    >
-                      <Input readOnly type="text"></Input>
-                    </Form.Item>
                   </div>
                 </div>
                 <Button
@@ -666,15 +657,6 @@ export default function AdminDiamond() {
                 name="imgURL"
               >
                 <Input type="text" />
-              </Form.Item>
-
-              <Form.Item
-                className="label-form"
-                label="Loại"
-                name="type"
-                initialValue="DIAMOND"
-              >
-                <Input readOnly type="text"></Input>
               </Form.Item>
             </div>
           </div>

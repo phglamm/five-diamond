@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import "./ProfilePage.css";
@@ -15,11 +15,13 @@ function ProfilePage() {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const inputRef = useRef(null);
-  const [image, setImage] = useState(null); 
-  const [visible, setVisible] = useState(false); 
+  const [image, setImage] = useState(null);
+  const [visible, setVisible] = useState(false);
+  const [image, setImage] = useState(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('userProfile');
+    const storedUser = localStorage.getItem("userProfile");
     if (storedUser) {
       dispatch(updateUser(JSON.parse(storedUser)));
     }
@@ -31,11 +33,8 @@ function ProfilePage() {
 
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
-    console.log(file);
-    setImage(event.target.files[0]);
-
-    const url = await uploadFile(file);
-    console.log(url);
+    setImage(file);
+    // Đoạn này bạn có thể thực hiện các xử lý khác như upload file lên server
   };
 
   const handleUpdateClick = () => {
@@ -43,20 +42,19 @@ function ProfilePage() {
   };
 
   const handleEditInfoClick = () => {
-    setVisible(true); 
+    setVisible(true);
   };
 
   const handleModalCancel = () => {
-    setVisible(false); 
+    setVisible(false);
   };
 
   const handleModalOk = async () => {
     try {
-      await api.put(`/api/user/${user.id}`, user); 
+      await api.put(`/api/user/${user.id}`, user);
       setVisible(false);
     } catch (error) {
       console.error("Error updating user:", error);
-
     }
   };
 
@@ -73,7 +71,7 @@ function ProfilePage() {
           {image ? (
             <img id="avt-img" src={URL.createObjectURL(image)} alt="" />
           ) : (
-            <img id="avt-img" src={defaultImage} alt="Default Avatar" />
+            <img id="avt-img" src="" alt="Default Avatar" />
           )}
           <input
             type="file"
@@ -182,9 +180,9 @@ function ProfilePage() {
             />
           </div>
         </div>
-        <Link to="">
-          <BasicButton text={"Chỉnh sửa thông tin"} />
-        </Link>
+        <Button type="primary" onClick={handleEditInfoClick}>
+          Chỉnh sửa thông tin
+        </Button>
       </div>
 
       <Modal
@@ -212,11 +210,7 @@ function ProfilePage() {
           </div>
           <div className="input">
             <label>Giới tính:</label>
-            <Input
-              name="gender"
-              value={user.gender}
-              onChange={handleChange}
-            />
+            <Input name="gender" value={user.gender} onChange={handleChange} />
           </div>
           <div className="input">
             <label>Ngày sinh:</label>
@@ -228,11 +222,7 @@ function ProfilePage() {
           </div>
           <div className="input">
             <label>Số điện thoại:</label>
-            <Input
-              name="phone"
-              value={user.phone}
-              onChange={handleChange}
-            />
+            <Input name="phone" value={user.phone} onChange={handleChange} />
           </div>
           <div className="input">
             <label>Địa chỉ:</label>

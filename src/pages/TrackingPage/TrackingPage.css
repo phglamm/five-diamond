@@ -9,7 +9,6 @@
   margin-top: 30px;
 }
 
-
 .order-tracking {
   margin-top: 40px;
 }
@@ -48,7 +47,8 @@
   /* Reduce the size of the image */
   height: auto;
   display: block;
-  margin-right: 10px;/
+  margin-right: 10px;
+
 }
 
 .product-info p {

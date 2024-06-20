@@ -33,7 +33,8 @@
 .order-item-details {
   flex: 1;
 }
-.order-item{
+
+.order-item {
   margin-right: 0%;
 
 }
@@ -49,31 +50,41 @@
   margin-top: 1px;
 }
 
-.quantity-div h3{
+.quantity-div h3 {
   color: #5a5a5a;
 }
 
-.quantity-div{
+.quantity-div {
   background-color: #ffffffd5;
-  border-left: 1px solid rgb(129, 129, 129); /* Add black border on the left */
+  border-left: 1px solid rgb(129, 129, 129);
+  /* Add black border on the left */
   border-right: 3px solid rgb(129, 129, 129);
-  display: flex; /* Ensure contents are aligned horizontally */
-  align-items: center; /* Center align items vertically */
-  justify-content: center; /* Center align items horizontally */
+  display: flex;
+  /* Ensure contents are aligned horizontally */
+  align-items: center;
+  /* Center align items vertically */
+  justify-content: center;
+  /* Center align items horizontally */
 }
 
 /* Custom styles for quantity buttons */
 .quantity-button {
-  background-color: #f8d7da; /* Light red background */
-  border-color: #f5c6cb;     /* Light red border */
-  color: #721c24;           /* Dark red text color */
+  background-color: #f8d7da;
+  /* Light red background */
+  border-color: #f5c6cb;
+  /* Light red border */
+  color: #721c24;
+  /* Dark red text color */
 }
 
 .quantity-button:hover,
 .quantity-button:focus {
-  background-color: #f5c6cb; /* Slightly darker red on hover */
-  border-color: #f1b0b7;     /* Slightly darker red border on hover */
-  color: #721c24;            /* Dark red text color */
+  background-color: #f5c6cb;
+  /* Slightly darker red on hover */
+  border-color: #f1b0b7;
+  /* Slightly darker red border on hover */
+  color: #721c24;
+  /* Dark red text color */
 }
 
 /* Button styles - no specific color */
@@ -108,6 +119,22 @@
 h5,
 p {
   margin: 5px 0;
+}
+
+h5 {
+  text-align: left;
+}
+
+/* Button styles - no specific color */
+.btn-outline-secondary {
+  border-color: #ced4da;
+  color: #495057;
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus {
+  border-color: #adb5bd;
+  color: #343a40;
 }
 
 .btn-danger {
@@ -167,6 +194,11 @@ input.form-control {
 
 .Col4 {
   margin-top: 25%;
+}
+
+.cart-summary {
+  margin-top: 25%;
+  text-align: left;
 
 }
 
@@ -189,6 +221,174 @@ input.form-control {
   background-color: #ced4da;
   margin: 5px 0;
 }
+
+hr.solid {
+  margin-top: 0px;
+  border-top: 3px solid #ff0000;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  flex: 1;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.Col8 {
+  margin-bottom: 20px;
+}
+
+.product-details {
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.product-image {
+  width: 208px;
+  height: auto;
+  margin-right: 20px;
+}
+
+.price-text {
+  margin-right: 30px;
+}
+
+.order-item-details {
+  flex: 1;
+}
+
+.order-item {
+  margin-right: 0%;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.quantity {
+  margin: 0 10px;
+}
+
+.remove-but {
+  text-align: right;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-proceed-to-checkout {
+  margin-top: 20px;
+}
+
+.apply-button {
+  margin-left: 10px;
+}
+
+h5,
+p {
+  margin: 5px 0;
+}
+
+/* Button styles - no specific color */
+.btn-outline-secondary {
+  border-color: #ced4da;
+  color: #495057;
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus {
+  border-color: #adb5bd;
+  color: #343a40;
+}
+
+.btn-danger {
+  background-color: transparent;
+  border-color: #ced4da;
+  color: #495057;
+}
+
+.btn-danger:hover,
+.btn-danger:focus {
+  background-color: transparent;
+  border-color: #adb5bd;
+  color: #343a40;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border-color: #ced4da;
+  color: #495057;
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+  background-color: transparent;
+  border-color: #adb5bd;
+  color: #343a40;
+}
+
+.apply-button {
+  background-color: transparent;
+  border-color: #ced4da;
+  color: #495057;
+}
+
+.apply-button:hover,
+.apply-button:focus {
+  background-color: transparent;
+  border-color: #adb5bd;
+  color: #343a40;
+}
+
+input.form-control {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.continue-btn {
+  width: 29%;
+  margin-bottom: 20px;
+}
+
+.continue-btn .btn-light {
+  border: 2px groove #495057;
+  color: #495057;
+}
+
+.Col4 {
+  margin-top: 25%;
+}
+
+.proceed-to-checkout-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.proceed-to-checkout-button:hover {
+  background-color: #83c792;
+}
+
+.separator {
+  height: 1px;
+  background-color: #ced4da;
+  margin: 5px 0;
+}
+
 hr.solid {
   margin-top: 0px;
   border-top: 3px solid #ff0000;
