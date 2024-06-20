@@ -14,6 +14,8 @@ import { UploadOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
 import { AiOutlineSearch } from "react-icons/ai";
 
 import { dataCustomerDelivery as initialMergedData } from "./FakeDataDeliver";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 
 const uploadProps = {
   name: "file",
