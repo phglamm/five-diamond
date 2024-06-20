@@ -26,7 +26,7 @@ export default function ProductCard({
       </div>
       <div className="product-text">
         <p>
-          <Link to="/chi-tiet-san-pham">{text}</Link>
+          <Link to={`/chi-tiet-san-pham/${id}`}>{text}</Link>
         </p>
         {salePrice ? (
           <div className="price-info">
