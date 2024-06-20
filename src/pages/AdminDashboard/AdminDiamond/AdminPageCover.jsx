@@ -19,6 +19,8 @@ import { toast } from "react-toastify";
 import { UploadOutlined } from "@ant-design/icons";
 import { CListGroup } from "@coreui/react";
 import uploadFile from "../../../utils/upload";
+import axios from "axios";
+import { button } from "@nextui-org/theme";
 
 export default function AdminCover() {
   const [form] = useForm();
@@ -43,7 +45,9 @@ export default function AdminCover() {
   const [origin, setOrigin] = useState("");
   const [color, setColor] = useState("");
   const [carat, setCarat] = useState("");
+
   const [special, setSpecial] = useState(false);
+  const [specialUpdate, setSpecialUpdate] = useState(false);
 
   const [diamondUpdate, setDiamondUpdate] = useState([]);
   const [shapeUpdate, setShapeUpdate] = useState("");
@@ -54,6 +58,8 @@ export default function AdminCover() {
   const [colorUpdate, setColorUpdate] = useState("");
   const [caratUpdate, setCaratUpdate] = useState("");
   const [img, setImg] = useState(null);
+  const [imgUpdate, setImgUpdate] = useState(null);
+
   function hanldeUpdateClickSubmit() {
     formUpdate.submit();
   }
@@ -143,7 +149,7 @@ export default function AdminCover() {
 
   async function fetchDiamondUpdate() {
     const response = await api.get(
-      `diamond/search?shape=${shapeUpdate}&color=${colorUpdate}&cut=${cutUpdate}&clarity=${clarityUpdate}&carat=${caratUpdate}&size=${sizeUpdate}&origin=${originUpdate}`
+      `diamond/update?shape=${shapeUpdate}&color=${colorUpdate}&cut=${cutUpdate}&clarity=${clarityUpdate}&carat=${caratUpdate}&size=${sizeUpdate}&origin=${originUpdate}`
     );
     setDiamondUpdate(response.data);
   }
@@ -184,8 +190,9 @@ export default function AdminCover() {
 
   async function updateProductLine(values) {
     console.log(values.id);
+    const imgURLUpdate = await uploadFile(imgUpdate);
+    newData.imgURL = imgURLUpdate;
     newData.diamondID = checkedListUpdate;
-
     const dataUpdate = {
       ...newData,
     };
@@ -359,7 +366,7 @@ export default function AdminCover() {
             <Modal
               className="modal-add-form"
               footer={false}
-              title="Chỉnh Sửa Vỏ Kim Cương"
+              title="Chỉnh Sửa Dòng Sản Phẩm"
               okText={"Lưu"}
               open={isModalUpdateOpen}
               onOk={handleUpdateOk}
@@ -380,6 +387,43 @@ export default function AdminCover() {
               >
                 <div className="form-content-main">
                   <div className="form-content">
+                    <Form.Item
+                      className="label-form"
+                      label="Image URL "
+                      name="imgURL"
+                    >
+                      <Upload
+                        className="admin-upload-button"
+                        fileList={imgUpdate ? [imgUpdate] : []}
+                        beforeUpload={(file) => {
+                          setImgUpdate(file);
+                          return false;
+                        }}
+                        onRemove={() => setImgUpdate(null)}
+                      >
+                        <Button
+                          icon={<UploadOutlined />}
+                          className="admin-upload-button"
+                        >
+                          Upload Hình Ảnh
+                        </Button>
+                      </Upload>{" "}
+                    </Form.Item>
+                    <Form.Item
+                      className="label-form"
+                      label="Tên Sản Phẩm"
+                      name="name"
+                      required
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập Tên Sản Phẩm",
+                        },
+                      ]}
+                    >
+                      <Input type="text" required></Input>
+                    </Form.Item>
+
                     <Form.Item
                       className="label-form"
                       label="Hình Dáng"
@@ -559,17 +603,36 @@ export default function AdminCover() {
                         value={checkedListUpdate}
                       />
                     </Form.Item>
-                    <Form.Item
-                      initialValue="false"
-                      className="label-form"
-                      label="Đặc Biệt"
-                      name="special"
-                      valuePropName="true"
-                    >
-                      <Checkbox />
-                    </Form.Item>
                   </div>
                   <div className="form-content">
+                    <Form.Item
+                      className="label-form"
+                      label="Mô Tả"
+                      name="description"
+                      required
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập mô tả",
+                        },
+                      ]}
+                    >
+                      <Input type="text" required></Input>
+                    </Form.Item>
+                    <Form.Item
+                      className="label-form"
+                      label="Tỉ Lệ Áp Giá"
+                      name="priceRate"
+                      required
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập Tỉ Lệ Áp Giá",
+                        },
+                      ]}
+                    >
+                      <Input type="number" required></Input>
+                    </Form.Item>
                     <Form.Item
                       initialValue="GOLD"
                       className="label-form"
@@ -653,12 +716,6 @@ export default function AdminCover() {
                       className="label-form"
                       label="Danh Mục"
                       name="categoryID"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Nhập Danh Mục",
-                        },
-                      ]}
                     >
                       <Select
                         className="select-input"
@@ -715,6 +772,21 @@ export default function AdminCover() {
                         onChange={onChange}
                       />
                     </Modal>
+                    <Form.Item
+                      className="label-form"
+                      label="Đặc Biệt"
+                      name="special"
+                      valuePropName="checked"
+                      initialValue={specialUpdate}
+                    >
+                      <Checkbox
+                        checked={specialUpdate}
+                        onChange={(e) => {
+                          setSpecialUpdate(e.target.checked);
+                          console.log(specialUpdate);
+                        }}
+                      />
+                    </Form.Item>
                   </div>
                 </div>
                 <Button
@@ -723,7 +795,7 @@ export default function AdminCover() {
                   }}
                   className="form-button"
                 >
-                  Chỉnh Sửa Vỏ Kim Cương
+                  Chỉnh Sửa Dòng Sản Phẩm
                 </Button>
               </Form>
             </Modal>

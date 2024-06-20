@@ -42,12 +42,13 @@ export default function ProductPage() {
         console.log("Product added to cart", id);
         const response = await api.post(`cart/${id}`);
         console.log(response.data);
-        toast.success("Add To Cart");
+        toast.success("Thêm Vào Giỏ Hàng");
       } catch (error) {
         console.log(error.response.data);
-        toast.error("There is some error");
+        toast.error("Có lỗi trong lúc thêm sản phẩm");
       }
     } else {
+      z;
       toast.error("Bạn Chưa Chọn Size cho sản phẩm");
     }
   };
@@ -75,9 +76,7 @@ export default function ProductPage() {
         <div className="product-detail">
           <div>
             <img
-              src={
-                "https://drive.google.com/thumbnail?id=1t8ScW3X5vy3SmznuT2rntrd7JYFx_-u_&sz=w1000"
-              }
+              src={product.imgURL}
               alt="Product"
               style={{ width: "700px" }}
             />
