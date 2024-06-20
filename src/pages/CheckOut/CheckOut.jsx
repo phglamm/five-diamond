@@ -3,11 +3,15 @@ import axios from "axios";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
+import { useLocation } from "react-router-dom";
 import './CheckOut.css';
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
 
 export default function CheckOut() {
+  const location = useLocation();
+  const { cartItems } = location.state || { cartItems: [] };
+
   const navigate = useNavigate();
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
@@ -70,6 +74,24 @@ export default function CheckOut() {
       setWards([]);
     }
   }, [selectedDistrict]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = {
+      name: form.name.value,
+      phone: form.phone.value,
+      email: form.email.value,
+      address: form.address.value,
+      province: form.province.value,
+      district: form.district.value,
+      ward: form.ward.value,
+      deliveryOption: deliveryOption,
+      cartItems: cartItems,
+    };
+
+    console.log(data);
+  };
 
   // Handle Province Change
   const handleProvinceChange = (e) => {
@@ -273,7 +295,18 @@ export default function CheckOut() {
             </Col>
             <Col md={4}>
               <h4>THÔNG TIN ĐƠN HÀNG</h4>
-              <div className="order-item">
+              {cartItems.map((item) => (
+                <div key={item.id} className="order-item">
+                  <img src={item.image} alt="Product Image" className="checkout-image" />
+                  <div className="order-item-details">
+                    <h6>{item.name}</h6>
+                    <p>Mã SP: {item.code}</p>
+                    <p>Số lượng: {item.quantity}</p>
+                    <p>Giá: {(item.price * item.quantity).toLocaleString()} VNĐ</p>
+                  </div>
+                </div>
+              ))}
+              {/* <div className="order-item">
                 <img src="https://tnj.vn/75169-large_default/nhan-bac-nu-dinh-da-10mm-nn0440.jpg" alt="Product Image" className="checkout-image" />
                 <div className="order-item-details">
                   <p>HOA TAI 18K AFEC00043BD2DA1</p>
@@ -294,7 +327,7 @@ export default function CheckOut() {
                   <p>Tạm tính: <span>44,520,000đ</span></p>
                   <p>Thành tiền: <span style={{ color: 'red' }}>44,520,000đ</span></p>
                 </div>
-              </div>
+              </div> */}
               <h5>Tạm tính: <span style={{ color: 'red' }}>87,340,000đ</span></h5>
               <Form.Group controlId="formVoucher">
                 <p>Mã giảm giá/Voucher</p>

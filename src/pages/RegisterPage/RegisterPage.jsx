@@ -8,7 +8,6 @@ import {
 } from "mdb-react-ui-kit";
 import "./RegisterPage.css";
 
-import logo from "../../../public/assets/images/Logo/logo.png";
 import { routes } from "../../routes";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, DatePicker, Form, Input, Select } from "antd";
@@ -45,7 +44,9 @@ function RegisterPageCard() {
         <MDBRow className="g-0">
           <MDBCol md="6">
             <MDBCardImage
-              src={"https://drive.google.com/thumbnail?id=1rnuNBIluTA1oWyGVTdXjHy8SYDmfk6zH&sz=w1000"}
+              src={
+                "https://drive.google.com/thumbnail?id=1rnuNBIluTA1oWyGVTdXjHy8SYDmfk6zH&sz=w1000"
+              }
               alt="login form"
               className="rounded-start w-100"
             />
@@ -61,7 +62,13 @@ function RegisterPageCard() {
                 <span className="">Quay Lại Trang Chủ</span>
               </Link>
               <div className="d-flex flex-row mt-2 form-header">
-                <img src={logo} alt="" className="form-logo" />
+                <img
+                  src={
+                    "https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"
+                  }
+                  alt=""
+                  className="form-logo"
+                />
                 <span className="h1 fw-bold mb-0">Five Diamond</span>
               </div>
 

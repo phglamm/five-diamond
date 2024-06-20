@@ -1,7 +1,5 @@
-import React from "react";
 import "../DropdownContent/DropdownContent.css";
 import { Link } from "react-router-dom";
-import dropdownimg from "../../../../public/assets/images/Banner/banner1.jpg";
 import { Col, Row } from "react-bootstrap";
 export default function DropdownContent() {
   return (
@@ -30,7 +28,7 @@ export default function DropdownContent() {
         </div>
       </Col>
       <Col xs={4} md={6} className="dropdownItem">
-        <img src={dropdownimg} alt="" />
+        {/* <img src={dropdownimg} alt="" /> */}
       </Col>
     </Row>
   );

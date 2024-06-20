@@ -19,7 +19,6 @@ import AdminProduct from "../pages/AdminDashboard/AdminProduct/AdminProduct";
 import AdminDiamond from "../pages/AdminDashboard/AdminDiamond/AdminPageDiamond";
 import AdminCategory from "../pages/AdminDashboard/AdminCategory/AdminCategory";
 import ProtectedRoute from "./protectedRoute";
-import AdminDiamondShell from "../pages/AdminDashboard/AdminDiamond/AdminPageDiamondShell";
 import CartPage from "../pages/CartPage/CartPage";
 import CheckOut from "../pages/CheckOut/CheckOut";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
@@ -33,6 +32,7 @@ import AdminCertificate from "../pages/AdminDashboard/AdminCertificate/AdminCert
 import AdminUser from "../pages/AdminDashboard/AdminUser/AdminUser";
 import AdminOrder from "../pages/AdminDashboard/AdminManageOrder/AdmiManageOrder";
 import ChangePasswordPage from "../pages/ChangePassword/ChangePassword";
+import AdminCover from "../pages/AdminDashboard/AdminDiamond/AdminPageCover";
 import CollectionSet1 from "../pages/CollectionPage/CollectionSet1";
 import CollectionSet2 from "../pages/CollectionPage/CollectionSet2";
 import CollectionSet3 from "../pages/CollectionPage/CollectionSet3";
@@ -86,10 +86,10 @@ export default function AppRoute() {
         }
       />
       <Route
-        path={routes.adminDiamondshell}
+        path={routes.adminCover}
         element={
           <ProtectedRoute role="ADMIN">
-            <AdminDiamondShell />
+            <AdminCover />
           </ProtectedRoute>
         }
       />

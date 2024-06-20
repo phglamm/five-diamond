@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import "./SideBar.css";
-import logo from "../../../public/assets/images/Logo/logo.png";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import StackedLineChartIcon from "@mui/icons-material/StackedLineChart";
@@ -23,7 +22,12 @@ export default function SideBar() {
   return (
     <div className="sidenav">
       <div className="sidenav-header">
-        <img src={logo} alt="" />
+        <img
+          src={
+            "https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"
+          }
+          alt=""
+        />
 
         <span>Five Diamond</span>
       </div>
@@ -58,7 +62,7 @@ export default function SideBar() {
       </li>
       <li>
         <CategoryIcon color="info" fontSize="large"></CategoryIcon>
-        <Link to={routes.adminDiamondshell}>Quản Lý Vỏ Kim Cương</Link>
+        <Link to={routes.adminCover}>Quản Lý Vỏ Kim Cương</Link>
       </li>
       <li>
         <FindInPageIcon color="info" fontSize="large"></FindInPageIcon>

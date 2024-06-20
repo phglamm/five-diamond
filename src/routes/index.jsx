@@ -21,7 +21,7 @@ export const routes = {
 
   admin: "/admin",
   adminProduct: "/admin-san-pham",
-  adminDiamondshell: "/admin-vo-kim-cuong",
+  adminCover: "/admin-vo-kim-cuong",
   adminDiamond: "/admin-kim-cuong",
   adminAdd: "/admin-them-san-pham",
   adminmanageorder: "/admin-quan-li-don-hang",
@@ -32,7 +32,7 @@ export const routes = {
   productdetail: "/chi-tiet-san-pham",
   diamondprice: "/bang-gia-kim-cuong",
 
-  notfound: "/notfound",
+  notfound: "*",
   cart: "/gio-hang",
   checkout: "/tien-hanh-thanh-toan",
   priceDiamond: "/bang-gia-kim-cuong",

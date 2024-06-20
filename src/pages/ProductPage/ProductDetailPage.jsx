@@ -9,12 +9,27 @@ import { ShoppingOutlined } from "@ant-design/icons";
 import ProductCard from "../../components/productCard/productCard";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
+import productData from "../ProductPage/productData";
+import { addToCart } from "../CartPage/cartItems"
+
 
 export default function ProductPage() {
   const navigate = useNavigate()
+  const [selectedSize, setSelectedSize] = useState(null);
   const handleClickBuy = () => {
     navigate(routes.cart)
   }
+
+  const handleClickAddToCart = () => {
+    if (selectedSize) {
+      const productWithSize = { ...productData, size: selectedSize };
+      addToCart(productWithSize);
+      console.log("Product added to cart", productWithSize);
+    } else {
+      console.log("Please select a size");
+    }
+  };
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -29,9 +44,13 @@ export default function ProductPage() {
     setIsModalOpen(false);
   };
 
-  const onChange = (value) => {
-    console.log("changed", value);
+  const handleSizeChange = (value) => {
+    setSelectedSize(value);
   };
+
+  // const onChange = (value) => {
+  //   console.log("changed", value);
+  // };
   const [size, setSize] = useState("large"); // default is 'middle'
   return (
     <div>
@@ -39,29 +58,33 @@ export default function ProductPage() {
       <Container>
         <div className="product-detail">
           <div>
-            <img src={"https://drive.google.com/thumbnail?id=1t8ScW3X5vy3SmznuT2rntrd7JYFx_-u_&sz=w1000"} />
-            <img src={"https://drive.google.com/thumbnail?id=10QO3_Hg0lx-1qk5o1VcEGovjCXmVNvOq&sz=w1000"} />
+            <img src={productData.image} alt="Product" />
+            <img src={productData.image1} alt="Product" />
+            {/* <img src={"https://drive.google.com/thumbnail?id=1t8ScW3X5vy3SmznuT2rntrd7JYFx_-u_&sz=w1000"} />
+            <img src={"https://drive.google.com/thumbnail?id=10QO3_Hg0lx-1qk5o1VcEGovjCXmVNvOq&sz=w1000"} /> */}
           </div>
           <div>
-            <h4 className="product-title">NHẪN ĐÍNH HÔN KIM CƯƠNG ERN311W</h4>
-            <p>MÃ SẢN PHẨM:ERN311W</p>
+            <h4 className="product-title">{productData.name}</h4>
+            <p>MÃ SẢN PHẨM: {productData.code}</p>
             <Rating />
-            <p style={{ color: "red" }}>44,520,000đ</p>
+            <p style={{ color: "red" }}>{productData.price.toLocaleString()}đ</p>
+            <p>Mô tả: {productData.description}</p>
             <p>
               *Giá có thể thay đổi tùy thuộc vào kích thước và trọng lượng thực
               tế của sản phẩm.
             </p>
-            <p>CÒN 3 SẢN PHẨM</p>
+            <p>CÒN {productData.quantity} SẢN PHẨM</p>
             <h5>TÙY CHỈNH SẢN PHẨM</h5>
             <div className="select-material">
             </div>
             <div className="select-size">
-              <p>Size</p>
+              <p>Kích Thước</p>
               <Select
                 showSearch
                 style={{ width: 200 }}
                 placeholder="Search to Select"
                 optionFilterProp="children"
+                onChange={handleSizeChange}
                 filterOption={(input, option) =>
                   (option?.label ?? "").includes(input)
                 }
@@ -70,41 +93,21 @@ export default function ProductPage() {
                     .toLowerCase()
                     .localeCompare((optionB?.label ?? "").toLowerCase())
                 }
-                options={[
-                  {
-                    value: "1",
-                    label: "6",
-                  },
-                  {
-                    value: "2",
-                    label: "8",
-                  },
-                  {
-                    value: "3",
-                    label: "10",
-                  },
-                  {
-                    value: "4",
-                    label: "12",
-                  },
-                  {
-                    value: "5",
-                    label: "14",
-                  },
-                  {
-                    value: "6",
-                    label: "16",
-                  },
-                ]}
+                options={productData.size.map((size) => ({
+                  value: size,
+                  label: size,
+                }))}
               />
               <Button type="primary" onClick={showModal}>
                 Hướng dẫn đo ni
               </Button>
               <Modal
                 title="Hướng dẫn đo ni"
-                open={isModalOpen} onOk={handleOk}
+                open={isModalOpen}
+                onOk={handleOk}
                 onCancel={handleCancel}
                 bodyStyle={{ maxHeight: "60vh", overflowY: "auto" }}
+                className="size-guide-modal"
               >
                 <p>Với trang sức, nhẫn là sản phẩm thường phải sửa nhiều nhất cho phù hợp với cỡ tay của người sử dụng.
                   Một chiếc nhẫn vừa vặn sẽ cho bạn cảm giác tự tin thoải mái khi đeo. Trong trường hợp không thể đến cửa hàng lựa chọn,
@@ -138,8 +141,18 @@ export default function ProductPage() {
               <Button
                 type="primary"
                 icon={<ShoppingOutlined />}
+                size={size}
+                onClick={handleClickAddToCart}
+                className="button-addtocart"
+              >
+                THÊM VÀO GIỎ HÀNG
+              </Button>
+              <Button
+                type="primary"
+                icon={<ShoppingOutlined />}
                 size={size} c
                 onClick={handleClickBuy}
+                className="button-buybuy"
               >
                 MUA NGAY
               </Button>
