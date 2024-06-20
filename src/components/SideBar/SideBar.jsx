@@ -52,18 +52,19 @@ export default function SideBar() {
         <ShoppingCartIcon color="info" fontSize="large"></ShoppingCartIcon>
         <Link to={routes.adminmanageorder}>Quản Lý Đơn Hàng</Link>
       </li>
-      <li>
+      {/* <li>
         <InventoryIcon color="info" fontSize="large"></InventoryIcon>
         <Link to={routes.adminProduct}>Quản Lý Sản Phẩm</Link>
+      </li> */}
+      <li>
+        <InventoryIcon color="info" fontSize="large"></InventoryIcon>
+        <Link to={routes.adminCover}>Danh Mục Sản Phẩm</Link>
       </li>
       <li>
         <DiamondIcon color="info" fontSize="large"></DiamondIcon>
         <Link to={routes.adminDiamond}>Quản Lý Kim Cương</Link>
       </li>
-      <li>
-        <CategoryIcon color="info" fontSize="large"></CategoryIcon>
-        <Link to={routes.adminCover}>Quản Lý Vỏ Kim Cương</Link>
-      </li>
+
       <li>
         <FindInPageIcon color="info" fontSize="large"></FindInPageIcon>
         <Link to={routes.adminCertificate}>Quản Lý Chứng Chỉ</Link>

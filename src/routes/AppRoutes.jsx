@@ -131,10 +131,9 @@ export default function AppRoute() {
       <Route
         path={routes.saleStaff}
         element={
-          <SaleStaffPage />
-          // <ProtectedRoute role="SALES">
-          //   <SaleStaffPage />
-          // </ProtectedRoute>
+          <ProtectedRoute role="SALES">
+            <SaleStaffPage />
+          </ProtectedRoute>
         }
       />
       <Route

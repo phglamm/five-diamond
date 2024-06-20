@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Container } from "react-bootstrap";
@@ -7,11 +7,27 @@ import { Rating } from "@mui/material";
 import { Button, InputNumber, Select } from "antd";
 import { ShoppingOutlined } from "@ant-design/icons";
 import ProductCard from "../../components/productCard/productCard";
+import api from "../../config/axios";
+import { useParams } from "react-router-dom";
 
 export default function ProductPage(props) {
+  const { id } = useParams;
+  useEffect(() => {
+    async function fetchProductDetail() {
+      try {
+        const response = await api.get(`product-line/${id}`);
+        setProductline(response.data);
+      } catch (error) {
+        console.log(error.response.data);
+      }
+    }
+  }, [id]);
   const onChange = (value) => {
     console.log("changed", value);
   };
+
+  const [productline, setProductline] = useState([]);
+
   const [size, setSize] = useState("large"); // default is 'middle'
   return (
     <div>
@@ -19,8 +35,16 @@ export default function ProductPage(props) {
       <Container>
         <div className="product-detail">
           <div>
-            <img src={"https://drive.google.com/thumbnail?id=1t8ScW3X5vy3SmznuT2rntrd7JYFx_-u_&sz=w1000"} />
-            <img src={"https://drive.google.com/thumbnail?id=10QO3_Hg0lx-1qk5o1VcEGovjCXmVNvOq&sz=w1000"} />
+            <img
+              src={
+                "https://drive.google.com/thumbnail?id=1t8ScW3X5vy3SmznuT2rntrd7JYFx_-u_&sz=w1000"
+              }
+            />
+            <img
+              src={
+                "https://drive.google.com/thumbnail?id=10QO3_Hg0lx-1qk5o1VcEGovjCXmVNvOq&sz=w1000"
+              }
+            />
           </div>
           <div>
             <h4 className="product-title">NHẪN ĐÍNH HÔN KIM CƯƠNG ERN311W</h4>
@@ -158,21 +182,27 @@ export default function ProductPage(props) {
       <div className="relevant-product-list">
         <div className="relevant-productcard">
           <ProductCard
-            img={"https://drive.google.com/thumbnail?id=1t8ScW3X5vy3SmznuT2rntrd7JYFx_-u_&sz=w1000"}
+            img={
+              "https://drive.google.com/thumbnail?id=1t8ScW3X5vy3SmznuT2rntrd7JYFx_-u_&sz=w1000"
+            }
             price={40000000}
             text={"Nhẫn kim cương ABCXYZ123456"}
           />
         </div>
         <div className="relevant-productcard">
           <ProductCard
-            img={"https://drive.google.com/thumbnail?id=1t8ScW3X5vy3SmznuT2rntrd7JYFx_-u_&sz=w1000"}
+            img={
+              "https://drive.google.com/thumbnail?id=1t8ScW3X5vy3SmznuT2rntrd7JYFx_-u_&sz=w1000"
+            }
             price={40000000}
             text={"Nhẫn kim cương ABCXYZ123456"}
           />
         </div>
         <div className="relevant-productcard">
           <ProductCard
-            img={"https://drive.google.com/thumbnail?id=1t8ScW3X5vy3SmznuT2rntrd7JYFx_-u_&sz=w1000"}
+            img={
+              "https://drive.google.com/thumbnail?id=1t8ScW3X5vy3SmznuT2rntrd7JYFx_-u_&sz=w1000"
+            }
             price={40000000}
             text={"Nhẫn kim cương ABCXYZ123456"}
           />
