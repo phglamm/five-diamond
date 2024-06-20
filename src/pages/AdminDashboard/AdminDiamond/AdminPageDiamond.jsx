@@ -90,8 +90,13 @@ export default function AdminDiamond() {
 
   async function updateDiamond(values) {
     console.log(values);
-    const imgURLUpdate = await uploadFile(imgUpdate);
-    newData.imgURL = imgURLUpdate;
+    if (imgUpdate) {
+      const imgURLUpdate = await uploadFile(imgUpdate);
+      newData.imgURL = imgURLUpdate;
+    } else {
+      newData.imgURL = values.imgURL;
+    }
+
     const dataUpdate = {
       ...newData,
       giaReportNumber: values.certificate?.giaReportNumber,

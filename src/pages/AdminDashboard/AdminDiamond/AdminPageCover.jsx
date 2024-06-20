@@ -190,13 +190,17 @@ export default function AdminCover() {
 
   async function updateProductLine(values) {
     console.log(values.id);
-    const imgURLUpdate = await uploadFile(imgUpdate);
-    newData.imgURL = imgURLUpdate;
-    newData.diamondID = checkedListUpdate;
+    if (imgUpdate) {
+      const imgURLUpdate = await uploadFile(imgUpdate);
+      newData.imgURL = imgURLUpdate;
+    } else {
+      newData.imgURL = values.imgURL;
+    }
+    // newData.diamondID = checkedListUpdate;
     const dataUpdate = {
       ...newData,
     };
-
+    newData.diamondID = checkedListUpdate;
     console.log(dataUpdate);
     try {
       await api.put(`product-line/${values.id}`, dataUpdate);
