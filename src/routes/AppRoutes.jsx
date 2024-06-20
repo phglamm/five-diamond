@@ -140,13 +140,16 @@ export default function AppRoute() {
         }
       />
       <Route
+        path={routes.deliveryStaff} element={<DeliveryStaffPage />}
+      />
+      {/* <Route
         path={routes.deliveryStaff}
         element={
           <ProtectedRoute role="DELIVERY">
             <DeliveryStaffPage />
           </ProtectedRoute>
         }
-      />
+      /> */}
     </Routes>
   );
 }

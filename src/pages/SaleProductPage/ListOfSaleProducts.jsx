@@ -171,7 +171,7 @@ export const saleProducts = [
     },
     {
         id: 15,
-        name: 'Ruby Heart Pendant Necklace',
+        name: 'Ruby Heart Necklace',
         rating: 5,
         img: '/images/necklaces/ruby_heart_pendant_necklace.jpg',
         price: '2100',

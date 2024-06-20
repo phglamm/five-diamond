@@ -49,16 +49,22 @@
 }
 
 .quantity-div h3 {
+.quantity-div h3 {
   color: #5a5a5a;
 }
 
 .quantity-div {
+.quantity-div {
   background-color: #ffffffd5;
-  border-left: 1px solid rgb(129, 129, 129); /* Add black border on the left */
+  border-left: 1px solid rgb(129, 129, 129);
+  /* Add black border on the left */
   border-right: 3px solid rgb(129, 129, 129);
-  display: flex; /* Ensure contents are aligned horizontally */
-  align-items: center; /* Center align items vertically */
-  justify-content: center; /* Center align items horizontally */
+  display: flex;
+  /* Ensure contents are aligned horizontally */
+  align-items: center;
+  /* Center align items vertically */
+  justify-content: center;
+  /* Center align items horizontally */
 }
 
 /* Custom styles for quantity buttons */
@@ -186,6 +192,7 @@ input.form-control {
   background-color: #ced4da;
   margin: 5px 0;
 }
+
 hr.solid {
   margin-top: 0px;
   border-top: 3px solid #ff0000;
