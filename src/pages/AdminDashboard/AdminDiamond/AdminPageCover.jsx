@@ -43,6 +43,7 @@ export default function AdminCover() {
   const [origin, setOrigin] = useState("");
   const [color, setColor] = useState("");
   const [carat, setCarat] = useState("");
+  const [special, setSpecial] = useState(false);
 
   const [diamondUpdate, setDiamondUpdate] = useState([]);
   const [shapeUpdate, setShapeUpdate] = useState("");
@@ -160,7 +161,7 @@ export default function AdminCover() {
   useEffect(() => {}, []); // Only re-run this effect when diamond changes
 
   async function deleteProductLine(values) {
-    console.log(values);
+    console.log(values.id);
     try {
       Modal.confirm({
         title: "Bạn có chắc muốn xóa dòng sản phẩm này ?",
@@ -226,7 +227,21 @@ export default function AdminCover() {
         <Image src={value} alt="value" style={{ width: 100 }} />
       ),
     },
-
+    {
+      title: "Tên Sản Phẩm",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Mô Tả",
+      dataIndex: "description",
+      key: "description",
+    },
+    {
+      title: "Tỉ Lệ Áp Giá",
+      dataIndex: "priceRate",
+      key: "priceRate",
+    },
     {
       title: "Metal",
       dataIndex: "metal",
@@ -305,6 +320,13 @@ export default function AdminCover() {
       title: "Đặc Biệt",
       dataIndex: "special",
       key: "special",
+      render: (special) => <Checkbox checked={special} disabled />,
+    },
+    {
+      title: "Đã Xóa",
+      dataIndex: "deleted",
+      key: "deleted",
+      render: (deleted) => (deleted ? "Đã Xóa" : "Chưa Xóa"),
     },
     {
       title: "Hành Động",
@@ -538,15 +560,13 @@ export default function AdminCover() {
                       />
                     </Form.Item>
                     <Form.Item
+                      initialValue="false"
                       className="label-form"
                       label="Đặc Biệt"
                       name="special"
                       valuePropName="true"
                     >
-                      <Checkbox
-                        type="checkbox"
-                        onChange={onChangeCheckedUpdate}
-                      />
+                      <Checkbox />
                     </Form.Item>
                   </div>
                   <div className="form-content">
@@ -861,6 +881,12 @@ export default function AdminCover() {
                 label="Tên Sản Phẩm"
                 name="name"
                 required
+                rules={[
+                  {
+                    required: true,
+                    message: "Nhập Tên Sản Phẩm",
+                  },
+                ]}
               >
                 <Input type="text" required></Input>
               </Form.Item>
@@ -1041,9 +1067,16 @@ export default function AdminCover() {
                 className="label-form"
                 label="Đặc Biệt"
                 name="special"
-                valuePropName="true"
+                valuePropName="checked"
+                initialValue={special}
               >
-                <Checkbox type="checkbox" onChange={onChangeChecked} />
+                <Checkbox
+                  checked={special}
+                  onChange={(e) => {
+                    setSpecial(e.target.checked);
+                    console.log(special);
+                  }}
+                />
               </Form.Item>
             </div>
             <div className="form-content">
@@ -1052,6 +1085,12 @@ export default function AdminCover() {
                 label="Mô Tả"
                 name="description"
                 required
+                rules={[
+                  {
+                    required: true,
+                    message: "Nhập mô tả",
+                  },
+                ]}
               >
                 <Input type="text" required></Input>
               </Form.Item>
@@ -1060,6 +1099,12 @@ export default function AdminCover() {
                 label="Tỉ Lệ Áp Giá"
                 name="priceRate"
                 required
+                rules={[
+                  {
+                    required: true,
+                    message: "Nhập tỉ lệ áp giá",
+                  },
+                ]}
               >
                 <Input type="number" required></Input>
               </Form.Item>
