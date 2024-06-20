@@ -29,7 +29,7 @@ export default function GuestPage() {
   }, []);
 
   // Lấy 5 sản phẩm đầu tiên
-  const firstFiveProducts = product.slice(0, 5);
+  const firstFiveProducts = product.slice(1, 6);
 
   return (
     <div>
@@ -51,6 +51,7 @@ export default function GuestPage() {
                 text={item.name}
                 price={item.price}
                 pageType="guest-page"
+                id={item.id}
               />
             </Col>
           ))}

@@ -132,7 +132,7 @@ export default function AppRoute() {
       <Route path={routes.productdetail} element={<ProductPage />} />
       <Route path={routes.saleEvent} element={<SaleEventPage />} />
       <Route path={routes.saleProduct} element={<SaleProductPage />} />
-      <Route path={routes.productdetail} element={<ProductPage />} />
+      <Route path={`${routes.productdetail}/:id`} element={<ProductPage />} />
       <Route path={routes.tracking} element={<TrackingPage />} />
       <Route
         path={routes.saleStaff}

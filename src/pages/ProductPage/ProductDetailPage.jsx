@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Container } from "react-bootstrap";
@@ -7,10 +7,11 @@ import { Rating } from "@mui/material";
 import { Button, InputNumber, Modal, Select } from "antd";
 import { ShoppingOutlined } from "@ant-design/icons";
 import ProductCard from "../../components/productCard/productCard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { routes } from "../../routes";
 import productData from "../ProductPage/productData";
 import { addToCart } from "../CartPage/cartItems"
+import api from "../../config/axios";
 
 
 export default function ProductPage() {
@@ -19,6 +20,8 @@ export default function ProductPage() {
   const handleClickBuy = () => {
     navigate(routes.cart)
   }
+  const [product, setProduct] = useState();
+  const { id } = useParams();
 
   const handleClickAddToCart = () => {
     if (selectedSize) {
@@ -30,6 +33,14 @@ export default function ProductPage() {
     }
   };
 
+  async function fetchProductLineById(id) {
+    const response = await api.get(`product-line/${id}`)
+    setProduct(response.data);
+    console.log(response.data);
+  }
+  useEffect(() =>{
+    fetchProductLineById(id)
+  },[])
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -52,6 +63,7 @@ export default function ProductPage() {
   //   console.log("changed", value);
   // };
   const [size, setSize] = useState("large"); // default is 'middle'
+  
   return (
     <div>
       <Header />
@@ -67,7 +79,7 @@ export default function ProductPage() {
             <h4 className="product-title">{productData.name}</h4>
             <p>MÃ SẢN PHẨM: {productData.code}</p>
             <Rating />
-            <p style={{ color: "red" }}>{productData.price.toLocaleString()}đ</p>
+            <p style={{ color: "red" }}>{product == undefined ? "" : product.price.toLocaleString()}đ</p>
             <p>Mô tả: {productData.description}</p>
             <p>
               *Giá có thể thay đổi tùy thuộc vào kích thước và trọng lượng thực
