@@ -95,3 +95,7 @@
 .data-table {
   width: 80% !important;
 }
+
+.button-upload button {
+  width: 100% !important;
+}

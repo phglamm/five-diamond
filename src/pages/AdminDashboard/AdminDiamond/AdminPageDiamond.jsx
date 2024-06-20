@@ -1,5 +1,5 @@
 import SideBar from "../../../components/SideBar/SideBar";
-import { Button, Form, Image, Input, Modal, Select, Table } from "antd";
+import { Button, Form, Image, Input, Modal, Select, Table, Upload } from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import "../../AdminDashboard/AdminPage.css";
@@ -7,6 +7,7 @@ import "../../AdminDashboard/AdminPage.css";
 import api from "../../../config/axios";
 import { UploadOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
+import uploadFile from "../../../utils/upload";
 
 export default function AdminDiamond() {
   const [newData, setNewData] = useState("");
@@ -16,6 +17,8 @@ export default function AdminDiamond() {
   const [diamond, setDiamond] = useState([]);
   const [certificate, setCertificate] = useState([]);
   const [selectedDiamond, setSelectedDiamond] = useState(null);
+  const [img, setImg] = useState(null);
+  const [imgUpdate, setImgUpdate] = useState(null);
 
   function hanldeClickSubmit() {
     form.submit();
@@ -27,11 +30,15 @@ export default function AdminDiamond() {
 
   async function AddDiamond(value) {
     console.log(value);
+    const imgURL = await uploadFile(img);
+    value.imgURL = imgURL;
+    console.log(value);
     try {
-      await api.post("material", value);
-      toast.success("Thêm Kim Cương Thành Công");
+      await api.post("diamond", value);
       setDiamond([...diamond, value]);
+      toast.success("Thêm Kim Cương Thành Công");
       fetchDiamond();
+      fetchCertificate();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc thêm kim cương");
       console.log(error.response.data);
@@ -39,7 +46,7 @@ export default function AdminDiamond() {
   }
 
   async function fetchDiamond() {
-    const response = await api.get("material/available-diamond");
+    const response = await api.get("diamond");
     setDiamond(response.data);
   }
 
@@ -64,7 +71,7 @@ export default function AdminDiamond() {
       Modal.confirm({
         title: "Bạn có chắc muốn xóa sản phẩm này ?",
         onOk: () => {
-          api.delete(`material/${values.id}`);
+          api.delete(`diamond/${values.id}`);
           toast.success("Xóa thành công");
           setDiamond(
             diamond.filter((gem) => {
@@ -74,6 +81,7 @@ export default function AdminDiamond() {
         },
       });
       fetchDiamond();
+      fetchCertificate();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc Xóa");
       console.log(error.response.data);
@@ -82,13 +90,20 @@ export default function AdminDiamond() {
 
   async function updateDiamond(values) {
     console.log(values);
+    if (imgUpdate) {
+      const imgURLUpdate = await uploadFile(imgUpdate);
+      newData.imgURL = imgURLUpdate;
+    } else {
+      newData.imgURL = values.imgURL;
+    }
+
     const dataUpdate = {
       ...newData,
       giaReportNumber: values.certificate?.giaReportNumber,
     };
-    console.log(newData);
+    console.log(dataUpdate);
     try {
-      await api.put(`material/${values.id}`, dataUpdate);
+      await api.put(`diamond/${values.id}`, dataUpdate);
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công ");
       fetchDiamond();
@@ -320,6 +335,34 @@ export default function AdminDiamond() {
                     </Form.Item>
                     <Form.Item
                       className="label-form"
+                      label="Carat"
+                      name="carat"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập carat",
+                        },
+                      ]}
+                    >
+                      <Input type="number" required />
+                    </Form.Item>
+                  </div>
+                  <div className="form-content">
+                    <Form.Item
+                      className="label-form"
+                      label="Giá"
+                      name="price"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập giá của kim cương",
+                        },
+                      ]}
+                    >
+                      <Input type="number" required min={1} />
+                    </Form.Item>
+                    <Form.Item
+                      className="label-form"
                       label="Độ Tinh Khiết"
                       name="clarity"
                       rules={[
@@ -343,19 +386,6 @@ export default function AdminDiamond() {
                         <Select.Option value="I2">I2</Select.Option>
                         <Select.Option value="I3">I3</Select.Option>
                       </Select>
-                    </Form.Item>
-                    <Form.Item
-                      className="label-form"
-                      label="Carat"
-                      name="carat"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Nhập carat",
-                        },
-                      ]}
-                    >
-                      <Input type="number" required />
                     </Form.Item>
                     <Form.Item
                       className="label-form"
@@ -383,8 +413,7 @@ export default function AdminDiamond() {
                         <Select.Option value="POOR">Poor</Select.Option>
                       </Select>
                     </Form.Item>
-                  </div>
-                  <div className="form-content">
+
                     <Form.Item
                       className="label-form"
                       label="Nguồn gốc"
@@ -409,24 +438,24 @@ export default function AdminDiamond() {
 
                     <Form.Item
                       className="label-form"
-                      label="Giá"
-                      name="price"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Nhập giá của kim cương",
-                        },
-                      ]}
-                    >
-                      <Input type="number" required min={1} />
-                    </Form.Item>
-
-                    <Form.Item
-                      className="label-form"
                       label="Image URL "
                       name="imgURL"
                     >
-                      <Input type="text" />
+                      <Upload
+                        fileList={imgUpdate ? [imgUpdate] : []}
+                        beforeUpload={(file) => {
+                          setImgUpdate(file);
+                          return false;
+                        }}
+                        onRemove={() => setImgUpdate(null)}
+                      >
+                        <Button
+                          icon={<UploadOutlined />}
+                          className="select-input"
+                        >
+                          Upload
+                        </Button>
+                      </Upload>{" "}
                     </Form.Item>
                   </div>
                 </div>
@@ -447,6 +476,13 @@ export default function AdminDiamond() {
   ];
 
   const columnsGIA = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      sorter: (a, b) => a.id - b.giaReportNumber,
+      defaultSortOrder: "ascend",
+    },
     {
       title: "Report Number",
       dataIndex: "giaReportNumber",
@@ -540,6 +576,35 @@ export default function AdminDiamond() {
               </Form.Item>
               <Form.Item
                 className="label-form"
+                label="Carat"
+                name="carat"
+                rules={[
+                  {
+                    required: true,
+                    message: "Nhập carat",
+                  },
+                ]}
+              >
+                <Input type="number" required />
+              </Form.Item>
+
+              <Form.Item
+                className="label-form"
+                label="Giá"
+                name="price"
+                rules={[
+                  {
+                    required: true,
+                    message: "Nhập giá của kim cương",
+                  },
+                ]}
+              >
+                <Input type="number" required min={1} />
+              </Form.Item>
+            </div>
+            <div className="form-content">
+              <Form.Item
+                className="label-form"
                 label="Độ Tinh Khiết"
                 name="clarity"
                 rules={[
@@ -564,19 +629,7 @@ export default function AdminDiamond() {
                   <Select.Option value="I3">I3</Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item
-                className="label-form"
-                label="Carat"
-                name="carat"
-                rules={[
-                  {
-                    required: true,
-                    message: "Nhập carat",
-                  },
-                ]}
-              >
-                <Input type="number" required />
-              </Form.Item>
+
               <Form.Item
                 className="label-form"
                 label="Độ Cắt"
@@ -596,30 +649,7 @@ export default function AdminDiamond() {
                   <Select.Option value="POOR">Poor</Select.Option>
                 </Select>
               </Form.Item>
-              <div className="certificate-form">
-                <Form.Item
-                  className="label-form"
-                  label="Số Chứng Chỉ"
-                  name="giaReportNumber"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Nhập số Chứng Chỉ ",
-                    },
-                  ]}
-                >
-                  <Input type="number" required />
-                </Form.Item>
-                <Button
-                  icon={<UploadOutlined />}
-                  className="admin-upload-button"
-                  onClick={showModal}
-                >
-                  Chứng Chỉ Khả Dụng
-                </Button>
-              </div>
-            </div>
-            <div className="form-content">
+
               <Form.Item
                 className="label-form"
                 label="Nguồn gốc"
@@ -639,25 +669,43 @@ export default function AdminDiamond() {
 
               <Form.Item
                 className="label-form"
-                label="Giá"
-                name="price"
-                rules={[
-                  {
-                    required: true,
-                    message: "Nhập giá của kim cương",
-                  },
-                ]}
-              >
-                <Input type="number" required min={1} />
-              </Form.Item>
-
-              <Form.Item
-                className="label-form"
                 label="Image URL "
                 name="imgURL"
               >
-                <Input type="text" />
+                <Upload
+                  fileList={img ? [img] : []}
+                  beforeUpload={(file) => {
+                    setImg(file);
+                    return false;
+                  }}
+                  onRemove={() => setImg(null)}
+                >
+                  <Button icon={<UploadOutlined />}>Upload</Button>
+                </Upload>{" "}
+                {/* <Input type="text" required /> */}
               </Form.Item>
+              <div className="certificate-form">
+                <Form.Item
+                  className="label-form"
+                  label="Số Chứng Chỉ"
+                  name="certificateID"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Nhập số Chứng Chỉ ",
+                    },
+                  ]}
+                >
+                  <Input type="number" required />
+                </Form.Item>
+                <Button
+                  icon={<UploadOutlined />}
+                  className="admin-upload-button"
+                  onClick={showModal}
+                >
+                  Chứng Chỉ Khả Dụng
+                </Button>
+              </div>
             </div>
           </div>
 

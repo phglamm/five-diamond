@@ -1,27 +1,25 @@
 import SideBar from "../../../components/SideBar/SideBar";
-import { Button, DatePicker, Form, Input, Modal, Table, Upload } from "antd";
+import { Button, Form, Image, Input, Modal, Table, Upload } from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import "../../AdminDashboard/AdminPage.css";
-import "./AdminCertificate.css";
-import moment from "moment";
+import "./AdminCollection.css";
 
 import api from "../../../config/axios";
 import { UploadOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import uploadFile from "../../../utils/upload";
 
-export default function AdminCertificate() {
+export default function AdminCollection() {
   const [form] = useForm();
   const [formUpdate] = useForm();
   const [newData, setNewData] = useState("");
 
-  const [certificate, setCertificate] = useState([]);
-  const [selectedCertificate, setSelectedCertificate] = useState(null);
-  const [file, setFile] = useState(null);
-  const [fileUpdate, setFileUpdate] = useState(null);
+  const [collection, setCollection] = useState([]);
+  const [selectedCollection, setSelectedCollection] = useState(null);
+  const [img, setImg] = useState(null);
+  const [imgUpdate, setImgUpdate] = useState(null);
 
-  const dateformat = "DD-MM-YYYY";
   function hanldeUpdateClickSubmit() {
     formUpdate.submit();
   }
@@ -33,38 +31,31 @@ export default function AdminCertificate() {
   async function AddCertificate(value) {
     console.log(value);
     try {
-      const file = value.fileURL.file.originFileObj;
-      const fileURL = await uploadFile(file);
-
-      console.log(file);
-      const certificateData = {
-        ...value,
-        fileURL,
-      };
-      await api.post("certificate", certificateData);
-      setCertificate([...certificate, certificateData]);
-
-      toast.success("Thêm Chứng Chỉ thành công");
-      fetchCertificate();
+      const img = value.fileURL.file.originFileObj;
+      const imgURL = await uploadFile(img);
+      value.imgURL = imgURL;
+      await api.post("certificate", value);
+      setCollection([...collection, value]);
+      toast.success("Thêm Bộ Sưu Tập thành công");
+      fetchCollection();
     } catch (error) {
-      toast.error("Đã có lỗi trong lúc thêm chứng chỉ");
+      toast.error("Đã có lỗi trong lúc thêm Bộ Sưu Tập");
       console.log(error.response.data);
     }
   }
 
-  async function fetchCertificate() {
-    const response = await api.get("certificate");
-    setCertificate(response.data);
-    console.log("data....", response.data);
+  async function fetchCollection() {
+    const response = await api.get("collection");
+    setCollection(response.data);
   }
 
   useEffect(() => {
-    fetchCertificate();
+    fetchCollection();
   }, []);
 
-  useEffect(() => {}, [certificate]);
+  useEffect(() => {}, [collection]);
 
-  async function deleteCertificate(values) {
+  async function deleteCollection(values) {
     console.log(values.id);
     try {
       Modal.confirm({
@@ -72,32 +63,32 @@ export default function AdminCertificate() {
         onOk: () => {
           api.delete(`certificate/${values.id}`);
           toast.success("Xóa thành công");
-          setCertificate(
-            certificate.filter((cer) => {
-              return cer.id !== values.id;
+          setCollection(
+            collection.filter((col) => {
+              return col.id !== values.id;
             })
           );
         },
       });
-      fetchCertificate();
+      fetchCollection();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc Xóa");
       console.log(error.response.data);
     }
   }
 
-  async function updateCertificate(values) {
+  async function updateCollection(values) {
     console.log(values);
     const dataUpdate = {
       ...newData,
     };
 
     try {
-      const response = await api.put(`certificate/${values.id}`, dataUpdate);
-      console.log(response);
+      await api.put(`collection/${values.id}`, dataUpdate);
+      console.log(dataUpdate);
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công");
-      fetchCertificate();
+      fetchCollection();
     } catch (error) {
       toast.error("chỉnh sửa thất bại, có lỗi");
       console.log(dataUpdate);
@@ -123,24 +114,25 @@ export default function AdminCertificate() {
       sorter: (a, b) => a.id - b.id,
     },
     {
-      title: "Mã GIA",
-      dataIndex: "giaReportNumber",
-      key: "giaReportNumber",
-      sorter: (c, d) => c.giaReportNumber - d.giaReportNumber,
-      defaultSortOrder: "ascend",
+      title: "Tên BST",
+      dataIndex: "name",
+      key: "name",
     },
 
     {
-      title: "Đường Dẫn GIA",
-      dataIndex: "fileURL",
-      key: "fileURL",
+      title: "Mô tả",
+      dataIndex: "description",
+      key: "description",
     },
     {
-      title: "Ngày Cấp",
-      dataIndex: "dateOfIssues",
-      key: "dateOfIssues",
-      render: (text) => moment(text).format("DD-MM-YYYY"),
+      title: "Image",
+      dataIndex: "imgURL",
+      key: "imgURL",
+      render: (value) => (
+        <Image src={value} alt="value" style={{ width: 100 }} />
+      ),
     },
+
     {
       title: "",
       render: (values) => {
@@ -149,7 +141,7 @@ export default function AdminCertificate() {
             <div className="action-button">
               <Button
                 onClick={(e) => {
-                  deleteCertificate(values);
+                  deleteCollection(values);
                 }}
                 className="delete-button"
               >
@@ -160,7 +152,7 @@ export default function AdminCertificate() {
                 icon={<UploadOutlined />}
                 className="admin-upload-button update-button"
                 onClick={() => {
-                  setSelectedCertificate(values);
+                  setSelectedCollection(values);
                   formUpdate.setFieldsValue(values);
                   setIsModalUpdateOpen(true);
                 }}
@@ -172,7 +164,7 @@ export default function AdminCertificate() {
             <Modal
               className="modal-updateCategory-form"
               footer={false}
-              title="Chỉnh Sửa Chứng Chỉ"
+              title="Chỉnh Sửa BST"
               okText={"Lưu"}
               open={isModalUpdateOpen}
               onOk={handleUpdateOk}
@@ -180,13 +172,13 @@ export default function AdminCertificate() {
               mask={false}
             >
               <Form
-                initialValues={selectedCertificate}
+                initialValues={setCollection}
                 onValuesChange={(changedValues, allValues) => {
                   setNewData(allValues);
                 }}
                 form={formUpdate}
                 onFinish={(values) => {
-                  updateCertificate(selectedCertificate);
+                  updateCollection(selectedCollection);
                 }}
                 id="form-update"
                 className="form-main"
@@ -195,37 +187,53 @@ export default function AdminCertificate() {
                   <div className="form-content">
                     <Form.Item
                       className="label-form"
-                      label="Số Chứng Chỉ"
-                      name="giaReportNumber"
+                      label="Tên Bộ Sưu Tập"
+                      name="name"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập Tên Bộ Sưu Tập ",
+                        },
+                      ]}
                     >
-                      <Input type="number" required />
+                      <Input type="text" required />
                     </Form.Item>
+
                     <Form.Item
                       className="label-form"
-                      label="fileURL"
-                      name="fileURL"
+                      label="Mô Tả"
+                      name="description"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập Mô Tả",
+                        },
+                      ]}
+                    >
+                      <Input type="text" required />
+                    </Form.Item>
+
+                    <Form.Item
+                      className="label-form"
+                      label="imgURL"
+                      name="imgURL"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập fireURL",
+                        },
+                      ]}
                     >
                       <Upload
-                        fileList={fileUpdate ? [fileUpdate] : []}
+                        fileList={imgUpdate ? [imgUpdate] : []}
                         beforeUpload={(file) => {
-                          if (file.type !== "application/pdf") {
-                            toast.error("Chỉ chọn file PDF");
-                            setFileUpdate(null);
-                          } else setFileUpdate(file);
+                          setImgUpdate(file);
+                          return false;
                         }}
-                        onRemove={() => {
-                          setFileUpdate(null);
-                        }}
+                        onRemove={() => setImgUpdate(null)}
                       >
                         <Button icon={<UploadOutlined />}>Upload</Button>
                       </Upload>
-                    </Form.Item>
-                    <Form.Item
-                      className="label-form"
-                      label="Date of Issues"
-                      name="dateOfIssues"
-                    >
-                      <Input type="text" required></Input>
                     </Form.Item>
                   </div>
                 </div>
@@ -235,7 +243,7 @@ export default function AdminCertificate() {
                   }}
                   className="form-button"
                 >
-                  Chỉnh Sửa Chứng Chỉ
+                  Chỉnh Sửa BST
                 </Button>
               </Form>
             </Modal>
@@ -250,7 +258,7 @@ export default function AdminCertificate() {
       <SideBar></SideBar>
 
       <div className="admin-content">
-        <h1>Thêm Chứng Chỉ</h1>
+        <h1>Thêm Bộ Sưu Tập</h1>
         <Form
           form={form}
           onFinish={AddCertificate}
@@ -261,21 +269,36 @@ export default function AdminCertificate() {
             <div className="form-content">
               <Form.Item
                 className="label-form"
-                label="Số Chứng Chỉ"
-                name="giaReportNumber"
+                label="Tên Bộ Sưu Tập"
+                name="name"
                 rules={[
                   {
                     required: true,
-                    message: "Nhập số Chứng Chỉ ",
+                    message: "Nhập Tên Bộ Sưu Tập ",
                   },
                 ]}
               >
-                <Input type="number" required />
+                <Input type="text" required />
               </Form.Item>
+
               <Form.Item
                 className="label-form"
-                label="fileURL"
-                name="fileURL"
+                label="Mô Tả"
+                name="description"
+                rules={[
+                  {
+                    required: true,
+                    message: "Nhập Mô Tả",
+                  },
+                ]}
+              >
+                <Input type="text" required />
+              </Form.Item>
+
+              <Form.Item
+                className="label-form"
+                label="imgURL"
+                name="imgURL"
                 rules={[
                   {
                     required: true,
@@ -284,43 +307,28 @@ export default function AdminCertificate() {
                 ]}
               >
                 <Upload
-                  fileList={file ? [file] : []}
+                  fileList={img ? [img] : []}
                   beforeUpload={(file) => {
-                    if (file.type !== "application/pdf") {
-                      toast.error("Chỉ chọn file PDF");
-                      setFile(null);
-                    } else setFile(file);
+                    setImg(file);
+                    return false;
                   }}
-                  onRemove={() => {
-                    setFile(null);
-                  }}
+                  onRemove={() => setImg(null)}
                 >
                   <Button icon={<UploadOutlined />}>Upload</Button>
                 </Upload>
-              </Form.Item>
-              <Form.Item
-                className="label-form"
-                label="Date of Issues"
-                name="dateOfIssues"
-              >
-                <DatePicker
-                  placeholder="Chọn ngày"
-                  required
-                  format={dateformat}
-                ></DatePicker>
               </Form.Item>
             </div>
           </div>
 
           <Button onClick={hanldeClickSubmit} className="form-button">
-            Thêm Chứng Chỉ
+            Thêm Bộ Sưu Tập
           </Button>
         </Form>
 
         <div className="data-table">
-          <h1>Quản Lý Chứng Chỉ</h1>
+          <h1>Quản Lý Bộ Sưu Tập</h1>
           <Table
-            dataSource={certificate}
+            dataSource={collection}
             columns={columns}
             onChange={onChange}
             pagination={{ pageSize: 5 }}

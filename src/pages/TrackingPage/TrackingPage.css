@@ -1,9 +1,8 @@
 .tracking-container {
-  margin-top: 80px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  justify-content: center;
+  background-color: #fff;
 }
 
 .tracking-left-container .tracking-payment {
@@ -17,6 +16,8 @@
 .order-tracking-content {
   margin-top: 10px;
 }
+
+.tracking-order-item {}
 
 .payment-method {
   display: inline !important;
@@ -47,6 +48,7 @@
   height: auto;
   display: block;
   margin-right: 10px;
+
 }
 
 .product-info p {
