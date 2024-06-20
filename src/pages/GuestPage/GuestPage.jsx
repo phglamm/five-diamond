@@ -55,11 +55,9 @@ export default function GuestPage() {
           {firstFiveProducts.map((item, index) => (
             <Col key={index} className="product-card-item">
               <ProductCard
-                img={
-                  "https://drive.google.com/thumbnail?id=1gslL9BKVX714wwMsFWiCa9xurdWE9IHY&sz=w1000"
-                }
+                img={item.imgURL}
                 text={item.name}
-                price={item.price}
+                price={item.price.toLocaleString() + "đ"}
                 pageType="guest-page"
                 id={item.id}
               />
