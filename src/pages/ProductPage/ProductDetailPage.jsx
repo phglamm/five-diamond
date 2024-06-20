@@ -5,7 +5,7 @@ import { Container } from "react-bootstrap";
 import "./ProductDetailPage.css";
 import { Rating } from "@mui/material";
 import { Button, InputNumber, Modal, Select } from "antd";
-import { ShoppingOutlined } from "@ant-design/icons";
+import { ShoppingOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import ProductCard from "../../components/productCard/productCard";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
@@ -140,7 +140,7 @@ export default function ProductPage() {
             <div className="button-buy">
               <Button
                 type="primary"
-                icon={<ShoppingOutlined />}
+                icon={<ShoppingCartOutlined />}
                 size={size}
                 onClick={handleClickAddToCart}
                 className="button-addtocart"

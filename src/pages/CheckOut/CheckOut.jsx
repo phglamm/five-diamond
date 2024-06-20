@@ -171,7 +171,7 @@ export default function CheckOut() {
                   <Form.Control type="text" placeholder="Nhập số điện thoại" />
                 </Col>
               </Form.Group>
-              <Form.Group as={Row} controlId="formEmail" className="align-items-center">
+              {/* <Form.Group as={Row} controlId="formEmail" className="align-items-center">
                 <Form.Label column md={2} className="form-label">Email:</Form.Label>
                 <Col md={10}>
                   <Form.Control type="text" placeholder="Nhập email" />
@@ -182,7 +182,7 @@ export default function CheckOut() {
                 <Col md={10}>
                   <Form.Control type="date" />
                 </Col>
-              </Form.Group>
+              </Form.Group> */}
 
               <h4>PHƯƠNG THỨC NHẬN HÀNG</h4>
               <Row>
@@ -271,21 +271,17 @@ export default function CheckOut() {
 
               <h4>HÌNH THỨC THANH TOÁN</h4>
               <Form.Group controlId="formPaymentMethod">
-                <Form.Check type="radio" label="Thanh toán COD" name="paymentMethod" />
-                <div>
-                  <p>
-                    Quý khách vui lòng kiểm tra sự nguyên vẹn của gói hàng và tem niêm phong, trước khi thanh toán tiền mặt và nhận hàng
-                  </p>
-                </div>
-                <Form.Check type="radio" label="Thanh toán chuyển khoản" name="paymentMethod" />
+              <Form.Check type="radio" label="Thanh toán chuyển khoản" name="paymentMethod" />
                 <div>
                   <p>
                     + Tên tài khoản: CÔNG TY CP TẬP ĐOÀN VÀNG BẠC ĐÁ QUÝ FIVEDIAMOND<br />
                     + Số tài khoản: 1206866868<br />
                     + Ngân hàng: Ngân hàng TMCP Đầu tư & Phát triển Việt Nam (BIDV) - CN Sở Giao dịch 1<br />
                     + Nội dung chuyển khoản: <em>“Tên người chuyển + Số điện thoại + Mã đơn hàng”</em>
+                    Quý khách vui lòng kiểm tra sự nguyên vẹn của gói hàng và tem niêm phong, trước khi thanh toán tiền mặt và nhận hàng
                   </p>
                 </div>
+
               </Form.Group>
               <h4>GHI CHÚ</h4>
 
@@ -339,11 +335,11 @@ export default function CheckOut() {
           </Row>
         </Form>
         <div className="order-btn">
-          <Button 
-          className="btn-submit" 
-          variant="primary" 
-          type="submit"
-          onClick={handlePurchase}
+          <Button
+            className="btn-submit"
+            variant="primary"
+            type="submit"
+            onClick={handlePurchase}
           >
             ĐẶT HÀNG
           </Button>
