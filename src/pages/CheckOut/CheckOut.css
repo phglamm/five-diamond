@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #fff;
+  background-color: #ffffff;
 }
 
 .container {
@@ -18,8 +18,13 @@
 } */
 .Col8.col-md-8 {
   width: 53%;
-  margin-left: 5%;
+  margin-left: 3%;
   margin-right: 61px;
+
+}
+
+.Col4.col-md-4 {
+  width: 39%;
 }
 
 /* .col-md-8{
@@ -29,7 +34,8 @@
 .order-item {
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 12px;
+  margin: 0%;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
@@ -41,9 +47,9 @@
   align-items: center;
 }
 
-.product-image {
+.checkout-image {
   width: 100px;
-  height: 100px;
+  height: auto;
   object-fit: cover;
   border-radius: 5px;
   margin-right: 20px;
@@ -81,7 +87,7 @@ h4 {
 }
 
 .checkout-page h4 {
-  color: #38a9b8;
+  color: #38A9B8;
   margin-top: 20px;
   font-weight: bold;
 }
@@ -103,9 +109,9 @@ h4 {
   color: #343a40;
 }
 
-/* button.btn-success {
+button.btn-success {
   font-size: 18px;
-} */
+}
 
 .form-check-label[for="formDeliveryTime-time1"],
 .form-check-label[for="formDeliveryTime-time2"] {
@@ -125,12 +131,14 @@ h4 {
   flex-direction: column;
   gap: 5px;
 
+
   grid-template-columns: 1fr 1fr 1fr;
 }
 
 .box div label {
   white-space: nowrap;
 }
+
 
 .box>div {
   display: flex;
@@ -149,16 +157,19 @@ i {
 .order-btn p {
   margin-top: 5px;
   font-style: italic;
-  /* font-weight: bold; */
 }
 
-/* Trong file CSS của bạn hoặc thẻ <style> nếu sử dụng CSS inline */
 .order-btn button {
-  background-color: #38a9b8;
-  border-color: #38a9b8;
+  background-color: #38A9B8;
+  border-color: #38A9B8;
   font-size: 18px;
   padding: 10px 20px;
   height: 55px;
   width: 12%;
   font-weight: bold;
+}
+
+hr.solid {
+  margin-top: 0px;
+  border-top: 3px solid #bbb;
 }
