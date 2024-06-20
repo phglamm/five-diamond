@@ -2,6 +2,9 @@
   display: flex;
   margin-top: 50px;
 }
+.product-title{
+  font-weight: bold;
+}
 
 .select-material {
   display: flex;
