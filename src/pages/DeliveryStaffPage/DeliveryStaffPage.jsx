@@ -11,13 +11,9 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { Select, Upload, message } from "antd";
 import { UploadOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
-import { dataCustomerDelivery as initialMergedData } from "./FakeDataDeliver";
-
 import { AiOutlineSearch } from "react-icons/ai";
 
-const handleChange = (value) => {
-  console.log(`selected ${value}`);
-};
+import { dataCustomerDelivery as initialMergedData } from "./FakeDataDeliver";
 
 const uploadProps = {
   name: "file",
@@ -107,56 +103,32 @@ export default function DeliveryStaffPage() {
     },
   ];
 
+  const [mergedData, setMergedData] = React.useState(() => {
+    const savedData = localStorage.getItem("mergedData");
+    return savedData ? JSON.parse(savedData) : initialMergedData;
+  });
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [selectedTable, setSelectedTable] = React.useState("deliver");
   const [searchTerm, setSearchTerm] = React.useState("");
-  const [sortConfig, setSortConfig] = React.useState({
-    key: null,
-    direction: null,
-  });
+  const [sortConfig, setSortConfig] = React.useState({ key: null, direction: null });
 
-  const [mergedData, setMergedData] = React.useState(initialMergedData);
-  // const [deliveryData, setDeliveryData] = React.useState(() => {
-  //   const savedData = localStorage.getItem("deliveryData");
-  //   return savedData ? JSON.parse(savedData) : initialDeliveryRows;
-  // });
-  // const [updateData, setUpdateData] = React.useState(() => {
-  //   const savedData = localStorage.getItem("updateData");
-  //   return savedData ? JSON.parse(savedData) : initialUpdateRows;
-  // });
-
-
-
-  // React.useEffect(() => {
-  //   localStorage.setItem("deliveryData", JSON.stringify(deliveryData));
-  // }, [deliveryData]);
-
-  // React.useEffect(() => {
-  //   localStorage.setItem("updateData", JSON.stringify(updateData));
-  // }, [updateData]);
-
+  React.useEffect(() => {
+    localStorage.setItem("mergedData", JSON.stringify(mergedData));
+  }, [mergedData]);
 
   const handleStatusChange = (newValue, rowIndex) => {
-    // const newData =
-    //   selectedTable === "deliver" ? [...deliveryData] : [...updateData];
-    // newData[rowIndex].status = newValue;
-    // selectedTable === "deliver"
-    //   ? setDeliveryData(newData)
-    //   : setUpdateData(newData);
-
-    // // Move row to the bottom if status is "Đã nhận hàng"
-    // if (newValue === "Đã nhận hàng") {
-    //   const movedRow = newData.splice(rowIndex, 1)[0];
-    //   newData.push(movedRow);
-    //   selectedTable === "deliver"
-    //     ? setDeliveryData(newData)
-    //     : setUpdateData(newData);
-    // }
-
     const newData = [...mergedData];
     newData[rowIndex].status = newValue;
     setMergedData(newData);
+
+    // Move row to the bottom if status is "Giao thành công"
+    if (newValue === "Giao thành công") {
+      const movedRow = newData.splice(rowIndex, 1)[0];
+      newData.push(movedRow);
+      setMergedData(newData);
+    }
   };
 
   const handleChangePage = (event, newPage) => {
@@ -180,39 +152,6 @@ export default function DeliveryStaffPage() {
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
-
-  // const handleSort = (columnId) => {
-  //   let direction = "asc";
-  //   if (sortConfig.key === columnId && sortConfig.direction === "asc") {
-  //     direction = "desc";
-  //   } else if (sortConfig.key === columnId && sortConfig.direction === "desc") {
-  //     direction = null;
-  //   }
-  //   setSortConfig({ key: columnId, direction });
-
-  //   if (direction !== null) {
-  //     const sortedData = [...rows].sort((a, b) => {
-  //       let aValue = a[columnId];
-  //       let bValue = b[columnId];
-
-  //       if (columnId === "shipmentId" || columnId === "orderId") {
-  //         aValue = parseInt(a[columnId].replace(/\D/g, ''), 10);
-  //         bValue = parseInt(b[columnId].replace(/\D/g, ''), 10);
-  //       } else if (columnId === "dateDeliver") {
-  //         aValue = new Date(a[columnId]);
-  //         bValue = new Date(b[columnId]);
-  //       }
-
-  //       if (direction === "asc") {
-  //         return aValue > bValue ? 1 : -1;
-  //       } else {
-  //         return aValue < bValue ? 1 : -1;
-  //       }
-  //     });
-
-  //     selectedTable === "deliver" ? setDeliveryData(sortedData) : setUpdateData(sortedData);
-  //   }
-  // };
 
   const handleSort = (columnId) => {
     let direction = "asc";
@@ -248,9 +187,8 @@ export default function DeliveryStaffPage() {
   };
 
   const columns = selectedTable === "deliver" ? deliveryColumns : updateColumns;
-  const rows = selectedTable === "deliver" ? deliveryData : updateData;
 
-  const filteredRows = rows.filter((row) => {
+  const filteredRows = mergedData.filter((row) => {
     return columns.some((column) => {
       const value = row[column.id];
       return (
@@ -266,9 +204,7 @@ export default function DeliveryStaffPage() {
       <Container fluid className="table-deliver">
         <ButtonGroup className="mb-3">
           <Button
-            variant={
-              selectedTable === "deliver" ? "primary" : "outline-primary"
-            }
+            variant={selectedTable === "deliver" ? "primary" : "outline-primary"}
             onClick={() => handleTableToggle("deliver")}
           >
             Đơn hàng cần giao
@@ -282,21 +218,20 @@ export default function DeliveryStaffPage() {
         </ButtonGroup>
 
         <h1 className="text-center mb-4">
-          {selectedTable === "deliver"
-            ? "ĐƠN HÀNG CẦN GIAO"
-            : "CẬP NHẬT ĐƠN HÀNG"}
+          {selectedTable === "deliver" ? "ĐƠN HÀNG CẦN GIAO" : "CẬP NHẬT ĐƠN HÀNG"}
         </h1>
         <div className="search-bar mb-3">
           <AiOutlineSearch className="search-icon" />
           <Form.Control
             type="text"
-            placeholder="Search "
+            placeholder="Search..."
             value={searchTerm}
             onChange={handleSearch}
           />
         </div>
+
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
-          <TableContainer sx={{ maxHeight: 480 }}>
+          <TableContainer sx={{ maxHeight: 600 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
@@ -305,48 +240,41 @@ export default function DeliveryStaffPage() {
                       key={column.id}
                       align={column.align}
                       style={{ minWidth: column.minWidth, cursor: column.sortable ? "pointer" : "default" }}
-                      onClick={() => column.sortable && handleSort(column.id)}
+                      onClick={column.sortable ? () => handleSort(column.id) : undefined}
                     >
                       {column.label}
-                      {column.sortable && sortConfig.key === column.id &&
-                        (sortConfig.direction === "asc" ? (
-                          <UpOutlined />
-                        ) : sortConfig.direction === "desc" ? (
-                          <DownOutlined />
-                        ) : null)}
+                      {column.sortable && (
+                        <>
+                          {sortConfig.key === column.id && sortConfig.direction === "asc" && (
+                            <UpOutlined style={{ marginLeft: "0.5rem" }} />
+                          )}
+                          {sortConfig.key === column.id && sortConfig.direction === "desc" && (
+                            <DownOutlined style={{ marginLeft: "0.5rem" }} />
+                          )}
+                        </>
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {filteredRows
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, rowIndex) => {
-                    return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.orderId || row.shipmentId}
-                      >
-                        {columns.map((column) => {
-                          const value = row[column.id];
-                          return (
-                            <TableCell key={column.id} align={column.align}>
-                              {column.render
-                                ? column.render(value, rowIndex)
-                                : value}
-                            </TableCell>
-                          );
-                        })}
-                      </TableRow>
-                    );
-                  })}
+                {filteredRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, rowIndex) => (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={column.id} align={column.align}>
+                          {column.render ? column.render(value, rowIndex) : value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[5, 10, 20]}
+            rowsPerPageOptions={[10, 25, 100]}
             component="div"
             count={filteredRows.length}
             rowsPerPage={rowsPerPage}
@@ -355,9 +283,13 @@ export default function DeliveryStaffPage() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
-        <Button variant="success" className="delivery-button" onClick={handleSave}>
-          Lưu
-        </Button>
+        {selectedTable === "update" && (
+          <div className="d-flex justify-content-end mt-3">
+            <Button variant="success" onClick={handleSave}>
+              Save
+            </Button>
+          </div>
+        )}
       </Container>
     </div>
   );

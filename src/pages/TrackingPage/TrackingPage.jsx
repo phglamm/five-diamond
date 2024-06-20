@@ -33,78 +33,193 @@ const TrackingPage = () => {
 
     const { subtotal, discount, total } = calculateTotalPrice();
 
+    const [selectedProvince, setSelectedProvince] = useState("");
+    const [districts, setDistricts] = useState([]);
+    const [selectedDistrict, setSelectedDistrict] = useState("");
+    const [wards, setWards] = useState([]);
+    const [selectedWard, setSelectedWard] = useState("");
+    const [deliveryStandard, setDeliveryStandard] = useState(false);
+    const [deliveryTime, setDeliveryTime] = useState(false);
+    const [deliveryOption, setDeliveryOption] = useState("");
+
+    const handleProvinceChange = (e) => {
+        setSelectedProvince(e.target.value);
+        setDistricts([
+            "District 1",
+            "District 2",
+            "District 3",
+            // Add more districts based on the selected province
+        ]);
+        setSelectedDistrict("");
+        setWards([]);
+        setSelectedWard("");
+    };
+
+    const handleDistrictChange = (e) => {
+        setSelectedDistrict(e.target.value);
+        setWards([
+            "Ward 1",
+            "Ward 2",
+            "Ward 3",
+            // Add more wards based on the selected district
+        ]);
+        setSelectedWard("");
+    };
+
+    const handleDeliveryStandardChange = () => {
+        setDeliveryStandard(!deliveryStandard);
+        if (!deliveryStandard) setDeliveryTime(false);
+    };
+
+    const handleDeliveryTimeChange = () => {
+        setDeliveryTime(!deliveryTime);
+        if (!deliveryTime) setDeliveryStandard(false);
+    };
+
+    const handleDeliveryOptionChange = (e) => {
+        setDeliveryOption(e.target.value);
+    };
+
+    const deliveryOptions = [
+        { value: "Giao Nhanh", label: "Giao Nhanh" },
+        { value: "Hỏa Tốc", label: "Hỏa Tốc" },
+    ];
+
+    const getOptionLabel = (option) => {
+        if (deliveryOption === "Hỏa Tốc" && option.value === "Hỏa Tốc") {
+            return "2 ngày";
+        }
+
+        if (deliveryOption === "Giao Nhanh" && option.value === "Giao Nhanh") {
+            return "5 ngày";
+        }
+
+        return option.label;
+    };
+
     return (
         <>
             <Header />
             <div className="tracking-container">
                 <Container>
                     <Row>
-                        <Col className="tracking-left-container" md={6}>
-                            <h3 className="tracking-info">THÔNG TIN NGƯỜI MUA</h3>
-                            <Form>
-                                <Form.Group controlId="formFullName">
-                                    <Form.Label>Họ Tên:</Form.Label>
+                        <Col className="tracking-left-container" md={8}>
+
+                            <h4 className="tracking-header">THÔNG TIN NGƯỜI MUA</h4>
+                            <Form.Group as={Row} controlId="formFullName" className="align-items-center">
+                                <Form.Label column md={2} className="form-label">Họ Tên:</Form.Label>
+                                <Col md={10}>
                                     <Form.Control type="text" placeholder="Nhập họ tên" />
-                                </Form.Group>
-                                <Form.Group controlId="formPhoneNumber">
-                                    <Form.Label>Điện Thoại:</Form.Label>
+                                </Col>
+                            </Form.Group>
+                            <Form.Group as={Row} controlId="formPhoneNumber" className="align-items-center">
+                                <Form.Label column md={2} className="form-label">Điện Thoại:</Form.Label>
+                                <Col md={10}>
                                     <Form.Control type="text" placeholder="Nhập số điện thoại" />
-                                </Form.Group>
-                                <Form.Group controlId="formEmail">
-                                    <Form.Label>Email:</Form.Label>
-                                    <Form.Control type="email" placeholder="Nhập email" />
-                                </Form.Group>
-                                <Form.Group controlId="formBirthDate">
-                                    <Form.Label>Ngày Sinh:</Form.Label>
+                                </Col>
+                            </Form.Group>
+                            <Form.Group as={Row} controlId="formEmail" className="align-items-center">
+                                <Form.Label column md={2} className="form-label">Email:</Form.Label>
+                                <Col md={10}>
+                                    <Form.Control type="text" placeholder="Nhập email" />
+                                </Col>
+                            </Form.Group>
+                            <Form.Group as={Row} controlId="formBirthDate" className="align-items-center">
+                                <Form.Label column md={2} className="form-label">Ngày Sinh:</Form.Label>
+                                <Col md={10}>
                                     <Form.Control type="date" />
-                                </Form.Group>
+                                </Col>
+                            </Form.Group>
+
+
+                            <div className="tracking-delivery-method">
+
+                                <h4>PHƯƠNG THỨC NHẬN HÀNG</h4>
+                                <Row>
+                                    <Col md={4}>
+                                        <Form.Group controlId="formProvince">
+                                            <Form.Control as="select" value={selectedProvince} onChange={handleProvinceChange}>
+                                                <option value="">Chọn Tỉnh/TP</option>
+                                                {provinces.map((province) => (
+                                                    <option key={province} value={province}>
+                                                        {province}
+                                                    </option>
+                                                ))}
+                                            </Form.Control>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col md={4}>
+                                        <Form.Group controlId="formDistrict">
+                                            <Form.Control as="select" value={selectedDistrict} onChange={handleDistrictChange} disabled={!selectedProvince}>
+                                                <option value="">Chọn Quận/Huyện</option>
+                                                {districts.map((district) => (
+                                                    <option key={district} value={district}>
+                                                        {district}
+                                                    </option>
+                                                ))}
+                                            </Form.Control>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col md={4}>
+                                        <Form.Group controlId="formWard">
+                                            <Form.Control as="select" value={selectedWard} onChange={(e) => setSelectedWard(e.target.value)} disabled={!selectedDistrict}>
+                                                <option value="">Chọn Phường/Xã</option>
+                                                {wards.map((ward) => (
+                                                    <option key={ward} value={ward}>
+                                                        {ward}
+                                                    </option>
+                                                ))}
+                                            </Form.Control>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+
                                 <Form.Group controlId="formAddress">
-                                    <Form.Label>Địa chỉ:</Form.Label>
+                                    <Form.Label className="form-label"></Form.Label>
                                     <Form.Control type="text" placeholder="Nhập địa chỉ" />
                                 </Form.Group>
-                            </Form>
+                            </div>
 
                             <div className="tracking-payment">
-                                <h3>HÌNH THỨC THANH TOÁN</h3>
-                                <Form.Group className="payment-method" controlId="formPaymentMethod">
+                                <h3 className="tracking-header">HÌNH THỨC THANH TOÁN</h3>
+                                <Form.Group className="tracking-payment-method" controlId="formPaymentMethod">
                                     <Form.Check type="radio" label="Thanh toán COD" name="paymentMethod" />
                                     <Form.Check type="radio" label="Thanh toán chuyển khoản" name="paymentMethod" />
                                 </Form.Group>
+                            </div>
 
+                            <div className="tracking-note">
+                                <h3 className="tracking-header">GHI CHÚ</h3>
                                 <Form.Group controlId="formNote">
-                                    <Form.Label>GHI CHÚ:</Form.Label>
-                                    <Form.Control as="textarea" rows={3} placeholder="Nhập ghi chú" />
+                                    <Form.Control as="textarea" rows={3} placeholder="Để lại lời nhắn" />
                                 </Form.Group>
                             </div>
                         </Col>
 
-                        <Col className="tracking-right-container" md={6}>
-                            <h3 className="order-info">THÔNG TIN ĐƠN HÀNG</h3>
-                            <Card>
-                                <Card.Body>
-                                    {items.map((item, index) => (
-                                        <Row key={index}>
-                                            <Col className="product-info" xs={8}>
-                                                <img src={`https://example.com/${item.msp}.jpg`} alt={item.name} />
-                                                <p>{item.name}</p>
-                                                <p>MSP: {item.msp}</p>
-                                                <p>SỐ LƯỢNG: {item.quantity}</p>
-                                            </Col>
-                                            <hr />
-                                            <Col className="price-info" xs={4} >
-                                                <p>Giá tiền: {item.price.toLocaleString()}đ</p>
-                                                <p>Tổng cộng: {(item.price * item.quantity).toLocaleString()}đ</p>
-                                            </Col>
-                                        </Row>
-                                    ))}
-                                    <Row className="total-price">
-                                        <Col xs={8}>
-                                            <h5>Giảm giá: {discount.toLocaleString()}đ</h5>
-                                            <h5>TỔNG Hóa Đơn: {total.toLocaleString()}đ</h5>
-                                        </Col>
-                                    </Row>
-                                </Card.Body>
-                            </Card>
+                        <Col className="tracking-right-container" md={4}>
+                            <h3 className="tracking-header">THÔNG TIN ĐƠN HÀNG</h3>
+                            <div className="tracking-order-item">
+                                {items.map((item, index) => (
+                                    <div className="order-item" key={index}>
+                                        <img src={`https://example.com/${item.msp}.jpg`} alt="Product Image" className="product-image" />
+                                        <div className="order-item-details">
+                                            <p>{item.name}</p>
+                                            <p>MSP: {item.msp}</p>
+                                            <p>SỐ LƯỢNG: {item.quantity}</p>
+                                            <p>Giá bán: {item.price.toLocaleString()}đ</p>
+                                            <p>Tạm tính: {(item.price * item.quantity).toLocaleString()}đ</p>
+                                        </div>
+                                    </div>
+                                ))}
+                                <h5>Tạm tính: {subtotal.toLocaleString()}đ</h5>
+                                <Form.Group controlId="formVoucher">
+                                    <p>Mã giảm giá/Voucher</p>
+                                    <Form.Control type="text" />
+                                </Form.Group>
+                                <h5>Giảm giá: {discount.toLocaleString()}đ</h5>
+                                <h5>Tổng tiền: {total.toLocaleString()}đ</h5>
+                            </div>
+
                         </Col>
                     </Row>
 
@@ -155,3 +270,4 @@ const TrackingPage = () => {
 }
 
 export default TrackingPage;
+
