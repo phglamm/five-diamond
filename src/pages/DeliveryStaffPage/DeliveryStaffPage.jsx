@@ -54,7 +54,12 @@ export default function DeliveryStaffPage() {
   ];
 
   const updateColumns = [
-    { id: "dateDeliver", label: "Ngày giao hàng", minWidth: 150, sortable: true },
+    {
+      id: "dateDeliver",
+      label: "Ngày giao hàng",
+      minWidth: 150,
+      sortable: true,
+    },
     { id: "shipmentId", label: "Mã vận chuyển", minWidth: 50, sortable: true },
     { id: "orderId", label: "Mã đơn hàng", minWidth: 50, sortable: true },
     { id: "address", label: "Địa chỉ", minWidth: 200 },
@@ -197,8 +202,8 @@ export default function DeliveryStaffPage() {
         let bValue = b[columnId];
 
         if (columnId === "shipmentId" || columnId === "orderId") {
-          aValue = parseInt(a[columnId].replace(/\D/g, ''), 10);
-          bValue = parseInt(b[columnId].replace(/\D/g, ''), 10);
+          aValue = parseInt(a[columnId].replace(/\D/g, ""), 10);
+          bValue = parseInt(b[columnId].replace(/\D/g, ""), 10);
         } else if (columnId === "dateDeliver") {
           aValue = new Date(a[columnId]);
           bValue = new Date(b[columnId]);
@@ -211,7 +216,9 @@ export default function DeliveryStaffPage() {
         }
       });
 
-      selectedTable === "deliver" ? setDeliveryData(sortedData) : setUpdateData(sortedData);
+      selectedTable === "deliver"
+        ? setDeliveryData(sortedData)
+        : setUpdateData(sortedData);
     }
   };
 
@@ -231,6 +238,7 @@ export default function DeliveryStaffPage() {
 
   return (
     <div>
+      <Header></Header>
       <Container fluid className="table-deliver">
         <ButtonGroup className="mb-3">
           <Button
@@ -272,11 +280,15 @@ export default function DeliveryStaffPage() {
                     <TableCell
                       key={column.id}
                       align={column.align}
-                      style={{ minWidth: column.minWidth, cursor: column.sortable ? "pointer" : "default" }}
+                      style={{
+                        minWidth: column.minWidth,
+                        cursor: column.sortable ? "pointer" : "default",
+                      }}
                       onClick={() => column.sortable && handleSort(column.id)}
                     >
                       {column.label}
-                      {column.sortable && sortConfig.key === column.id &&
+                      {column.sortable &&
+                        sortConfig.key === column.id &&
                         (sortConfig.direction === "asc" ? (
                           <UpOutlined />
                         ) : sortConfig.direction === "desc" ? (
@@ -323,10 +335,15 @@ export default function DeliveryStaffPage() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
-        <Button variant="success" className="delivery-button" onClick={handleSave}>
+        <Button
+          variant="success"
+          className="delivery-button"
+          onClick={handleSave}
+        >
           Lưu
         </Button>
       </Container>
+      <Footer></Footer>
     </div>
   );
 }

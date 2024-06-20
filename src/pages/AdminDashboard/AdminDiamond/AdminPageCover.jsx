@@ -1,19 +1,58 @@
+/* eslint-disable react/jsx-key */
 import SideBar from "../../../components/SideBar/SideBar";
-import { Button, Form, Input, Modal, Select, Table } from "antd";
+import {
+  Button,
+  Checkbox,
+  Form,
+  Image,
+  Input,
+  Modal,
+  Select,
+  Table,
+  Upload,
+} from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import "../../AdminDashboard/AdminPage.css";
 import api from "../../../config/axios";
 import { toast } from "react-toastify";
 import { UploadOutlined } from "@ant-design/icons";
+import { CListGroup } from "@coreui/react";
+import uploadFile from "../../../utils/upload";
 
 export default function AdminCover() {
   const [form] = useForm();
   const [formUpdate] = useForm();
-  const [cover, setCover] = useState([]);
-  const [newData, setNewData] = useState("");
-  const [selectedCover, setSelectedCover] = useState(null);
+  const [category, setCategory] = useState([]);
 
+  const [checkedList, setCheckedList] = useState([]);
+  const [checkedListUpdate, setCheckedListUpdate] = useState([]);
+
+  const [newData, setNewData] = useState("");
+  const [selectedProductLine, setSelectedProductLine] = useState(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [isModalOpenUpdate, setIsModalOpenUpdate] = useState(false);
+
+  const [diamond, setDiamond] = useState([]);
+  const [shape, setShape] = useState("");
+  const [size, setSize] = useState("");
+  const [cut, setCut] = useState("");
+  const [clarity, setClarity] = useState("");
+  const [origin, setOrigin] = useState("");
+  const [color, setColor] = useState("");
+  const [carat, setCarat] = useState("");
+
+  const [diamondUpdate, setDiamondUpdate] = useState([]);
+  const [shapeUpdate, setShapeUpdate] = useState("");
+  const [sizeUpdate, setSizeUpdate] = useState("");
+  const [cutUpdate, setCutUpdate] = useState("");
+  const [clarityUpdate, setClarityUpdate] = useState("");
+  const [originUpdate, setOriginUpdate] = useState("");
+  const [colorUpdate, setColorUpdate] = useState("");
+  const [caratUpdate, setCaratUpdate] = useState("");
+  const [img, setImg] = useState(null);
   function hanldeUpdateClickSubmit() {
     formUpdate.submit();
   }
@@ -21,66 +60,140 @@ export default function AdminCover() {
   function hanldeClickSubmit() {
     form.submit();
   }
-  async function AddCover(value) {
+  const showModal = () => {
+    fetchDiamond();
+    console.log(shape, carat, size, origin, cut, clarity, color);
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const showModalUpdate = () => {
+    fetchDiamondUpdate();
+    console.log(
+      shapeUpdate,
+      caratUpdate,
+      sizeUpdate,
+      originUpdate,
+      cutUpdate,
+      clarityUpdate,
+      colorUpdate
+    );
+    setIsModalOpenUpdate(true);
+  };
+  const handleOkUpdate = () => {
+    setIsModalOpenUpdate(false);
+  };
+  const handleCancelUpdate = () => {
+    setIsModalOpenUpdate(false);
+  };
+
+  const onChangeChecked = (e) => {
+    console.log(e.target.value);
+    if (e.target.checked) {
+      setCheckedList([...checkedList, e.target.value]);
+    } else {
+      setCheckedList(checkedList.filter((item) => item != e.target.value));
+    }
+  };
+
+  const onChangeCheckedUpdate = (e) => {
+    console.log(e.target.value);
+    if (e.target.checked) {
+      setCheckedListUpdate([...checkedListUpdate, e.target.value]);
+    } else {
+      setCheckedListUpdate(
+        checkedListUpdate.filter((item) => item != e.target.value)
+      );
+    }
+  };
+
+  async function AddProductLine(value) {
     console.log(value);
+
     try {
-      const response = await api.post("material", value);
+      const imgURL = await uploadFile(img);
+      value.imgURL = imgURL;
+      value.diamondID = checkedList;
+      const response = await api.post("product-line", value);
       console.log(response);
       toast.success("Thêm vỏ kim cương thành công");
-      setCover([...cover, value]);
-      fetchCover();
       console.log(response);
+      fetchProductLine();
     } catch (error) {
-      fetchCover();
       toast.error("Đã có lỗi trong lúc thêm vỏ kim cương");
     }
   }
+  const [productLine, setProductLine] = useState([]);
+  async function fetchProductLine() {
+    const response = await api.get("product-line");
+    setProductLine(response.data);
+  }
+  async function fetchDiamond() {
+    const response = await api.get(
+      `diamond/search?shape=${shape}&color=${color}&cut=${cut}&clarity=${clarity}&carat=${carat}&size=${size}&origin=${origin}`
+    );
+    setDiamond(response.data);
+  }
 
-  async function fetchCover() {
-    const response = await api.get("material/available-cover");
-    setCover(response.data);
+  async function fetchDiamondUpdate() {
+    const response = await api.get(
+      `diamond/search?shape=${shapeUpdate}&color=${colorUpdate}&cut=${cutUpdate}&clarity=${clarityUpdate}&carat=${caratUpdate}&size=${sizeUpdate}&origin=${originUpdate}`
+    );
+    setDiamondUpdate(response.data);
+  }
+
+  async function fetchCategory() {
+    const response = await api.get("category");
+    setCategory(response.data);
   }
 
   useEffect(() => {
-    fetchCover();
+    fetchProductLine();
+    fetchDiamond();
+    fetchCategory();
   }, []);
-  useEffect(() => {}, [cover]); // Only re-run this effect when diamond changes
+  useEffect(() => {}, []); // Only re-run this effect when diamond changes
 
-  async function deleteCover(values) {
+  async function deleteProductLine(values) {
     console.log(values);
     try {
       Modal.confirm({
-        title: "Bạn có chắc muốn xóa vỏ kim cương này ?",
+        title: "Bạn có chắc muốn xóa dòng sản phẩm này ?",
         onOk: () => {
-          api.delete(`material/${values.id}`);
+          api.delete(`product-line/${values.id}`);
           toast.success("Xóa thành công");
-          setCover(
-            cover.filter((cover) => {
-              return cover.id !== values.id;
+          setProductLine(
+            productLine.filter((proline) => {
+              return proline.id !== values.id;
             })
           );
         },
       });
-      fetchCover();
+      fetchProductLine();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc Xóa");
       console.log(error.response.data);
     }
   }
 
-  async function updateCover(values) {
+  async function updateProductLine(values) {
+    console.log(values.id);
+    newData.diamondID = checkedListUpdate;
+
     const dataUpdate = {
       ...newData,
-      type: values.type,
-      metal: values.metal,
     };
 
     console.log(dataUpdate);
     try {
-      await api.put(`material/${values.id}`, dataUpdate);
+      await api.put(`product-line/${values.id}`, dataUpdate);
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công");
-      fetchCover();
     } catch (error) {
       toast.error("chỉnh sửa thất bại, có lỗi");
       console.log(error.response.data);
@@ -105,12 +218,15 @@ export default function AdminCover() {
       key: "id",
       sorter: (a, b) => a.id - b.id,
     },
-
     {
-      title: "Type",
-      dataIndex: "type",
-      key: "type",
+      title: "Image",
+      dataIndex: "imgURL",
+      key: "imgURL",
+      render: (value) => (
+        <Image src={value} alt="value" style={{ width: 100 }} />
+      ),
     },
+
     {
       title: "Metal",
       dataIndex: "metal",
@@ -123,24 +239,72 @@ export default function AdminCover() {
       key: "karat",
     },
     {
-      title: "typeOfSub",
+      title: "Loại đá phụ",
       dataIndex: "typeOfSub",
       key: "typeOfSub",
     },
     {
-      title: "caratOfSub",
-      dataIndex: "caratOfSub",
-      key: "caratOfSub",
+      title: "Nặng",
+      dataIndex: "weight",
+      key: "weight",
     },
     {
       title: "quantityOfSub",
       dataIndex: "quantityOfSub",
       key: "quantityOfSub",
     },
+
     {
-      title: "price",
-      dataIndex: "price",
-      key: "price",
+      title: "Danh Mục",
+      dataIndex: "name",
+      key: "name",
+      render: (text, record) => record.category?.name,
+    },
+    {
+      title: "Dành Cho",
+      dataIndex: "gender",
+      key: "gender",
+      render: (text, record) => (record.gender === "MALE" ? <>Nam</> : <>Nữ</>),
+    },
+    {
+      title: "Hình dáng",
+      dataIndex: "shape",
+      key: "shape",
+    },
+    {
+      title: "Size",
+      dataIndex: "size",
+      key: "size",
+    },
+    {
+      title: "Màu Sắc",
+      dataIndex: "color",
+      key: "color",
+    },
+    {
+      title: "Carat",
+      dataIndex: "carat",
+      key: "carat",
+    },
+    {
+      title: "Cut",
+      dataIndex: "cut",
+      key: "cut",
+    },
+    {
+      title: "Độ Tinh Khiết",
+      dataIndex: "clarity",
+      key: "clarity",
+    },
+    {
+      title: "Nguồn Gốc",
+      dataIndex: "origin",
+      key: "origin",
+    },
+    {
+      title: "Đặc Biệt",
+      dataIndex: "special",
+      key: "special",
     },
     {
       title: "Hành Động",
@@ -150,7 +314,7 @@ export default function AdminCover() {
             <div className="action-button">
               <Button
                 onClick={(e) => {
-                  deleteCover(values);
+                  deleteProductLine(values);
                 }}
                 className="delete-button"
               >
@@ -161,7 +325,7 @@ export default function AdminCover() {
                 icon={<UploadOutlined />}
                 className="admin-upload-button update-button"
                 onClick={() => {
-                  setSelectedCover(values);
+                  setSelectedProductLine(values);
                   formUpdate.setFieldsValue(values);
                   setIsModalUpdateOpen(true);
                 }}
@@ -181,19 +345,226 @@ export default function AdminCover() {
               mask={false}
             >
               <Form
-                initialValues={selectedCover}
+                initialValues={selectedProductLine}
                 onValuesChange={(changedValues, allValues) => {
                   setNewData(allValues);
                 }}
                 form={formUpdate}
                 onFinish={(values) => {
-                  updateCover(selectedCover);
+                  updateProductLine(selectedProductLine);
                 }}
                 id="form-update"
                 className="form-main"
               >
                 <div className="form-content-main">
                   <div className="form-content">
+                    <Form.Item
+                      className="label-form"
+                      label="Hình Dáng"
+                      name="shape"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập Hình Dáng",
+                        },
+                      ]}
+                    >
+                      <Select
+                        className="select-input"
+                        placeholder="chọn Hình Dáng"
+                        onChange={(value) => {
+                          setShapeUpdate(value);
+                          console.log(shapeUpdate);
+                        }}
+                      >
+                        <Select.Option value="ROUND">Round</Select.Option>
+                        <Select.Option value="OVAL">Oval</Select.Option>
+                        <Select.Option value="CUSHION">Cushion</Select.Option>
+                        <Select.Option value="PEAR">Pear</Select.Option>
+                        <Select.Option value="EMERALD">Emerald</Select.Option>
+                        <Select.Option value="PRINCESS">Princess</Select.Option>
+                        <Select.Option value="RADIANT">Radiant</Select.Option>
+                        <Select.Option value="HEART">Heart</Select.Option>
+                        <Select.Option value="MARQUISE">Marquise</Select.Option>
+                        <Select.Option value="ASSHER">Assher</Select.Option>
+                      </Select>
+                    </Form.Item>
+                    <Form.Item
+                      className="label-form"
+                      label="Size"
+                      name="size"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập size",
+                        },
+                      ]}
+                    >
+                      <Input
+                        type="number"
+                        onChange={(e) => setSizeUpdate(e.target.value)}
+                        required
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      className="label-form"
+                      label="Màu sắc"
+                      name="color"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập màu sắc ",
+                        },
+                      ]}
+                    >
+                      <Input
+                        type="text"
+                        required
+                        onChange={(e) => {
+                          setColorUpdate(e.target.value);
+                          console.log(colorUpdate);
+                        }}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      className="label-form"
+                      label="Carat"
+                      name="carat"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập carat",
+                        },
+                      ]}
+                    >
+                      <Input
+                        type="number"
+                        required
+                        onChange={(e) => setCaratUpdate(e.target.value)}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      className="label-form"
+                      label="Độ Cắt"
+                      name="cut"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập độ cắt ",
+                        },
+                      ]}
+                    >
+                      <Select
+                        className="select-input"
+                        placeholder="chọn Độ Cắt"
+                        onChange={(value) => {
+                          setCutUpdate(value);
+                          console.log(cutUpdate);
+                        }}
+                      >
+                        <Select.Option value="EXCELLENT">
+                          Excellent
+                        </Select.Option>
+                        <Select.Option value="VERY GOOD">
+                          Very Good
+                        </Select.Option>
+                        <Select.Option value="GOOD">Good</Select.Option>
+                        <Select.Option value="FAIR">Fair</Select.Option>
+                        <Select.Option value="POOR">Poor</Select.Option>
+                      </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                      className="label-form"
+                      label="Độ Tinh Khiết"
+                      name="clarity"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập độ tinh khiết ",
+                        },
+                      ]}
+                    >
+                      <Select
+                        className="select-input"
+                        placeholder="chọn Độ Tinh Khiết"
+                        onChange={(value) => {
+                          setClarityUpdate(value);
+                        }}
+                      >
+                        <Select.Option value="VVS1">VVS1</Select.Option>
+                        <Select.Option value="VVS2">VVS2</Select.Option>
+                        <Select.Option value="VS1">VS1</Select.Option>
+                        <Select.Option value="VS2">VS2</Select.Option>
+                        <Select.Option value="SI1">SI1</Select.Option>
+                        <Select.Option value="SI2">SI2</Select.Option>
+                        <Select.Option value="I1">I1</Select.Option>
+                        <Select.Option value="I2">I2</Select.Option>
+                        <Select.Option value="I3">I3</Select.Option>
+                      </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                      className="label-form"
+                      label="Nguồn gốc"
+                      name="origin"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập nguồn gốc ",
+                        },
+                      ]}
+                    >
+                      <Select
+                        className="select-input"
+                        placeholder="chọn Nguồn Gốc"
+                        onChange={(value) => {
+                          setOriginUpdate(value);
+                        }}
+                      >
+                        <Select.Option value="NATURAL">Tự Nhiên</Select.Option>
+                        <Select.Option value="ARTIFICIAL">
+                          Nhân Tạo
+                        </Select.Option>
+                      </Select>
+                    </Form.Item>
+
+                    <Form.Item className="label-form" label="Kim Cương Đã Chọn">
+                      <Input
+                        type="text"
+                        className="select-input"
+                        readOnly
+                        value={checkedListUpdate}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      className="label-form"
+                      label="Đặc Biệt"
+                      name="special"
+                      valuePropName="true"
+                    >
+                      <Checkbox
+                        type="checkbox"
+                        onChange={onChangeCheckedUpdate}
+                      />
+                    </Form.Item>
+                  </div>
+                  <div className="form-content">
+                    <Form.Item
+                      initialValue="GOLD"
+                      className="label-form"
+                      label="Kim Loại"
+                      name="metal"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập kim loại",
+                        },
+                      ]}
+                    >
+                      <Input type="text" required readOnly />
+                    </Form.Item>
+
                     <Form.Item
                       className="label-form"
                       label="karat"
@@ -234,18 +605,16 @@ export default function AdminCover() {
                     <Form.Item
                       className="label-form"
                       label="Nặng"
-                      name="caratOfSub"
+                      name="weight"
                       rules={[
                         {
                           required: true,
-                          message: "Nhập caratOfSub ",
+                          message: "Nhập weight ",
                         },
                       ]}
                     >
                       <Input type="number" required />
                     </Form.Item>
-                  </div>
-                  <div className="form-content">
                     <Form.Item
                       className="label-form"
                       label="Số Lượng Đá Phụ"
@@ -259,6 +628,73 @@ export default function AdminCover() {
                     >
                       <Input type="number" required />
                     </Form.Item>
+
+                    <Form.Item
+                      className="label-form"
+                      label="Danh Mục"
+                      name="categoryID"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập Danh Mục",
+                        },
+                      ]}
+                    >
+                      <Select
+                        className="select-input"
+                        placeholder="chọn Danh Mục"
+                      >
+                        {category.map((item) => (
+                          <Select.Option value={item.id}>
+                            {item.name}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                    <Form.Item
+                      className="label-form"
+                      label="Dành Cho"
+                      name="gender"
+                      rules={[
+                        {
+                          required: true,
+                          message: "chọn đối tượng",
+                        },
+                      ]}
+                    >
+                      <Select
+                        className="select-input"
+                        placeholder="chọn đối tượng"
+                      >
+                        <Select.Option value="MALE">Nam</Select.Option>
+                        <Select.Option value="FEMALE">Nữ</Select.Option>
+                      </Select>
+                    </Form.Item>
+                    <Button
+                      icon={<UploadOutlined />}
+                      className="admin-upload-button"
+                      onClick={showModalUpdate}
+                    >
+                      Chọn Kim Cương
+                    </Button>
+
+                    <Modal
+                      className="modal-add-form"
+                      footer={false}
+                      title="Chọn Kim Cương để chỉnh sửa"
+                      okText={""}
+                      open={isModalOpenUpdate}
+                      onOk={handleOkUpdate}
+                      onCancel={handleCancelUpdate}
+                    >
+                      <Table
+                        dataSource={diamondUpdate}
+                        columns={columnOfDiamondUpdate}
+                        pagination={{ pageSize: 5 }}
+                        scroll={{ x: "max-content" }}
+                        onChange={onChange}
+                      />
+                    </Modal>
                   </div>
                 </div>
                 <Button
@@ -277,16 +713,356 @@ export default function AdminCover() {
     },
   ];
 
+  const columnOfDiamond = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      sorter: (a, b) => a.id - b.id,
+    },
+
+    {
+      title: "Size",
+      dataIndex: "size",
+      key: "size",
+    },
+    {
+      title: "Carat",
+      dataIndex: "carat",
+      key: "carat",
+    },
+    {
+      title: "Shape",
+      dataIndex: "shape",
+      key: "shape",
+    },
+    {
+      title: "Color",
+      dataIndex: "color",
+      key: "color",
+    },
+    {
+      title: "Clarity",
+      dataIndex: "clarity",
+      key: "clarity",
+    },
+    {
+      title: "Cut",
+      dataIndex: "cut",
+      key: "cut",
+    },
+    {
+      title: "Origin",
+      dataIndex: "origin",
+      key: "origin",
+    },
+    {
+      title: "Select",
+      render: (value) => (
+        <Checkbox type="checkbox" onChange={onChangeChecked} value={value.id} />
+      ),
+    },
+  ];
+
+  const columnOfDiamondUpdate = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      sorter: (a, b) => a.id - b.id,
+    },
+
+    {
+      title: "Size",
+      dataIndex: "size",
+      key: "size",
+    },
+    {
+      title: "Carat",
+      dataIndex: "carat",
+      key: "carat",
+    },
+    {
+      title: "Shape",
+      dataIndex: "shape",
+      key: "shape",
+    },
+    {
+      title: "Color",
+      dataIndex: "color",
+      key: "color",
+    },
+    {
+      title: "Clarity",
+      dataIndex: "clarity",
+      key: "clarity",
+    },
+    {
+      title: "Cut",
+      dataIndex: "cut",
+      key: "cut",
+    },
+    {
+      title: "Origin",
+      dataIndex: "origin",
+      key: "origin",
+    },
+    {
+      title: "Select",
+      render: (value) => (
+        <Checkbox
+          type="checkbox"
+          onChange={onChangeCheckedUpdate}
+          value={value.id}
+        />
+      ),
+    },
+  ];
   return (
     <div className="Admin">
       <SideBar></SideBar>
 
       <div className="admin-content">
-        <h1>Thêm Vỏ Kim Cương</h1>
+        <h1>Thêm Dòng Sản Phẩm</h1>
 
-        <Form form={form} onFinish={AddCover} id="form" className="form-main">
+        <Form
+          form={form}
+          onFinish={AddProductLine}
+          id="form"
+          className="form-main"
+        >
           <div className="form-content-main">
             <div className="form-content">
+              <Form.Item
+                className="label-form"
+                label="Image URL "
+                name="imgURL"
+              >
+                <Upload
+                  className="admin-upload-button"
+                  fileList={img ? [img] : []}
+                  beforeUpload={(file) => {
+                    setImg(file);
+                    return false;
+                  }}
+                  onRemove={() => setImg(null)}
+                >
+                  <Button
+                    icon={<UploadOutlined />}
+                    className="admin-upload-button"
+                  >
+                    Upload Hình Ảnh
+                  </Button>
+                </Upload>{" "}
+              </Form.Item>
+
+              <Form.Item
+                className="label-form"
+                label="Tên Sản Phẩm"
+                name="name"
+                required
+              >
+                <Input type="text" required></Input>
+              </Form.Item>
+
+              <Form.Item
+                className="label-form"
+                label="Hình Dáng"
+                name="shape"
+                rules={[
+                  {
+                    required: true,
+                    message: "Nhập Hình Dáng",
+                  },
+                ]}
+              >
+                <Select
+                  className="select-input"
+                  placeholder="chọn Hình Dáng"
+                  onChange={(value) => {
+                    setShape(value);
+                    console.log(shape);
+                  }}
+                >
+                  <Select.Option value="ROUND">Round</Select.Option>
+                  <Select.Option value="OVAL">Oval</Select.Option>
+                  <Select.Option value="CUSHION">Cushion</Select.Option>
+                  <Select.Option value="PEAR">Pear</Select.Option>
+                  <Select.Option value="EMERALD">Emerald</Select.Option>
+                  <Select.Option value="PRINCESS">Princess</Select.Option>
+                  <Select.Option value="RADIANT">Radiant</Select.Option>
+                  <Select.Option value="HEART">Heart</Select.Option>
+                  <Select.Option value="MARQUISE">Marquise</Select.Option>
+                  <Select.Option value="ASSHER">Assher</Select.Option>
+                </Select>
+              </Form.Item>
+              <Form.Item
+                className="label-form"
+                label="Size"
+                name="size"
+                rules={[
+                  {
+                    required: true,
+                    message: "Nhập size",
+                  },
+                ]}
+              >
+                <Input
+                  type="number"
+                  onChange={(e) => setSize(e.target.value)}
+                  required
+                />
+              </Form.Item>
+              <Form.Item
+                className="label-form"
+                label="Màu sắc"
+                name="color"
+                rules={[
+                  {
+                    required: true,
+                    message: "Nhập màu sắc ",
+                  },
+                ]}
+              >
+                <Input
+                  type="text"
+                  required
+                  onChange={(e) => {
+                    setColor(e.target.value);
+                    console.log(color);
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                className="label-form"
+                label="Carat"
+                name="carat"
+                rules={[
+                  {
+                    required: true,
+                    message: "Nhập carat",
+                  },
+                ]}
+              >
+                <Input
+                  type="number"
+                  required
+                  onChange={(e) => setCarat(e.target.value)}
+                />
+              </Form.Item>
+              <Form.Item
+                className="label-form"
+                label="Độ Cắt"
+                name="cut"
+                rules={[
+                  {
+                    required: true,
+                    message: "Nhập độ cắt ",
+                  },
+                ]}
+              >
+                <Select
+                  className="select-input"
+                  placeholder="chọn Độ Cắt"
+                  onChange={(value) => {
+                    setCut(value);
+                  }}
+                >
+                  <Select.Option value="EXCELLENT">Excellent</Select.Option>
+                  <Select.Option value="VERY GOOD">Very Good</Select.Option>
+                  <Select.Option value="GOOD">Good</Select.Option>
+                  <Select.Option value="FAIR">Fair</Select.Option>
+                  <Select.Option value="POOR">Poor</Select.Option>
+                </Select>
+              </Form.Item>
+
+              <Form.Item
+                className="label-form"
+                label="Độ Tinh Khiết"
+                name="clarity"
+                rules={[
+                  {
+                    required: true,
+                    message: "Nhập độ tinh khiết ",
+                  },
+                ]}
+              >
+                <Select
+                  className="select-input"
+                  placeholder="chọn Độ Tinh Khiết"
+                  onChange={(value) => {
+                    setClarity(value);
+                  }}
+                >
+                  <Select.Option value="VVS1">VVS1</Select.Option>
+                  <Select.Option value="VVS2">VVS2</Select.Option>
+                  <Select.Option value="VS1">VS1</Select.Option>
+                  <Select.Option value="VS2">VS2</Select.Option>
+                  <Select.Option value="SI1">SI1</Select.Option>
+                  <Select.Option value="SI2">SI2</Select.Option>
+                  <Select.Option value="I1">I1</Select.Option>
+                  <Select.Option value="I2">I2</Select.Option>
+                  <Select.Option value="I3">I3</Select.Option>
+                </Select>
+              </Form.Item>
+
+              <Form.Item
+                className="label-form"
+                label="Nguồn gốc"
+                name="origin"
+                rules={[
+                  {
+                    required: true,
+                    message: "Nhập nguồn gốc ",
+                  },
+                ]}
+              >
+                <Select
+                  className="select-input"
+                  placeholder="chọn Nguồn Gốc"
+                  onChange={(value) => {
+                    setOrigin(value);
+                  }}
+                >
+                  <Select.Option value="NATURAL">Tự Nhiên</Select.Option>
+                  <Select.Option value="ARTIFICIAL">Nhân Tạo</Select.Option>
+                </Select>
+              </Form.Item>
+
+              <Form.Item className="label-form" label="Kim Cương Đã Chọn">
+                <Input
+                  type="text"
+                  className="select-input"
+                  readOnly
+                  value={checkedList}
+                />
+              </Form.Item>
+              <Form.Item
+                className="label-form"
+                label="Đặc Biệt"
+                name="special"
+                valuePropName="true"
+              >
+                <Checkbox type="checkbox" onChange={onChangeChecked} />
+              </Form.Item>
+            </div>
+            <div className="form-content">
+              <Form.Item
+                className="label-form"
+                label="Mô Tả"
+                name="description"
+                required
+              >
+                <Input type="text" required></Input>
+              </Form.Item>
+              <Form.Item
+                className="label-form"
+                label="Tỉ Lệ Áp Giá"
+                name="priceRate"
+                required
+              >
+                <Input type="number" required></Input>
+              </Form.Item>
               <Form.Item
                 initialValue="GOLD"
                 className="label-form"
@@ -337,18 +1113,16 @@ export default function AdminCover() {
               <Form.Item
                 className="label-form"
                 label="Nặng"
-                name="caratOfSub"
+                name="weight"
                 rules={[
                   {
                     required: true,
-                    message: "Nhập caratOfSub ",
+                    message: "Nhập weight ",
                   },
                 ]}
               >
                 <Input type="number" required />
               </Form.Item>
-            </div>
-            <div className="form-content">
               <Form.Item
                 className="label-form"
                 label="Số Lượng Đá Phụ"
@@ -362,46 +1136,78 @@ export default function AdminCover() {
               >
                 <Input type="number" required />
               </Form.Item>
-              <Form.Item
-                className="label-form"
-                label="Giá"
-                name="price"
-                rules={[
-                  {
-                    required: true,
-                    message: "Nhập Giá",
-                  },
-                ]}
-              >
-                <Input type="number" required />
-              </Form.Item>
 
               <Form.Item
-                initialValue="COVER"
                 className="label-form"
-                label="Loại"
-                name="type"
+                label="Danh Mục"
+                name="categoryID"
                 rules={[
                   {
                     required: true,
-                    message: "Nhập loại",
+                    message: "Nhập Danh Mục",
                   },
                 ]}
               >
-                <Input type="text" readOnly />
+                <Select className="select-input" placeholder="chọn Danh Mục">
+                  {category.map((item) => (
+                    <Select.Option value={item.id}>{item.name}</Select.Option>
+                  ))}
+                </Select>
               </Form.Item>
+              <Form.Item
+                className="label-form"
+                label="Dành Cho"
+                name="gender"
+                rules={[
+                  {
+                    required: true,
+                    message: "chọn đối tượng",
+                  },
+                ]}
+              >
+                <Select className="select-input" placeholder="chọn đối tượng">
+                  <Select.Option value="MALE">Nam</Select.Option>
+                  <Select.Option value="FEMALE">Nữ</Select.Option>
+                </Select>
+              </Form.Item>
+
+              <Button
+                icon={<UploadOutlined />}
+                className="admin-upload-button"
+                onClick={showModal}
+              >
+                Chọn Kim Cương
+              </Button>
             </div>
           </div>
 
           <Button onClick={hanldeClickSubmit} className="form-button">
-            Thêm Vỏ Kim Cương
+            Thêm Dòng sản phẩm
           </Button>
         </Form>
 
-        <div className="data-table">
-          <h1>Quản Lý Vỏ Kim Cương</h1>
+        <Modal
+          className="modal-add-form"
+          footer={false}
+          title="Chọn Kim Cương"
+          okText={""}
+          open={isModalOpen}
+          onOk={handleOk}
+          onCancel={handleCancel}
+        >
           <Table
-            dataSource={cover}
+            dataSource={diamond}
+            columns={columnOfDiamond}
+            pagination={{ pageSize: 5 }}
+            scroll={{ x: "max-content" }}
+            onChange={onChange}
+          />
+        </Modal>
+
+        <div className="data-table">
+          <h1>Quản Lý Sản Phẩm</h1>
+          <Table
+            dataSource={productLine}
             onChange={onChange}
             columns={columns}
             pagination={{ pageSize: 5 }}
