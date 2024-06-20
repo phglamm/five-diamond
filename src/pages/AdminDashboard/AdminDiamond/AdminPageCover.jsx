@@ -1,6 +1,16 @@
 /* eslint-disable react/jsx-key */
 import SideBar from "../../../components/SideBar/SideBar";
-import { Button, Checkbox, Form, Input, Modal, Select, Table } from "antd";
+import {
+  Button,
+  Checkbox,
+  Form,
+  Image,
+  Input,
+  Modal,
+  Select,
+  Table,
+  Upload,
+} from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import "../../AdminDashboard/AdminPage.css";
@@ -8,6 +18,7 @@ import api from "../../../config/axios";
 import { toast } from "react-toastify";
 import { UploadOutlined } from "@ant-design/icons";
 import { CListGroup } from "@coreui/react";
+import uploadFile from "../../../utils/upload";
 
 export default function AdminCover() {
   const [form] = useForm();
@@ -41,7 +52,7 @@ export default function AdminCover() {
   const [originUpdate, setOriginUpdate] = useState("");
   const [colorUpdate, setColorUpdate] = useState("");
   const [caratUpdate, setCaratUpdate] = useState("");
-
+  const [img, setImg] = useState(null);
   function hanldeUpdateClickSubmit() {
     formUpdate.submit();
   }
@@ -103,7 +114,10 @@ export default function AdminCover() {
 
   async function AddProductLine(value) {
     console.log(value);
+
     try {
+      const imgURL = await uploadFile(img);
+      value.imgURL = imgURL;
       value.diamondID = checkedList;
       const response = await api.post("product-line", value);
       console.log(response);
@@ -203,6 +217,14 @@ export default function AdminCover() {
       dataIndex: "id",
       key: "id",
       sorter: (a, b) => a.id - b.id,
+    },
+    {
+      title: "Image",
+      dataIndex: "imgURL",
+      key: "imgURL",
+      render: (value) => (
+        <Image src={value} alt="value" style={{ width: 100 }} />
+      ),
     },
 
     {
@@ -1108,6 +1130,49 @@ export default function AdminCover() {
               >
                 Chọn Kim Cương
               </Button>
+              <Form.Item
+                className="label-form"
+                label="Image URL "
+                name="imgURL"
+              >
+                <Upload
+                  fileList={img ? [img] : []}
+                  beforeUpload={(file) => {
+                    setImg(file);
+                    return false;
+                  }}
+                  onRemove={() => setImg(null)}
+                >
+                  <Button icon={<UploadOutlined />} className="select-input">
+                    Upload
+                  </Button>
+                </Upload>{" "}
+              </Form.Item>
+
+              <Form.Item
+                className="label-form"
+                label="Tên Sản Phẩm"
+                name="name"
+                required
+              >
+                <Input type="text" required></Input>
+              </Form.Item>
+              <Form.Item
+                className="label-form"
+                label="Mô Tả"
+                name="description"
+                required
+              >
+                <Input type="text" required></Input>
+              </Form.Item>
+              <Form.Item
+                className="label-form"
+                label="Tỉ Lệ Áp Giá"
+                name="priceRate"
+                required
+              >
+                <Input type="number" required></Input>
+              </Form.Item>
             </div>
           </div>
 
