@@ -18,14 +18,14 @@ export default function ProductCard({
   return (
     <div className={`product-hit ${pageType}`}>
       <div className="product-img">
-        <Link to="/san-pham">
+        <Link to="/chi-tiet-san-pham">
           <img src={img} alt={text} />
         </Link>
-        <Link to="/san-pham" className="see-more-red" title="Chi tiết"></Link>
+        <Link to="/chi-tiet-san-pham" className="see-more-red" title="Chi tiết"></Link>
       </div>
       <div className="product-text">
         <p>
-          <Link to="/san-pham">{text}</Link>
+          <Link to="/chi-tiet-san-pham">{text}</Link>
         </p>
         {salePrice ? (
           <div className="price-info">
