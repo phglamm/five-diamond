@@ -22,7 +22,7 @@ const ErrorPage = () => {
       <div className="content">
         <div className="err">𝟒</div>
         <img
-          src="https://drive.google.com/thumbnail?id=1dvxc2GycD5DI3Esb-1LmMOF_TF2Yjnkv"
+          src="https://drive.google.com/thumbnail?id=1g8TEiTOlnpFsJRxWMH7EF89QuVk9qk6n&sz=w1000"
           alt="Your Image"
           className="my-image"
         />

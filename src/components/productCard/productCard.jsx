@@ -11,6 +11,7 @@ export default function ProductCard({
   salePercent,
   rating,
   pageType,
+  id
 }) {
   const retailPriceClass =
     pageType === "sale-page" ? "retail-price-sale" : "retail-price-guest";
@@ -18,14 +19,14 @@ export default function ProductCard({
   return (
     <div className={`product-hit ${pageType}`}>
       <div className="product-img">
-        <Link to="/san-pham">
+        <Link to={`/chi-tiet-san-pham/${id}`}>
           <img src={img} alt={text} />
         </Link>
-        <Link to="/san-pham" className="see-more-red" title="Chi tiết"></Link>
+        <Link to={`/chi-tiet-san-pham/${id}`} className="see-more-red" title="Chi tiết"></Link>
       </div>
       <div className="product-text">
         <p>
-          <Link to="/san-pham">{text}</Link>
+          <Link to="/chi-tiet-san-pham">{text}</Link>
         </p>
         {salePrice ? (
           <div className="price-info">

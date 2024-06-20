@@ -13,16 +13,17 @@
   margin-bottom: 20px;
 }
 
-.numbers {
-  display: flex;
+.err {
+  font-size: 11rem;
+  font-weight: bold;
+  color: #fdfdfd;
+  margin: 0 5px; /* Giảm khoảng cách giữa các số */
 }
-
-.err,
 .err2 {
   font-size: 11rem;
   font-weight: bold;
   color: #fdfdfd;
-  margin: 0 15%; /* Giảm khoảng cách giữa các số */
+  margin: 0 5px; /* Giảm khoảng cách giữa các số */
 }
 
 .my-image {
