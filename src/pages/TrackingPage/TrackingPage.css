@@ -45,6 +45,7 @@
 
 .product-info img {
   width: 60%;
+  /* Reduce the size of the image */
   height: auto;
   display: block;
   margin-right: 10px;/

@@ -7,6 +7,9 @@ export const routes = {
   faq: "/faq",
   size: "/huong-dan-do-ni",
   bst: "/bo-suu-tap",
+  bstset1: "bo-suu-tap-set1",
+  bstset2: "bo-suu-tap-set2",
+  bstset3: "bo-suu-tap-set3",
   blog: "/kien-thuc",
   sale: "/chuong-trinh-khuyen-mai",
   profile: "/trang-ca-nhan",
@@ -18,15 +21,18 @@ export const routes = {
 
   admin: "/admin",
   adminProduct: "/admin-san-pham",
-  adminDiamondshell: "/admin-vo-kim-cuong",
+  adminCover: "/admin-vo-kim-cuong",
   adminDiamond: "/admin-kim-cuong",
   adminAdd: "/admin-them-san-pham",
   adminmanageorder: "/admin-quan-li-don-hang",
+  adminCategory: "/admin-danh-muc",
+  adminCertificate: "/admin-chung-chi",
+  adminUser: "/admin-nguoi-dung",
+
   productdetail: "/chi-tiet-san-pham",
   diamondprice: "/bang-gia-kim-cuong",
-  adminCategory: "/admin-danh-muc",
-  notfound: "/notfound",
 
+  notfound: "*",
   cart: "/gio-hang",
   checkout: "/tien-hanh-thanh-toan",
   priceDiamond: "/bang-gia-kim-cuong",
@@ -35,4 +41,5 @@ export const routes = {
   tracking: "/theo-doi-don-hang",
   saleStaff: "/nhan-vien-sale",
   deliveryStaff: "/nhan-vien-giao-hang",
+  
 };

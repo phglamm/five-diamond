@@ -1,15 +1,9 @@
-
-
-
 import { Col, Container, Row } from "react-bootstrap";
 import "./AboutPage.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 
-
-
 export default function AboutPage() {
-
   // const AboutImage = ({ src }) => <img src={src} alt="about-banner" className="about-banner-img" />;
   // const imageUrl = "https://drive.google.com/uc?export=view&id=YOUR_FILE_ID";
   // const imageUrl = "https://drive.google.com/uc?export=view&id=16C7eBsBnFCGEtzYvZIwFKTTjbZaBIlsJ";
@@ -25,7 +19,11 @@ export default function AboutPage() {
             {/* <img src='https://drive.google.com/uc?export=view&id=16C7eBsBnFCGEtzYvZIwFKTTjbZaBIlsJ' alt="about-banner" /> */}
             {/* <img src={imageUrl} alt="about-banner" /> */}
 
-            <img className="about-banner-img" src="https://drive.google.com/thumbnail?id=16C7eBsBnFCGEtzYvZIwFKTTjbZaBIlsJ&sz=w1000" alt="" />
+            <img
+              className="about-banner-img"
+              src="https://drive.google.com/thumbnail?id=16C7eBsBnFCGEtzYvZIwFKTTjbZaBIlsJ&sz=w1000"
+              alt=""
+            />
 
             <div className="about-banner-info-big">
               <h2>VỀ CÔNG TY CỔ PHẦN FIVE DIAMOND</h2>
@@ -39,11 +37,13 @@ export default function AboutPage() {
           </Col>
         </Row>
 
-
-
         <Row className="about-content-row">
           <Col md={6} className="d-flex">
-            <img className="about-banner-img" src="https://drive.google.com/thumbnail?id=1D_a6VmfmrL-4T-7jx6J6h9gaHRLhwLjj&sz=w1000" alt="" />
+            <img
+              className="about-banner-img"
+              src="https://drive.google.com/thumbnail?id=1D_a6VmfmrL-4T-7jx6J6h9gaHRLhwLjj&sz=w1000"
+              alt=""
+            />
           </Col>
           <Col md={6} className="d-flex">
             <div className="about-banner-info">
@@ -56,8 +56,6 @@ export default function AboutPage() {
             </div>
           </Col>
         </Row>
-
-
 
         <Row className="about-content-row">
           <Col md={6} className="d-flex">
@@ -72,13 +70,21 @@ export default function AboutPage() {
             </div>
           </Col>
           <Col md={6} className="d-flex">
-            <img className="about-banner-img" src="https://drive.google.com/thumbnail?id=1r7d-wL8CrMUPBdo2A8JozO7O2lyeONEE&sz=w1000" alt="" />
+            <img
+              className="about-banner-img"
+              src="https://drive.google.com/thumbnail?id=1r7d-wL8CrMUPBdo2A8JozO7O2lyeONEE&sz=w1000"
+              alt=""
+            />
           </Col>
         </Row>
 
         <Row className="about-content-row">
           <Col md={6} className="d-flex">
-            <img className="about-banner-img" src="https://drive.google.com/thumbnail?id=1x_QCzGrDyZpmDSI7Ckcy4TxWERrwK3YC&sz=w1000" alt="" />
+            <img
+              className="about-banner-img"
+              src="https://drive.google.com/thumbnail?id=1x_QCzGrDyZpmDSI7Ckcy4TxWERrwK3YC&sz=w1000"
+              alt=""
+            />
           </Col>
           <Col md={6} className="d-flex">
             <div className="about-banner-info">

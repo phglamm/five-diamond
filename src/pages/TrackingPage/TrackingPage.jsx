@@ -103,95 +103,45 @@ const TrackingPage = () => {
             <div className="tracking-container">
                 <Container>
                     <Row>
-                        <Col className="tracking-left-container" md={8}>
-
-                            <h4 className="tracking-header">THÔNG TIN NGƯỜI MUA</h4>
-                            <Form.Group as={Row} controlId="formFullName" className="align-items-center">
-                                <Form.Label column md={2} className="form-label">Họ Tên:</Form.Label>
-                                <Col md={10}>
-                                    <Form.Control type="text" placeholder="Nhập họ tên" />
-                                </Col>
-                            </Form.Group>
-                            <Form.Group as={Row} controlId="formPhoneNumber" className="align-items-center">
-                                <Form.Label column md={2} className="form-label">Điện Thoại:</Form.Label>
-                                <Col md={10}>
-                                    <Form.Control type="text" placeholder="Nhập số điện thoại" />
-                                </Col>
-                            </Form.Group>
-                            <Form.Group as={Row} controlId="formEmail" className="align-items-center">
-                                <Form.Label column md={2} className="form-label">Email:</Form.Label>
-                                <Col md={10}>
-                                    <Form.Control type="text" placeholder="Nhập email" />
-                                </Col>
-                            </Form.Group>
-                            <Form.Group as={Row} controlId="formBirthDate" className="align-items-center">
-                                <Form.Label column md={2} className="form-label">Ngày Sinh:</Form.Label>
-                                <Col md={10}>
-                                    <Form.Control type="date" />
-                                </Col>
-                            </Form.Group>
-
-
-                            <div className="tracking-delivery-method">
-
-                                <h4>PHƯƠNG THỨC NHẬN HÀNG</h4>
-                                <Row>
-                                    <Col md={4}>
-                                        <Form.Group controlId="formProvince">
-                                            <Form.Control as="select" value={selectedProvince} onChange={handleProvinceChange}>
-                                                <option value="">Chọn Tỉnh/TP</option>
-                                                {provinces.map((province) => (
-                                                    <option key={province} value={province}>
-                                                        {province}
-                                                    </option>
-                                                ))}
-                                            </Form.Control>
-                                        </Form.Group>
-                                    </Col>
-                                    <Col md={4}>
-                                        <Form.Group controlId="formDistrict">
-                                            <Form.Control as="select" value={selectedDistrict} onChange={handleDistrictChange} disabled={!selectedProvince}>
-                                                <option value="">Chọn Quận/Huyện</option>
-                                                {districts.map((district) => (
-                                                    <option key={district} value={district}>
-                                                        {district}
-                                                    </option>
-                                                ))}
-                                            </Form.Control>
-                                        </Form.Group>
-                                    </Col>
-                                    <Col md={4}>
-                                        <Form.Group controlId="formWard">
-                                            <Form.Control as="select" value={selectedWard} onChange={(e) => setSelectedWard(e.target.value)} disabled={!selectedDistrict}>
-                                                <option value="">Chọn Phường/Xã</option>
-                                                {wards.map((ward) => (
-                                                    <option key={ward} value={ward}>
-                                                        {ward}
-                                                    </option>
-                                                ))}
-                                            </Form.Control>
-                                        </Form.Group>
-                                    </Col>
-                                </Row>
-
-                                <Form.Group controlId="formAddress">
-                                    <Form.Label className="form-label"></Form.Label>
-                                    <Form.Control type="text" placeholder="Nhập địa chỉ" />
+                        <Col className="tracking-left-container" md={6}>
+                            <h3 className="tracking-info">THÔNG TIN NGƯỜI MUA</h3>
+                            <Form>
+                                <Form.Group controlId="formFullName">
+                                    <Form.Label>Họ Tên:</Form.Label>
+                                    <Form.Control type="text" placeholder="Nhập họ tên" readOnly="true" />
                                 </Form.Group>
-                            </div>
+                                <Form.Group controlId="formPhoneNumber">
+                                    <Form.Label>Điện Thoại:</Form.Label>
+                                    <Form.Control type="text" placeholder="Nhập số điện thoại" readOnly="true" />
+                                </Form.Group>
+                                <Form.Group controlId="formEmail">
+                                    <Form.Label>Email:</Form.Label>
+                                    <Form.Control type="email" placeholder="Nhập email" readOnly="true" />
+                                </Form.Group>
+                                <Form.Group controlId="formBirthDate">
+                                    <Form.Label>Ngày Sinh:</Form.Label>
+                                    <Form.Control type="date" readOnly="true" />
+                                </Form.Group>
+                                <Form.Group controlId="formAddress">
+                                    <Form.Label>Địa chỉ:</Form.Label>
+                                    <Form.Control type="text" placeholder="Nhập địa chỉ" readOnly="true" />
+                                </Form.Group>
+                            </Form>
+
 
                             <div className="tracking-payment">
-                                <h3 className="tracking-header">HÌNH THỨC THANH TOÁN</h3>
-                                <Form.Group className="tracking-payment-method" controlId="formPaymentMethod">
-                                    <Form.Check type="radio" label="Thanh toán COD" name="paymentMethod" />
-                                    <Form.Check type="radio" label="Thanh toán chuyển khoản" name="paymentMethod" />
+                                <h3>HÌNH THỨC THANH TOÁN</h3>
+                                <Form.Group className="payment-method" controlId="formPaymentMethod">
+                                    <Form.Check type="radio" label="Thanh toán COD" name="paymentMethod" readOnly="true" />
+                                    <Form.Check type="radio" label="Thanh toán chuyển khoản" name="paymentMethod" readOnly="true" />
                                 </Form.Group>
                             </div>
 
                             <div className="tracking-note">
                                 <h3 className="tracking-header">GHI CHÚ</h3>
                                 <Form.Group controlId="formNote">
-                                    <Form.Control as="textarea" rows={3} placeholder="Để lại lời nhắn" />
+                                    <Form.Label>GHI CHÚ:</Form.Label>
+                                    <Form.Control as="textarea" rows={3} placeholder="Nhập ghi chú" readOnly="true" />
                                 </Form.Group>
                             </div>
                         </Col>

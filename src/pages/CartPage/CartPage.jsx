@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Container,
   Row,
@@ -14,48 +14,58 @@ import Footer from "../../components/Footer/Footer";
 import { ImCart } from "react-icons/im";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import "./CartPage.css";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../routes";
+import cartItemsData from "./cartItems";
+import discountCodes from "./discountCodes";
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([]);
+  const [discountCode, setDiscountCode] = useState("");
+  const [appliedDiscount, setAppliedDiscount] = useState(null);
+  const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   // This would normally fetch data from an API or local storage
+  //   const initialCartItems = [
+  //     // {
+  //     //   id: "AFEC000459D2DA1",
+  //     //   name: "Bông tai kim cương",
+  //     //   price: 38050000,
+  //     //   quantity: 1,
+  //     //   image:
+  //     //     "https://tnj.vn/75169-large_default/nhan-bac-nu-dinh-da-10mm-nn0440.jpg",
+  //     //   description:
+  //     //     "Bông tai kim cương đính hạt lớn, thiết kế đẹp mắt và sang trọng.",
+  //     //   code: "AFEC000459D2DA1",
+  //     // },
+  //     // {
+  //     //   id: "AFPB001948F2HA1",
+  //     //   name: "Mặt dây nữ kim cương",
+  //     //   price: 17370000,
+  //     //   quantity: 1,
+  //     //   image:
+  //     //     "https://lili.vn/wp-content/uploads/2022/10/Day-chuyen-bac-unisex-dinh-kim-cuong-Moissanite-dang-chuoi-da-LILI_054275_2.jpg",
+  //     //   description:
+  //     //     "Mặt dây nữ kim cương đính hạt lớn, thiết kế đẹp mắt và sang trọng.",
+  //     //   code: "AFPB001948F2HA1",
+  //     // },
+  //     // {
+  //     //   id: "AFPB001948F8BA1",
+  //     //   name: "Dây chuyền nữ kim cương",
+  //     //   price: 27790000,
+  //     //   quantity: 1,
+  //     //   image:
+  //     //     "https://lili.vn/wp-content/uploads/2022/06/Mat-day-chuyen-bac-nu-dinh-kim-cuong-Moissanite-tron-cach-dieu-LILI_413898_6-150x150.jpg",
+  //     //   description:
+  //     //     "Dây chuyền nữ kim cương đính hạt lớn, thiết kế đẹp mắt và sang trọng.",
+  //     //   code: "AFPB001948F8BA1",
+  //     // },
+  //   ];
+  //   setCartItems(initialCartItems);
+  // }, []);
   useEffect(() => {
-    // This would normally fetch data from an API or local storage
-    const initialCartItems = [
-      {
-        id: "AFEC000459D2DA1",
-        name: "Bông tai kim cương",
-        price: 38050000,
-        quantity: 1,
-        image:
-          "https://tnj.vn/75169-large_default/nhan-bac-nu-dinh-da-10mm-nn0440.jpg",
-        description:
-          "Bông tai kim cương đính hạt lớn, thiết kế đẹp mắt và sang trọng.",
-        code: "AFEC000459D2DA1",
-      },
-      {
-        id: "AFPB001948F2HA1",
-        name: "Mặt dây nữ kim cương",
-        price: 17370000,
-        quantity: 1,
-        image:
-          "https://lili.vn/wp-content/uploads/2022/10/Day-chuyen-bac-unisex-dinh-kim-cuong-Moissanite-dang-chuoi-da-LILI_054275_2.jpg",
-        description:
-          "Mặt dây nữ kim cương đính hạt lớn, thiết kế đẹp mắt và sang trọng.",
-        code: "AFPB001948F2HA1",
-      },
-      {
-        id: "AFPB001948F8BA1",
-        name: "Dây chuyền nữ kim cương",
-        price: 27790000,
-        quantity: 1,
-        image:
-          "https://lili.vn/wp-content/uploads/2022/06/Mat-day-chuyen-bac-nu-dinh-kim-cuong-Moissanite-tron-cach-dieu-LILI_413898_6-150x150.jpg",
-        description:
-          "Dây chuyền nữ kim cương đính hạt lớn, thiết kế đẹp mắt và sang trọng.",
-        code: "AFPB001948F8BA1",
-      },
-    ];
-    setCartItems(initialCartItems);
+    setCartItems(cartItemsData);
   }, []);
 
   const total = cartItems.reduce(
@@ -63,20 +73,53 @@ export default function CartPage() {
     0
   );
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-  const shippingCost = 0; // Miễn phí vận chuyển
+  const shippingCost = appliedDiscount && appliedDiscount.type === "shipping" ? appliedDiscount.value : 0;
+  // const shippingCost = 0; // Miễn phí vận chuyển
+  const discountAmount = appliedDiscount
+    ? appliedDiscount.type === "percentage"
+      ? (total * appliedDiscount.value) / 100
+      : appliedDiscount.type === "fixed"
+        ? appliedDiscount.value
+        : 0
+    : 0;
+
+  const finalTotal = total - discountAmount + shippingCost;
 
   const removeItem = (id) => {
     setCartItems(cartItems.filter((item) => item.id !== id));
   };
 
   const updateQuantity = (id, amount) => {
-    setCartItems(
-      cartItems.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + amount) }
-          : item
-      )
-    );
+    setCartItems((prevItems) => {
+      return prevItems.reduce((acc, item) => {
+        if (item.id === id) {
+          const newQuantity = item.quantity + amount;
+          if (newQuantity > 0) {
+            acc.push({ ...item, quantity: newQuantity });
+          }
+        } else {
+          acc.push(item);
+        }
+        return acc;
+      }, []);
+    });
+  };
+
+  const handleProceedToCheckout = () => { // <-- Define the function
+    navigate(routes.checkout, { state: { cartItems, finalTotal } }); // <-- Navigate to CheckOut with cartItems
+  };
+
+  const handleClick = () => {
+    navigate(routes.home);
+  };
+
+  const handleApplyDiscount = () => {
+    const discount = discountCodes.find((d) => d.code === discountCode.toUpperCase());
+    if (discount) {
+      setAppliedDiscount(discount);
+    } else {
+      alert("Mã giảm giá không hợp lệ");
+    }
   };
 
   return (
@@ -89,7 +132,7 @@ export default function CartPage() {
               <ImCart /> Giỏ hàng ({totalItems} sản phẩm)
             </h4>
             <div className="continue-btn">
-              <Button variant="light" className="w-100 mt-2" type="button">
+              <Button variant="light" className="w-100 mt-2" type="button" onClick={handleClick}>
                 <IoMdArrowRoundBack /> Tiếp tục mua hàng
               </Button>
             </div>
@@ -107,36 +150,29 @@ export default function CartPage() {
                       <div className="order-item-details">
                         <h5>{item.name}</h5>
                         <p>MSP: {item.code}</p>
+                        <p>Kích thước: {item.size}</p>
                         <div className="quantity-control">
                           <ButtonGroup>
-                            <Button
-                              variant="outline-secondary"
-                              onClick={() => updateQuantity(item.id, -1)}
-                            >
-                              -
-                            </Button>
-                            <span className="quantity">{item.quantity}</span>
-                            <Button
-                              variant="outline-secondary"
-                              onClick={() => updateQuantity(item.id, 1)}
-                            >
-                              +
-                            </Button>
+                            <Button variant="light" onClick={() => updateQuantity(item.id, -1)}>-</Button>
+                            <div className="quantity-div">
+                              <h3 className="quantity">{item.quantity}</h3>
+                            </div>
+                            <Button variant="light" onClick={() => updateQuantity(item.id, 1)}>+</Button>
                           </ButtonGroup>
                         </div>
-                        <div className="price-info">
+                        <div>
                           <span className="price-text">
                             Giá tiền:{" "}
                             <span style={{ color: "red" }}>
                               {item.price.toLocaleString()}đ
                             </span>
                           </span>
-                          <span>
+                          {/* <span>
                             Tạm tính:{" "}
                             <span style={{ color: "red" }}>
                               {(item.price * item.quantity).toLocaleString()}đ
                             </span>
-                          </span>
+                          </span> */}
                         </div>
                         <span>
                           Thành tiền:{" "}
@@ -145,15 +181,17 @@ export default function CartPage() {
                           </span>
                         </span>
                         <p>Mô tả: {item.description}</p>
+                        <span
+                          style={{
+                            color: "#ce0303",
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                          }}
+                          onClick={() => removeItem(item.id)}
+                        >
+                          Xóa
+                        </span>
                       </div>
-                    </div>
-                    <div className="remove-but">
-                      <Button
-                        style={{ background: "#ce0303" }}
-                        onClick={() => removeItem(item.id)}
-                      >
-                        Xóa
-                      </Button>
                     </div>
                   </ListGroup.Item>
                 ))}
@@ -173,16 +211,28 @@ export default function CartPage() {
                       {total.toLocaleString()} VNĐ
                     </span>
                   </h5>
+                  <hr class="solid"></hr>
                   <h5>
                     Vận chuyển:{" "}
                     <span style={{ color: "black", float: "right" }}>
-                      Miễn phí vận chuyển
-                    </span>
+                      {shippingCost === 0 ? "Miễn phí vận chuyển" : `${shippingCost.toLocaleString()} VNĐ`}                    </span>
                   </h5>
+                  <hr className="solid"></hr>
+                  {discountAmount > 0 && (
+                    <>
+                      <h5>
+                        Giảm giá:{" "}
+                        <span style={{ color: "black", float: "right" }}>
+                          -{discountAmount.toLocaleString()} VNĐ
+                        </span>
+                      </h5>
+                      <hr className="solid"></hr>
+                    </>
+                  )}
                   <h5>
                     Thanh toán:{" "}
                     <span style={{ color: "black", float: "right" }}>
-                      {total.toLocaleString()} VNĐ
+                      {finalTotal.toLocaleString()} VNĐ
                     </span>
                   </h5>
                   <div className="d-flex">
@@ -190,10 +240,13 @@ export default function CartPage() {
                       type="text"
                       className="form-control mr-2"
                       placeholder="Mã giảm giá/Quà tặng"
+                      value={discountCode}
+                      onChange={(e) => setDiscountCode(e.target.value)}
                     />
                     <Button
                       style={{ background: "#614A4A" }}
                       className="apply-button"
+                      onClick={handleApplyDiscount}
                     >
                       Áp dụng
                     </Button>
@@ -201,7 +254,8 @@ export default function CartPage() {
                   <Button
                     style={{ background: "#ce0303", marginTop: "15px" }}
                     className="w-100 btn-proceed-to-checkout"
-                    type="submit"
+                    type="button"
+                    onClick={handleProceedToCheckout}
                   >
                     Tiến hành đặt hàng
                   </Button>

@@ -7,30 +7,31 @@ import {
   MDBCol,
 } from "mdb-react-ui-kit";
 import "./ChangePassword.css";
-import forgotbanner from "../../../public/assets/images/LoginBanner/forgotbanner.jpg";
-
-import logo from "../../../public/assets/images/Logo/logo.png";
 import { routes } from "../../routes";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
-import axios from "axios";
+import api from "../../config/axios";
+import { toast } from "react-toastify";
 
 function ChangePasswordPage() {
+  const navigate = useNavigate();
+
   const [form] = useForm();
   function hanldeClickSubmit() {
     form.submit();
   }
 
-  async function handleSubmit(value) {
+  async function ChangePassword(value) {
     console.log(value);
     try {
-      const response = await axios.post(
-        "http://157.245.145.162:8080/api/reset-password",
-        value
-      );
+      const response = await api.post("reset-password", value);
       console.log(response);
+      toast.success("Thay đổi mật khẩu thành công");
+      navigate(routes.login);
     } catch (error) {
+      toast.error("Đã có lỗi khi thay đổi mật khẩu");
+
       console.log(error.response.data);
     }
   }
@@ -40,7 +41,7 @@ function ChangePasswordPage() {
         <MDBRow className="g-0">
           <MDBCol md="6">
             <MDBCardImage
-              src={forgotbanner}
+              src={"https://drive.google.com/thumbnail?id=18Hcw8NVoxtHI0xR1uanZse_ip6F6bGJ6&sz=w1000"}
               alt="login form"
               className="rounded-start w-100"
             />
@@ -56,7 +57,7 @@ function ChangePasswordPage() {
                 <span className="">Quay Lại Trang Chủ</span>
               </Link>
               <div className="d-flex flex-row mt-2 form-header">
-                <img src={logo} alt="" className="form-logo" />
+                <img src={"https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"} alt="" className="form-logo" />
                 <span className="h1 fw-bold mb-0">Five Diamond</span>
               </div>
 
@@ -69,9 +70,9 @@ function ChangePasswordPage() {
               <div className="form">
                 <Form
                   form={form}
-                  onFinish={handleSubmit}
+                  onFinish={ChangePassword}
                   id="form"
-                  className="form-main"
+                  className=""
                 >
                   <Form.Item
                     label="Mật Khẩu Mới"
@@ -95,6 +96,31 @@ function ChangePasswordPage() {
                   >
                     <Input type="password" required />
                   </Form.Item>
+                  {/* <Form.Item
+                    dependencies={["password"]}
+                    required
+                    label="Xác nhận mật khẩu"
+                    name="confirm"
+                    hasFeedback
+                    rules={[
+                      {
+                        required: true,
+                        message: "Hãy Xác Nhận lại mật khẩu của bạn",
+                      },
+                      ({ getFieldValue }) => ({
+                        validator(_, value) {
+                          if (!value || getFieldValue("password") === value) {
+                            return Promise.resolve();
+                          }
+                          return Promise.reject(
+                            new Error("Mật Khẩu xác nhận bạn nhập sai")
+                          );
+                        },
+                      }),
+                    ]}
+                  >
+                    <Input type="password" required />
+                  </Form.Item> */}
                   <Button onClick={hanldeClickSubmit} className="form-button">
                     Xác Nhận
                   </Button>
@@ -116,14 +142,6 @@ function ChangePasswordPage() {
                 >
                   Đăng ký tài khoản mới
                 </Link>
-              </div>
-              <div className="d-flex flex-row justify-content-start">
-                <a href="#!" className="small text-muted me-1">
-                  {/* Terms of use. */}
-                </a>
-                <a href="#!" className="small text-muted">
-                  {/* Privacy policy */}
-                </a>
               </div>
             </MDBCardBody>
           </MDBCol>

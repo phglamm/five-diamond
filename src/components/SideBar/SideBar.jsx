@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import "./SideBar.css";
-import logo from "../../../public/assets/images/Logo/logo.png";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import StackedLineChartIcon from "@mui/icons-material/StackedLineChart";
@@ -12,6 +11,8 @@ import { routes } from "../../routes";
 import { logout, selectUser } from "../../redux/features/counterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import LogoutIcon from "@mui/icons-material/Logout";
+import FindInPageIcon from "@mui/icons-material/FindInPage";
+import InventoryIcon from "@mui/icons-material/Inventory";
 export default function SideBar() {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
@@ -21,13 +22,18 @@ export default function SideBar() {
   return (
     <div className="sidenav">
       <div className="sidenav-header">
-        <img src={logo} alt="" />
+        <img
+          src={
+            "https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"
+          }
+          alt=""
+        />
 
         <span>Five Diamond</span>
       </div>
       <hr className="rounded" />
       <h1>
-        Xin Chào, {user.firstname} {user.lastname}
+        {user.firstname} {user.lastname}
       </h1>
       <hr className="rounded" />
 
@@ -47,7 +53,7 @@ export default function SideBar() {
         <Link to={routes.adminmanageorder}>Quản Lý Đơn Hàng</Link>
       </li>
       <li>
-        <DiamondIcon color="info" fontSize="large"></DiamondIcon>
+        <InventoryIcon color="info" fontSize="large"></InventoryIcon>
         <Link to={routes.adminProduct}>Quản Lý Sản Phẩm</Link>
       </li>
       <li>
@@ -56,7 +62,11 @@ export default function SideBar() {
       </li>
       <li>
         <CategoryIcon color="info" fontSize="large"></CategoryIcon>
-        <Link to={routes.adminDiamondshell}>Quản Lý Vỏ Kim Cương</Link>
+        <Link to={routes.adminCover}>Quản Lý Vỏ Kim Cương</Link>
+      </li>
+      <li>
+        <FindInPageIcon color="info" fontSize="large"></FindInPageIcon>
+        <Link to={routes.adminCertificate}>Quản Lý Chứng Chỉ</Link>
       </li>
       <li>
         <CategoryIcon color="info" fontSize="large"></CategoryIcon>
@@ -64,7 +74,7 @@ export default function SideBar() {
       </li>
       <li>
         <PersonIcon color="info" fontSize="large"></PersonIcon>
-        <Link to="">Quản Lý Khách Hàng</Link>
+        <Link to={routes.adminUser}>Quản Lý Người Dùng</Link>
       </li>
       <li>
         <EventIcon color="info" fontSize="large"></EventIcon>

@@ -25,6 +25,7 @@
 
 .button-buy button {
   width: 100%;
+  background-color: #00c2d1;
 }
 
 .header-product-info {
@@ -62,4 +63,10 @@
 }
 .relevant-productcard {
   width: 25%;
+}
+.size-choosing-img{
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto; 
 }

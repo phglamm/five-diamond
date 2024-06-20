@@ -1,34 +1,34 @@
 import { Col, Container, Row } from "react-bootstrap";
-import banner1 from "../../../public/assets/images/Banner/banner1.jpg";
-import banner2 from "../../../public/assets/images/Banner/banner2.jpg";
-import banner3 from "../../../public/assets/images/Banner/banner3.jpg";
-import banner4 from "../../../public/assets/images/Banner/banner4.jpg";
-import product1 from "../../../public/assets/images/product/product1.png";
 import Header from "../../components/Header/Header";
 import ProductCard from "../../components/productCard/productCard";
 import Footer from "../../components/Footer/Footer";
 import Banner from "../../components/Banner/banner";
 import RowProduct from "../../components/RowProduct/rowProduct";
 import "./GuestPage.css";
-import rowbanner1 from "../../../public/assets/images/rowBanner/rowbanner1.jpg";
-
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../routes";
 export default function GuestPage() {
+  const navigate = useNavigate();
+  const handleCollectionClick = () =>{
+    navigate(routes.bstset1)
+  }
+
   return (
     <div>
-      <Header></Header>
+      <Header/>
       <Container>
         <Banner
           className="banner"
-          pic1={banner1}
-          pic2={banner2}
-          pic3={banner3}
-          pic4={banner4}
-        ></Banner>
+          pic1={"https://drive.google.com/thumbnail?id=1MurUr0y927Uox0YDBla75YskE3phVUJ1&sz=w1000"}
+          pic2={"https://drive.google.com/thumbnail?id=1URfmW1gg8-XLmPFOugwEw9KfWVcV19w3&sz=w1000"}
+          pic3={"https://drive.google.com/thumbnail?id=1oUTZ3-4CHOUwC_WYcW2h_MJjQ0WE43HP&sz=w1000"}
+          pic4={"https://drive.google.com/thumbnail?id=1-FggdgvD3FjG_XqeVj2WI2_gIvA9UBPa&sz=w1000"}
+        />
 
         <Row>
           <Col>
             <ProductCard
-              img={product1}
+              img={"https://drive.google.com/thumbnail?id=1gslL9BKVX714wwMsFWiCa9xurdWE9IHY&sz=w1000"}
               text={"Nhẫn Cưới Salsa 111841F2KK1 111841F2ML1"}
               price={"22,000,000đ"}
               pageType="guest-page"
@@ -36,36 +36,36 @@ export default function GuestPage() {
           </Col>
           <Col>
             <ProductCard
-              img={product1}
+              img={"https://drive.google.com/thumbnail?id=1gslL9BKVX714wwMsFWiCa9xurdWE9IHY&sz=w1000"}
               text={"Nhẫn Cưới Salsa 111841F2KK1 111841F2ML1"}
               price={"22,000,000đ"}
               pageType="guest-page"
-            ></ProductCard>
+            />
           </Col>
 
           <Col>
             <ProductCard
-              img={product1}
+              img={"https://drive.google.com/thumbnail?id=1gslL9BKVX714wwMsFWiCa9xurdWE9IHY&sz=w1000"}
               text={"Nhẫn Cưới Salsa 111841F2KK1 111841F2ML1"}
               price={"22,000,000đ"}
               pageType="guest-page"
-            ></ProductCard>
+            />
           </Col>
           <Col>
             <ProductCard
-              img={product1}
+              img={"https://drive.google.com/thumbnail?id=1gslL9BKVX714wwMsFWiCa9xurdWE9IHY&sz=w1000"}
               text={"Nhẫn Cưới Salsa 111841F2KK1 111841F2ML1"}
               price={"22,000,000đ"}
               pageType="guest-page"
-            ></ProductCard>
+            />
           </Col>
           <Col>
             <ProductCard
-              img={product1}
+              img={"https://drive.google.com/thumbnail?id=1gslL9BKVX714wwMsFWiCa9xurdWE9IHY&sz=w1000"}
               text={"Nhẫn Cưới Salsa 111841F2KK1 111841F2ML1"}
               price={"22,000,000đ"}
               pageType="guest-page"
-            ></ProductCard>
+            />
           </Col>
         </Row>
         <Row>
@@ -73,12 +73,12 @@ export default function GuestPage() {
             <h4 className="Top-title">SẢN PHẨM NỔI BẬT</h4>
           </Col>
         </Row>
-        <RowProduct banner={rowbanner1}></RowProduct>
-        <RowProduct banner={rowbanner1}></RowProduct>
-        <RowProduct banner={rowbanner1}></RowProduct>
+        <RowProduct banner={"https://drive.google.com/thumbnail?id=1EG3EKHpm1-MJKmZ_GrwAm7uvsZtvEWee&sz=w1000"}></RowProduct>
+        <RowProduct banner={"https://drive.google.com/thumbnail?id=1EG3EKHpm1-MJKmZ_GrwAm7uvsZtvEWee&sz=w1000"}></RowProduct>
+        <RowProduct banner={"https://drive.google.com/thumbnail?id=1EG3EKHpm1-MJKmZ_GrwAm7uvsZtvEWee&sz=w1000"}></RowProduct>
       </Container>
 
-      <Footer></Footer>
+      <Footer/>
     </div>
   );
 }

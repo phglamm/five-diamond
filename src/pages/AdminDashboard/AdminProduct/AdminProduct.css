@@ -1,0 +1,28 @@
+.Material-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* width: 95%; */
+  margin-bottom: 5%;
+}
+
+.Material-form button {
+  margin-left: 75%;
+  width: 73%;
+}
+
+.Material-form input {
+}
+
+.form-content-main-product input {
+  width: 150% !important;
+}
+
+.choose-modal {
+  width: 80% !important;
+}
+
+.choose-table {
+  width: 100% !important;
+}

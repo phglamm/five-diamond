@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "./SaleStaffPage.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import { Button, Container } from "react-bootstrap";
-import { Table } from "antd";
+import { Button, Container, FormControl } from "react-bootstrap";
+import { Table, Input } from "antd";
 
 const initialDataSource = [
   {
@@ -119,11 +119,16 @@ const initialDataSource = [
 function SaleStaffPage() {
   const [dataSource, setDataSource] = useState(initialDataSource);
   const [filterStatus, setFilterStatus] = useState(null); // null means no filter
+  const [searchTerm, setSearchTerm] = useState(""); // State for search term
 
   const filteredDataSource = dataSource.filter((item) => {
     if (filterStatus === null) return true;
     return item.status === filterStatus;
+  }).filter((item) => {
+    if (searchTerm === "") return true;
+    return item.orderId.toLowerCase().includes(searchTerm.toLowerCase());
   });
+  
 
   const columns = [
     {
@@ -172,18 +177,31 @@ function SaleStaffPage() {
       <Header />
       <Container>
         <div className="filter-buttons">
-          <Button variant="primary" onClick={() => setFilterStatus(null)}>
+          <Button
+            variant={filterStatus === null ? "primary" : "outline-primary"}
+            onClick={() => setFilterStatus(null)}
+          >
             Tất cả
           </Button>
-          <Button variant="success" onClick={() => setFilterStatus("Đã xử lí")}>
+          <Button
+            variant={filterStatus === "Đã xử lí" ? "primary" : "outline-primary"}
+            onClick={() => setFilterStatus("Đã xử lí")}
+          >
             Đã xử lí
           </Button>
           <Button
-            variant="warning"
+            variant={filterStatus === "Chưa xử lí" ? "primary" : "outline-primary"}
             onClick={() => setFilterStatus("Chưa xử lí")}
           >
             Chưa xử lí
           </Button>
+        </div>
+        <div className="search-bar">
+          <Input
+            placeholder="Tìm kiếm mã đơn hàng"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
         <Table
           className="order-table"
@@ -197,3 +215,4 @@ function SaleStaffPage() {
 }
 
 export default SaleStaffPage;
+  

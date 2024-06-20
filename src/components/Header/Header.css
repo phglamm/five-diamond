@@ -14,17 +14,11 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  top: 20vh;
+  top: 22vh;
   width: 100% !important;
   left: 0;
   z-index: 1000;
   /* background: #ffffff; */
-}
-
-.dropdownContainer {
-  /* position: relative; */
-  /* text-align: center; */
-  /* margin-top: 19px; */
 }
 
 .dropdownContainer a {
@@ -125,7 +119,6 @@
   display: flex;
   justify-content: space-between;
   gap: 0 10px;
-
 }
 
 .Header-left-component i {
@@ -140,6 +133,10 @@
 
 .username:hover {
   text-decoration: underline;
+}
+
+.cart-icon {
+  font-size: 23px;
 }
 
 @media screen and (max-width: 1440px) {

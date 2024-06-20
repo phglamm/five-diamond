@@ -7,27 +7,24 @@ import {
   MDBCol,
 } from "mdb-react-ui-kit";
 import "./LoginPageCard.css";
-import logobanner from "../../../public/assets/images/LoginBanner/loginbanner.jpg";
-import logo from "../../../public/assets/images/Logo/logo.png";
 import { routes } from "../../routes";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Form, Input, Modal } from "antd";
+import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { login, selectUser } from "../../redux/features/counterSlice";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/features/counterSlice";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../../config/firebase";
 import api from "../../config/axios";
+import { toast } from "react-toastify";
 
 function LoginPageCard() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
-  const [error, setError] = useState("");
   const [form] = useForm();
   const navigate = useNavigate();
   function hanldeClickSubmit() {
@@ -37,7 +34,7 @@ function LoginPageCard() {
   async function handleSubmit(value) {
     console.log(value);
     try {
-      const response = await api.post("login", value).then((userApi) => {
+      await api.post("login", value).then((userApi) => {
         console.log(userApi);
         console.log(userApi.data);
         localStorage.setItem("token", userApi.data.token);
@@ -46,12 +43,16 @@ function LoginPageCard() {
           navigate(routes.home);
         } else if (userApi.data.role === "ADMIN") {
           navigate(routes.adminDiamond);
+        } else if (userApi.data.role === "SALES") {
+          navigate(routes.home);
+        } else if (userApi.data.role === "DELIVERY") {
+          navigate(routes.home);
         }
-
+        toast.success("Đăng Nhập Thành Công");
         dispatch(login(userApi.data));
       });
     } catch (error) {
-      setError("Tài khoản hoặc mật khẩu của bạn không đúng");
+      toast.error("Tài khoản hoặc mật khẩu của bạn không đúng");
       console.log(error.response.data);
     }
   }
@@ -68,8 +69,12 @@ function LoginPageCard() {
         // ...
 
         if (response.data.role === "CUSTOMER") {
-          navigate(routes.home);
+          if (response.data.address || response.data.phone === null) {
+            navigate(routes.profile);
+          } else navigate(routes.home);
         }
+
+        toast.success("Đăng Nhập Thành Công");
         dispatch(login(response.data));
       })
       .catch((error) => {
@@ -84,7 +89,9 @@ function LoginPageCard() {
           <MDBRow className="g-0">
             <MDBCol md="6">
               <MDBCardImage
-                src={logobanner}
+                src={
+                  "https://drive.google.com/thumbnail?id=18f6-V6q7B032ACan6Xro2re0fMZUe89_&sz=w1000"
+                }
                 alt="login form"
                 className="rounded-start w-100"
               />
@@ -100,7 +107,13 @@ function LoginPageCard() {
                   <span className="">Quay Lại Trang Chủ</span>
                 </Link>
                 <div className="d-flex flex-row mt-2 form-header">
-                  <img src={logo} alt="" className="form-logo" />
+                  <img
+                    src={
+                      "https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"
+                    }
+                    alt=""
+                    className="form-logo"
+                  />
                   <span className="h1 fw-bold mb-0">Five Diamond</span>
                 </div>
 
@@ -163,11 +176,10 @@ function LoginPageCard() {
                         onChange={(e) => setPassword(e.target.value)}
                       />
                     </Form.Item>
-                    {error && <div>{error}</div>}
                     <Button onClick={hanldeClickSubmit} className="form-button">
                       Đăng Nhập
                     </Button>
-                    <p>Hoặc</p>
+                    <h5 style={{ textAlign: "center", marginTop: 20 }}>Hoặc</h5>
                   </Form>
                   <div className="google-btn-container">
                     <button onClick={handleLoginGG} className="google-button">
@@ -211,15 +223,6 @@ function LoginPageCard() {
                     Đăng Ký
                   </Link>
                 </p>
-
-                <div className="d-flex flex-row justify-content-start">
-                  <a href="#!" className="small text-muted me-1">
-                    {/* Terms of use. */}
-                  </a>
-                  <a href="#!" className="small text-muted">
-                    {/* Privacy policy */}
-                  </a>
-                </div>
               </MDBCardBody>
             </MDBCol>
           </MDBRow>

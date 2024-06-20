@@ -8,31 +8,28 @@ import {
 } from "mdb-react-ui-kit";
 import "./RegisterPage.css";
 
-import registerbanner from "../../../public/assets/images/LoginBanner/registerbanner.jpg";
-import logo from "../../../public/assets/images/Logo/logo.png";
 import { routes } from "../../routes";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, DatePicker, Form, Input, Select } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { Option } from "antd/es/mentions";
-import { useState } from "react";
 import api from "../../config/axios";
+import { toast } from "react-toastify";
 
 function RegisterPageCard() {
-  const [message, setMessage] = useState("");
-
+  const navigate = useNavigate();
   const dateFormat = "DD/MM/YYYY";
 
   const [form] = useForm();
-  async function handleSubmit(value) {
+  async function RegisterAccount(value) {
     console.log(value);
     try {
       const response = await api.post("register", value);
       console.log(response);
-      // navigate(routes.login);
-      setMessage("Tài Khoản của bạn đã được tạo thành công");
+      toast.success("Tài Khoản của bạn đã được tạo thành công");
+      navigate(routes.login);
     } catch (error) {
-      setMessage("Đã có lỗi trong việc tạo tài khoản của bạn");
+      toast.error("Đã có lỗi trong việc tạo tài khoản của bạn");
       console.log(error.response.data);
     }
   }
@@ -47,7 +44,9 @@ function RegisterPageCard() {
         <MDBRow className="g-0">
           <MDBCol md="6">
             <MDBCardImage
-              src={registerbanner}
+              src={
+                "https://drive.google.com/thumbnail?id=1rnuNBIluTA1oWyGVTdXjHy8SYDmfk6zH&sz=w1000"
+              }
               alt="login form"
               className="rounded-start w-100"
             />
@@ -63,7 +62,13 @@ function RegisterPageCard() {
                 <span className="">Quay Lại Trang Chủ</span>
               </Link>
               <div className="d-flex flex-row mt-2 form-header">
-                <img src={logo} alt="" className="form-logo" />
+                <img
+                  src={
+                    "https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"
+                  }
+                  alt=""
+                  className="form-logo"
+                />
                 <span className="h1 fw-bold mb-0">Five Diamond</span>
               </div>
 
@@ -76,7 +81,7 @@ function RegisterPageCard() {
               <div className="form">
                 <Form
                   form={form}
-                  onFinish={handleSubmit}
+                  onFinish={RegisterAccount}
                   id="form"
                   className=""
                 >
@@ -225,7 +230,6 @@ function RegisterPageCard() {
                   >
                     <Input type="password" required />
                   </Form.Item>
-                  {message && <div>{message}</div>}
 
                   <Button onClick={hanldeClickSubmit} className="form-button ">
                     Đăng Ký
@@ -242,15 +246,6 @@ function RegisterPageCard() {
                   Đăng Nhập Ngay
                 </Link>
               </p>
-
-              {/* <div className="d-flex flex-row justify-content-start">
-                <a href="#!" className="small text-muted me-1">
-                  Terms of use.
-                </a>
-                <a href="#!" className="small text-muted">
-                  Privacy policy
-                </a>
-              </div> */}
             </MDBCardBody>
           </MDBCol>
         </MDBRow>

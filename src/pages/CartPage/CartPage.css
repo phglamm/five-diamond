@@ -33,6 +33,10 @@
 .order-item-details {
   flex: 1;
 }
+.order-item{
+  margin-right: 0%;
+
+}
 
 .quantity-control {
   display: flex;
@@ -41,7 +45,47 @@
 }
 
 .quantity {
-  margin: 0 10px;
+  margin: 20px;
+  margin-top: 1px;
+}
+
+.quantity-div h3{
+  color: #5a5a5a;
+}
+
+.quantity-div{
+  background-color: #ffffffd5;
+  border-left: 1px solid rgb(129, 129, 129); /* Add black border on the left */
+  border-right: 3px solid rgb(129, 129, 129);
+  display: flex; /* Ensure contents are aligned horizontally */
+  align-items: center; /* Center align items vertically */
+  justify-content: center; /* Center align items horizontally */
+}
+
+/* Custom styles for quantity buttons */
+.quantity-button {
+  background-color: #f8d7da; /* Light red background */
+  border-color: #f5c6cb;     /* Light red border */
+  color: #721c24;           /* Dark red text color */
+}
+
+.quantity-button:hover,
+.quantity-button:focus {
+  background-color: #f5c6cb; /* Slightly darker red on hover */
+  border-color: #f1b0b7;     /* Slightly darker red border on hover */
+  color: #721c24;            /* Dark red text color */
+}
+
+/* Button styles - no specific color */
+.btn-light {
+  border-color: #ced4da;
+  color: #495057;
+}
+
+.btn-light:hover,
+.btn-light:focus {
+  border-color: #adb5bd;
+  color: #343a40;
 }
 
 .remove-but {
@@ -64,18 +108,6 @@
 h5,
 p {
   margin: 5px 0;
-}
-
-/* Button styles - no specific color */
-.btn-outline-secondary {
-  border-color: #ced4da;
-  color: #495057;
-}
-
-.btn-outline-secondary:hover,
-.btn-outline-secondary:focus {
-  border-color: #adb5bd;
-  color: #343a40;
 }
 
 .btn-danger {
@@ -117,14 +149,15 @@ p {
   color: #343a40;
 }
 
-/* input.form-control {
+input.form-control {
   flex: 1;
   margin-right: 10px;
-} */
+}
 
 .continue-btn {
   width: 29%;
   margin-bottom: 20px;
+
 }
 
 .continue-btn .btn-light {
@@ -134,6 +167,7 @@ p {
 
 .Col4 {
   margin-top: 25%;
+
 }
 
 .proceed-to-checkout-button {
@@ -154,4 +188,8 @@ p {
   height: 1px;
   background-color: #ced4da;
   margin: 5px 0;
+}
+hr.solid {
+  margin-top: 0px;
+  border-top: 3px solid #ff0000;
 }
