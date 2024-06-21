@@ -37,6 +37,7 @@ export default function ProductPage() {
     }
     fetchProductLineById(id);
   }, [id]);
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -52,7 +53,7 @@ export default function ProductPage() {
   const firstFiveProducts = relevantproduct.slice(0, 10);
 
   if (!product) {
-    return <p>Loading...</p>;
+    return <></>;
   }
   const handleClickAddToCart = async () => {
     if (selectedSize) {
