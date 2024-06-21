@@ -113,7 +113,7 @@ export default function CheckOut() {
         cartItems: cartItems,
       };
       try {
-        const response = await axios.post('http://157.245.145.162:8080/api/wallet/vnpay', { 
+        const response = await axios.post('http://157.245.145.162:8080/api/wallet/vnpay', {
           amount: finalTotal,
         });
         const paymentUrl = response.data;
@@ -249,8 +249,25 @@ export default function CheckOut() {
             </Col>
           </Row>
           <div className="checkout-actions">
-            <Button className="button-back" onClick={() => navigate(routes.cart)}>TRỞ LẠI</Button>
-            <Button className="button-confirm" type="submit">HOÀN TẤT ĐẶT HÀNG</Button>
+            {/* <Button className="button-back" onClick={() => navigate(routes.cart)}>TRỞ LẠI</Button> */}
+            {/* <Button className="button-confirm" type="submit">Tiến hành thanh toán</Button> */}
+            <div className="button-confirmback">
+              <Button
+                type="primary"
+                className="button-back"
+                style={{ fontWeight: "bold", width: "50%" }}
+              >
+                TRỞ LẠI
+              </Button>
+              <Button
+                type="primary"
+                className="button-confirm"
+                style={{ fontWeight: "bold", width: "50%" }}
+              >
+                Tiến hành thanh toán
+              </Button>
+            </div >
+
           </div>
         </Form>
       </Container>
