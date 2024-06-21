@@ -18,7 +18,6 @@ function ProfilePage() {
   const [image, setImage] = useState(null);
   const [visible, setVisible] = useState(false);
 
-
   useEffect(() => {
     const storedUser = localStorage.getItem("userProfile");
     if (storedUser) {

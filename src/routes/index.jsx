@@ -20,7 +20,6 @@ export const routes = {
   warrantyPolicy: "/chinh-sach-bao-hanh",
 
   admin: "/admin",
-  adminProduct: "/admin-san-pham",
   adminCover: "/admin-vo-kim-cuong",
   adminDiamond: "/admin-kim-cuong",
   adminAdd: "/admin-them-san-pham",
@@ -28,6 +27,7 @@ export const routes = {
   adminCategory: "/admin-danh-muc",
   adminCertificate: "/admin-chung-chi",
   adminUser: "/admin-nguoi-dung",
+  adminbst: "/admin-bo-suu-tap",
 
   productdetail: "/chi-tiet-san-pham",
   diamondprice: "/bang-gia-kim-cuong",
@@ -41,5 +41,5 @@ export const routes = {
   tracking: "/theo-doi-don-hang",
   saleStaff: "/nhan-vien-sale",
   deliveryStaff: "/nhan-vien-giao-hang",
-
+  // payment: "/thanh-toan",
 };

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+
 import {
   Container,
   Row,
@@ -17,25 +18,52 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import "./CartPage.css";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
-import cartItemsData from "./cartItems";
 import discountCodes from "./discountCodes";
+import api from "../../config/axios";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/features/counterSlice";
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([]);
   const [discountCode, setDiscountCode] = useState("");
   const [appliedDiscount, setAppliedDiscount] = useState(null);
   const navigate = useNavigate();
+  const user = useSelector(selectUser);
+  async function fetchCart() {
+    try {
+      const response = await api.get("cart");
+      console.log(response.data);
+      setCartItems(response.data.cartItems);
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  }
 
   useEffect(() => {
-    setCartItems(cartItemsData);
+    fetchCart();
   }, []);
 
+  async function deleteCart(id) {
+    try {
+      await api.delete(`cart/${id}`);
+      setCartItems(cartItems.filter((item) => item.id !== id));
+      toast.success("xóa khỏi giỏ hàng thành công");
+    } catch (error) {
+      console.log(error.response.data);
+      toast.error("Không thể xóa khỏi giỏ hàng");
+    }
+  }
+
   const total = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
+    (acc, item) => acc + item.productLine.price * item.quantity,
     0
   );
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-  const shippingCost = appliedDiscount && appliedDiscount.type === "shipping" ? appliedDiscount.value : 0;
+  const shippingCost =
+    appliedDiscount && appliedDiscount.type === "shipping"
+      ? appliedDiscount.value
+      : 0;
   const discountAmount = appliedDiscount
     ? appliedDiscount.type === "percentage"
       ? (total * appliedDiscount.value) / 100
@@ -45,10 +73,6 @@ export default function CartPage() {
     : 0;
 
   const finalTotal = total - discountAmount + shippingCost;
-
-  const removeItem = (id) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
-  };
 
   const updateQuantity = (id, amount) => {
     setCartItems((prevItems) => {
@@ -67,7 +91,8 @@ export default function CartPage() {
   };
 
   const handleProceedToCheckout = () => {
-    navigate(routes.checkout, { state: { cartItems, finalTotal } });
+    // <-- Define the function
+    navigate(routes.checkout, { state: { cartItems, finalTotal } }); // <-- Navigate to CheckOut with cartItems
   };
 
   const handleClick = () => {
@@ -75,7 +100,9 @@ export default function CartPage() {
   };
 
   const handleApplyDiscount = () => {
-    const discount = discountCodes.find((d) => d.code === discountCode.toUpperCase());
+    const discount = discountCodes.find(
+      (d) => d.code === discountCode.toUpperCase()
+    );
     if (discount) {
       setAppliedDiscount(discount);
     } else {
@@ -129,24 +156,24 @@ export default function CartPage() {
                               {item.price.toLocaleString()}đ
                             </span>
                           </span>
-                          <p>Mô tả: {item.description}</p>
+                          <p>Mô tả: {item.productLine.description}</p>
                           <span
                             style={{
                               color: "#ce0303",
                               cursor: "pointer",
                               textDecoration: "underline",
                             }}
-                            onClick={() => removeItem(item.id)}
+                            onClick={() => deleteCart(item.id)}
                           >
                             Xóa
                           </span>
                         </div>
                       </div>
-                    </div>
                   </ListGroup.Item>
                 ))}
               </ListGroup>
             </Card>
+                    )}
           </Col>
           <Col md={4} className="cart-col4">
             <div className="cart-summary">
@@ -188,9 +215,9 @@ export default function CartPage() {
                       style={{ background: "#614A4A" }}
                       className="cart-apply-button"
                     >
-                      Áp dụng
+                      Tiến hành đặt hàng
                     </Button>
-                  </div>
+                  </div >
                   <Button
                     style={{ background: "#ce0303", marginTop: "15px" }}
                     className="w-100 cart-btn-proceed-to-checkout"

@@ -14,6 +14,8 @@ import { UploadOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
 import { AiOutlineSearch } from "react-icons/ai";
 
 import { dataCustomerDelivery as initialMergedData } from "./FakeDataDeliver";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 
 const uploadProps = {
   name: "file",
@@ -46,7 +48,12 @@ export default function DeliveryStaffPage() {
   ];
 
   const updateColumns = [
-    { id: "dateDeliver", label: "Ngày giao hàng", minWidth: 150, sortable: true },
+    {
+      id: "dateDeliver",
+      label: "Ngày giao hàng",
+      minWidth: 150,
+      sortable: true,
+    },
     { id: "shipmentId", label: "Mã vận chuyển", minWidth: 50, sortable: true },
     { id: "orderId", label: "Mã đơn hàng", minWidth: 50, sortable: true },
     { id: "address", label: "Địa chỉ", minWidth: 200 },
@@ -92,8 +99,14 @@ export default function DeliveryStaffPage() {
             onChange={(newValue) => handleStatusChange(newValue, rowIndex)}
             disabled={isDelivered}
             options={[
-              { value: "Khách đặt sai địa chỉ", label: "Khách đặt sai địa chỉ" },
-              { value: "Hẹn lại thời gian giao", label: "Hẹn lại thời gian giao" },
+              {
+                value: "Khách đặt sai địa chỉ",
+                label: "Khách đặt sai địa chỉ",
+              },
+              {
+                value: "Hẹn lại thời gian giao",
+                label: "Hẹn lại thời gian giao",
+              },
               { value: "Khách không có nhà", label: "Khách không có nhà" },
               { value: "Hàng xóm nhận", label: "Hàng xóm nhận" },
             ]}
@@ -112,7 +125,10 @@ export default function DeliveryStaffPage() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [selectedTable, setSelectedTable] = React.useState("deliver");
   const [searchTerm, setSearchTerm] = React.useState("");
-  const [sortConfig, setSortConfig] = React.useState({ key: null, direction: null });
+  const [sortConfig, setSortConfig] = React.useState({
+    key: null,
+    direction: null,
+  });
 
   React.useEffect(() => {
     localStorage.setItem("mergedData", JSON.stringify(mergedData));
@@ -201,10 +217,13 @@ export default function DeliveryStaffPage() {
 
   return (
     <div>
+      <Header></Header>
       <Container fluid className="table-deliver">
         <ButtonGroup className="mb-3">
           <Button
-            variant={selectedTable === "deliver" ? "primary" : "outline-primary"}
+            variant={
+              selectedTable === "deliver" ? "primary" : "outline-primary"
+            }
             onClick={() => handleTableToggle("deliver")}
           >
             Đơn hàng cần giao
@@ -218,7 +237,9 @@ export default function DeliveryStaffPage() {
         </ButtonGroup>
 
         <h1 className="text-center mb-4">
-          {selectedTable === "deliver" ? "ĐƠN HÀNG CẦN GIAO" : "CẬP NHẬT ĐƠN HÀNG"}
+          {selectedTable === "deliver"
+            ? "ĐƠN HÀNG CẦN GIAO"
+            : "CẬP NHẬT ĐƠN HÀNG"}
         </h1>
         <div className="search-bar mb-3">
           <AiOutlineSearch className="search-icon" />
@@ -239,18 +260,27 @@ export default function DeliveryStaffPage() {
                     <TableCell
                       key={column.id}
                       align={column.align}
-                      style={{ minWidth: column.minWidth, cursor: column.sortable ? "pointer" : "default" }}
-                      onClick={column.sortable ? () => handleSort(column.id) : undefined}
+                      style={{
+                        minWidth: column.minWidth,
+                        cursor: column.sortable ? "pointer" : "default",
+                      }}
+                      onClick={
+                        column.sortable
+                          ? () => handleSort(column.id)
+                          : undefined
+                      }
                     >
                       {column.label}
                       {column.sortable && (
                         <>
-                          {sortConfig.key === column.id && sortConfig.direction === "asc" && (
-                            <UpOutlined style={{ marginLeft: "0.5rem" }} />
-                          )}
-                          {sortConfig.key === column.id && sortConfig.direction === "desc" && (
-                            <DownOutlined style={{ marginLeft: "0.5rem" }} />
-                          )}
+                          {sortConfig.key === column.id &&
+                            sortConfig.direction === "asc" && (
+                              <UpOutlined style={{ marginLeft: "0.5rem" }} />
+                            )}
+                          {sortConfig.key === column.id &&
+                            sortConfig.direction === "desc" && (
+                              <DownOutlined style={{ marginLeft: "0.5rem" }} />
+                            )}
                         </>
                       )}
                     </TableCell>
@@ -258,18 +288,27 @@ export default function DeliveryStaffPage() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {filteredRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, rowIndex) => (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.render ? column.render(value, rowIndex) : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                ))}
+                {filteredRows
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, rowIndex) => (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.code}
+                    >
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.render
+                              ? column.render(value, rowIndex)
+                              : value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
@@ -291,6 +330,7 @@ export default function DeliveryStaffPage() {
           </div>
         )}
       </Container>
+      <Footer></Footer>
     </div>
   );
 }

@@ -13,25 +13,18 @@
   margin-bottom: 20px;
 }
 
-
 .err {
   font-size: 11rem;
   font-weight: bold;
   color: #fdfdfd;
-  margin: 0 5px;
-  /* Giảm khoảng cách giữa các số */
-
+  margin: 0 5px; /* Giảm khoảng cách giữa các số */
 }
 
 .err2 {
   font-size: 11rem;
   font-weight: bold;
   color: #fdfdfd;
-  margin: 0 5px;
-  /* Giảm khoảng cách giữa các số */
-
-  margin: 0 15%;
-  /* Giảm khoảng cách giữa các số */
+  margin: 0 5px; /* Giảm khoảng cách giữa các số */
 }
 
 .my-image {
@@ -40,7 +33,6 @@
   height: auto;
   margin-left: -15%;
   margin-right: -17%;
-
 }
 
 .msg {

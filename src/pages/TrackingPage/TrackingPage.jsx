@@ -162,7 +162,6 @@ const TrackingPage = () => {
                             <h5>Tổng tiền: <span style={{ color: 'red' }}>{total.toLocaleString()}đ</span></h5>
                         </Col>
                     </Row>
-
                     <div className="order-tracking">
                         <h3>THEO DÕI ĐƠN HÀNG</h3>
                         <Card>

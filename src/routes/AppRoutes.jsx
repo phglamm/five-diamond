@@ -15,7 +15,6 @@ import SizePage from "../pages/SizePage/SizePage";
 import DiamondKnowledgePage from "../pages/DiamondKnowledgePage/DiamondKnowledgePage";
 import AccessoryInfor from "../pages/AccessoryInforPage/AccessoryInforPage";
 import WarrantyPolicyPage from "../pages/WarrantyPolicyPage/WarrantyPolicyPage";
-import AdminProduct from "../pages/AdminDashboard/AdminProduct/AdminProduct";
 import AdminDiamond from "../pages/AdminDashboard/AdminDiamond/AdminPageDiamond";
 import AdminCategory from "../pages/AdminDashboard/AdminCategory/AdminCategory";
 import ProtectedRoute from "./protectedRoute";
@@ -23,7 +22,6 @@ import CartPage from "../pages/CartPage/CartPage";
 import CheckOut from "../pages/CheckOut/CheckOut";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import DiamondPricePage from "../pages/DiamondPricePage/DiamondPricePage";
-import ProductPage from "../pages/ProductPage/ProductDetailPage";
 import SaleProductPage from "../pages/SaleProductPage/SaleProductPage";
 import TrackingPage from "../pages/TrackingPage/TrackingPage";
 import SaleStaffPage from "../pages/SaleStaffPage/SaleStaffPage";
@@ -36,17 +34,18 @@ import AdminCover from "../pages/AdminDashboard/AdminDiamond/AdminPageCover";
 import CollectionSet1 from "../pages/CollectionPage/CollectionSet1";
 import CollectionSet2 from "../pages/CollectionPage/CollectionSet2";
 import CollectionSet3 from "../pages/CollectionPage/CollectionSet3";
+import AdminCollection from "../pages/AdminDashboard/AdminCollection/AdminCollection";
+import ProductPage from "../pages/ProductPage/ProductDetailPage";
+// import Payment from "../pages/Payment/PaymentPage";
 
 export default function AppRoute() {
   return (
     <Routes>
       <Route path={routes.home} element={<GuestPage />} />
-
       <Route path={routes.login} element={<LoginPageCard />} />
       <Route path={routes.register} element={<RegisterPageCard />} />
       <Route path={routes.forgot} element={<ForgotPasswordPage />} />
       <Route path={routes.changePassword} element={<ChangePasswordPage />} />
-
       <Route path={routes.faq} element={<FAQPage />} />
       <Route path={routes.size} element={<SizePage />} />
       <Route path={routes.bst} element={<CollectionPage />} />
@@ -70,14 +69,6 @@ export default function AppRoute() {
       <Route path={routes.accessoryInfor} element={<AccessoryInfor />} />
       <Route path={routes.warrantyPolicy} element={<WarrantyPolicyPage />} />
       <Route
-        path={routes.adminProduct}
-        element={
-          <ProtectedRoute role="ADMIN">
-            <AdminProduct />
-          </ProtectedRoute>
-        }
-      />
-      <Route
         path={routes.adminDiamond}
         element={
           <ProtectedRoute role="ADMIN">
@@ -93,7 +84,6 @@ export default function AppRoute() {
           </ProtectedRoute>
         }
       />
-
       <Route
         path={routes.adminCategory}
         element={
@@ -126,26 +116,32 @@ export default function AppRoute() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path={routes.adminbst}
+        element={
+          <ProtectedRoute role="ADMIN">
+            <AdminCollection />
+          </ProtectedRoute>
+        }
+      />
       <Route path={routes.notfound} element={<ErrorPage />} />
       <Route path={routes.cart} element={<CartPage />} />
       <Route path={routes.checkout} element={<CheckOut />} />
       <Route path={routes.productdetail} element={<ProductPage />} />
       <Route path={routes.saleEvent} element={<SaleEventPage />} />
       <Route path={routes.saleProduct} element={<SaleProductPage />} />
-      <Route path={routes.productdetail} element={<ProductPage />} />
+      <Route path={`${routes.productdetail}/:id`} element={<ProductPage />} />
       <Route path={routes.tracking} element={<TrackingPage />} />
+      {/* <Route path={routes.payment} element={<Payment />} /> */}
       <Route
         path={routes.saleStaff}
         element={
-          <SaleStaffPage />
-          // <ProtectedRoute role="SALES">
-          //   <SaleStaffPage />
-          // </ProtectedRoute>
+          <ProtectedRoute role="SALES">
+            <SaleStaffPage />
+          </ProtectedRoute>
         }
       />
-      <Route
-        path={routes.deliveryStaff} element={<DeliveryStaffPage />}
-      />
+      <Route path={routes.deliveryStaff} element={<DeliveryStaffPage />} />
       {/* <Route
         path={routes.deliveryStaff}
         element={
