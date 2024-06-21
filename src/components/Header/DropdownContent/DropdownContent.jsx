@@ -8,10 +8,10 @@ export default function DropdownContent() {
         <div className="dropdownLink">
           <h3>Trang Sức Kim Cương</h3>
           <Link to="">Nhẫn Kim Cương</Link>
-          <Link to="">Vòng cổ Kim Cương</Link>
+          <Link to="/san-pham-vong-co">Vòng cổ Kim Cương</Link>
           <Link to="">Khuyên tai kim cương</Link>
           <Link to="">Mặt Dây Chuyền Kim Cương</Link>
-          <Link to="">Lắc Tay, Vòng Tay Kim Cương</Link>
+          <Link to="/san-pham-vong-tay">Lắc Tay, Vòng Tay Kim Cương</Link>
           <Link to="">Vỏ Nhẫn Kim Cương</Link>
           <Link to="">Vỏ Mặt Dây Chuyền Kim Cương</Link>
         </div>
