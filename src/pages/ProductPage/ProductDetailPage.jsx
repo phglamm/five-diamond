@@ -8,7 +8,6 @@ import { Button, Modal, Select } from "antd";
 import { PushpinOutlined, ShoppingCartOutlined, ShoppingOutlined } from "@ant-design/icons";
 import ProductCard from "../../components/productCard/productCard";
 import { useNavigate, useParams } from "react-router-dom";
-import { routes } from "../../routes";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
 
@@ -20,7 +19,6 @@ export default function ProductPage() {
   const [relevantproduct, setRelevantproduct] = useState([]);
 
   const [selectedSize, setSelectedSize] = useState(null);
-  const [size, setSize] = useState("large");
   const { id } = useParams();
 
   useEffect(() => {
@@ -58,10 +56,10 @@ export default function ProductPage() {
         console.log("Product added to cart", id);
         const response = await api.post(`cart/${id}`);
         console.log(response.data);
-        toast.success("Add To Cart");
+        toast.success("Thêm Vào Giỏ Hàng");
       } catch (error) {
         console.log(error.response.data);
-        toast.error("There is some error");
+        toast.error("Có lỗi trong lúc thêm sản phẩm");
       }
     } else {
       toast.error("Bạn Chưa Chọn Size cho sản phẩm");
@@ -213,7 +211,6 @@ export default function ProductPage() {
             </div>
             <div className="button-buy">
               <Button
-                size={size}
                 type="primary"
                 icon={<ShoppingCartOutlined />}
                 onClick={handleClickAddToCart}
@@ -223,7 +220,6 @@ export default function ProductPage() {
                 THÊM VÀO GIỎ HÀNG
               </Button>
               <Button
-                size={size}
                 type="primary"
                 icon={<ShoppingOutlined />}
                 className="button-buybuy"
@@ -299,7 +295,6 @@ export default function ProductPage() {
           ))}
         </Row>
       </Container>
-
       <Footer />
     </div>
   );

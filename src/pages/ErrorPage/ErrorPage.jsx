@@ -16,12 +16,16 @@ const ErrorPage = () => {
       />
       <script
         src="https://kit.fontawesome.com/4b9ba14b0f.js"
-        crossOrigin="anonymous" 
+        crossOrigin="anonymous"
       ></script>
 
       <div className="content">
         <div className="err">𝟒</div>
-        <img  src="https://drive.google.com/thumbnail?id=1g8TEiTOlnpFsJRxWMH7EF89QuVk9qk6n&sz=w1000" alt="Your Image" className="my-image" />
+        <img
+          src="https://drive.google.com/thumbnail?id=1g8TEiTOlnpFsJRxWMH7EF89QuVk9qk6n&sz=w1000"
+          alt="Your Image"
+          className="my-image"
+        />
         <div className="err2">𝟒</div>
       </div>
       <div className="msg">

@@ -54,15 +54,15 @@ export default function SideBar() {
       </li>
       <li>
         <InventoryIcon color="info" fontSize="large"></InventoryIcon>
-        <Link to={routes.adminProduct}>Quản Lý Sản Phẩm</Link>
+        <Link to={routes.adminCover}>Danh Mục Sản Phẩm</Link>
+      </li>
+      <li>
+        <InventoryIcon color="info" fontSize="large"></InventoryIcon>
+        <Link to={routes.adminbst}>Quản Lý Bộ Sưu Tập</Link>
       </li>
       <li>
         <DiamondIcon color="info" fontSize="large"></DiamondIcon>
         <Link to={routes.adminDiamond}>Quản Lý Kim Cương</Link>
-      </li>
-      <li>
-        <CategoryIcon color="info" fontSize="large"></CategoryIcon>
-        <Link to={routes.adminCover}>Quản Lý Vỏ Kim Cương</Link>
       </li>
       <li>
         <FindInPageIcon color="info" fontSize="large"></FindInPageIcon>

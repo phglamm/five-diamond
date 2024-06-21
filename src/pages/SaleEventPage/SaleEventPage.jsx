@@ -36,7 +36,7 @@ function SaleEventPage() {
             <p onClick={() => handleFilter("diamond")}>KIM CƯƠNG ƯU ĐÃI 2%</p>
           </div>
           <div className="sale-content-img">
-            <img src={"https://drive.google.com/thumbnail?id=1vbIO90dmDa8B2ZB_1s-mBwBjTSyxSilx&sz=w1000"  } /> {/* ring */}
+            <img src={"https://drive.google.com/thumbnail?id=1vbIO90dmDa8B2ZB_1s-mBwBjTSyxSilx&sz=w1000"} /> {/* ring */}
             <img src={"https://drive.google.com/thumbnail?id=1dKqFivVaUujuOJWGAebYB4bg3490mU9v&sz=w1000"} /> {/* bracelet */}
             <img src={"https://drive.google.com/thumbnail?id=1JjCe0RqJsSG1IvAuxPsuUp79EZzH2Qin&sz=w1000"} /> {/* necklace */}
             <img src={"https://drive.google.com/thumbnail?id=10BpnBo91lyNTmnwWsCmoaCxagXnsnU6l&sz=w1000"} /> {/* earring */}

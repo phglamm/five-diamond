@@ -42,7 +42,7 @@ export default function CartPage() {
 
   async function deleteCart(id) {
     try {
-      const response = await api.delete(`cart/${id}`);
+      await api.delete(`cart/${id}`);
       setCartItems(cartItems.filter((item) => item.id !== id));
       toast.success("xóa khỏi giỏ hàng thành công");
     } catch (error) {
@@ -64,8 +64,8 @@ export default function CartPage() {
     ? appliedDiscount.type === "percentage"
       ? (total * appliedDiscount.value) / 100
       : appliedDiscount.type === "fixed"
-        ? appliedDiscount.value
-        : 0
+      ? appliedDiscount.value
+      : 0
     : 0;
 
   const finalTotal = total - discountAmount + shippingCost;
@@ -125,7 +125,6 @@ export default function CartPage() {
                 <IoMdArrowRoundBack /> Tiếp tục mua hàng
               </Button>
             </div>
-
             <Card>
               <ListGroup variant="flush">
                 {cartItems?.map((item) => (
@@ -237,7 +236,7 @@ export default function CartPage() {
                           -{discountAmount.toLocaleString()} VNĐ
                         </span>
                       </h5>
-                      <hr className="solid"></hr>
+                      <hr className="solid" />
                     </>
                   )}
                   <h5>
@@ -246,6 +245,7 @@ export default function CartPage() {
                       {finalTotal.toLocaleString()} VNĐ
                     </span>
                   </h5>
+                  <hr className="solid" />
                   <div className="d-flex">
                     <input
                       type="text"

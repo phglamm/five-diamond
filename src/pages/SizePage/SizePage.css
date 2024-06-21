@@ -54,7 +54,7 @@
   min-width: 300px;
 }
 
-.main-container{
+.main-container {
   margin-bottom: 5% !important;
 }
 
@@ -94,6 +94,9 @@
   margin: 10px;
   padding: 20px;
   box-sizing: border-box;
+}
+.tips-column p {
+  font-size: 20px;
 }
 
 .size-chart-section {
