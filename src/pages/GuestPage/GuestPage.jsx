@@ -31,8 +31,7 @@ export default function GuestPage() {
   // Lấy 5 sản phẩm đầu tiên
   const firstFiveProducts = product.slice(0, 15);
   const specialpro = firstFiveProducts.filter(
-    (itemSpecial) =>
-      itemSpecial.special === true && itemSpecial.deleted === false
+    (itemSpecial) => itemSpecial.deleted === false
   );
 
   return (
