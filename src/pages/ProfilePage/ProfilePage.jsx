@@ -64,6 +64,7 @@ function ProfilePage() {
   return (
     <div>
       <Header />
+      <Header />
       <div className="avatar-user">
 
         <div onClick={handleImageClick} className="img-avt">
@@ -78,12 +79,14 @@ function ProfilePage() {
             <img id="avt-img" src={URL.createObjectURL(image)} alt="" />
           ) : (
             <img id="avt-img" src="https://drive.google.com/thumbnail?id=1qbgOEeSmZUjLlvazltYvqIWl58ds3Rwr&sz=w1000" alt="Default Avatar" />
+            <img id="avt-img" src="https://drive.google.com/thumbnail?id=1qbgOEeSmZUjLlvazltYvqIWl58ds3Rwr&sz=w1000" alt="Default Avatar" />
           )}
           <input
             type="file"
             ref={inputRef}
             onChange={handleImageChange}
             style={{ display: "none" }}
+          /> */}
           /> */}
         </div>
         <button className="update-img-btn" onClick={handleUpdateClick}>
