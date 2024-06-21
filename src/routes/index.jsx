@@ -41,5 +41,5 @@ export const routes = {
   tracking: "/theo-doi-don-hang",
   saleStaff: "/nhan-vien-sale",
   deliveryStaff: "/nhan-vien-giao-hang",
-  // payment: "/thanh-toan"
+  // payment: "/thanh-toan",
 };
