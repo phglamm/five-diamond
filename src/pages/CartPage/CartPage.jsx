@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-
-
 import {
   Container,
   Row,
@@ -30,6 +28,7 @@ export default function CartPage() {
   const [appliedDiscount, setAppliedDiscount] = useState(null);
   const navigate = useNavigate();
   const user = useSelector(selectUser);
+
   async function fetchCart() {
     try {
       const response = await api.get("cart");
@@ -91,8 +90,7 @@ export default function CartPage() {
   };
 
   const handleProceedToCheckout = () => {
-    // <-- Define the function
-    navigate(routes.checkout, { state: { cartItems, finalTotal } }); // <-- Navigate to CheckOut with cartItems
+    navigate(routes.checkout, { state: { cartItems, finalTotal } });
   };
 
   const handleClick = () => {
@@ -144,16 +142,26 @@ export default function CartPage() {
                         <p>MSP: {item.code}</p>
                         <div className="cart-quantity-control">
                           {/* <ButtonGroup>
-                                                        <Button variant="outline-secondary" onClick={() => updateQuantity(item.id, -1)}>-</Button>
-                                                        <span className="quantity">{item.quantity}</span>
-                                                        <Button variant="outline-secondary" onClick={() => updateQuantity(item.id, 1)}>+</Button>
-                                                    </ButtonGroup> */}
+                            <Button
+                              variant="outline-secondary"
+                              onClick={() => updateQuantity(item.id, -1)}
+                            >
+                              -
+                            </Button>
+                            <span className="quantity">{item.quantity}</span>
+                            <Button
+                              variant="outline-secondary"
+                              onClick={() => updateQuantity(item.id, 1)}
+                            >
+                              +
+                            </Button>
+                          </ButtonGroup> */}
                         </div>
                         <div className="cart-price-info">
                           <span className="cart-price-text">
                             Giá tiền:{" "}
                             <span style={{ color: "red" }}>
-                              {item.price.toLocaleString()}đ
+                              {item.productLine.price.toLocaleString()}đ
                             </span>
                           </span>
                           <p>Mô tả: {item.productLine.description}</p>
@@ -169,11 +177,11 @@ export default function CartPage() {
                           </span>
                         </div>
                       </div>
+                    </div>
                   </ListGroup.Item>
                 ))}
               </ListGroup>
             </Card>
-                    )}
           </Col>
           <Col md={4} className="cart-col4">
             <div className="cart-summary">
@@ -192,7 +200,9 @@ export default function CartPage() {
                   <h5>
                     Vận chuyển:{" "}
                     <span style={{ color: "black", float: "right" }}>
-                      {shippingCost === 0 ? "Miễn phí vận chuyển" : `${shippingCost.toLocaleString()} VNĐ`}
+                      {shippingCost === 0
+                        ? "Miễn phí vận chuyển"
+                        : `${shippingCost.toLocaleString()} VNĐ`}
                     </span>
                   </h5>
                   <hr className="cart-solid"></hr>
@@ -214,24 +224,26 @@ export default function CartPage() {
                     <Button
                       style={{ background: "#614A4A" }}
                       className="cart-apply-button"
+                      onClick={handleApplyDiscount}
                     >
-                      Tiến hành đặt hàng
+                      Áp dụng
                     </Button>
-                  </div >
+                  </div>
                   <Button
                     style={{ background: "#ce0303", marginTop: "15px" }}
                     className="w-100 cart-btn-proceed-to-checkout"
                     type="submit"
+                    onClick={handleProceedToCheckout}
                   >
                     Tiến hành đặt hàng
                   </Button>
-                </Card.Body >
-              </Card >
-            </div >
-          </Col >
-        </Row >
-      </Container >
+                </Card.Body>
+              </Card>
+            </div>
+          </Col>
+        </Row>
+      </Container>
       <Footer />
-    </div >
+    </div>
   );
 }
