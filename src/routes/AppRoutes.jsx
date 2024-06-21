@@ -36,6 +36,7 @@ import CollectionSet2 from "../pages/CollectionPage/CollectionSet2";
 import CollectionSet3 from "../pages/CollectionPage/CollectionSet3";
 import AdminCollection from "../pages/AdminDashboard/AdminCollection/AdminCollection";
 import ProductPage from "../pages/ProductPage/ProductDetailPage";
+import CuffProductPage from "../pages/ProductPage/AllProductPage/CuffProductPage";
 // import Payment from "../pages/Payment/PaymentPage";
 
 export default function AppRoute() {
@@ -55,6 +56,7 @@ export default function AppRoute() {
       <Route path={routes.bstset1} element={<CollectionSet1 />} />
       <Route path={routes.bstset2} element={<CollectionSet2 />} />
       <Route path={routes.bstset3} element={<CollectionSet3 />} />
+      <Route path={routes.vongtay} element={<CuffProductPage />} />
       <Route
         path={routes.profile}
         element={

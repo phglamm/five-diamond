@@ -1,5 +1,3 @@
-
-
 import React from "react";
 import { Container, Row, Col, Form, Card } from "react-bootstrap";
 import Header from "../../components/Header/Header";
@@ -20,7 +18,7 @@ const customDot = (dot, { status, index }) => (
     </Popover>
 );
 
-const TrackingPage = () => {
+export default function TrackingPage() {
     const location = useLocation();
     const { state } = location;
     const { name, phone, address, province, district, ward, note } = state || {};
@@ -162,7 +160,7 @@ const TrackingPage = () => {
                             <h5>Tổng tiền: <span style={{ color: 'red' }}>{total.toLocaleString()}đ</span></h5>
                         </Col>
                     </Row>
-<div className="order-tracking">
+                    <div className="order-tracking">
                         <h3>THEO DÕI ĐƠN HÀNG</h3>
                         <Card>
                             <Card.Body className="order-tracking-content">
@@ -206,6 +204,69 @@ const TrackingPage = () => {
             <Footer />
         </>
     );
-};
+}
 
-export default TrackingPage;
+// import React from "react";
+// import { Card, Steps } from "antd";
+
+// const TrackingPage = ({ orderId, orderStatus }) => {
+//     const getCurrentStep = (status) => {
+//         switch (status) {
+//             case "Xác nhận":
+//                 return 0;
+//             case "Chờ lấy hàng":
+//                 return 1;
+//             case "Chờ giao hàng":
+//                 return 2;
+//             case "Giao thành công":
+//                 return 3;
+//             default:
+//                 return 0;
+//         }
+//     };
+
+//     return (
+//         <div className="order-tracking">
+//             <h3>THEO DÕI ĐƠN HÀNG</h3>
+//             <Card>
+//                 <Card.Body className="order-tracking-content">
+//                     <p className="order-tracking-id">Mã ID: {orderId}</p>
+//                     <hr />
+//                     <p className="shipping-info">
+//                         Ngày giao hàng dự kiến: 16/05/2024
+//                         <span className="separator">Giao hàng bởi: 5Diamond Express</span>
+//                         <span className="separator">Trạng thái: {orderStatus}</span>
+//                     </p>
+//                     <hr />
+
+//                     <h5>Hành trình đơn hàng</h5>
+//                     <Steps
+//                         current={getCurrentStep(orderStatus)}
+//                         progressDot
+//                         items={[
+//                             {
+//                                 title: "Đặt hàng",
+//                                 description: "Hoàn tất đặt hàng",
+//                             },
+//                             {
+//                                 title: "Chuẩn bị hàng",
+//                                 description: "Đơn hàng đang được chuẩn bị",
+//                             },
+//                             {
+//                                 title: "Đang vận chuyển",
+//                                 description: "Đơn hàng đang được vận chuyển",
+//                             },
+//                             {
+//                                 title: "Đã giao hàng",
+//                                 description: "Đơn hàng đã được giao",
+//                             },
+//                         ]}
+//                     />
+//                 </Card.Body>
+//             </Card>
+//         </div>
+//     );
+// };
+
+// export default TrackingPage;
+

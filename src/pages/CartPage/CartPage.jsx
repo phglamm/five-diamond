@@ -28,6 +28,7 @@ export default function CartPage() {
   const [appliedDiscount, setAppliedDiscount] = useState(null);
   const navigate = useNavigate();
   const user = useSelector(selectUser);
+
   async function fetchCart() {
     try {
       const response = await api.get("cart");
@@ -66,8 +67,8 @@ export default function CartPage() {
     ? appliedDiscount.type === "percentage"
       ? (total * appliedDiscount.value) / 100
       : appliedDiscount.type === "fixed"
-      ? appliedDiscount.value
-      : 0
+        ? appliedDiscount.value
+        : 0
     : 0;
 
   const finalTotal = total - discountAmount + shippingCost;
@@ -89,8 +90,7 @@ export default function CartPage() {
   };
 
   const handleProceedToCheckout = () => {
-    // <-- Define the function
-    navigate(routes.checkout, { state: { cartItems, finalTotal } }); // <-- Navigate to CheckOut with cartItems
+    navigate(routes.checkout, { state: { cartItems, finalTotal } });
   };
 
   const handleClick = () => {
@@ -119,8 +119,8 @@ export default function CartPage() {
             </h4>
             <div className="continue-btn">
               <Button
-                variant="light"
                 className="w-100 mt-2"
+                variant="light"
                 type="button"
                 onClick={handleClick}
               >
@@ -296,150 +296,7 @@ export default function CartPage() {
                   ))}
                 </ListGroup>
               </Card>
-            )}
-          </Col>
-          <Col md={4} className="col-md-4">
-            {user.role === "ADMIN" ||
-            user.role === "SALES" ||
-            user.role === "DELIVERY" ? (
-              <div className="Col4">
-                <Card>
-                  <Card.Header>
-                    <h4>Tổng Tiền</h4>
-                  </Card.Header>
-                  <Card.Body>
-                    <h5>
-                      Tạm tính:{" "}
-                      <span style={{ color: "black", float: "right" }}>
-                        {total?.toLocaleString()} VNĐ
-                      </span>
-                    </h5>
-                    <hr className="solid"></hr>
-                    <h5>
-                      Vận chuyển:{" "}
-                      <span style={{ color: "black", float: "right" }}>
-                        {shippingCost === 0
-                          ? "Miễn phí vận chuyển"
-                          : `${shippingCost?.toLocaleString()} VNĐ`}{" "}
-                      </span>
-                    </h5>
-                    <hr className="solid"></hr>
-                    {discountAmount > 0 && (
-                      <>
-                        <h5>
-                          Giảm giá:{" "}
-                          <span style={{ color: "black", float: "right" }}>
-                            -{discountAmount.toLocaleString()} VNĐ
-                          </span>
-                        </h5>
-                        <hr className="solid" />
-                      </>
-                    )}
-                    <h5>
-                      Thanh toán:{" "}
-                      <span style={{ color: "black", float: "right" }}>
-                        {finalTotal.toLocaleString()} VNĐ
-                      </span>
-                    </h5>
-                    <hr className="solid" />
-                    <div className="d-flex">
-                      <input
-                        type="text"
-                        className="form-control mr-2"
-                        placeholder="Mã giảm giá/Quà tặng"
-                        value={discountCode}
-                        onChange={(e) => setDiscountCode(e.target.value)}
-                      />
-                      <Button
-                        style={{ background: "#614A4A" }}
-                        className="apply-button"
-                        onClick={handleApplyDiscount}
-                        disabled
-                      >
-                        Áp dụng
-                      </Button>
-                    </div>
-                    <Button
-                      style={{ background: "#ce0303", marginTop: "15px" }}
-                      className="w-100 btn-proceed-to-checkout"
-                      type="button"
-                      onClick={handleProceedToCheckout}
-                      disabled
-                    >
-                      Tiến hành đặt hàng
-                    </Button>
-                  </Card.Body>
-                </Card>
-              </div>
-            ) : (
-              <div className="Col4">
-                <Card>
-                  <Card.Header>
-                    <h4>Tổng Tiền</h4>
-                  </Card.Header>
-                  <Card.Body>
-                    <h5>
-                      Tạm tính:{" "}
-                      <span style={{ color: "black", float: "right" }}>
-                        {total?.toLocaleString()} VNĐ
-                      </span>
-                    </h5>
-                    <hr className="solid"></hr>
-                    <h5>
-                      Vận chuyển:{" "}
-                      <span style={{ color: "black", float: "right" }}>
-                        {shippingCost === 0
-                          ? "Miễn phí vận chuyển"
-                          : `${shippingCost?.toLocaleString()} VNĐ`}{" "}
-                      </span>
-                    </h5>
-                    <hr className="solid"></hr>
-                    {discountAmount > 0 && (
-                      <>
-                        <h5>
-                          Giảm giá:{" "}
-                          <span style={{ color: "black", float: "right" }}>
-                            -{discountAmount.toLocaleString()} VNĐ
-                          </span>
-                        </h5>
-                        <hr className="solid" />
-                      </>
-                    )}
-                    <h5>
-                      Thanh toán:{" "}
-                      <span style={{ color: "black", float: "right" }}>
-                        {finalTotal.toLocaleString()} VNĐ
-                      </span>
-                    </h5>
-                    <hr className="solid" />
-                    <div className="d-flex">
-                      <input
-                        type="text"
-                        className="form-control mr-2"
-                        placeholder="Mã giảm giá/Quà tặng"
-                        value={discountCode}
-                        onChange={(e) => setDiscountCode(e.target.value)}
-                      />
-                      <Button
-                        style={{ background: "#614A4A" }}
-                        className="apply-button"
-                        onClick={handleApplyDiscount}
-                      >
-                        Áp dụng
-                      </Button>
-                    </div>
-                    <Button
-                      style={{ background: "#ce0303", marginTop: "15px" }}
-                      className="w-100 btn-proceed-to-checkout"
-                      type="button"
-                      onClick={handleProceedToCheckout}
-                    >
-                      Tiến hành đặt hàng
-                    </Button>
-                  </Card.Body>
-                </Card>
-              </div>
-            )}
+            </div>
           </Col>
         </Row>
       </Container>
