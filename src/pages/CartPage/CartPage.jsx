@@ -21,7 +21,6 @@ import api from "../../config/axios";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/features/counterSlice";
-import { Typography } from "antd";
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([]);

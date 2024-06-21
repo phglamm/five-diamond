@@ -66,7 +66,6 @@ export default function ProductPage() {
         toast.error("Có lỗi trong lúc thêm sản phẩm");
       }
     } else {
-      z;
       toast.error("Bạn Chưa Chọn Size cho sản phẩm");
     }
   };
