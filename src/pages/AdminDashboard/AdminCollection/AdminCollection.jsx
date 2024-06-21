@@ -321,12 +321,12 @@ export default function AdminCollection() {
           </div>
 
           <Button onClick={hanldeClickSubmit} className="form-button">
-            Thêm BST
+            Thêm Bộ Sưu Tập
           </Button>
         </Form>
 
         <div className="data-table">
-          <h1>Quản Lý Chứng Chỉ</h1>
+          <h1>Quản Lý Bộ Sưu Tập</h1>
           <Table
             dataSource={collection}
             columns={columns}

@@ -125,7 +125,6 @@ export default function CartPage() {
                 <IoMdArrowRoundBack /> Tiếp tục mua hàng
               </Button>
             </div>
-
             <Card>
               <ListGroup variant="flush">
                 {cartItems?.map((item) => (
@@ -237,7 +236,7 @@ export default function CartPage() {
                           -{discountAmount.toLocaleString()} VNĐ
                         </span>
                       </h5>
-                      <hr className="solid"></hr>
+                      <hr className="solid" />
                     </>
                   )}
                   <h5>
@@ -246,6 +245,7 @@ export default function CartPage() {
                       {finalTotal.toLocaleString()} VNĐ
                     </span>
                   </h5>
+                  <hr className="solid" />
                   <div className="d-flex">
                     <input
                       type="text"

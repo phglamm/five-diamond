@@ -93,8 +93,8 @@ export default function AdminCertificate() {
     };
 
     try {
-      await api.put(`certificate/${values.id}`, dataUpdate);
-      console.log(dataUpdate);
+      const response = await api.put(`certificate/${values.id}`, dataUpdate);
+      console.log(response);
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công");
       fetchCertificate();

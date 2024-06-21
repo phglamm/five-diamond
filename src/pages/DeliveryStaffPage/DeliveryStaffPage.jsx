@@ -1,6 +1,4 @@
 import { Container, ButtonGroup, Button, Form } from "react-bootstrap";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
 import "./DeliveryStaffPage.css";
 import * as React from "react";
 import Paper from "@mui/material/Paper";
@@ -13,15 +11,11 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { Select, Upload, message } from "antd";
 import { UploadOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
-import {
-  deliveryRows as initialDeliveryRows,
-  updateRows as initialUpdateRows,
-} from "./FakeDataDeliver"; // Importing the fake data
 import { AiOutlineSearch } from "react-icons/ai";
 
-const handleChange = (value) => {
-  console.log(`selected ${value}`);
-};
+import { dataCustomerDelivery as initialMergedData } from "./FakeDataDeliver";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 
 const uploadProps = {
   name: "file",
@@ -80,7 +74,7 @@ export default function DeliveryStaffPage() {
       minWidth: 100,
       render: (value, rowIndex) => (
         <Select
-          defaultValue={value}
+          defaultValue={mergedData[rowIndex]?.status || "Xác nhận"}
           style={{ width: 200 }}
           onChange={(newValue) => handleStatusChange(newValue, rowIndex)}
           options={[
@@ -96,36 +90,40 @@ export default function DeliveryStaffPage() {
       id: "updateStatus",
       label: "Cập nhật",
       minWidth: 100,
-      render: (value, rowIndex) => (
-        <Select
-          defaultValue={value}
-          style={{ width: 200 }}
-          onChange={(newValue) => handleStatusChange(newValue, rowIndex)}
-          options={[
-            { value: "Khách đặt sai địa chỉ", label: "Khách đặt sai địa chỉ" },
-            {
-              value: "Hẹn lại thời gian giao",
-              label: "Hẹn lại thời gian giao",
-            },
-            { value: "Khách không có nhà", label: "Khách không có nhà" },
-            { value: "Hàng xóm nhận", label: "Hàng xóm nhận" },
-          ]}
-        />
-      ),
+      render: (value, rowIndex) => {
+        const isDelivered = mergedData[rowIndex].status === "Giao thành công";
+        return (
+          <Select
+            defaultValue={value}
+            style={{ width: 200 }}
+            onChange={(newValue) => handleStatusChange(newValue, rowIndex)}
+            disabled={isDelivered}
+            options={[
+              {
+                value: "Khách đặt sai địa chỉ",
+                label: "Khách đặt sai địa chỉ",
+              },
+              {
+                value: "Hẹn lại thời gian giao",
+                label: "Hẹn lại thời gian giao",
+              },
+              { value: "Khách không có nhà", label: "Khách không có nhà" },
+              { value: "Hàng xóm nhận", label: "Hàng xóm nhận" },
+            ]}
+          />
+        );
+      },
     },
   ];
+
+  const [mergedData, setMergedData] = React.useState(() => {
+    const savedData = localStorage.getItem("mergedData");
+    return savedData ? JSON.parse(savedData) : initialMergedData;
+  });
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [selectedTable, setSelectedTable] = React.useState("deliver");
-  const [deliveryData, setDeliveryData] = React.useState(() => {
-    const savedData = localStorage.getItem("deliveryData");
-    return savedData ? JSON.parse(savedData) : initialDeliveryRows;
-  });
-  const [updateData, setUpdateData] = React.useState(() => {
-    const savedData = localStorage.getItem("updateData");
-    return savedData ? JSON.parse(savedData) : initialUpdateRows;
-  });
   const [searchTerm, setSearchTerm] = React.useState("");
   const [sortConfig, setSortConfig] = React.useState({
     key: null,
@@ -133,34 +131,19 @@ export default function DeliveryStaffPage() {
   });
 
   React.useEffect(() => {
-    localStorage.setItem("deliveryData", JSON.stringify(deliveryData));
-  }, [deliveryData]);
-
-  React.useEffect(() => {
-    localStorage.setItem("updateData", JSON.stringify(updateData));
-  }, [updateData]);
-
-  const handleNoteChange = (newValue, rowIndex) => {
-    const newData = [...updateData];
-    newData[rowIndex].deliveryStaffNote = newValue;
-    setUpdateData(newData);
-  };
+    localStorage.setItem("mergedData", JSON.stringify(mergedData));
+  }, [mergedData]);
 
   const handleStatusChange = (newValue, rowIndex) => {
-    const newData =
-      selectedTable === "deliver" ? [...deliveryData] : [...updateData];
+    const newData = [...mergedData];
     newData[rowIndex].status = newValue;
-    selectedTable === "deliver"
-      ? setDeliveryData(newData)
-      : setUpdateData(newData);
+    setMergedData(newData);
 
-    // Move row to the bottom if status is "Đã nhận hàng"
-    if (newValue === "Đã nhận hàng") {
+    // Move row to the bottom if status is "Giao thành công"
+    if (newValue === "Giao thành công") {
       const movedRow = newData.splice(rowIndex, 1)[0];
       newData.push(movedRow);
-      selectedTable === "deliver"
-        ? setDeliveryData(newData)
-        : setUpdateData(newData);
+      setMergedData(newData);
     }
   };
 
@@ -178,8 +161,7 @@ export default function DeliveryStaffPage() {
   };
 
   const handleSave = () => {
-    const dataToSave = selectedTable === "deliver" ? deliveryData : updateData;
-    console.log("Saving data:", dataToSave);
+    console.log("Saving data:", mergedData);
     // Add logic to save data, e.g., API call
   };
 
@@ -197,7 +179,7 @@ export default function DeliveryStaffPage() {
     setSortConfig({ key: columnId, direction });
 
     if (direction !== null) {
-      const sortedData = [...rows].sort((a, b) => {
+      const sortedData = [...mergedData].sort((a, b) => {
         let aValue = a[columnId];
         let bValue = b[columnId];
 
@@ -216,16 +198,13 @@ export default function DeliveryStaffPage() {
         }
       });
 
-      selectedTable === "deliver"
-        ? setDeliveryData(sortedData)
-        : setUpdateData(sortedData);
+      setMergedData(sortedData);
     }
   };
 
   const columns = selectedTable === "deliver" ? deliveryColumns : updateColumns;
-  const rows = selectedTable === "deliver" ? deliveryData : updateData;
 
-  const filteredRows = rows.filter((row) => {
+  const filteredRows = mergedData.filter((row) => {
     return columns.some((column) => {
       const value = row[column.id];
       return (
@@ -266,13 +245,14 @@ export default function DeliveryStaffPage() {
           <AiOutlineSearch className="search-icon" />
           <Form.Control
             type="text"
-            placeholder="Search "
+            placeholder="Search..."
             value={searchTerm}
             onChange={handleSearch}
           />
         </div>
+
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
-          <TableContainer sx={{ maxHeight: 480 }}>
+          <TableContainer sx={{ maxHeight: 600 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
@@ -284,16 +264,25 @@ export default function DeliveryStaffPage() {
                         minWidth: column.minWidth,
                         cursor: column.sortable ? "pointer" : "default",
                       }}
-                      onClick={() => column.sortable && handleSort(column.id)}
+                      onClick={
+                        column.sortable
+                          ? () => handleSort(column.id)
+                          : undefined
+                      }
                     >
                       {column.label}
-                      {column.sortable &&
-                        sortConfig.key === column.id &&
-                        (sortConfig.direction === "asc" ? (
-                          <UpOutlined />
-                        ) : sortConfig.direction === "desc" ? (
-                          <DownOutlined />
-                        ) : null)}
+                      {column.sortable && (
+                        <>
+                          {sortConfig.key === column.id &&
+                            sortConfig.direction === "asc" && (
+                              <UpOutlined style={{ marginLeft: "0.5rem" }} />
+                            )}
+                          {sortConfig.key === column.id &&
+                            sortConfig.direction === "desc" && (
+                              <DownOutlined style={{ marginLeft: "0.5rem" }} />
+                            )}
+                        </>
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
@@ -301,32 +290,30 @@ export default function DeliveryStaffPage() {
               <TableBody>
                 {filteredRows
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, rowIndex) => {
-                    return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.orderId || row.shipmentId}
-                      >
-                        {columns.map((column) => {
-                          const value = row[column.id];
-                          return (
-                            <TableCell key={column.id} align={column.align}>
-                              {column.render
-                                ? column.render(value, rowIndex)
-                                : value}
-                            </TableCell>
-                          );
-                        })}
-                      </TableRow>
-                    );
-                  })}
+                  .map((row, rowIndex) => (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.code}
+                    >
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.render
+                              ? column.render(value, rowIndex)
+                              : value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[5, 10, 20]}
+            rowsPerPageOptions={[10, 25, 100]}
             component="div"
             count={filteredRows.length}
             rowsPerPage={rowsPerPage}
@@ -335,13 +322,13 @@ export default function DeliveryStaffPage() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
-        <Button
-          variant="success"
-          className="delivery-button"
-          onClick={handleSave}
-        >
-          Lưu
-        </Button>
+        {selectedTable === "update" && (
+          <div className="d-flex justify-content-end mt-3">
+            <Button variant="success" onClick={handleSave}>
+              Save
+            </Button>
+          </div>
+        )}
       </Container>
       <Footer></Footer>
     </div>

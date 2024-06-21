@@ -1,3 +1,5 @@
+
+
 import React from "react";
 import { Container, Row, Col, Form, Card } from "react-bootstrap";
 import Header from "../../components/Header/Header";
@@ -64,7 +66,7 @@ const TrackingPage = () => {
                                 <Col md={4}>
                                     <Form.Group controlId="formProvince">
                                         <Form.Control value={province} readOnly>
-{/* <option value="">Chọn Tỉnh/TP</option> */}
+                                            {/* <option value="">Chọn Tỉnh/TP</option> */}
                                             {/* Render province options */}
                                         </Form.Control>
                                     </Form.Group>
@@ -113,7 +115,7 @@ const TrackingPage = () => {
                                             name="time2"
                                             checked={deliveryOption === "Hỏa Tốc"}
                                             readOnly
-/>
+                                        />
                                     </div>
                                 </div>
                             </Form.Group> */}
