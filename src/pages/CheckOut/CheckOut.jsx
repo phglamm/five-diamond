@@ -232,8 +232,9 @@ import { routes } from "../../routes";
 
 export default function CheckOut() {
   const location = useLocation();
-  const { cartItems } = location.state || { cartItems: [] };
+  const { cartItems, finalTotal } = location.state || { cartItems: [], finalTotal: 0 };
   const navigate = useNavigate();
+
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -241,7 +242,7 @@ export default function CheckOut() {
   const [selectedDistrict, setSelectedDistrict] = useState({ id: "", name: "" });
   const [selectedWard, setSelectedWard] = useState({ id: "", name: "" });
   const [address, setAddress] = useState("");
-  const [deliveryOption, setDeliveryOption] = useState("");
+  // const [deliveryOption, setDeliveryOption] = useState("");
   const [errors, setErrors] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -336,7 +337,7 @@ export default function CheckOut() {
         note: form.note.value,
         cartItems: cartItems,
       };
-      navigate(routes.tracking, { state: data });
+      navigate(routes.theo-doi-don-hang, { state: data });
     }
   };
 
@@ -374,7 +375,7 @@ export default function CheckOut() {
               <Row>
                 <Col md={4}>
                   <Form.Group controlId="formProvince">
-                    <Form.Control as="select" value={selectedProvince.id} onChange={handleProvinceChange} name="province" isInvalid={!!errors.province}>
+                    <Form.Control as="select" value={selectedProvince.id} onChange={handleProvinceChange} name="province">
                       <option value="">Chọn Tỉnh/TP</option>
                       {provinces.map((province) => (
                         <option key={province.province_id} value={province.province_id}>
@@ -387,7 +388,7 @@ export default function CheckOut() {
                 </Col>
                 <Col md={4}>
                   <Form.Group controlId="formDistrict">
-                    <Form.Control as="select" value={selectedDistrict.id} onChange={handleDistrictChange} disabled={!selectedProvince.id} name="district" isInvalid={!!errors.district}>
+                    <Form.Control as="select" value={selectedDistrict.id} onChange={handleDistrictChange} disabled={!selectedProvince.id} name="district">
                       <option value="">Chọn Quận/Huyện</option>
                       {districts.map((district) => (
                         <option key={district.district_id} value={district.district_id}>
@@ -400,7 +401,7 @@ export default function CheckOut() {
                 </Col>
                 <Col md={4}>
                   <Form.Group controlId="formWard">
-                    <Form.Control as="select" value={selectedWard.id} onChange={handleWardChange} disabled={!selectedDistrict.id} name="ward" isInvalid={!!errors.ward}>
+                    <Form.Control as="select" value={selectedWard.id} onChange={handleWardChange} disabled={!selectedDistrict.id} name="ward">
                       <option value="">Chọn Xã/Phường</option>
                       {wards.map((ward) => (
                         <option key={ward.ward_id} value={ward.ward_id}>
@@ -415,8 +416,7 @@ export default function CheckOut() {
 
               <Form.Group controlId="formAddress">
                 <Form.Label className="form-label"></Form.Label>
-                <Form.Control name="address" type="text" placeholder="Nhập địa chỉ" value={address} onChange={(e) => setAddress(e.target.value)} isInvalid={!!errors.address} />
-                <Form.Control.Feedback type="invalid">{errors.address}</Form.Control.Feedback>
+                <Form.Control name="address" type="text" placeholder="Nhập địa chỉ" value={address} onChange={(e) => setAddress(e.target.value)} />
               </Form.Group>
 
               <h4>HÌNH THỨC THANH TOÁN</h4>
@@ -444,22 +444,39 @@ export default function CheckOut() {
 
             <Col md={4}>
               <h4>THÔNG TIN ĐƠN HÀNG</h4>
-              {cartItems.map((item) => (
-                <div key={item.id} className="order-item">
-                  <img src={item.image} alt="Product Image" className="checkout-image" />
-                  <div className="order-item-details">
-                    <h6>{item.name}</h6>
-                    <p>Mã SP: {item.code}</p>
-                    <p>Số lượng: {item.quantity}</p>
-                    <p>Giá: {(item.price * item.quantity).toLocaleString()} VNĐ</p>
+
+              {cartItems.length === 0 ? (
+                <Alert variant="info">Giỏ hàng trống.</Alert>
+              ) : (
+                cartItems.map((item) => (
+                  // <div key={item.id} className="order-item">
+                  //   <img src={item.pruductLine.imgURL} alt={item.productLine.name} className="checkout-image" />
+                  //   <div className="order-item-details">
+                  //     <h6>{item.productLine.name}</h6>
+                  //     {/* <p>Mã SP: {item.productLine.code}</p> */}
+                  //     <p>Số lượng: {item.quantity}</p>
+                  //     <p>Thành Tiền: {(item.productLine.price * item.quantity).toLocaleString()} VNĐ</p>
+                  //   </div>
+                  // </div>
+
+                  <div key={item.id} className="order-item">
+                    <img src={item.productLine.imgURL} alt={item.productLine.name} className="checkout-image" />
+                    <div className="cart-item-details">
+                      <div className="cart-item-name">{item.productLine.name}</div>
+                      <div className="cart-item-quantity">Số lượng: {item.quantity}</div>
+                      <div className="cart-item-price">Đơn giá: {item.productLine.price.toLocaleString()} đ</div>
+                      <div className="cart-item-total">Thành tiền: {(item.productLine.price * item.quantity).toLocaleString()} đ</div>
+                    </div>
                   </div>
-                </div>
-              ))}
-              <h5>Tạm tính: <span style={{ color: 'red' }}>{getTotalPrice().toLocaleString()} VNĐ</span></h5>
+
+
+                ))
+              )}
+              <h5>Tổng giá: <span style={{ color: 'red' }}>{finalTotal.toLocaleString()} VNĐ</span></h5>
             </Col>
           </Row>
           <div className="checkout-actions">
-            <Button className="button-back" onClick={() => navigate(-1)}>TRỞ LẠI</Button>
+            <Button className="button-back" onClick={() => navigate(routes.cart)}>TRỞ LẠI</Button>
             <Button className="button-confirm" type="submit">HOÀN TẤT ĐẶT HÀNG</Button>
           </div>
         </Form>

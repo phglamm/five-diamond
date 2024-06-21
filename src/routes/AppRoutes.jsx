@@ -36,6 +36,7 @@ import CollectionSet1 from "../pages/CollectionPage/CollectionSet1";
 import CollectionSet2 from "../pages/CollectionPage/CollectionSet2";
 import CollectionSet3 from "../pages/CollectionPage/CollectionSet3";
 import AdminCollection from "../pages/AdminDashboard/AdminCollection/AdminCollection";
+// import Payment from "../pages/Payment/PaymentPage";
 
 export default function AppRoute() {
   return (
@@ -131,6 +132,8 @@ export default function AppRoute() {
       <Route path={routes.saleProduct} element={<SaleProductPage />} />
       <Route path={`${routes.productdetail}/:id`} element={<ProductPage />} />
       <Route path={routes.tracking} element={<TrackingPage />} />
+      {/* <Route path={routes.payment} element={< Payment/>} /> */}
+
       <Route
         path={routes.saleStaff}
         element={
