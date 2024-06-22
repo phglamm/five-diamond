@@ -36,6 +36,8 @@ import CollectionSet2 from "../pages/CollectionPage/CollectionSet2";
 import CollectionSet3 from "../pages/CollectionPage/CollectionSet3";
 import AdminCollection from "../pages/AdminDashboard/AdminCollection/AdminCollection";
 import ProductPage from "../pages/ProductPage/ProductDetailPage";
+import PaymentSuccess from "../pages/PaymentSuccess/PaymentSuccess";
+import OrderHistoryUser from "../pages/OrderHistoryUser/OrderHistoryUser";
 // import Payment from "../pages/Payment/PaymentPage";
 
 export default function AppRoute() {
@@ -132,6 +134,7 @@ export default function AppRoute() {
       <Route path={routes.saleProduct} element={<SaleProductPage />} />
       <Route path={`${routes.productdetail}/:id`} element={<ProductPage />} />
       <Route path={routes.tracking} element={<TrackingPage />} />
+      <Route path={`${routes.tracking}/:id`} element={<TrackingPage />} />
       {/* <Route path={routes.payment} element={<Payment />} /> */}
       <Route
         path={routes.saleStaff}
@@ -141,15 +144,18 @@ export default function AppRoute() {
           </ProtectedRoute>
         }
       />
-      <Route path={routes.deliveryStaff} element={<DeliveryStaffPage />} />
-      {/* <Route
+
+      <Route
         path={routes.deliveryStaff}
         element={
           <ProtectedRoute role="DELIVERY">
             <DeliveryStaffPage />
           </ProtectedRoute>
         }
-      /> */}
+      />
+
+      <Route path={routes.successpayment} element={<PaymentSuccess />} />
+      <Route path={routes.orderhistory} element={<OrderHistoryUser />} />
     </Routes>
   );
 }

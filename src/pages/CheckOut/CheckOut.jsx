@@ -7,6 +7,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./CheckOut.css";
 import { routes } from "../../routes";
 import api from "../../config/axios";
+import { toast } from "react-toastify";
 
 export default function CheckOut() {
   const location = useLocation();
@@ -120,7 +121,7 @@ export default function CheckOut() {
     if (validateForm()) {
       const form = event.currentTarget;
       const data = {
-        name: form.name.value,
+        fullname: form.name.value,
         phone: form.phone.value,
         address: form.address.value,
         province: selectedProvince.name,
@@ -128,16 +129,16 @@ export default function CheckOut() {
         ward: selectedWard.name,
         note: form.note.value,
         cartItems: cartItems,
+        totalAmount: finalTotal,
       };
       try {
-        const response = await api.post("wallet/vnpay", {
-          amount: finalTotal,
-        });
-        const paymentUrl = response.data;
-        window.location.href = paymentUrl; // Redirect to the payment URL
+        const response = await api.post("order", data);
+        console.log(response);
+        toast.success("Đặt Hàng Thành Công");
+        navigate(routes.successpayment);
       } catch (error) {
-        console.error("Error processing the payment:", error);
-        setErrors({ api: "Error processing the payment. Please try again." });
+        toast.error("Đặt Hàng Thất bại");
+        console.log(error.response.data);
       }
     }
   };
