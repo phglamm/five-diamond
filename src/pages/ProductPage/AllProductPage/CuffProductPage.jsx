@@ -7,7 +7,7 @@ import Footer from "../../../components/Footer/Footer";
 import { products } from "./ListOfProducts";
 import ProductCard from "../../../components/productCard/productCard";
 import BasicPagination from "../../../components/BasicPagination/BasicPagination";
-import Banner from "../../../components/Banner/banner"; // Import the Banner component
+import Banner from "../../../components/Banner/banner";
 
 
 export default function CuffProductPage() {
@@ -15,7 +15,7 @@ export default function CuffProductPage() {
     const navigate = useNavigate();
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 20; // Number of items per page
+    const pageSize = 20;
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);

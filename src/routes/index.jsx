@@ -43,4 +43,5 @@ export const routes = {
   deliveryStaff: "/nhan-vien-giao-hang",
   // payment: "/thanh-toan",
   vongtay: "san-pham-vong-tay",
+  successPayment: "thanh-toan-thanh-cong"
 };
