@@ -158,7 +158,7 @@ export default function AppRoute() {
         }
       />
 
-      <Route path={routes.successpayment} element={<PaymentSuccess />} />
+      {/* <Route path={routes.successpayment} element={<PaymentSuccess />} /> */}
       <Route path={routes.orderhistory} element={<OrderHistoryUser />} />
     </Routes>
   );
