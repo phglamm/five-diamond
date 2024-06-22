@@ -223,7 +223,7 @@ const TrackingPage = () => {
             </Col>
             <Col md={4}>
               <h4>THÔNG TIN ĐƠN HÀNG</h4>
-              {items.map((item) => (
+              {/* {items.map((item) => (
                 <div key={item.msp} className="order-item">
                   <img
                     src={`https://example.com/${item.msp}.jpg`}
@@ -239,11 +239,11 @@ const TrackingPage = () => {
                     </p>
                   </div>
                 </div>
-              ))}
+              ))} */}
               <h5>
                 Tạm tính:{" "}
                 <span style={{ color: "red" }}>
-                  {subtotal.toLocaleString()}đ
+                  {orderDetail.totalAmount?.toLocaleString()}đ
                 </span>
               </h5>
               <Form.Group controlId="formVoucher">
