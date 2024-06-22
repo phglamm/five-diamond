@@ -44,4 +44,6 @@ export const routes = {
   successpayment: "/thanh-toan-thanh-cong",
   orderhistory: "/lich-su-don-hang",
   // payment: "/thanh-toan",
+  vongtay: "san-pham-vong-tay",
+  successPayment: "thanh-toan-thanh-cong"
 };

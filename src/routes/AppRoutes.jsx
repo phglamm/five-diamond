@@ -38,6 +38,8 @@ import AdminCollection from "../pages/AdminDashboard/AdminCollection/AdminCollec
 import ProductPage from "../pages/ProductPage/ProductDetailPage";
 import PaymentSuccess from "../pages/PaymentSuccess/PaymentSuccess";
 import OrderHistoryUser from "../pages/OrderHistoryUser/OrderHistoryUser";
+import CuffProductPage from "../pages/ProductPage/AllProductPage/CuffProductPage";
+import OrderConfirmPage from "../pages/OrderConfirmPage/OrderConfirmPage";
 // import Payment from "../pages/Payment/PaymentPage";
 
 export default function AppRoute() {
@@ -57,6 +59,7 @@ export default function AppRoute() {
       <Route path={routes.bstset1} element={<CollectionSet1 />} />
       <Route path={routes.bstset2} element={<CollectionSet2 />} />
       <Route path={routes.bstset3} element={<CollectionSet3 />} />
+      <Route path={routes.vongtay} element={<CuffProductPage />} />
       <Route
         path={routes.profile}
         element={
@@ -135,6 +138,7 @@ export default function AppRoute() {
       <Route path={`${routes.productdetail}/:id`} element={<ProductPage />} />
       <Route path={routes.tracking} element={<TrackingPage />} />
       <Route path={`${routes.tracking}/:id`} element={<TrackingPage />} />
+      <Route path={routes.successPayment} element={<OrderConfirmPage />} />
       {/* <Route path={routes.payment} element={<Payment />} /> */}
       <Route
         path={routes.saleStaff}

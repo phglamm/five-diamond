@@ -1,0 +1,19 @@
+.order-list {
+    margin: 20px 0;
+}
+
+.order-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.order-list li {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.order-list li:hover {
+    background-color: #f0f0f0;
+}
