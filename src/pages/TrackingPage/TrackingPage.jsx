@@ -73,15 +73,15 @@ const TrackingPage = () => {
 
   function handleProgress() {
     if (orderDetail.orderStatus === "PENDING") {
-      return 1;
+      return 0;
     } else if (orderDetail.orderStatus === "CONFIRM") {
-      return 2;
+      return 1;
     } else if (orderDetail.orderStatus === "PROCESSING") {
-      return 3;
+      return 2;
     } else if (orderDetail.orderStatus === "SHIPPING") {
-      return 4;
+      return 3;
     } else if (orderDetail.orderStatus === "DELIVERED") {
-      return 5;
+      return 4;
     }
   }
   return (
