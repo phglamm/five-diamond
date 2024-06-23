@@ -38,6 +38,7 @@ import AdminCollection from "../pages/AdminDashboard/AdminCollection/AdminCollec
 import ProductPage from "../pages/ProductPage/ProductDetailPage";
 import CuffProductPage from "../pages/ProductPage/AllProductPage/CuffProductPage";
 import NecklaceProductPage from "../pages/ProductPage/AllProductPage/NecklaceProductPage";
+import PaymentSuccess from "../pages/PaymentSuccessfulPage/PaymentSuccess";
 // import Payment from "../pages/Payment/PaymentPage";
 
 export default function AppRoute() {
@@ -136,6 +137,8 @@ export default function AppRoute() {
       <Route path={`${routes.productdetail}/:id`} element={<ProductPage />} />
       <Route path={routes.tracking} element={<TrackingPage />} />
       <Route path={routes.vongco} element={<NecklaceProductPage />} />
+      <Route path={routes.success} element={<PaymentSuccess />} />
+
       <Route
         path={routes.saleStaff}
         element={

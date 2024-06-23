@@ -40,8 +40,9 @@ export const routes = {
   saleProduct: "/san-pham-khuyen-mai",
   tracking: "/theo-doi-don-hang",
   saleStaff: "/nhan-vien-sale",
-  deliveryStaff: "/nhan-vien-giao-hang",
-  // payment: "/thanh-toan",
+  deliveryStaff: "/nhan-vien-giao-hang",  
   vongtay: "san-pham-vong-tay",
   vongco: "san-pham-vong-co",
+  success: "thanh-toan-thanh-cong",
+  // payment: "/thanh-toan",
 };
