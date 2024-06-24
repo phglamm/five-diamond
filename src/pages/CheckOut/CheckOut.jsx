@@ -366,7 +366,7 @@ export default function CheckOut() {
               </h5>
             </Col>
           </Row>
-          <div className="checkout-actions">
+          <div className="button-confirmback">
             <Button
               className="button-back"
               onClick={() => navigate(routes.cart)}

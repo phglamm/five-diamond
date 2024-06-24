@@ -45,4 +45,7 @@ export const routes = {
   orderhistory: "/lich-su-don-hang",
   // payment: "/thanh-toan",
   vongtay: "san-pham-vong-tay",
+  vongco: "san-pham-vong-co",
+  success: "thanh-toan-thanh-cong",
+  // payment: "/thanh-toan",
 };
