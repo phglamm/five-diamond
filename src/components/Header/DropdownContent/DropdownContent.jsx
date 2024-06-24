@@ -1,17 +1,18 @@
 import "../DropdownContent/DropdownContent.css";
 import { Link } from "react-router-dom";
 import { Col, Row } from "react-bootstrap";
+import { routes } from "../../../routes";
 export default function DropdownContent() {
   return (
     <Row className="dropdown">
       <Col xs={4} md={3} className="dropdownItem">
         <div className="dropdownLink">
           <h3>Trang Sức Kim Cương</h3>
-          <Link to="">Nhẫn Kim Cương</Link>
-          <Link to="/san-pham-vong-co">Vòng cổ Kim Cương</Link>
+          <Link to={routes.nhan}>Nhẫn Kim Cương</Link>
+          <Link to={routes.vongco}>Vòng cổ Kim Cương</Link>
           <Link to="">Khuyên tai kim cương</Link>
           <Link to="">Mặt Dây Chuyền Kim Cương</Link>
-          <Link to="/san-pham-vong-tay">Lắc Tay, Vòng Tay Kim Cương</Link>
+          <Link to={routes.vongtay}>Lắc Tay, Vòng Tay Kim Cương</Link>
           <Link to="">Vỏ Nhẫn Kim Cương</Link>
           <Link to="">Vỏ Mặt Dây Chuyền Kim Cương</Link>
         </div>

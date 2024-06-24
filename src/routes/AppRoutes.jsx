@@ -60,7 +60,6 @@ export default function AppRoute() {
       <Route path={routes.bstset1} element={<CollectionSet1 />} />
       <Route path={routes.bstset2} element={<CollectionSet2 />} />
       <Route path={routes.bstset3} element={<CollectionSet3 />} />
-      <Route path={routes.vongtay} element={<CuffProductPage />} />
       <Route
         path={routes.profile}
         element={
@@ -137,18 +136,20 @@ export default function AppRoute() {
       <Route path={routes.saleEvent} element={<SaleEventPage />} />
       <Route path={routes.saleProduct} element={<SaleProductPage />} />
       <Route path={`${routes.productdetail}/:id`} element={<ProductPage />} />
-      <Route path={routes.tracking} element={<TrackingPage />} />
       <Route path={routes.vongco} element={<NecklaceProductPage />} />
+      <Route path={routes.vongtay} element={<CuffProductPage />} />
+      <Route path={routes.nhan} element={<RingProductPage />} />
+
+      <Route path={routes.tracking} element={<TrackingPage />} />
       <Route path={routes.success} element={<PaymentSuccess />} />
 
       <Route path={`${routes.tracking}/:id`} element={<TrackingPage />} />
-      <Route path={routes.successpayment} element={<OrderConfirmPage />} />
-      {/* <Route
-        path={`${routes.successPayment}/:id`}
+      <Route path={routes.successorder} element={<OrderConfirmPage />} />
+      <Route
+        path={`${routes.successorder}/:id`}
         element={<OrderConfirmPage />}
-      /> */}
+      />
 
-      {/* <Route path={routes.payment} element={<Payment />} /> */}
       <Route
         path={routes.saleStaff}
         element={
@@ -167,7 +168,7 @@ export default function AppRoute() {
         }
       />
 
-      {/* <Route path={routes.successpayment} element={<PaymentSuccess />} /> */}
+      <Route path={routes.successpayment} element={<PaymentSuccess />} />
       <Route path={routes.orderhistory} element={<OrderHistoryUser />} />
     </Routes>
   );

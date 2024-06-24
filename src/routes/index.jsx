@@ -42,10 +42,13 @@ export const routes = {
   saleStaff: "/nhan-vien-sale",
   deliveryStaff: "/nhan-vien-giao-hang",
   successpayment: "/thanh-toan-thanh-cong",
+  successorder: "/dat-hang-thanh-cong",
   orderhistory: "/lich-su-don-hang",
   // payment: "/thanh-toan",
-  vongtay: "san-pham-vong-tay",
-  vongco: "san-pham-vong-co",
+  vongtay: "/san-pham-vong-tay",
+  vongco: "/san-pham-vong-co",
+  nhan: "/san-pham-nhan",
+
   success: "thanh-toan-thanh-cong",
   // payment: "/thanh-toan",
 };
