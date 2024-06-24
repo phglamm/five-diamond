@@ -87,7 +87,6 @@ function ProfilePage() {
             onChange={handleImageChange}
             style={{ display: "none" }}
           /> */}
-          /> */}
         </div>
         <button className="update-img-btn" onClick={handleUpdateClick}>
           Cập nhật
