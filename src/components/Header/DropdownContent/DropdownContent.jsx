@@ -10,14 +10,11 @@ export default function DropdownContent() {
           <h3>Trang Sức Kim Cương</h3>
           <Link to={routes.nhan}>Nhẫn Kim Cương</Link>
           <Link to={routes.vongco}>Vòng cổ Kim Cương</Link>
-          <Link to="">Khuyên tai kim cương</Link>
-          <Link to="">Mặt Dây Chuyền Kim Cương</Link>
+          <Link to={routes.khuyentai}>Khuyên tai kim cương</Link>
           <Link to={routes.vongtay}>Lắc Tay, Vòng Tay Kim Cương</Link>
-          <Link to="">Vỏ Nhẫn Kim Cương</Link>
-          <Link to="">Vỏ Mặt Dây Chuyền Kim Cương</Link>
         </div>
       </Col>
-      <Col xs={4} md={3} className="dropdownItem">
+      {/* <Col xs={4} md={3} className="dropdownItem">
         <div className="dropdownLink">
           <h3>Mức Giá</h3>
           <Link to="">5-10 Triệu</Link>
@@ -27,9 +24,12 @@ export default function DropdownContent() {
           <Link to="">50-100 Triệu</Link>
           <Link to="">100-300 Triệu</Link>
         </div>
-      </Col>
+      </Col> */}
       <Col xs={4} md={6} className="dropdownItem">
-        {/* <img src={dropdownimg} alt="" /> */}
+        <img
+          src="https://file.hstatic.net/200000567741/collection/3_trang_suc_kim_cuong_thuong_hang_1920x450_95418a2d9fd14a9abd22e71a7d3cb316.jpeg"
+          alt=""
+        />
       </Col>
     </Row>
   );

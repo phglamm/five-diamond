@@ -1,7 +1,7 @@
 import { Col, Row } from "react-bootstrap";
 import "./RowCollection.css";
-import { Button } from "primereact/button";
 import { Link } from "react-router-dom";
+import { Button } from "antd";
 export default function RowCollection({
   collectionImage,
   collectionTitle,
@@ -18,11 +18,7 @@ export default function RowCollection({
           <h4 className="Collection-title">{collectionTitle}</h4>
           <p className="Collection-desc">{collectionDesc}</p>
           <Link to={collectionLink} className="collectionLink">
-            <Button
-              label="Xem Chi Tiết"
-              outlined
-              className="collectionButton"
-            />
+            <Button className="collectionButton">Xem Chi Tiết</Button>
           </Link>
         </Col>
       </Row>

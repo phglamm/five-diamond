@@ -2,7 +2,6 @@ import "./Header.css";
 import { Col, Container, Row } from "react-bootstrap";
 import { ImCart } from "react-icons/im";
 import "primeicons/primeicons.css";
-import BasicButton from "../Button/myButton";
 import { routes } from "../../routes";
 import { Link } from "react-router-dom";
 import SearchBar from "../searchBar/searchBar";
@@ -10,6 +9,7 @@ import { logout, selectUser } from "../../redux/features/counterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import DropdownContent from "./DropdownContent/DropdownContent";
+import { Button } from "antd";
 
 export default function Header() {
   const [isProductDropdownOpen, setIsProductDropdownOpen] = useState(false);
@@ -108,24 +108,17 @@ export default function Header() {
               </div>
             </Link>
             <Link to={routes.login}>
-              <BasicButton
-                text={"Đăng Xuất"}
-                icon={"pi pi-sign-in"}
-                onClick={handleLogout}
-              ></BasicButton>
+              <Button onClick={handleLogout}>Đăng Xuất</Button>
             </Link>
           </Col>
         ) : (
           <Col xs={3} className="Header-login">
             <Link to={routes.login}>
               {" "}
-              <BasicButton text={"Đăng nhập"} icon={"pi pi-user"}></BasicButton>
+              <Button>Đăng nhập</Button>
             </Link>
             <Link to={routes.register}>
-              <BasicButton
-                text={"Đăng ký"}
-                icon={"pi pi-sign-in"}
-              ></BasicButton>
+              <Button>Đăng ký</Button>
             </Link>
           </Col>
         )}

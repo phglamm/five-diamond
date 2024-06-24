@@ -1,71 +1,78 @@
-  .payment-success-page {
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.237);
-      max-width: 500px;
-      margin-top: 7%;
-      margin-left: 34%;
-      padding: 36px;
-      text-align: center;
-  }
+.payment-success-page {
+  width: 30%;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.237);
+  padding: 36px;
+  text-align: center;
+}
 
-  .payment-success-message {
-      padding: 20px;
-  }
+.pay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10%;
+}
+.payment-success-message {
+  padding: 20px;
+}
 
-  .payment-success-checkmark-container {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-  }
+.payment-success-checkmark-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
 
-  .payment-success-checkmark-img {
-      width: 100px;
-      height: 100px;
-  }
+.payment-success-checkmark-img {
+  width: 100px;
+  height: 100px;
+}
 
-  .payment-success-heading {
-      color: #515151;
-      margin-bottom: 10px;
-      font-size: 30px;
-      margin-bottom: 28px;
-  }
+.payment-success-heading {
+  color: #515151;
+  margin-bottom: 10px;
+  font-size: 30px;
+  margin-bottom: 28px;
+}
 
-  .payment-success-text {
-      color: #333;
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 1.5;
-      margin: 10px 0;
-  }
+.payment-success-text {
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 10px 0;
+}
 
-  .payment-success-order-id {
-      font-weight: bold;
-      color: #089c00;
-  }
+.payment-success-order-id {
+  font-weight: bold;
+  color: #089c00;
+}
 
-  .payment-success-order-link {
-      color: #007bff;
-      text-decoration: none;
-  }
+.payment-success-order-link {
+  color: #007bff;
+  text-decoration: none;
+}
 
-  .payment-success-order-link:hover {
-      text-decoration: underline;
-  }
+.payment-success-order-link:hover {
+  text-decoration: underline;
+}
 
-  .payment-success-continue-shopping-btn {
-      background-color: #38A9B8;
-      color: #fff;
-      font-weight: bold;
-      border: none;
-      border-radius: 5px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      margin-top: 20px;
-  }
+.payment-success-continue-shopping-btn {
+  background-color: #38a9b8;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
 
-  .payment-success-continue-shopping-btn:hover {
-      background-color: #cbcbcb;
-  }
+.payment-success-continue-shopping-btn:hover {
+  background-color: #cbcbcb;
+}

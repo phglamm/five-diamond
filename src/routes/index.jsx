@@ -10,8 +10,6 @@ export const routes = {
   bstset1: "/bo-suu-tap-set1",
   bstset2: "/bo-suu-tap-set2",
   bstset3: "/bo-suu-tap-set3",
-  ring: "/nhan",
-  necklace: "/vong-co",
   blog: "/kien-thuc",
   sale: "/chuong-trinh-khuyen-mai",
   profile: "/trang-ca-nhan",
@@ -50,7 +48,7 @@ export const routes = {
   vongtay: "/san-pham-vong-tay",
   vongco: "/san-pham-vong-co",
   nhan: "/san-pham-nhan",
+  khuyentai: "/san-pham-khuyen-tai",
 
-  success: "thanh-toan-thanh-cong",
   // payment: "/thanh-toan",
 };
