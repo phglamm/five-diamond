@@ -1,6 +1,6 @@
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import RowCollection from "../../components/RowCollection/RowCollection";
+import RowCollection from "../../components/productCard/RowCollection/RowCollection";
 import { Container } from "react-bootstrap";
 import { routes } from "../../routes";
 import MyBreadcrumb from "../../components/Breadcrumb/Breadcrumb";
