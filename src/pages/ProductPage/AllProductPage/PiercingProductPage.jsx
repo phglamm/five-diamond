@@ -69,8 +69,8 @@ export default function PiercingProductPage() {
         <Banner
           className="cuff-product-banner"
           pic1={"https://drive.google.com/thumbnail?id=1_6da1JV9G2H7NgXhg32Pa2uCLlSmXKAN&sz=w1000"}
-          pic2={"https://drive.google.com/thumbnail?id=1_6da1JV9G2H7NgXhg32Pa2uCLlSmXKAN&sz=w1000"}
-          pic3={"https://drive.google.com/thumbnail?id=1_6da1JV9G2H7NgXhg32Pa2uCLlSmXKAN&sz=w1000"}
+          pic2={"https://drive.google.com/thumbnail?id=1Qt-XgPqKgIPbSicW0gvSUZq9V582tJKb&sz=w1000"}
+          pic3={"https://drive.google.com/thumbnail?id=1M_88t0hYEllOUjTcq8hnxiBDBGNRQxtp&sz=w1000"}
           pic4={"https://drive.google.com/thumbnail?id=1_6da1JV9G2H7NgXhg32Pa2uCLlSmXKAN&sz=w1000"}
 
         />
