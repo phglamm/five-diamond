@@ -5,8 +5,9 @@ import "./ProfilePage.css";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser, updateUser } from "../../redux/features/counterSlice";
-import { Modal, Button } from "antd";
+import { Modal, Button, Input, DatePicker, Form } from "antd";
 import api from "../../config/axios";
+import dayjs from 'dayjs';
 
 function ProfilePage() {
   const dispatch = useDispatch();
@@ -52,12 +53,20 @@ function ProfilePage() {
       console.error("Error updating user:", error);
     }
   };
-
+  const dateOnChange = (date, dateString) => {
+    console.log(date, dateString);
+  };
   const handleChange = (event) => {
     const { name, value } = event.target;
     dispatch(updateUser({ ...user, [name]: value }));
   };
-
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
   return (
     <div>
       <Header />
@@ -150,7 +159,15 @@ function ProfilePage() {
       <div className="info">
         <div className="info-text">
           <h3>Thông tin cá nhân</h3>
+          <div>
+            <p>Họ và tên:{" " + user.firstname + " " + user.lastname}</p>
+            <p>Giới tính:{" " + user.gender}</p>
+            <p>Số điện thoại:{" " + user.phone}</p>
+            <p>Ngày sinh:{" " + formatDate(user.dob)}</p>
+            <p>Địa chỉ:{" " + user.address}</p>
+          </div>
         </div>
+
         <Button type="primary" onClick={handleEditInfoClick}>
           Chỉnh sửa thông tin
         </Button>
@@ -169,7 +186,49 @@ function ProfilePage() {
             Lưu
           </Button>,
         ]}
-      ></Modal>
+      >
+        <div className="info-edit-form">
+          <Form
+            layout="horizontal"
+            labelCol={{ span: 5 }}  
+            wrapperCol={{ span: 20 }}  
+            style={{ width: '100%' }}
+          >
+            <Form.Item label="Họ và tên" style={{ width: '100%' }}>
+              <Input
+                placeholder="Họ và tên"
+                defaultValue={user.firstname + " " + user.lastname}
+              />
+            </Form.Item >
+            <Form.Item label="Giới tính">
+              <Input
+                placeholder="Giới tính"
+                defaultValue={user.gender}
+              />
+            </Form.Item>
+            <Form.Item label="Số điện thoại">
+              <Input
+                placeholder="Số điện thoại"
+                defaultValue={user.phone}
+              />
+            </Form.Item>
+            <Form.Item label="Ngày sinh">
+              <DatePicker
+                style={{ width: "100%", marginBottom: "5px" }}
+                onChange={dateOnChange}
+                defaultValue={dayjs(user.dob)}
+              />
+            </Form.Item>
+            <Form.Item label="Địa chỉ">
+              <Input
+                placeholder="Địa chỉ"
+                defaultValue={user.address}
+              />
+            </Form.Item>
+
+          </Form>
+        </div>
+      </Modal>
 
       <div className="info">
         <div>
@@ -179,7 +238,7 @@ function ProfilePage() {
           <Button text={"Đổi mật khẩu"} />
         </Link>
       </div>
-      <Footer></Footer>
+      <Footer />
     </div>
   );
 }

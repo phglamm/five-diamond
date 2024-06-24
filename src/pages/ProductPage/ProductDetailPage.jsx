@@ -3,8 +3,7 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Col, Container, Row } from "react-bootstrap";
 import "./ProductDetailPage.css";
-import { Rating } from "@mui/material";
-import { Button, Modal, Select } from "antd";
+import { Button, Input, Modal, Select } from "antd";
 import {
   PushpinOutlined,
   ShoppingCartOutlined,
@@ -102,7 +101,6 @@ export default function ProductPage() {
           <div>
             <h4 className="product-title">{product.name}</h4>
             <p>MÃ SẢN PHẨM: {product.id}</p>
-            <Rating />
             <p style={{ color: "red" }}>
               {product == undefined ? "" : product.price.toLocaleString()}đ
             </p>
@@ -130,10 +128,10 @@ export default function ProductPage() {
                     .toLowerCase()
                     .localeCompare((optionB?.label ?? "").toLowerCase())
                 }
-                // options={product.size.map((size) => ({
-                //   value: size,
-                //   label: size,
-                // }))}
+              // options={product.size.map((size) => ({
+              //   value: size,
+              //   label: size,
+              // }))}
               >
                 {/* {product.map((item) => (
                   <Select.Option key={item.id} value={item.size}>
@@ -271,7 +269,14 @@ export default function ProductPage() {
             <p>{product.color}</p>
           </div>
         </div>
-        <h5 className="header-review">ĐÁNH GIÁ SẢN PHẨM</h5>
+        <div>
+          <h5 className="header-review">ĐÁNH GIÁ SẢN PHẨM</h5>
+          <div className="comment-section">
+          <Input placeholder="Đánh giá sản phẩm" />
+            <Button>Gửi</Button>
+          </div>
+
+        </div>
         <h3 className="header-relevant-product">CÁC SẢN PHẨM TƯƠNG TỰ</h3>
         <Row>
           {firstFiveProducts.map((item, index) => (
