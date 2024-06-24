@@ -68,10 +68,11 @@ export default function PiercingProductPage() {
         {/* Banner component */}
         <Banner
           className="cuff-product-banner"
-          pic1={"https://cdn.pnj.io/images/promo/146/Lac-Vong_1200x450.jpg"}
-          pic2={"https://cdn.pnj.io/images/promo/146/Lac-Vong_1200x450.jpg"}
-          pic3={"https://cdn.pnj.io/images/promo/146/Lac-Vong_1200x450.jpg"}
-          pic4={"https://cdn.pnj.io/images/promo/146/Lac-Vong_1200x450.jpg"}
+          pic1={"https://drive.google.com/thumbnail?id=1_6da1JV9G2H7NgXhg32Pa2uCLlSmXKAN&sz=w1000"}
+          pic2={"https://drive.google.com/thumbnail?id=1_6da1JV9G2H7NgXhg32Pa2uCLlSmXKAN&sz=w1000"}
+          pic3={"https://drive.google.com/thumbnail?id=1_6da1JV9G2H7NgXhg32Pa2uCLlSmXKAN&sz=w1000"}
+          pic4={"https://drive.google.com/thumbnail?id=1_6da1JV9G2H7NgXhg32Pa2uCLlSmXKAN&sz=w1000"}
+
         />
         <div>
           {/* <Dropdown overlay={menu} trigger={['hover']}>

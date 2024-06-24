@@ -65,10 +65,10 @@ export default function NecklaceProductPage() {
                 {/* Banner component */}
                 <Banner
                     className="cuff-product-banner"
-                    pic1={"https://cdn.pnj.io/images/promo/146/Banner_Dayco_1200x450.jpg"}
-                    pic2={"https://cdn.pnj.io/images/promo/146/Banner_Dayco_1200x450.jpg"}
-                    pic3={"https://cdn.pnj.io/images/promo/146/Banner_Dayco_1200x450.jpg"}
-                    pic4={"https://cdn.pnj.io/images/promo/146/Banner_Dayco_1200x450.jpg"}
+                    pic1={"https://drive.google.com/thumbnail?id=1AJRpQgCI7U_pS0Mf8-29fECsxFIhHtSQ&sz=w1000"}
+                    pic2={"https://drive.google.com/thumbnail?id=1BcUeVKp1EDUb__MfsxNktaNBROq3hn0F&sz=w1000"}
+                    pic3={"https://drive.google.com/thumbnail?id=1AJRpQgCI7U_pS0Mf8-29fECsxFIhHtSQ&sz=w1000"}
+                    pic4={"https://drive.google.com/thumbnail?id=1AJRpQgCI7U_pS0Mf8-29fECsxFIhHtSQ&sz=w1000"}
 
                 />
                 <div>

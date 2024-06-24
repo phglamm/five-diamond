@@ -15,9 +15,9 @@ const Banner = ({ pic1, pic2, pic3, pic4 }) => (
       <div className="banner-slide">
         <img src={pic3} alt="" className="banner-img" />
       </div>
-      <div className="banner-slide">
+      {/* <div className="banner-slide">
         <img src={pic4} alt="" className="banner-img" />
-      </div>
+      </div> */}
     </Carousel>
   </div>
 );
