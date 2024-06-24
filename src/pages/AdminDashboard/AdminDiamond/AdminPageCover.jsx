@@ -17,10 +17,7 @@ import "../../AdminDashboard/AdminPage.css";
 import api from "../../../config/axios";
 import { toast } from "react-toastify";
 import { UploadOutlined } from "@ant-design/icons";
-import { CListGroup } from "@coreui/react";
 import uploadFile from "../../../utils/upload";
-import axios from "axios";
-import { button } from "@nextui-org/theme";
 
 export default function AdminCover() {
   const [form] = useForm();
@@ -196,17 +193,20 @@ export default function AdminCover() {
     } else {
       newData.imgURL = values.imgURL;
     }
-    // newData.diamondID = checkedListUpdate;
+    newData.diamondID = checkedListUpdate;
+
     const dataUpdate = {
       ...newData,
     };
 
-    newData.diamondID = checkedListUpdate;
     console.log(dataUpdate);
+
     try {
-      await api.put(`product-line/${values.id}`, dataUpdate);
+      const response = await api.put(`product-line/${values.id}`, dataUpdate);
+      console.log(response.data);
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công");
+      fetchProductLine();
     } catch (error) {
       toast.error("chỉnh sửa thất bại, có lỗi");
       console.log(error.response.data);

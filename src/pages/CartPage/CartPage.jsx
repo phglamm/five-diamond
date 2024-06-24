@@ -19,13 +19,15 @@ import { routes } from "../../routes";
 import discountCodes from "./discountCodes";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/features/counterSlice";
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([]);
   const [discountCode, setDiscountCode] = useState("");
   const [appliedDiscount, setAppliedDiscount] = useState(null);
   const navigate = useNavigate();
-
+  const user = useSelector(selectUser);
   async function fetchCart() {
     try {
       const response = await api.get("cart");
@@ -125,51 +127,151 @@ export default function CartPage() {
                 <IoMdArrowRoundBack /> Tiếp tục mua hàng
               </Button>
             </div>
-            <Card>
-              <ListGroup variant="flush">
-                {cartItems?.map((item) => (
-                  <ListGroup.Item key={item.id} className="order-item">
-                    <div className="product-details">
-                      <Image
-                        src={item.productLine.imgURL}
-                        alt={item.productLine.name}
-                        className="product-image"
-                      />
-                      <div className="order-item-details">
-                        <h5>{item.productLine.name}</h5>
-                        <p>MSP: {item.productLine.id}</p>
-                        <p>Kích thước: {item.productLine.size}</p>
-                        <div className="quantity-control">
-                          <ButtonGroup>
-                            <Button
-                              variant="light"
-                              onClick={() => updateQuantity(item.id, -1)}
-                            >
-                              -
-                            </Button>
-                            <div className="quantity-div">
-                              <h3 className="quantity">{item.quantity}</h3>
+            {user.role === "ADMIN" ||
+            user.role === "SALES" ||
+            user.role === "DELIVERY" ? (
+              <>
+                {" "}
+                <div>
+                  {" "}
+                  <h2>Chỉ có khách hàng mới có thể mua hàng</h2>
+                </div>
+                <Card>
+                  <ListGroup variant="flush">
+                    {cartItems?.map((item) => (
+                      <ListGroup.Item key={item.id} className="order-item">
+                        <div className="product-details">
+                          <Image
+                            src={item.productLine.imgURL}
+                            alt={item.productLine.name}
+                            className="product-image"
+                          />
+                          <div className="order-item-details">
+                            <h5>{item.productLine.name}</h5>
+                            <p>MSP: {item.productLine.id}</p>
+                            <p>Kích thước: {item.productLine.size}</p>
+                            <div className="quantity-control">
+                              <ButtonGroup>
+                                <Button
+                                  variant="light"
+                                  onClick={() => updateQuantity(item.id, -1)}
+                                >
+                                  -
+                                </Button>
+                                <div className="quantity-div">
+                                  <h3 className="quantity">{item.quantity}</h3>
+                                </div>
+                                <Button
+                                  variant="light"
+                                  onClick={() => updateQuantity(item.id, 1)}
+                                >
+                                  +
+                                </Button>
+                              </ButtonGroup>
                             </div>
-                            <Button
-                              variant="light"
-                              onClick={() => updateQuantity(item.id, 1)}
+                            <div>
+                              <span className="price-text">
+                                Giá tiền:{" "}
+                                <span style={{ color: "red" }}>
+                                  {(
+                                    item.productLine?.price * item.quantity
+                                  ).toLocaleString()}
+                                  đ
+                                </span>
+                              </span>
+                              <span>
+                                Tạm tính:{" "}
+                                <span style={{ color: "red" }}>
+                                  {(
+                                    item.productLine?.price * item.quantity
+                                  ).toLocaleString()}
+                                  đ
+                                </span>
+                              </span>
+                            </div>
+                            <span>
+                              Thành tiền:{" "}
+                              <span style={{ color: "red" }}>
+                                {(
+                                  item.productLine?.price * item.quantity
+                                ).toLocaleString()}
+                                đ
+                              </span>
+                            </span>
+                            <p>Mô tả: {item.productLine.description}</p>
+                            <span
+                              style={{
+                                color: "#ce0303",
+                                cursor: "pointer",
+                                textDecoration: "underline",
+                              }}
+                              onClick={() => deleteCart(item.id)}
                             >
-                              +
-                            </Button>
-                          </ButtonGroup>
-                        </div>
-                        <div>
-                          <span className="price-text">
-                            Giá tiền:{" "}
-                            <span style={{ color: "red" }}>
-                              {(
-                                item.productLine?.price * item.quantity
-                              ).toLocaleString()}
-                              đ
+                              Xóa
                             </span>
-                          </span>
+                          </div>
+                        </div>
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                </Card>
+              </>
+            ) : (
+              <Card>
+                <ListGroup variant="flush">
+                  {cartItems?.map((item) => (
+                    <ListGroup.Item key={item.id} className="order-item">
+                      <div className="product-details">
+                        <Image
+                          src={item.productLine.imgURL}
+                          alt={item.productLine.name}
+                          className="product-image"
+                        />
+                        <div className="order-item-details">
+                          <h5>{item.productLine.name}</h5>
+                          <p>MSP: {item.productLine.id}</p>
+                          <p>Kích thước: {item.productLine.size}</p>
+                          <div className="quantity-control">
+                            <ButtonGroup>
+                              <Button
+                                variant="light"
+                                onClick={() => updateQuantity(item.id, -1)}
+                              >
+                                -
+                              </Button>
+                              <div className="quantity-div">
+                                <h3 className="quantity">{item.quantity}</h3>
+                              </div>
+                              <Button
+                                variant="light"
+                                onClick={() => updateQuantity(item.id, 1)}
+                              >
+                                +
+                              </Button>
+                            </ButtonGroup>
+                          </div>
+                          <div>
+                            <span className="price-text">
+                              Giá tiền:{" "}
+                              <span style={{ color: "red" }}>
+                                {(
+                                  item.productLine?.price * item.quantity
+                                ).toLocaleString()}
+                                đ
+                              </span>
+                            </span>
+                            <span>
+                              Tạm tính:{" "}
+                              <span style={{ color: "red" }}>
+                                {(
+                                  item.productLine?.price * item.quantity
+                                ).toLocaleString()}
+                                đ
+                              </span>
+                            </span>
+                          </div>
                           <span>
-                            Tạm tính:{" "}
+                            Thành tiền:{" "}
                             <span style={{ color: "red" }}>
                               {(
                                 item.productLine?.price * item.quantity
@@ -177,102 +279,167 @@ export default function CartPage() {
                               đ
                             </span>
                           </span>
-                        </div>
-                        <span>
-                          Thành tiền:{" "}
-                          <span style={{ color: "red" }}>
-                            {(
-                              item.productLine?.price * item.quantity
-                            ).toLocaleString()}
-                            đ
+                          <p>Mô tả: {item.productLine.description}</p>
+                          <span
+                            style={{
+                              color: "#ce0303",
+                              cursor: "pointer",
+                              textDecoration: "underline",
+                            }}
+                            onClick={() => deleteCart(item.id)}
+                          >
+                            Xóa
                           </span>
-                        </span>
-                        <p>Mô tả: {item.productLine.description}</p>
-                        <span
-                          style={{
-                            color: "#ce0303",
-                            cursor: "pointer",
-                            textDecoration: "underline",
-                          }}
-                          onClick={() => deleteCart(item.id)}
-                        >
-                          Xóa
-                        </span>
+                        </div>
                       </div>
-                    </div>
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
-            </Card>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              </Card>
+            )}
           </Col>
           <Col md={4} className="col-md-4">
-            <div className="Col4">
-              <Card>
-                <Card.Header>
-                  <h4>Tổng Tiền</h4>
-                </Card.Header>
-                <Card.Body>
-                  <h5>
-                    Tạm tính:{" "}
-                    <span style={{ color: "black", float: "right" }}>
-                      {total?.toLocaleString()} VNĐ
-                    </span>
-                  </h5>
-                  <hr className="solid"></hr>
-                  <h5>
-                    Vận chuyển:{" "}
-                    <span style={{ color: "black", float: "right" }}>
-                      {shippingCost === 0
-                        ? "Miễn phí vận chuyển"
-                        : `${shippingCost?.toLocaleString()} VNĐ`}{" "}
-                    </span>
-                  </h5>
-                  <hr className="solid"></hr>
-                  {discountAmount > 0 && (
-                    <>
-                      <h5>
-                        Giảm giá:{" "}
-                        <span style={{ color: "black", float: "right" }}>
-                          -{discountAmount.toLocaleString()} VNĐ
-                        </span>
-                      </h5>
-                      <hr className="solid" />
-                    </>
-                  )}
-                  <h5>
-                    Thanh toán:{" "}
-                    <span style={{ color: "black", float: "right" }}>
-                      {finalTotal.toLocaleString()} VNĐ
-                    </span>
-                  </h5>
-                  <hr className="solid" />
-                  <div className="d-flex">
-                    <input
-                      type="text"
-                      className="form-control mr-2"
-                      placeholder="Mã giảm giá/Quà tặng"
-                      value={discountCode}
-                      onChange={(e) => setDiscountCode(e.target.value)}
-                    />
+            {user.role === "ADMIN" ||
+            user.role === "SALES" ||
+            user.role === "DELIVERY" ? (
+              <div className="Col4">
+                <Card>
+                  <Card.Header>
+                    <h4>Tổng Tiền</h4>
+                  </Card.Header>
+                  <Card.Body>
+                    <h5>
+                      Tạm tính:{" "}
+                      <span style={{ color: "black", float: "right" }}>
+                        {total?.toLocaleString()} VNĐ
+                      </span>
+                    </h5>
+                    <hr className="solid"></hr>
+                    <h5>
+                      Vận chuyển:{" "}
+                      <span style={{ color: "black", float: "right" }}>
+                        {shippingCost === 0
+                          ? "Miễn phí vận chuyển"
+                          : `${shippingCost?.toLocaleString()} VNĐ`}{" "}
+                      </span>
+                    </h5>
+                    <hr className="solid"></hr>
+                    {discountAmount > 0 && (
+                      <>
+                        <h5>
+                          Giảm giá:{" "}
+                          <span style={{ color: "black", float: "right" }}>
+                            -{discountAmount.toLocaleString()} VNĐ
+                          </span>
+                        </h5>
+                        <hr className="solid" />
+                      </>
+                    )}
+                    <h5>
+                      Thanh toán:{" "}
+                      <span style={{ color: "black", float: "right" }}>
+                        {finalTotal.toLocaleString()} VNĐ
+                      </span>
+                    </h5>
+                    <hr className="solid" />
+                    <div className="d-flex">
+                      <input
+                        type="text"
+                        className="form-control mr-2"
+                        placeholder="Mã giảm giá/Quà tặng"
+                        value={discountCode}
+                        onChange={(e) => setDiscountCode(e.target.value)}
+                      />
+                      <Button
+                        style={{ background: "#614A4A" }}
+                        className="apply-button"
+                        onClick={handleApplyDiscount}
+                        disabled
+                      >
+                        Áp dụng
+                      </Button>
+                    </div>
                     <Button
-                      style={{ background: "#614A4A" }}
-                      className="apply-button"
-                      onClick={handleApplyDiscount}
+                      style={{ background: "#ce0303", marginTop: "15px" }}
+                      className="w-100 btn-proceed-to-checkout"
+                      type="button"
+                      onClick={handleProceedToCheckout}
+                      disabled
                     >
-                      Áp dụng
+                      Tiến hành đặt hàng
                     </Button>
-                  </div>
-                  <Button
-                    style={{ background: "#ce0303", marginTop: "15px" }}
-                    className="w-100 btn-proceed-to-checkout"
-                    type="button"
-                    onClick={handleProceedToCheckout}
-                  >
-                    Tiến hành đặt hàng
-                  </Button>
-                </Card.Body>
-              </Card>
-            </div>
+                  </Card.Body>
+                </Card>
+              </div>
+            ) : (
+              <div className="Col4">
+                <Card>
+                  <Card.Header>
+                    <h4>Tổng Tiền</h4>
+                  </Card.Header>
+                  <Card.Body>
+                    <h5>
+                      Tạm tính:{" "}
+                      <span style={{ color: "black", float: "right" }}>
+                        {total?.toLocaleString()} VNĐ
+                      </span>
+                    </h5>
+                    <hr className="solid"></hr>
+                    <h5>
+                      Vận chuyển:{" "}
+                      <span style={{ color: "black", float: "right" }}>
+                        {shippingCost === 0
+                          ? "Miễn phí vận chuyển"
+                          : `${shippingCost?.toLocaleString()} VNĐ`}{" "}
+                      </span>
+                    </h5>
+                    <hr className="solid"></hr>
+                    {discountAmount > 0 && (
+                      <>
+                        <h5>
+                          Giảm giá:{" "}
+                          <span style={{ color: "black", float: "right" }}>
+                            -{discountAmount.toLocaleString()} VNĐ
+                          </span>
+                        </h5>
+                        <hr className="solid" />
+                      </>
+                    )}
+                    <h5>
+                      Thanh toán:{" "}
+                      <span style={{ color: "black", float: "right" }}>
+                        {finalTotal.toLocaleString()} VNĐ
+                      </span>
+                    </h5>
+                    <hr className="solid" />
+                    <div className="d-flex">
+                      <input
+                        type="text"
+                        className="form-control mr-2"
+                        placeholder="Mã giảm giá/Quà tặng"
+                        value={discountCode}
+                        onChange={(e) => setDiscountCode(e.target.value)}
+                      />
+                      <Button
+                        style={{ background: "#614A4A" }}
+                        className="apply-button"
+                        onClick={handleApplyDiscount}
+                      >
+                        Áp dụng
+                      </Button>
+                    </div>
+                    <Button
+                      style={{ background: "#ce0303", marginTop: "15px" }}
+                      className="w-100 btn-proceed-to-checkout"
+                      type="button"
+                      onClick={handleProceedToCheckout}
+                    >
+                      Tiến hành đặt hàng
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </div>
+            )}
           </Col>
         </Row>
       </Container>

@@ -5,7 +5,11 @@ import { Col, Container, Row } from "react-bootstrap";
 import "./ProductDetailPage.css";
 import { Rating } from "@mui/material";
 import { Button, Modal, Select } from "antd";
-import { PushpinOutlined, ShoppingCartOutlined, ShoppingOutlined } from "@ant-design/icons";
+import {
+  PushpinOutlined,
+  ShoppingCartOutlined,
+  ShoppingOutlined,
+} from "@ant-design/icons";
 import ProductCard from "../../components/productCard/productCard";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../config/axios";
@@ -33,6 +37,7 @@ export default function ProductPage() {
     }
     fetchProductLineById(id);
   }, [id]);
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -48,7 +53,7 @@ export default function ProductPage() {
   const firstFiveProducts = relevantproduct.slice(0, 10);
 
   if (!product) {
-    return <p>Loading...</p>;
+    return <></>;
   }
   const handleClickAddToCart = async () => {
     if (selectedSize) {
@@ -81,7 +86,6 @@ export default function ProductPage() {
   const handleSizeChange = (value) => {
     setSelectedSize(value);
   };
-
 
   return (
     <div>
@@ -126,10 +130,10 @@ export default function ProductPage() {
                     .toLowerCase()
                     .localeCompare((optionB?.label ?? "").toLowerCase())
                 }
-              // options={product.size.map((size) => ({
-              //   value: size,
-              //   label: size,
-              // }))}
+                // options={product.size.map((size) => ({
+                //   value: size,
+                //   label: size,
+                // }))}
               >
                 {/* {product.map((item) => (
                   <Select.Option key={item.id} value={item.size}>
@@ -215,7 +219,7 @@ export default function ProductPage() {
                 icon={<ShoppingCartOutlined />}
                 onClick={handleClickAddToCart}
                 className="button-addtocart"
-                style={{ fontWeight: 'bold', width: "50%" }}
+                style={{ fontWeight: "bold", width: "50%" }}
               >
                 THÊM VÀO GIỎ HÀNG
               </Button>
@@ -223,7 +227,7 @@ export default function ProductPage() {
                 type="primary"
                 icon={<ShoppingOutlined />}
                 className="button-buybuy"
-                style={{ fontWeight: 'bold', width: "50%" }}
+                style={{ fontWeight: "bold", width: "50%" }}
               >
                 MUA NGAY
               </Button>
@@ -238,21 +242,15 @@ export default function ProductPage() {
           </div>
           <div className="info-detail">
             <p style={{ fontWeight: "bold" }}>Đá chính:</p>
-            <p>
-              {product.shape}
-            </p>
+            <p>{product.shape}</p>
           </div>
           <div className="info-detail">
             <p style={{ fontWeight: "bold" }}>Carat:</p>
-            <p>
-              {product.carat}
-            </p>
+            <p>{product.carat}</p>
           </div>
           <div className="info-detail">
             <p style={{ fontWeight: "bold" }}>Độ tinh khiết:</p>
-            <p>
-              {product.clarity}
-            </p>
+            <p>{product.clarity}</p>
           </div>
           <div className="info-detail">
             <p style={{ fontWeight: "bold" }}>Chất liệu:</p>
@@ -262,21 +260,15 @@ export default function ProductPage() {
           </div>
           <div className="info-detail">
             <p style={{ fontWeight: "bold" }}>Hình dáng:</p>
-            <p>
-              {product.shape}
-            </p>
+            <p>{product.shape}</p>
           </div>
           <div className="info-detail">
             <p style={{ fontWeight: "bold" }}>Độ cắt:</p>
-            <p>
-              {product.cut}
-            </p>
+            <p>{product.cut}</p>
           </div>
           <div className="info-detail">
             <p style={{ fontWeight: "bold" }}>Màu:</p>
-            <p>
-              {product.color}
-            </p>
+            <p>{product.color}</p>
           </div>
         </div>
         <h5 className="header-review">ĐÁNH GIÁ SẢN PHẨM</h5>
@@ -295,6 +287,7 @@ export default function ProductPage() {
           ))}
         </Row>
       </Container>
+
       <Footer />
     </div>
   );

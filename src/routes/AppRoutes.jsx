@@ -22,7 +22,6 @@ import CartPage from "../pages/CartPage/CartPage";
 import CheckOut from "../pages/CheckOut/CheckOut";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import DiamondPricePage from "../pages/DiamondPricePage/DiamondPricePage";
-import ProductPage from "../pages/ProductPage/ProductDetailPage";
 import SaleProductPage from "../pages/SaleProductPage/SaleProductPage";
 import TrackingPage from "../pages/TrackingPage/TrackingPage";
 import SaleStaffPage from "../pages/SaleStaffPage/SaleStaffPage";
@@ -36,6 +35,10 @@ import CollectionSet1 from "../pages/CollectionPage/CollectionSet1";
 import CollectionSet2 from "../pages/CollectionPage/CollectionSet2";
 import CollectionSet3 from "../pages/CollectionPage/CollectionSet3";
 import AdminCollection from "../pages/AdminDashboard/AdminCollection/AdminCollection";
+import ProductPage from "../pages/ProductPage/ProductDetailPage";
+import ProductRing from "../pages/ProductPage/ProductRing/ProductRing";
+import ProductNecklace from "../pages/ProductPage/ProductNecklace/ProductNecklace";
+// import Payment from "../pages/Payment/PaymentPage";
 
 export default function AppRoute() {
   return (
@@ -54,6 +57,8 @@ export default function AppRoute() {
       <Route path={routes.bstset1} element={<CollectionSet1 />} />
       <Route path={routes.bstset2} element={<CollectionSet2 />} />
       <Route path={routes.bstset3} element={<CollectionSet3 />} />
+      <Route path={routes.ring} element={<ProductRing />} />
+      <Route path={routes.necklace} element={<ProductNecklace />} />
       <Route
         path={routes.profile}
         element={
@@ -131,6 +136,7 @@ export default function AppRoute() {
       <Route path={routes.saleProduct} element={<SaleProductPage />} />
       <Route path={`${routes.productdetail}/:id`} element={<ProductPage />} />
       <Route path={routes.tracking} element={<TrackingPage />} />
+      {/* <Route path={routes.payment} element={<Payment />} /> */}
       <Route
         path={routes.saleStaff}
         element={
@@ -139,9 +145,7 @@ export default function AppRoute() {
           </ProtectedRoute>
         }
       />
-      <Route
-        path={routes.deliveryStaff} element={<DeliveryStaffPage />}
-      />
+      <Route path={routes.deliveryStaff} element={<DeliveryStaffPage />} />
       {/* <Route
         path={routes.deliveryStaff}
         element={

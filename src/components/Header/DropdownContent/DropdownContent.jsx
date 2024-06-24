@@ -7,8 +7,8 @@ export default function DropdownContent() {
       <Col xs={4} md={3} className="dropdownItem">
         <div className="dropdownLink">
           <h3>Trang Sức Kim Cương</h3>
-          <Link to="">Nhẫn Kim Cương</Link>
-          <Link to="">Vòng cổ Kim Cương</Link>
+          <Link to="/nhan">Nhẫn Kim Cương</Link>
+          <Link to="/vong-co">Vòng cổ Kim Cương</Link>
           <Link to="">Khuyên tai kim cương</Link>
           <Link to="">Mặt Dây Chuyền Kim Cương</Link>
           <Link to="">Lắc Tay, Vòng Tay Kim Cương</Link>

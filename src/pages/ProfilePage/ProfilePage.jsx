@@ -63,20 +63,30 @@ function ProfilePage() {
 
   return (
     <div>
-      <Header></Header>
+      <Header />
+      <Header />
       <div className="avatar-user">
+
         <div onClick={handleImageClick} className="img-avt">
-          {image ? (
+          {console.log(user.gender === "MALE")}
+          {console.log(user.gender)}
+          {user.gender === "MALE" ? (
+            <img id="avt-img" src="https://drive.google.com/thumbnail?id=1qbgOEeSmZUjLlvazltYvqIWl58ds3Rwr&sz=w1000" alt="Male Avatar" />
+          ) : (
+            <img id="avt-img" src="https://drive.google.com/thumbnail?id=1-TZW7Js2ujLNyIXbYEEeiJfegVGgpjfd&sz=w1000" alt="Female Avatar" />
+          )}
+          {/* {image ? (
             <img id="avt-img" src={URL.createObjectURL(image)} alt="" />
           ) : (
-            <img id="avt-img" src="" alt="Default Avatar" />
+            <img id="avt-img" src="https://drive.google.com/thumbnail?id=1qbgOEeSmZUjLlvazltYvqIWl58ds3Rwr&sz=w1000" alt="Default Avatar" />
+            <img id="avt-img" src="https://drive.google.com/thumbnail?id=1qbgOEeSmZUjLlvazltYvqIWl58ds3Rwr&sz=w1000" alt="Default Avatar" />
           )}
           <input
             type="file"
             ref={inputRef}
             onChange={handleImageChange}
             style={{ display: "none" }}
-          />
+          /> */}
         </div>
         <button className="update-img-btn" onClick={handleUpdateClick}>
           Cập nhật

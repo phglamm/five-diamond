@@ -1,5 +1,5 @@
 import { Container } from "react-bootstrap";
-import RowCollection from "../../components/RowCollection/RowCollection";
+import RowCollection from "../../components/productCard/RowCollection/RowCollection";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import "./CollectionPage.css";

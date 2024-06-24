@@ -90,19 +90,20 @@ export default function AdminDiamond() {
 
   async function updateDiamond(values) {
     console.log(values);
-    if (imgUpdate) {
-      const imgURLUpdate = await uploadFile(imgUpdate);
-      newData.imgURL = imgURLUpdate;
-    } else {
-      newData.imgURL = values.imgURL;
-    }
 
-    const dataUpdate = {
-      ...newData,
-      giaReportNumber: values.certificate?.giaReportNumber,
-    };
-    console.log(dataUpdate);
     try {
+      if (imgUpdate) {
+        const imgURLUpdate = await uploadFile(imgUpdate);
+        newData.imgURL = imgURLUpdate;
+      } else {
+        newData.imgURL = values.imgURL;
+      }
+
+      const dataUpdate = {
+        ...newData,
+        giaReportNumber: values.certificate?.giaReportNumber,
+      };
+      console.log(dataUpdate);
       await api.put(`diamond/${values.id}`, dataUpdate);
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công ");
