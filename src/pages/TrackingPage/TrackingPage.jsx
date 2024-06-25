@@ -196,7 +196,7 @@ const TrackingPage = () => {
                 <h5>•Thanh toán chuyển khoản</h5>
                 <div>
                   <p>
-                    Quý khách vu6i lòng kiểm tra sự nguyên vẹn của gói hàng và
+                    Quý khách vui lòng kiểm tra sự nguyên vẹn của gói hàng và
                     tem niêm phong, trước khi thanh toán tiền mặt và nhận hàng +
                     Tên tài khoản: CÔNG TY CP TẬP ĐOÀN VÀNG BẠC ĐÁ QUÝ
                     FIVEDIAMOND
