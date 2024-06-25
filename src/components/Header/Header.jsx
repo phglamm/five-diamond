@@ -108,17 +108,19 @@ export default function Header() {
               </div>
             </Link>
             <Link to={routes.login}>
-              <Button onClick={handleLogout}>Đăng Xuất</Button>
+              <Button onClick={handleLogout} className="authen-button">
+                Đăng Xuất
+              </Button>
             </Link>
           </Col>
         ) : (
           <Col xs={3} className="Header-login">
             <Link to={routes.login}>
               {" "}
-              <Button>Đăng nhập</Button>
+              <Button className="authen-button">Đăng nhập</Button>
             </Link>
             <Link to={routes.register}>
-              <Button>Đăng ký</Button>
+              <Button className="authen-button">Đăng ký</Button>
             </Link>
           </Col>
         )}
