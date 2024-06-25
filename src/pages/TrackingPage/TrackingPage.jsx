@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Card } from "react-bootstrap";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Popover, Steps } from "antd";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "./TrackingPage.css";
 import api from "../../config/axios";
 
@@ -20,10 +20,6 @@ const customDot = (dot, { status, index }) => (
 );
 
 const TrackingPage = () => {
-  const location = useLocation();
-  const { state } = location;
-  const { name, phone, address, province, district, ward, note } = state || {};
-
   const items = [
     {
       name: "HOA TAI 18K AFEC0004382DDA1",
@@ -50,7 +46,6 @@ const TrackingPage = () => {
     return { subtotal, discount, total };
   };
 
-  const { subtotal, discount, total } = calculateTotalPrice();
   const { id } = useParams();
   const [orderDetail, setOrderDetail] = useState(null);
 
@@ -128,32 +123,6 @@ const TrackingPage = () => {
               </Form.Group>
 
               <h4>PHƯƠNG THỨC NHẬN HÀNG</h4>
-              <Row>
-                <Col md={4}>
-                  <Form.Group controlId="formProvince">
-                    <Form.Control value={province} readOnly>
-                      {/* <option value="">Chọn Tỉnh/TP</option> */}
-                      {/* Render province options */}
-                    </Form.Control>
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="formDistrict">
-                    <Form.Control value={district} readOnly>
-                      {/* <option value="">Chọn Quận/Huyện</option> */}
-                      {/* Render district options */}
-                    </Form.Control>
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="formWard">
-                    <Form.Control value={ward} readOnly>
-                      {/* <option value="">Chọn Xã/Phường</option> */}
-                      {/* Render ward options */}
-                    </Form.Control>
-                  </Form.Group>
-                </Col>
-              </Row>
 
               <Form.Group controlId="formAddress">
                 <Form.Label className="form-label"></Form.Label>
@@ -164,32 +133,6 @@ const TrackingPage = () => {
                   readOnly
                 />
               </Form.Group>
-
-              {/* <h4>THỜI GIAN NHẬN HÀNG</h4>
-                            <Form.Group controlId="formDeliveryTime">
-                                <div className="box">
-                                    <div>
-                                        <Form.Check
-                                            type="checkbox"
-                                            id="formDeliveryTime-time1"
-                                            label="Nhận hàng tiêu chuẩn"
-                                            name="time1"
-                                            checked={deliveryOption === "Giao Nhanh"}
-                                            readOnly
-                                        />
-                                    </div>
-                                    <div className="time2">
-                                        <Form.Check
-                                            type="checkbox"
-                                            id="formDeliveryTime-time2"
-                                            label="Nhận hàng đặc biệt"
-                                            name="time2"
-                                            checked={deliveryOption === "Hỏa Tốc"}
-                                            readOnly
-                                        />
-                                    </div>
-                                </div>
-                            </Form.Group> */}
 
               <h4>HÌNH THỨC THANH TOÁN</h4>
               <Form.Group controlId="formPaymentMethod">

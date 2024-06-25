@@ -12,10 +12,10 @@
 }
 
 /* 
-.Col8 {
-  margin-bottom: 20px;
-  margin-left: 0px;
-} */
+  .Col8 {
+    margin-bottom: 20px;
+    margin-left: 0px;
+  } */
 .Col8.col-md-8 {
   width: 53%;
   margin-left: 3%;
@@ -28,8 +28,8 @@
 }
 
 /* .col-md-8{
-  width: 55%;
-} */
+    width: 55%;
+  } */
 
 .order-item {
   display: flex;
@@ -73,9 +73,6 @@
   text-align: center;
 }
 
-button.btn-danger {
-  margin-left: auto;
-}
 
 .card-header h4 {
   margin-bottom: 0;
@@ -107,10 +104,6 @@ h4 {
   font-size: 20px;
   margin-bottom: 20px;
   color: #343a40;
-}
-
-button.btn-success {
-  font-size: 18px;
 }
 
 .form-check-label[for="formDeliveryTime-time1"],
@@ -149,40 +142,49 @@ i {
   font-size: 12px;
 }
 
-.order-btn {
-  margin-top: 35px;
-  text-align: center;
-}
-
-.order-btn p {
-  margin-top: 5px;
-  font-style: italic;
-}
-
-.order-btn button {
-  background-color: #38A9B8;
-  border-color: #38A9B8;
-  font-size: 18px;
+.button-back {
+  background-color: #6c757d;
+  color: white;
+  border: none;
   padding: 10px 20px;
-  height: 55px;
-  width: 12%;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.button-confirm {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.button-back:hover,
+.button-confirm:hover {
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .checkout-actions {
+    flex-direction: column;
+  }
+
+  .button-back,
+  .button-confirm {
+    width: 100%;
+    margin: 5px 0;
+  }
+}
+.button-confirmback .button-back, 
+.button-confirmback .button-confirm {
+  flex: 1;
   font-weight: bold;
+  width: auto;
+  background-color: #00c2d1;
 }
 
 hr.solid {
   margin-top: 0px;
   border-top: 3px solid #bbb;
-}
-
-.button-confirmback button {
-  width: 100%;
-  background-color: #00c2d1; 
-  
-}
-
-.button-confirmback {
-  display: flex;
-  gap: 40px;
-  margin-right: 74%;
-  margin-left: 3%;
 }

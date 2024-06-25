@@ -21,7 +21,6 @@ function SaleStaffPage() {
       dataIndex: "fullname",
       key: "fullname",
     },
-
     {
       title: "Số điện thoại",
       dataIndex: "phone",

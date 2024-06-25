@@ -1,8 +1,9 @@
 import { Container } from "react-bootstrap";
-import RowCollection from "../../components/RowCollection/RowCollection";
+import RowCollection from "../../components/productCard/RowCollection/RowCollection";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import "./CollectionPage.css";
+import { routes } from "../../routes";
 export default function CollectionPage() {
   return (
     <div>
@@ -15,7 +16,7 @@ export default function CollectionPage() {
           collectionDesc={
             "BST Trang sức 14k LUCKY ME mang đến sự may mắn trong thành công trong công việc trong cuộc sống"
           }
-          collectionLink=""
+          collectionLink={routes.bstset1}
         ></RowCollection>
         <RowCollection
           collectionImage="https://drive.google.com/thumbnail?id=1EG3EKHpm1-MJKmZ_GrwAm7uvsZtvEWee&sz=w1000"
@@ -23,7 +24,7 @@ export default function CollectionPage() {
           collectionDesc={
             "BST Trang sức 14k LUCKY ME mang đến sự may mắn trong thành công trong công việc trong cuộc sống"
           }
-          collectionLink=""
+          collectionLink={routes.bstset2}
         ></RowCollection>
         <RowCollection
           collectionImage="https://drive.google.com/thumbnail?id=1EG3EKHpm1-MJKmZ_GrwAm7uvsZtvEWee&sz=w1000"
@@ -31,7 +32,7 @@ export default function CollectionPage() {
           collectionDesc={
             "BST Trang sức 14k LUCKY ME mang đến sự may mắn trong thành công trong công việc trong cuộc sống"
           }
-          collectionLink=""
+          collectionLink={routes.bstset3}
         ></RowCollection>
       </Container>
       <Footer></Footer>

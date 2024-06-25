@@ -41,13 +41,12 @@
   margin-bottom: 1%;
 }
 
-/* .info-text {
- display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-} */
-
+.info-edit-form>Input{
+  margin-bottom: 5px;
+}
+.ant-form-item-label{
+  text-align: left !important;
+}
 .info h3 {
   font-weight: 700;
   text-transform: uppercase;

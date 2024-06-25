@@ -2,14 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import "./ProfilePage.css";
-import BasicButton from "../../components/Button/myButton";
 import { Link } from "react-router-dom";
-import InputTextField from "../../components/TextField/TextField";
-import ReadDatePickers from "../../components/Button/DatePicker";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser, updateUser } from "../../redux/features/counterSlice";
-import { Modal, Button, Input } from "antd";
+import { Modal, Button, Input, DatePicker, Form } from "antd";
 import api from "../../config/axios";
+import dayjs from 'dayjs';
 
 function ProfilePage() {
   const dispatch = useDispatch();
@@ -55,12 +53,20 @@ function ProfilePage() {
       console.error("Error updating user:", error);
     }
   };
-
+  const dateOnChange = (date, dateString) => {
+    console.log(date, dateString);
+  };
   const handleChange = (event) => {
     const { name, value } = event.target;
     dispatch(updateUser({ ...user, [name]: value }));
   };
-
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
   return (
     <div>
       <Header />
@@ -84,6 +90,7 @@ function ProfilePage() {
           {/* {image ? (
             <img id="avt-img" src={URL.createObjectURL(image)} alt="" />
           ) : (
+            <img id="avt-img" src="https://drive.google.com/thumbnail?id=1qbgOEeSmZUjLlvazltYvqIWl58ds3Rwr&sz=w1000" alt="Default Avatar" />
             <img id="avt-img" src="https://drive.google.com/thumbnail?id=1qbgOEeSmZUjLlvazltYvqIWl58ds3Rwr&sz=w1000" alt="Default Avatar" />
           )}
           <input
@@ -152,47 +159,15 @@ function ProfilePage() {
       <div className="info">
         <div className="info-text">
           <h3>Thông tin cá nhân</h3>
-          <div className="input">
-            <label>Họ và tên:</label>
-            <InputTextField
-              name="firstname"
-              text={user.firstname}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="input">
-            <label>Giới tính:</label>
-            <InputTextField
-              name="gender"
-              text={user.gender}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="input">
-            <label>Ngày sinh:</label>
-            <ReadDatePickers
-              name="dob"
-              text={user.dob}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="input">
-            <label>Số điện thoại:</label>
-            <InputTextField
-              name="phone"
-              text={user.phone}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="input">
-            <label>Địa chỉ:</label>
-            <InputTextField
-              name="address"
-              text={user.address}
-              onChange={handleChange}
-            />
+          <div>
+            <p>Họ và tên:{" " + user.firstname + " " + user.lastname}</p>
+            <p>Giới tính:{" " + user.gender}</p>
+            <p>Số điện thoại:{" " + user.phone}</p>
+            <p>Ngày sinh:{" " + formatDate(user.dob)}</p>
+            <p>Địa chỉ:{" " + user.address}</p>
           </div>
         </div>
+
         <Button type="primary" onClick={handleEditInfoClick}>
           Chỉnh sửa thông tin
         </Button>
@@ -212,62 +187,60 @@ function ProfilePage() {
           </Button>,
         ]}
       >
-        <div className="modal-content">
-          <div className="input">
-            <label>Họ và tên:</label>
-            <Input
-              name="firstname"
-              value={user.firstname}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="input">
-            <label>Giới tính:</label>
-            <Input name="gender" value={user.gender} onChange={handleChange} />
-          </div>
-          <div className="input">
-            <label>Ngày sinh:</label>
-            <ReadDatePickers
-              name="dob"
-              value={user.dob}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="input">
-            <label>Số điện thoại:</label>
-            <Input name="phone" value={user.phone} onChange={handleChange} />
-          </div>
-          <div className="input">
-            <label>Địa chỉ:</label>
-            <Input
-              name="address"
-              value={user.address}
-              onChange={handleChange}
-            />
-          </div>
+        <div className="info-edit-form">
+          <Form
+            layout="horizontal"
+            labelCol={{ span: 5 }}  
+            wrapperCol={{ span: 20 }}  
+            style={{ width: '100%' }}
+          >
+            <Form.Item label="Họ và tên" style={{ width: '100%' }}>
+              <Input
+                placeholder="Họ và tên"
+                defaultValue={user.firstname + " " + user.lastname}
+              />
+            </Form.Item >
+            <Form.Item label="Giới tính">
+              <Input
+                placeholder="Giới tính"
+                defaultValue={user.gender}
+              />
+            </Form.Item>
+            <Form.Item label="Số điện thoại">
+              <Input
+                placeholder="Số điện thoại"
+                defaultValue={user.phone}
+              />
+            </Form.Item>
+            <Form.Item label="Ngày sinh">
+              <DatePicker
+                style={{ width: "100%", marginBottom: "5px" }}
+                onChange={dateOnChange}
+                defaultValue={dayjs(user.dob)}
+              />
+            </Form.Item>
+            <Form.Item label="Địa chỉ">
+              <Input
+                placeholder="Địa chỉ"
+                defaultValue={user.address}
+              />
+            </Form.Item>
+
+          </Form>
         </div>
       </Modal>
 
       <div className="info">
         <div>
           <h3>Thông tin tài khoản</h3>
-          <div className="input">
-            <label>Tài khoản:</label>
-            <InputTextField text={user.email} />
-          </div>
-          <div className="input">
-            <label>Mật khẩu:</label>
-            <InputTextField text={user.password} />
-          </div>
         </div>
         <Link to="">
-          <BasicButton text={"Đổi mật khẩu"} />
+          <Button text={"Đổi mật khẩu"} />
         </Link>
       </div>
-      <Footer></Footer>
+      <Footer />
     </div>
   );
 }
 
 export default ProfilePage;
-
