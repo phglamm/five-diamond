@@ -1,6 +1,6 @@
 import "./Header.css";
 import { Col, Container, Row } from "react-bootstrap";
-import { ImCart } from "react-icons/im";
+import { ShoppingCartOutlined } from '@ant-design/icons';
 import "primeicons/primeicons.css";
 import { routes } from "../../routes";
 import { Link } from "react-router-dom";
@@ -98,7 +98,8 @@ export default function Header() {
                 // onMouseLeave={handleMouseLeaveCart}
               >
                 <Link to={routes.cart} className="cart-button">
-                  <ImCart className="cart-icon" />
+                  {/* <ImCart className="cart-icon" /> */}
+                  <ShoppingCartOutlined className="cart-icon"/>
                 </Link>
                 {/* {isCartDropdownOpen && (
                   <div>
