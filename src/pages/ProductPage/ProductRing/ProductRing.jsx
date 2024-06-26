@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
 import { Col, Container, Row } from "react-bootstrap";
@@ -10,7 +10,6 @@ import "./ProductRing.css";
 
 function ProductRing() {
   const [product, setProduct] = useState([]);
-  const navigate = useNavigate();
 
   async function fetchProduct() {
     const response = await api.get("product-line");
