@@ -192,30 +192,41 @@ function SaleStaffPage() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selectedTable, setSelectedTable] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterStatus, setFilterStatus] = useState(null); // null means no filter
+  const [editingRow, setEditingRow] = useState(null);
+
 
   useEffect(() => {
-    async function fetchOrder() {
-      try {
-        const response = await api.get("/order/all");
-        setOrder(response.data);
-      } catch (error) {
-        console.error(error.response.data);
+    const savedOrders = localStorage.getItem('orders');
+    if (savedOrders) {
+      setOrder(JSON.parse(savedOrders));
+    } else {
+      async function fetchOrder() {
+        try {
+          const response = await api.get("/order/all");
+          setOrder(response.data);
+        } catch (error) {
+          console.error(error.response.data);
+        }
       }
+      fetchOrder();
     }
-    fetchOrder();
   }, []);
-
   const handleStatusChange = (newValue, rowIndex) => {
     const newData = [...order];
     newData[rowIndex].orderStatus = newValue;
     setOrder(newData);
 
-    if (newValue === "Giao thành công") {
-      const movedRow = newData.splice(rowIndex, 1)[0];
-      newData.push(movedRow);
-      setOrder(newData);
-    }
+    // if (newValue === "Giao thành công") {
+    //   const movedRow = newData.splice(rowIndex, 1)[0];
+    //   newData.push(movedRow);
+    //   setOrder(newData);
+    // }
+  };
+
+  const handleUpdateOrderStatusChange = (newValue, rowIndex) => {
+    const newData = [...order];
+    newData[rowIndex].updateOrderStatus = newValue;
+    setOrder(newData);
   };
 
   const handleTableChange = (pagination, filters, sorter) => {
@@ -228,13 +239,28 @@ function SaleStaffPage() {
   };
 
   const handleSave = () => {
+    localStorage.setItem('orders', JSON.stringify(order));
     console.log("Saving data:", order);
-    // Add logic to save data, e.g., API call
   };
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value); // Update search term when input changes
   };
+
+
+  const handleEdit = (rowIndex) => {
+    setEditingRow(rowIndex);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingRow(null);
+  };
+
+  const handleSaveEdit = (rowIndex) => {
+    setEditingRow(null);
+    handleSave();
+  };
+
 
   const filteredOrder = order.filter((item) =>
     Object.values(item).some((val) =>
@@ -262,36 +288,65 @@ function SaleStaffPage() {
       title: "Tình trạng",
       dataIndex: "orderStatus",
       key: "orderStatus",
-      render: (text, record, rowIndex) => (
-        <Select
-          defaultValue={record.orderStatus || "Chờ lấy hàng"}
-          style={{ width: 200 }}
-          onChange={(newValue) => handleStatusChange(newValue, rowIndex)}
-          options={[
-            { value: "Chờ lấy hàng", label: "Chờ lấy hàng" },
-            { value: "Đang giao hàng", label: "Đang giao hàng" },
-            { value: "Giao thành công", label: "Giao thành công" },
-          ]}
-        />
-      ),
+      render: (text, record, rowIndex) =>
+        editingRow === rowIndex ? (
+          <Select
+            defaultValue={record.orderStatus || "Chờ lấy hàng"}
+            style={{ width: 200 }}
+            onChange={(newValue) => handleStatusChange(newValue, rowIndex)}
+            options={[
+              { value: "Chờ lấy hàng", label: "Chờ lấy hàng" },
+              { value: "Đang giao hàng", label: "Đang giao hàng" },
+              { value: "Giao thành công", label: "Giao thành công" },
+            ]}
+          />
+        ) : (
+          record.orderStatus
+        ),
     },
     {
       title: "Cập nhật",
       dataIndex: "updateOrderStatus",
       key: "updateOrderStatus",
-      render: (value, row, rowIndex) => (
-        <Select
-          defaultValue={value}
-          style={{ width: 200 }}
-          onChange={(newValue) => handleStatusChange(newValue, rowIndex)}
-          options={[
-            { value: "Khách đặt sai địa chỉ", label: "Khách đặt sai địa chỉ" },
-            { value: "Hẹn lại thời gian giao", label: "Hẹn lại thời gian giao" },
-            { value: "Khách không có nhà", label: "Khách không có nhà" },
-            { value: "Hàng xóm nhận", label: "Hàng xóm nhận" },
-          ]}
-        />
-      ),
+      render: (value, row, rowIndex) =>
+        editingRow === rowIndex ? (
+          <Select
+            defaultValue={value}
+            style={{ width: 200 }}
+            onChange={(newValue) => handleUpdateOrderStatusChange(newValue, rowIndex)}
+            options={[
+              { value: "Khách đặt sai địa chỉ", label: "Khách đặt sai địa chỉ" },
+              { value: "Hẹn lại thời gian giao", label: "Hẹn lại thời gian giao" },
+              { value: "Khách không có nhà", label: "Khách không có nhà" },
+              { value: "Hàng xóm nhận", label: "Hàng xóm nhận" },
+            ]}
+          />
+        ) : (
+          value
+        ),
+    },
+    // {
+    //   title: "Thao tác",
+    //   key: "actions",
+    //   render: (text, record, rowIndex) => (
+    //     <Button onClick={() => console.log("Editing row:", rowIndex)}>
+    //       Chỉnh sửa
+    //     </Button>
+    //   ),
+    // }
+
+    {
+      title: "Thao tác",
+      key: "actions",
+      render: (text, record, rowIndex) =>
+        editingRow === rowIndex ? (
+          <div>
+            <Button onClick={() => handleSaveEdit(rowIndex)}>Lưu</Button>
+            <Button onClick={handleCancelEdit}>Hủy</Button>
+          </div>
+        ) : (
+          <Button onClick={() => handleEdit(rowIndex)}>Chỉnh sửa</Button>
+        ),
     },
   ];
 
