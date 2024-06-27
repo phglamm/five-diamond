@@ -11,9 +11,8 @@ import {
 } from "react-bootstrap";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import { ImCart } from "react-icons/im";
-import { IoMdArrowRoundBack } from "react-icons/io";
 import "./CartPage.css";
+import { ShoppingCartOutlined, RollbackOutlined } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
 import discountCodes from "./discountCodes";
@@ -66,8 +65,8 @@ export default function CartPage() {
     ? appliedDiscount.type === "percentage"
       ? (total * appliedDiscount.value) / 100
       : appliedDiscount.type === "fixed"
-      ? appliedDiscount.value
-      : 0
+        ? appliedDiscount.value
+        : 0
     : 0;
 
   const finalTotal = total - discountAmount + shippingCost;
@@ -107,7 +106,7 @@ export default function CartPage() {
       alert("Mã giảm giá không hợp lệ");
     }
   };
-
+  
   return (
     <div className="page-container">
       <Header />
@@ -115,7 +114,7 @@ export default function CartPage() {
         <Row>
           <Col md={8} className="Col8 col-md-8">
             <h4>
-              <ImCart /> Giỏ hàng ({totalItems} sản phẩm)
+              <ShoppingCartOutlined /> Giỏ hàng ({totalItems} sản phẩm)
             </h4>
             <div className="continue-btn">
               <Button
@@ -124,12 +123,12 @@ export default function CartPage() {
                 type="button"
                 onClick={handleClick}
               >
-                <IoMdArrowRoundBack /> Tiếp tục mua hàng
+                <RollbackOutlined /> Tiếp tục mua hàng
               </Button>
             </div>
             {user.role === "ADMIN" ||
-            user.role === "SALES" ||
-            user.role === "DELIVERY" ? (
+              user.role === "SALES" ||
+              user.role === "DELIVERY" ? (
               <>
                 {" "}
                 <div>
@@ -300,8 +299,8 @@ export default function CartPage() {
           </Col>
           <Col md={4} className="col-md-4">
             {user.role === "ADMIN" ||
-            user.role === "SALES" ||
-            user.role === "DELIVERY" ? (
+              user.role === "SALES" ||
+              user.role === "DELIVERY" ? (
               <div className="Col4">
                 <Card>
                   <Card.Header>

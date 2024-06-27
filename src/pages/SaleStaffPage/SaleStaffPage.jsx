@@ -5,6 +5,7 @@ import Footer from "../../components/Footer/Footer";
 import { Button, Container, FormControl } from "react-bootstrap";
 import { Table, Input } from "antd";
 import api from "../../config/axios";
+import { Link } from "react-router-dom";
 
 function SaleStaffPage() {
   const [filterStatus, setFilterStatus] = useState(null); // null means no filter
@@ -35,9 +36,9 @@ function SaleStaffPage() {
       title: "Xem đơn hàng",
       key: "view-order",
       render: (text, record) => (
-        <Button type="link" onClick={() => handleAction(record)}>
-          Xem chi tiết
-        </Button>
+        <Link to={`/theo-doi-don-hang/${record?.id}`}>
+          <Button type="link">Xem chi tiết</Button>
+        </Link>
       ),
     },
   ];

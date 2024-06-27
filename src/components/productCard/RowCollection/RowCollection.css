@@ -30,5 +30,9 @@
   margin-top: 20%;
 }
 .collectionButton {
+  width: 100%;
+  border: 1px solid #06b6d4 !important;
+  color: #06b6d4 !important;
+  font-weight: bold !important;
   border-radius: 10rem;
 }

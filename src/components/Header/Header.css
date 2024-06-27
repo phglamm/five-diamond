@@ -39,6 +39,15 @@
   text-align: center;
 }
 
+.authen-button {
+  width: 100% !important;
+  border-radius: 1rem !important;
+  padding: 20px !important;
+  background-color: #06b6d4 !important;
+  color: white !important;
+  font-weight: bold !important;
+}
+
 .Header-login a {
   text-decoration: none;
   border: none;

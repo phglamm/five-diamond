@@ -1,6 +1,6 @@
 import "./Header.css";
 import { Col, Container, Row } from "react-bootstrap";
-import { ImCart } from "react-icons/im";
+import { ShoppingCartOutlined } from '@ant-design/icons';
 import "primeicons/primeicons.css";
 import { routes } from "../../routes";
 import { Link } from "react-router-dom";
@@ -108,10 +108,10 @@ export default function Header() {
           <Col xs={3} className="Header-login">
             <Link to={routes.login}>
               {" "}
-              <Button>Đăng nhập</Button>
+              <Button className="authen-button">Đăng nhập</Button>
             </Link>
             <Link to={routes.register}>
-              <Button>Đăng ký</Button>
+              <Button className="authen-button">Đăng ký</Button>
             </Link>
           </Col>
         )}
