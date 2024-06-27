@@ -36,7 +36,7 @@ import CollectionSet2 from "../pages/CollectionPage/CollectionSet2";
 import CollectionSet3 from "../pages/CollectionPage/CollectionSet3";
 import AdminCollection from "../pages/AdminDashboard/AdminCollection/AdminCollection";
 import ProductPage from "../pages/ProductPage/ProductDetailPage";
-import ProductRing from "../pages/ProductPage/ProductRing/ProductRing";
+import ProductRing from "../pages/ProductPage/AllProductPage/RingProductPage";
 import OrderHistoryUser from "../pages/OrderHistoryUser/OrderHistoryUser";
 import CuffProductPage from "../pages/ProductPage/AllProductPage/CuffProductPage";
 import NecklaceProductPage from "../pages/ProductPage/AllProductPage/NecklaceProductPage";

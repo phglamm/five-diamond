@@ -3,6 +3,9 @@
   margin-top: 50px;
 }
 .product-detail-img{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
 }
 .product-title{
@@ -66,6 +69,7 @@
 
 .header-relevant-product {
   font-weight: bold;
+  margin-top: 10px;
 }
 .relevant-product-list {
   display: flex;
