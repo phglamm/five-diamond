@@ -9,12 +9,11 @@
   position: relative;
   overflow: hidden;
   transition: transform 0.3s ease;
+  border-radius: 8px;
 }
-
 .product-img img {
   width: 100%;
   height: auto;
-  border-radius: 8px;
 }
 
 .product-text a {

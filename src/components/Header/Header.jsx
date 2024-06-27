@@ -10,10 +10,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import DropdownContent from "./DropdownContent/DropdownContent";
 import { Button } from "antd";
+import DropdownProfile from "./DropdownContent/DropdownProfile";
 
 export default function Header() {
   const [isProductDropdownOpen, setIsProductDropdownOpen] = useState(false);
-  const [isCartDropdownOpen, setIsCartDropdownOpen] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+
 
   const handleMouseOverProduct = () => {
     setIsProductDropdownOpen(true);
@@ -21,6 +23,14 @@ export default function Header() {
   const handleMouseLeaveProduct = () => {
     setIsProductDropdownOpen(false);
   };
+
+  const handleMouseOverProfile = () => {
+    setIsProfileDropdownOpen(true);
+  };
+  const handleMouseLeaveProfile = () => {
+    setIsProfileDropdownOpen(false);
+  };
+
 
   const handleMouseOverCart = () => {
     setIsCartDropdownOpen(true);
@@ -31,9 +41,7 @@ export default function Header() {
 
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
-  const handleLogout = () => {
-    dispatch(logout());
-  };
+
 
   return (
     <Container fluid className="Header" id="header">
@@ -83,33 +91,18 @@ export default function Header() {
         </Col>
 
         {user ? (
-          <Col xs={3} className="Header-login">
-            <Link to={routes.profile} className="profile-name">
-              <span
-                className="pi pi-user"
-                style={{ fontSize: "1.5rem" }}
-              ></span>
-              <p className="username">
-                {user.firstname} {user.lastname}
-              </p>
-              <div
-                className="cart-wrapper"
-                // onMouseOver={handleMouseOverCart}
-                // onMouseLeave={handleMouseLeaveCart}
-              >
-                <Link to={routes.cart} className="cart-button">
-                  <ImCart className="cart-icon" />
-                </Link>
-                {/* {isCartDropdownOpen && (
-                  <div>
-                    <CartDropdown />
-                  </div>
-                )} */}
+          <Col
+            className="Header-navigation dropdownContainer"
+            onMouseOver={handleMouseOverProfile}
+            onMouseLeave={handleMouseLeaveProfile}
+          >
+            <span className="pi pi-user" style={{ fontSize: "1.5rem" }}></span>
+            {user.firstname} {user.lastname}
+            {isProfileDropdownOpen && (
+              <div className="dropdownWrapper">
+                <DropdownProfile />
               </div>
-            </Link>
-            <Link to={routes.login}>
-              <Button onClick={handleLogout}>Đăng Xuất</Button>
-            </Link>
+            )}
           </Col>
         ) : (
           <Col xs={3} className="Header-login">
@@ -141,7 +134,7 @@ export default function Header() {
               className="dropdownWrapper"
               onMouseLeave={handleMouseLeaveProduct}
             >
-              <DropdownContent></DropdownContent>
+              <DropdownContent />
             </div>
           )}
         </Col>
