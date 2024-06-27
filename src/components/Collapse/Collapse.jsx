@@ -11,7 +11,7 @@ const itemsNest1 = [
   {
     key: "1",
     label:
-      "1.1 Tôi sẽ nhận được ưu đãi đặc biệt gì khi mua hàng tại PNJ Online?",
+      "1.1 Tôi sẽ nhận được ưu đãi đặc biệt gì khi mua hàng tại 5Diamond Online?",
     children: (
       <>
         <p className="larger">
@@ -62,9 +62,9 @@ const itemsNest1 = [
         </p>
         <p className="larger">
           Chi tiết hướng dẫn đo size:
-          <a href="https://www.pnj.com.vn/blog/huong-dan-do-size-trang-suc/">
+          <a href="http://fivediamond.online/huong-dan-do-ni">
             {" "}
-            https://www.pnj.com.vn/blog/huong-dan-do-size-trang-suc/
+            http://fivediamond.online/huong-dan-do-ni
           </a>
         </p>
       </>
@@ -113,7 +113,7 @@ const itemsNest1 = [
         <p className="larger">
           Kiểm tra trang sức định kỳ để phát hiện sớm bất kỳ hỏng hóc nào như
           chảy đá, mất nút kim cương, hoặc móc bị lỏng. Nếu phát hiện sự cố,
-          nhanh chóng đưa trang sức đến cửa hàng PNJ gần nhất để được sửa chữa.
+          nhanh chóng đưa trang sức đến cửa hàng 5Diamond gần nhất để được sửa chữa.
         </p>
       </>
     ),
@@ -128,8 +128,8 @@ const itemsNest3 = [
     children: (
       <>
         <p className="larger">
-          Chính sách thu đổi khi quý khách mua hàng tại trang web pnj.com.vn
-          hoặc sàn Thương mại điện tử của PNJ và tại cửa hàng đều như nhau.
+          Chính sách thu đổi khi quý khách mua hàng tại trang web http://fivediamond.online/
+          hoặc sàn Thương mại điện tử của 5Diamond và tại cửa hàng đều như nhau.
         </p>
         <p className="larger">
           + Sản phẩm Bạc: đổi size (kích cỡ) trong vòng 72H đối với sản phẩm còn
@@ -138,7 +138,7 @@ const itemsNest3 = [
         <p className="larger">
           + Sản phẩm Vàng: thu đổi 100% giá trị sản phẩm trong vòng 48H (với
           điều kiện đổi sang sản phẩm khác giá trị cao hơn hoặc bằng sản phẩm
-          cũ, sau 48 tiếng PNJ sẽ đổi sản phẩm theo chế độ thu đổi thông thường)
+          cũ, sau 48 tiếng 5Diamond sẽ đổi sản phẩm theo chế độ thu đổi thông thường)
         </p>
         <p className="larger">
           Lưu ý: thời gian được tính từ thời điểm khách hàng nhận được sản phẩm
@@ -151,7 +151,7 @@ const itemsNest3 = [
 const itemsNest4 = [
   {
     key: "1",
-    label: "3.1 Phí vận chuyển của PNJ tính như thế nào?",
+    label: "3.1 Phí vận chuyển của 5Diamond tính như thế nào?",
     children: (
       <>
         <p className="larger">
@@ -189,7 +189,7 @@ const itemsNest4 = [
         </p>
         <p className="larger">
           Trong trường hợp hiếm hoi sản phẩm khách hàng nhận được bị lỗi, hư
-          hỏng hoặc không như mô tả, PNJ cam kết bảo vệ khách hàng bằng chính
+          hỏng hoặc không như mô tả, 5Diamond cam kết bảo vệ khách hàng bằng chính
           sách thu đổi và bảo hành.
         </p>
       </>
@@ -255,7 +255,7 @@ const itemsNest2 = [
     children: (
       <>
         <p className="larger">
-          Thông tin Khách hàng là thông tin bảo mật được PNJ đặt lên hàng đầu.
+          Thông tin Khách hàng là thông tin bảo mật được 5Diamond đặt lên hàng đầu.
           Do đó, chúng tôi tôn trọng và cam kết sẽ bảo mật những thông tin mang
           tính riêng tư và chỉ thu thập những thông tin cần thiết liên quan đến
           giao dịch mua bán. .
@@ -277,13 +277,13 @@ const items = [
   },
   {
     key: "3",
-    label: "2. Chính sách thu đổi - bảo hành",
+    label: "3. Chính sách thu đổi - bảo hành",
     children: <Collapse defaultActiveKey="0" items={itemsNest3} />,
   },
 
   {
     key: "4",
-    label: "3. Giao nhận hàng",
+    label: "4. Giao nhận hàng",
     children: <Collapse defaultActiveKey="0" items={itemsNest4} />,
   },
 ];

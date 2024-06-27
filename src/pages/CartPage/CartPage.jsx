@@ -29,6 +29,7 @@ export default function CartPage() {
   const navigate = useNavigate();
   const user = useSelector(selectUser);
 
+  // Fetch cart items from the API
   async function fetchCart() {
     try {
       const response = await api.get("cart");
@@ -43,6 +44,7 @@ export default function CartPage() {
     fetchCart();
   }, []);
 
+  // Function to delete an item from the cart
   async function deleteCart(id) {
     try {
       await api.delete(`cart/${id}`);
@@ -54,6 +56,28 @@ export default function CartPage() {
     }
   }
 
+  // Function to update the quantity of an item in the cart
+  const updateQuantity = async (id, amount) => {
+    setCartItems((prevItems) => {
+      return prevItems.reduce((acc, item) => {
+        if (item.id === id) {
+          const newQuantity = item.quantity + amount;
+          if (newQuantity > 0) {
+            // If the new quantity is greater than zero, update the quantity
+            acc.push({ ...item, quantity: newQuantity });
+          } else {
+            // If the new quantity is zero or less, remove the item from the cart
+            deleteCart(id);
+          }
+        } else {
+          acc.push(item);
+        }
+        return acc;
+      }, []);
+    });
+  };
+
+  // Calculate total, shipping cost, and discount amount
   const total = cartItems.reduce(
     (acc, item) => acc + item.productLine.price * item.quantity,
     0
@@ -73,22 +97,7 @@ export default function CartPage() {
 
   const finalTotal = total - discountAmount + shippingCost;
 
-  const updateQuantity = async (id, amount) => {
-    setCartItems((prevItems) => {
-      return prevItems.reduce((acc, item) => {
-        if (item.id === id) {
-          const newQuantity = item.quantity + amount;
-          if (newQuantity > 0) {
-            acc.push({ ...item, quantity: newQuantity });
-          }
-        } else {
-          acc.push(item);
-        }
-        return acc;
-      }, []);
-    });
-  };
-
+  // Handle checkout process
   const handleProceedToCheckout = async () => {
     try {
       const response = await api.get("cart/check");
@@ -100,10 +109,12 @@ export default function CartPage() {
     }
   };
 
+  // Navigate back to home page
   const handleClick = () => {
     navigate(routes.home);
   };
 
+  // Apply discount code
   const handleApplyDiscount = () => {
     const discount = discountCodes.find(
       (d) => d.code === discountCode.toUpperCase()
@@ -452,7 +463,7 @@ export default function CartPage() {
                         onClick={handleProceedToCheckout}
                         disabled
                       >
-                        Tiến hành đặt hàng
+                        Tiến hành đặt hàng  
                       </Button>
                     )}
                   </Card.Body>

@@ -42,6 +42,7 @@ export const routes = {
   saleStaff: "/nhan-vien-sale",
   deliveryStaff: "/nhan-vien-giao-hang",
   successpayment: "/thanh-toan-thanh-cong",
+  failpayment: "/thanh-toan-that-bai",
   successorder: "/dat-hang-thanh-cong",
   orderhistory: "/lich-su-don-hang",
   // payment: "/thanh-toan",
