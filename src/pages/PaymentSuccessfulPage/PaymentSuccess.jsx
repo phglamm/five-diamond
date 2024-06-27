@@ -21,7 +21,7 @@ const PaymentSuccess = () => {
       try {
         const response = await api.post("order", orderPost);
         console.log(response.data);
-        navigate(routes.orderhistory);
+        navigate(routes.successpayment);
       } catch (error) {
         console.log(error.response.data);
       }
