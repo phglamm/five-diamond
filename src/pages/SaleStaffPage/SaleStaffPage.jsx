@@ -17,8 +17,12 @@ function SaleStaffPage() {
     async function fetchOrder() {
       try {
         const response = await api.get(`order/all`);
-        setOrder(response.data);
-        console.log(response.data);
+        // Filter orders to only include PENDING, CONFIRMED, PROCESSING
+        const filteredOrders = response.data.filter(order =>
+          ["PENDING", "CONFIRMED", "PROCESSING"].includes(order.orderStatus)
+        );
+        setOrder(filteredOrders);
+        console.log(filteredOrders);
       } catch (error) {
         console.log(error.response.data);
       }
@@ -94,7 +98,7 @@ function SaleStaffPage() {
           >
             Đang chuẩn bị hàng
           </Button>
-         
+
         </div>
         <div className="search-bar">
           <Input

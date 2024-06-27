@@ -87,6 +87,7 @@ h4 {
   color: #38A9B8;
   margin-top: 20px;
   font-weight: bold;
+  margin-bottom: 15px;
 }
 
 .form-check-label {
@@ -176,7 +177,8 @@ i {
     margin: 5px 0;
   }
 }
-.button-confirmback .button-back, 
+
+.button-confirmback .button-back,
 .button-confirmback .button-confirm {
   flex: 1;
   font-weight: bold;
