@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 
 export default function CheckOut() {
   const location = useLocation();
+
   const { cartItems, finalTotal } = location.state || {
     cartItems: [],
     finalTotal: 0,
