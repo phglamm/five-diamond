@@ -1,14 +1,14 @@
 import { useSelector } from "react-redux";
 import useGetParams from "../../assets/useGetParams";
 import api from "../../config/axios";
-import "./PaymentSuccess.css";
+import "./PaymentFail.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { selectOrder } from "../../redux/features/orderSlice";
 import { routes } from "../../routes";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 
-const PaymentSuccess = () => {
+const PaymentFail = () => {
   const orderId = "833883794";
   const orderPost = useSelector(selectOrder);
   console.log(orderPost);
@@ -21,7 +21,7 @@ const PaymentSuccess = () => {
       try {
         const response = await api.post("order", orderPost);
         console.log(response.data);
-        navigate(routes.successpayment);
+        navigate(routes.orderhistory);
       } catch (error) {
         console.log(error.response.data);
       }
@@ -36,35 +36,36 @@ const PaymentSuccess = () => {
 
   return (
     <div className="pay">
-      <div className="payment-success-page">
-        <div className="payment-success-message">
-          <div className="payment-success-checkmark-container">
+      <div className="payment-fail-page">
+        <div className="payment-fail-message">
+          <div className="payment-fail-checkmark-container">
             <img
-              src="https://drive.google.com/thumbnail?id=1nf8tLNsI2Mf6rUQHKIi86x6DKy2HTV4n&sz=w1000"
+              src="https://drive.google.com/thumbnail?id=1zbHAKyLaa5pKLbLNWAJeajTvGuC-VPeX&sz=w1000"
               alt="checkmark"
-              className="payment-success-checkmark-img"
+              className="payment-fail-checkmark-img"
             />
           </div>
-          <h1 className="payment-success-heading">Thanh toán thành công</h1>
-          <p className="payment-success-text">
-            Cảm ơn bạn vì đã tin tưởng và ủng hộ.
+          <h1 className="payment-fail-heading">Thanh toán thất bại</h1>
+          <p className="payment-fail-text">
+            Quý khách không thể hoàn tất thanh toán
           </p>
-          <p className="payment-success-text">
+          {/* <p className="payment-fail-text">
             Mã số đơn hàng của bạn là{" "}
-            <span className="payment-success-order-id">{orderId}</span>.
-          </p>
-          <p className="payment-success-text">
-            Bạn có thể xem chi tiết trong{" "}
-            <a href="/theo-doi-don-hang" className="payment-success-order-link">
+            <span className="payment-fail-order-id">{orderId}</span>.
+          </p> */}
+          <p className="payment-fail-text">
+            Mời quý khách thử lại, xin cảm ơn.
+            {/* Bạn có thể xem chi tiết trong{" "}
+            <a href="/theo-doi-don-hang" className="payment-fail-order-link">
               đơn hàng của tôi
             </a>
-            .
+            . */}
           </p>
           <button
-            className="payment-success-continue-shopping-btn"
+            className="payment-fail-continue-shopping-btn"
             onClick={() => navigate("/")}
           >
-            TIẾP TỤC MUA HÀNG
+            THỬ THANH TOÁN LẠI
           </button>
         </div>
       </div>
@@ -72,4 +73,4 @@ const PaymentSuccess = () => {
   );
 };
 
-export default PaymentSuccess;
+export default PaymentFail;

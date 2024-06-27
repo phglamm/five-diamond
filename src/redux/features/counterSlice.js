@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // Async thunk để fetch lại dữ liệu người dùng từ API
-export const fetchUser = createAsyncThunk(
-  "user/fetchUser",
-  async (userId, thunkAPI) => {
-    const response = await fetch(`/api/user/${userId}`);
-    const data = await response.json();
-    return data;
-  }
-);
+// export const fetchUser = createAsyncThunk(
+//   "user/fetchUser",
+//   async (userId, thunkAPI) => {
+//     const response = await fetch(`/api/user/${userId}`);
+//     const data = await response.json();
+//     return data;
+//   }
+// );
 
 export const counterSlice = createSlice({
   name: "user",
@@ -24,11 +24,11 @@ export const counterSlice = createSlice({
       return { ...state, ...actions.payload };
     },
   },
-  extraReducers: (builder) => {
-    builder.addCase(fetchUser.fulfilled, (state, action) => {
-      return action.payload;
-    });
-  },
+  // extraReducers: (builder) => {
+  //   builder.addCase(fetchUser.fulfilled, (state, action) => {
+  //     return action.payload;
+  //   });
+  // },
 });
 
 export const { login, logout, updateUser } = counterSlice.actions;

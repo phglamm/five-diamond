@@ -69,16 +69,33 @@ const TrackingPage = () => {
   function handleProgress() {
     if (orderDetail.orderStatus === "PENDING") {
       return 0;
-    } else if (orderDetail.orderStatus === "CONFIRM") {
+    } else if (orderDetail.orderStatus === "CONFIRMED") {
       return 1;
     } else if (orderDetail.orderStatus === "PROCESSING") {
       return 2;
-    } else if (orderDetail.orderStatus === "SHIPPING") {
+    } else if (orderDetail.orderStatus === "SHIPPED") {
       return 3;
     } else if (orderDetail.orderStatus === "DELIVERED") {
       return 4;
     }
   }
+
+  const getStatus = () => {
+    switch (orderDetail.orderStatus) {
+      case "PENDING":
+        return "Chờ xử lý";
+      case "CONFIRM":
+        return "Đã xử lý";
+      case "PROCESSING":
+        return "Đang chuẩn bị hàng";
+      case "SHIPPED":
+        return "Đang giao hàng";
+      case "DELIVERED":
+        return "Đã giao hàng";
+      default:
+        return "Chờ xử lý";
+    }
+  };
   return (
     <>
       <Header />
@@ -216,7 +233,7 @@ const TrackingPage = () => {
                     Giao hàng bởi: 5Diamond Express
                   </span>
                   <span className="separator">
-                    Trạng thái: {orderDetail.orderStatus}
+                    Trạng thái: {getStatus(orderDetail.orderStatus)}
                   </span>
                 </p>
                 <hr />
