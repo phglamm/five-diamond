@@ -12,7 +12,7 @@ import {
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import "./CartPage.css";
-import { ShoppingCartOutlined, RollbackOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined, RollbackOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
 import discountCodes from "./discountCodes";
@@ -22,11 +22,13 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/features/counterSlice";
 
 export default function CartPage() {
+  const [cart, setCart] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [discountCode, setDiscountCode] = useState("");
   const [appliedDiscount, setAppliedDiscount] = useState(null);
   const navigate = useNavigate();
   const user = useSelector(selectUser);
+
   async function fetchCart() {
     try {
       const response = await api.get("cart");
@@ -65,13 +67,13 @@ export default function CartPage() {
     ? appliedDiscount.type === "percentage"
       ? (total * appliedDiscount.value) / 100
       : appliedDiscount.type === "fixed"
-        ? appliedDiscount.value
-        : 0
+      ? appliedDiscount.value
+      : 0
     : 0;
 
   const finalTotal = total - discountAmount + shippingCost;
 
-  const updateQuantity = (id, amount) => {
+  const updateQuantity = async (id, amount) => {
     setCartItems((prevItems) => {
       return prevItems.reduce((acc, item) => {
         if (item.id === id) {
@@ -87,9 +89,15 @@ export default function CartPage() {
     });
   };
 
-  const handleProceedToCheckout = () => {
-    // <-- Define the function
-    navigate(routes.checkout, { state: { cartItems, finalTotal } }); // <-- Navigate to CheckOut with cartItems
+  const handleProceedToCheckout = async () => {
+    try {
+      const response = await api.get("cart/check");
+      console.log(response);
+      navigate(routes.checkout, { state: { cartItems, finalTotal } }); // <-- Navigate to CheckOut with cartItems
+    } catch (error) {
+      toast.error(error.response.data);
+      console.log(error.response.data);
+    }
   };
 
   const handleClick = () => {
@@ -106,7 +114,7 @@ export default function CartPage() {
       alert("Mã giảm giá không hợp lệ");
     }
   };
-  
+
   return (
     <div className="page-container">
       <Header />
@@ -127,8 +135,8 @@ export default function CartPage() {
               </Button>
             </div>
             {user.role === "ADMIN" ||
-              user.role === "SALES" ||
-              user.role === "DELIVERY" ? (
+            user.role === "SALES" ||
+            user.role === "DELIVERY" ? (
               <>
                 {" "}
                 <div>
@@ -147,7 +155,7 @@ export default function CartPage() {
                           />
                           <div className="order-item-details">
                             <h5>{item.productLine.name}</h5>
-                            <p>MSP: {item.productLine.id}</p>
+                            <p>Mã Sản Phẩm: {item.productLine.id}</p>
                             <p>Kích thước: {item.productLine.size}</p>
                             <div className="quantity-control">
                               <ButtonGroup>
@@ -228,7 +236,7 @@ export default function CartPage() {
                         />
                         <div className="order-item-details">
                           <h5>{item.productLine.name}</h5>
-                          <p>MSP: {item.productLine.id}</p>
+                          <p>Mã Sản Phẩm: {item.productLine.id}</p>
                           <p>Kích thước: {item.productLine.size}</p>
                           <div className="quantity-control">
                             <ButtonGroup>
@@ -299,8 +307,8 @@ export default function CartPage() {
           </Col>
           <Col md={4} className="col-md-4">
             {user.role === "ADMIN" ||
-              user.role === "SALES" ||
-              user.role === "DELIVERY" ? (
+            user.role === "SALES" ||
+            user.role === "DELIVERY" ? (
               <div className="Col4">
                 <Card>
                   <Card.Header>
@@ -427,14 +435,26 @@ export default function CartPage() {
                         Áp dụng
                       </Button>
                     </div>
-                    <Button
-                      style={{ background: "#ce0303", marginTop: "15px" }}
-                      className="w-100 btn-proceed-to-checkout"
-                      type="button"
-                      onClick={handleProceedToCheckout}
-                    >
-                      Tiến hành đặt hàng
-                    </Button>
+                    {cartItems.length !== 0 ? (
+                      <Button
+                        style={{ background: "#ce0303", marginTop: "15px" }}
+                        className="w-100 btn-proceed-to-checkout"
+                        type="button"
+                        onClick={handleProceedToCheckout}
+                      >
+                        Tiến hành đặt hàng
+                      </Button>
+                    ) : (
+                      <Button
+                        style={{ background: "#ce0303", marginTop: "15px" }}
+                        className="w-100 btn-proceed-to-checkout"
+                        type="button"
+                        onClick={handleProceedToCheckout}
+                        disabled
+                      >
+                        Tiến hành đặt hàng
+                      </Button>
+                    )}
                   </Card.Body>
                 </Card>
               </div>
