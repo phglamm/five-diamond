@@ -6,9 +6,7 @@ import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import { Provider } from "react-redux";
 import { persistor, store } from "./redux/store.js";
 import { PersistGate } from "redux-persist/integration/react";
-import { PrimeReactProvider } from "primereact/api";
-import "primereact/resources/primereact.css";
-import "primereact/resources/themes/lara-light-cyan/theme.css";
+
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -16,9 +14,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <PrimeReactProvider>
-            <App />
-          </PrimeReactProvider>
+          <App />
         </PersistGate>
       </Provider>
     </BrowserRouter>

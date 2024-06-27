@@ -27,7 +27,7 @@ function LoginPageCard() {
 
   const [form] = useForm();
   const navigate = useNavigate();
-  function hanldeClickSubmit() {
+  function handleClickSubmit() {
     form.submit();
   }
 
@@ -176,7 +176,7 @@ function LoginPageCard() {
                         onChange={(e) => setPassword(e.target.value)}
                       />
                     </Form.Item>
-                    <Button onClick={hanldeClickSubmit} className="form-button">
+                    <Button onClick={handleClickSubmit} className="form-button">
                       Đăng Nhập
                     </Button>
                     <h5 style={{ textAlign: "center", marginTop: 20 }}>Hoặc</h5>

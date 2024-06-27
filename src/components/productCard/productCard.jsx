@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import "./productCard.css";
+import { Widgets, WidgetsRounded } from "@mui/icons-material";
 
 export default function ProductCard({
   img,
@@ -18,7 +19,7 @@ export default function ProductCard({
 
   return (
     <div className={`product-hit ${pageType}`}>
-      <div className="product-img">
+      <div className="product-img" >
         <Link to={`/chi-tiet-san-pham/${id}`}>
           <img src={img} alt={text} />
         </Link>

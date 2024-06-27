@@ -4,10 +4,13 @@ import Footer from "../../components/Footer/Footer";
 import "./ProfilePage.css";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { selectUser, updateUser } from "../../redux/features/counterSlice";
+import { fetchUser, login, selectUser, updateUser } from "../../redux/features/counterSlice";
 import { Modal, Button, Input, DatePicker, Form } from "antd";
 import api from "../../config/axios";
 import dayjs from 'dayjs';
+import { EditOutlined, LockOutlined } from "@ant-design/icons";
+import { useForm } from "antd/es/form/Form";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 function ProfilePage() {
   const dispatch = useDispatch();
@@ -15,6 +18,7 @@ function ProfilePage() {
   const inputRef = useRef(null);
   const [image, setImage] = useState(null);
   const [visible, setVisible] = useState(false);
+  const [form] = useForm();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("userProfile");
@@ -45,10 +49,17 @@ function ProfilePage() {
     setVisible(false);
   };
 
-  const handleModalOk = async () => {
+  function handleClickSave(){
+    form.submit();
+  }
+
+  const handleUpdateProfile = async (value) => {
+    console.log(value);
     try {
-      await api.put(`/api/user/${user.id}`, user);
-      setVisible(false);
+      const response = await api.put(`/user/${user.id}`, value);
+      console.log(response.data);
+      dispatch(login(response.data))
+      setVisible(false)
     } catch (error) {
       console.error("Error updating user:", error);
     }
@@ -168,7 +179,8 @@ function ProfilePage() {
           </div>
         </div>
 
-        <Button type="primary" onClick={handleEditInfoClick}>
+        <Button onClick={handleEditInfoClick}>
+          <EditOutlined />
           Chỉnh sửa thông tin
         </Button>
       </div>
@@ -176,13 +188,13 @@ function ProfilePage() {
       <Modal
         title="Chỉnh sửa thông tin cá nhân"
         visible={visible}
-        onOk={handleModalOk}
+        onOk={handleUpdateProfile}
         onCancel={handleModalCancel}
         footer={[
           <Button key="cancel" onClick={handleModalCancel}>
             Hủy
           </Button>,
-          <Button key="submit" type="primary" onClick={handleModalOk}>
+          <Button key="submit" type="primary" onClick={handleClickSave}>
             Lưu
           </Button>,
         ]}
@@ -190,39 +202,41 @@ function ProfilePage() {
         <div className="info-edit-form">
           <Form
             layout="horizontal"
-            labelCol={{ span: 5 }}  
-            wrapperCol={{ span: 20 }}  
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 20 }}
             style={{ width: '100%' }}
-          >
-            <Form.Item label="Họ và tên" style={{ width: '100%' }}>
+            form={form}
+            onFinish={handleUpdateProfile}
+          > 
+            <Form.Item label="Họ" name="lastname" style={{ width: '100%' }} initialValue={user.lastname}>
               <Input
-                placeholder="Họ và tên"
-                defaultValue={user.firstname + " " + user.lastname}
+                placeholder="Họ"
               />
             </Form.Item >
-            <Form.Item label="Giới tính">
+            <Form.Item label="Tên" name="firstname" style={{ width: '100%' }} initialValue={user.firstname}>
+              <Input
+                placeholder="Tên"
+              />
+            </Form.Item >
+            <Form.Item label="Giới tính" name="gender" initialValue={user.gender}>
               <Input
                 placeholder="Giới tính"
-                defaultValue={user.gender}
               />
             </Form.Item>
-            <Form.Item label="Số điện thoại">
+            <Form.Item label="Số điện thoại" name="phone" initialValue={user.phone}>
               <Input
                 placeholder="Số điện thoại"
-                defaultValue={user.phone}
               />
             </Form.Item>
-            <Form.Item label="Ngày sinh">
+            <Form.Item label="Ngày sinh" name="dob" initialValue={dayjs(user.dob)} >
               <DatePicker
                 style={{ width: "100%", marginBottom: "5px" }}
                 onChange={dateOnChange}
-                defaultValue={dayjs(user.dob)}
               />
             </Form.Item>
-            <Form.Item label="Địa chỉ">
+            <Form.Item label="Địa chỉ" name="address" initialValue={user.address}>
               <Input
                 placeholder="Địa chỉ"
-                defaultValue={user.address}
               />
             </Form.Item>
 
@@ -235,7 +249,10 @@ function ProfilePage() {
           <h3>Thông tin tài khoản</h3>
         </div>
         <Link to="">
-          <Button text={"Đổi mật khẩu"} />
+          <Button  style={{marginRight:"100px"}}>
+            <LockOutlined />
+            Đổi mật khẩu
+          </Button>
         </Link>
       </div>
       <Footer />

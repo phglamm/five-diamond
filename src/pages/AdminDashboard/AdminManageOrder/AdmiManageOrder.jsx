@@ -9,20 +9,14 @@ export default function AdminOrder() {
   const [order, setOrder] = useState([]);
 
   async function fetchOrder() {
-    const response = await api.get("order");
+    const response = await api.get("order/all");
     setOrder(response.data);
-    console.log("data....", response.data);
+    console.log(response.data);
   }
 
   useEffect(() => {
     fetchOrder();
   }, []);
-
-  useEffect(() => {
-    if (order) {
-      console.log("order...", order); // Log the diamond id when diamond state is updated
-    }
-  }, [order]); // Only re-run this effect when diamond changes
 
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
@@ -36,14 +30,36 @@ export default function AdminOrder() {
       sorter: (a, b) => a.id - b.id,
     },
     {
-      title: "name",
-      dataIndex: "name",
-      key: "name",
+      title: "Họ và tên",
+      dataIndex: "fullname",
+      key: "fullname",
     },
     {
-      title: "description",
-      dataIndex: "description",
-      key: "description",
+      title: "Số điện thoại",
+      dataIndex: "phone",
+      key: "phone",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+      render: (text, record) => record.account?.email,
+    },
+    {
+      title: "Địa Chỉ",
+      dataIndex: "address",
+      key: "address",
+    },
+    {
+      title: "Tổng đơn",
+      dataIndex: "totalAmount",
+      key: "totalAmount",
+      render: (value) => value.toLocaleString() + " đ",
+    },
+    {
+      title: "Trạng Thái",
+      dataIndex: "orderStatus",
+      key: "orderStatus",
     },
   ];
 
