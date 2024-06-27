@@ -63,10 +63,12 @@ function LoginPageCard() {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = result.user.accessToken;
+        console.log(token);
         const response = await api.post("login-google", { token: token });
         console.log(response.data);
         // IdP data available using getAdditionalUserInfo(result)
         // ...
+        localStorage.setItem("token", response.data.token);
 
         if (response.data.role === "CUSTOMER") {
           if (response.data.address || response.data.phone === null) {

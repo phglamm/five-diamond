@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectUser, updateUser } from "../../redux/features/counterSlice";
 import { Modal, Button, Input, DatePicker, Form } from "antd";
 import api from "../../config/axios";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 
 function ProfilePage() {
   const dispatch = useDispatch();
@@ -62,8 +62,8 @@ function ProfilePage() {
   };
   function formatDate(dateString) {
     const date = new Date(dateString);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
   }
@@ -190,27 +190,21 @@ function ProfilePage() {
         <div className="info-edit-form">
           <Form
             layout="horizontal"
-            labelCol={{ span: 5 }}  
-            wrapperCol={{ span: 20 }}  
-            style={{ width: '100%' }}
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 20 }}
+            style={{ width: "100%" }}
           >
-            <Form.Item label="Họ và tên" style={{ width: '100%' }}>
+            <Form.Item label="Họ và tên" style={{ width: "100%" }}>
               <Input
                 placeholder="Họ và tên"
                 defaultValue={user.firstname + " " + user.lastname}
               />
-            </Form.Item >
+            </Form.Item>
             <Form.Item label="Giới tính">
-              <Input
-                placeholder="Giới tính"
-                defaultValue={user.gender}
-              />
+              <Input placeholder="Giới tính" defaultValue={user.gender} />
             </Form.Item>
             <Form.Item label="Số điện thoại">
-              <Input
-                placeholder="Số điện thoại"
-                defaultValue={user.phone}
-              />
+              <Input placeholder="Số điện thoại" defaultValue={user.phone} />
             </Form.Item>
             <Form.Item label="Ngày sinh">
               <DatePicker
@@ -220,12 +214,8 @@ function ProfilePage() {
               />
             </Form.Item>
             <Form.Item label="Địa chỉ">
-              <Input
-                placeholder="Địa chỉ"
-                defaultValue={user.address}
-              />
+              <Input placeholder="Địa chỉ" defaultValue={user.address} />
             </Form.Item>
-
           </Form>
         </div>
       </Modal>

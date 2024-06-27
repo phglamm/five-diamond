@@ -3,11 +3,13 @@ import axios from "axios";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Navigate, redirect } from "react-router-dom";
 import "./CheckOut.css";
 import { routes } from "../../routes";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
+import { order } from "../../redux/features/orderSlice";
+import { useDispatch } from "react-redux";
 
 export default function CheckOut() {
   const location = useLocation();
@@ -114,28 +116,32 @@ export default function CheckOut() {
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
   };
+  const dispatch = useDispatch();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setFormSubmitted(true);
     if (validateForm()) {
-      const form = event.currentTarget;
-      const data = {
-        fullname: form.name.value,
-        phone: form.phone.value,
-        address: form.address.value,
-        province: selectedProvince.name,
-        district: selectedDistrict.name,
-        ward: selectedWard.name,
-        note: form.note.value,
-        cartItems: cartItems,
-        totalAmount: finalTotal,
-      };
       try {
-        const response = await api.post("order", data);
-        console.log(response);
+        const form = event.currentTarget;
+        const data = {
+          fullname: form.name.value,
+          phone: form.phone.value,
+          address: form.address.value,
+          note: form.note.value,
+          cartItems: cartItems,
+          totalAmount: finalTotal,
+        };
+        const amount = String(finalTotal);
+        console.log(amount);
+
+        const response = await api.post("wallet/vnpay", {
+          amount: amount,
+        });
+        console.log(response.data);
         toast.success("Đặt Hàng Thành Công");
-        navigate(routes.successpayment);
+        window.location.assign(response.data);
+        dispatch(order(data));
       } catch (error) {
         toast.error("Đặt Hàng Thất bại");
         console.log(error.response.data);
