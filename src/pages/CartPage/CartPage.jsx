@@ -463,7 +463,7 @@ export default function CartPage() {
                         onClick={handleProceedToCheckout}
                         disabled
                       >
-                        Tiến hành đặt hàng
+                        Tiến hành đặt hàng  
                       </Button>
                     )}
                   </Card.Body>
