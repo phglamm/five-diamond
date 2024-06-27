@@ -29,7 +29,7 @@ export default function GuestPage() {
   }, []);
 
   // Lấy 5 sản phẩm đầu tiên
-  const firstFiveProducts = product.slice(0, 15);
+  const firstFiveProducts = product.slice(0, 10);
   const specialpro = firstFiveProducts.filter(
     (itemSpecial) => itemSpecial.deleted === false
   );
