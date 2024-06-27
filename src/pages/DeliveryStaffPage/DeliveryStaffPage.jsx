@@ -181,35 +181,30 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Button, Container, ButtonGroup } from "react-bootstrap";
 import { Table, Input, Select } from "antd";
-import { AiOutlineSearch } from "react-icons/ai";
 import api from "../../config/axios";
 
 const { Search } = Input;
 
-function SaleStaffPage() {
+function DeliveryStaffPage() {
   const [order, setOrder] = useState([]);
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selectedTable, setSelectedTable] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [editingRow, setEditingRow] = useState(null);
+  const [isSaving, setIsSaving] = useState(false); // New state for loader
 
 
   useEffect(() => {
-    const savedOrders = localStorage.getItem('orders');
-    if (savedOrders) {
-      setOrder(JSON.parse(savedOrders));
-    } else {
-      async function fetchOrder() {
-        try {
-          const response = await api.get("/order/all");
-          setOrder(response.data);
-        } catch (error) {
-          console.error(error.response.data);
-        }
+    async function fetchOrder() {
+      try {
+        const response = await api.get("order/all");
+        setOrder(response.data);
+      } catch (error) {
+        console.error(error.response.data);
       }
-      fetchOrder();
     }
+    fetchOrder();
   }, []);
   const handleStatusChange = (newValue, rowIndex) => {
     const newData = [...order];
@@ -239,12 +234,11 @@ function SaleStaffPage() {
   };
 
   const handleSave = () => {
-    localStorage.setItem('orders', JSON.stringify(order));
     console.log("Saving data:", order);
   };
 
   const handleSearch = (event) => {
-    setSearchTerm(event.target.value); // Update search term when input changes
+    setSearchTerm(event.target.value);
   };
 
 
@@ -256,9 +250,18 @@ function SaleStaffPage() {
     setEditingRow(null);
   };
 
-  const handleSaveEdit = (rowIndex) => {
-    setEditingRow(null);
-    handleSave();
+  const handleSaveEdit = async (rowIndex) => {
+    const orderToUpdate = order[rowIndex];
+    setIsSaving(true); // Start the loader
+    try {
+      await api.post('/api/order', orderToUpdate);
+      setEditingRow(null);
+      handleSave();
+    } catch (error) {
+      console.error("Error saving order:", error);
+    } finally {
+      setIsSaving(false); // Stop the loader
+    }
   };
 
 
@@ -371,7 +374,7 @@ function SaleStaffPage() {
     <div>
       <Header />
       <Container fluid className="table-deliver">
-        <ButtonGroup className="mb-3">
+        <ButtonGroup className="delivery-toggle">
           <Button
             variant={selectedTable === "all" ? "primary" : "outline-primary"}
             onClick={() => handleTableToggle("all")}
@@ -400,9 +403,8 @@ function SaleStaffPage() {
               : "TẤT CẢ ĐƠN"}
         </h1>
         <div className="search-bar mb-3">
-          <AiOutlineSearch className="search-icon" />
           <Search
-            placeholder="Search..."
+            placeholder="Tìm kiếm theo mã đơn hàng"
             value={searchTerm}
             onChange={handleSearch}
           />
@@ -433,5 +435,5 @@ function SaleStaffPage() {
   );
 }
 
-export default SaleStaffPage;
+export default DeliveryStaffPage;
 

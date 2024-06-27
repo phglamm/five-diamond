@@ -1,20 +1,25 @@
-.order-table{
+.order-table {
     margin-top: 20px;
 }
-.filter-buttons{
+
+.filter-buttons {
     margin-top: 20px;
 }
-.filter-buttons>button{
+
+.filter-buttons>button {
     border-radius: 0 !important;
 }
-.contact-text{
+
+.contact-text {
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 button.btn-success {
     font-size: 12px !important;
-  }
-  .search-bar{
+}
+
+.search-bar {
     margin-top: 10px;
-  }
+}

@@ -272,7 +272,7 @@ export default function ProductPage() {
         <div>
           <h5 className="header-review">ĐÁNH GIÁ SẢN PHẨM</h5>
           <div className="comment-section">
-          <Input placeholder="Đánh giá sản phẩm" />
+            <Input placeholder="Đánh giá sản phẩm" />
             <Button>Gửi</Button>
           </div>
 
