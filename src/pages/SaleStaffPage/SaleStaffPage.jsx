@@ -2,23 +2,24 @@ import React, { useEffect, useState } from "react";
 import "./SaleStaffPage.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import { Button, Container } from "react-bootstrap";
-import { Table, Input } from "antd";
+import { Container } from "react-bootstrap";
+import { Table, Input, Button } from "antd";
 import api from "../../config/axios";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function SaleStaffPage() {
   const [filterStatus, setFilterStatus] = useState(null); // null means no filter
-  const [searchTerm, setSearchTerm] = useState(""); // State for search term
+  const [searchTerm, setSearchTerm] = useState("");
   const [order, setOrder] = useState([]);
+  const [sortOrder, setSortOrder] = React.useState("asc");
 
   useEffect(() => {
     async function fetchOrder() {
       try {
         const response = await api.get(`order/all`);
         // Filter orders to only include PENDING, CONFIRMED, PROCESSING
-        const filteredOrders = response.data.filter(order =>
+        const filteredOrders = response.data.filter((order) =>
           ["PENDING", "CONFIRMED", "PROCESSING"].includes(order.orderStatus)
         );
         setOrder(filteredOrders);
@@ -32,10 +33,11 @@ function SaleStaffPage() {
 
   const handleUpdate = async (orderId, newStatus) => {
     try {
-      const response = await api.put(`/order/${orderId}`, { orderStatus: newStatus });
+      const response = await api.put(`/order/${orderId}`, {
+        orderStatus: newStatus,
+      });
       console.log(response.data);
       toast.success("Cập nhật thành công");
-      // Update the local order state to reflect the changes
       setOrder((prevOrders) =>
         prevOrders.map((order) =>
           order.id === orderId ? { ...order, orderStatus: newStatus } : order
@@ -58,12 +60,25 @@ function SaleStaffPage() {
     handleUpdate(orderId, newStatus);
   };
 
-  const filteredOrders = order.filter((ord) => {
-    if (filterStatus === null) {
-      return true;
-    }
-    return ord.orderStatus === filterStatus;
-  });
+  const filteredOrders = order
+    .filter((ord) => {
+      const matchesStatus =
+        filterStatus === null || ord.orderStatus === filterStatus;
+      const matchesSearchTerm = ord.id
+        .toString()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      return matchesStatus && matchesSearchTerm;
+    })
+    .sort((a, b) => {
+      const nameA = a.id.toString();
+      const nameB = b.id.toString();
+      if (sortOrder === "asc") {
+        return nameA.localeCompare(nameB);
+      } else {
+        return nameB.localeCompare(nameA);
+      }
+    });
 
   const handleFilterChange = (status) => {
     setFilterStatus(status);
@@ -75,30 +90,29 @@ function SaleStaffPage() {
       <Container>
         <div className="filter-buttons">
           <Button
-            variant={filterStatus === null ? "primary" : "outline-primary"}
+            type={filterStatus === null ? "primary" : ""}
             onClick={() => handleFilterChange(null)}
           >
             Tất cả
           </Button>
           <Button
-            variant={filterStatus === "PENDING" ? "primary" : "outline-primary"}
+            type={filterStatus === "PENDING" ? "primary" : ""}
             onClick={() => handleFilterChange("PENDING")}
           >
             Chờ xử lý
           </Button>
           <Button
-            variant={filterStatus === "CONFIRMED" ? "primary" : "outline-primary"}
+            type={filterStatus === "CONFIRMED" ? "primary" : ""}
             onClick={() => handleFilterChange("CONFIRMED")}
           >
             Đã xử lí
           </Button>
           <Button
-            variant={filterStatus === "PROCESSING" ? "primary" : "outline-primary"}
+            type={filterStatus === "PROCESSING" ? "primary" : ""}
             onClick={() => handleFilterChange("PROCESSING")}
           >
             Đang chuẩn bị hàng
           </Button>
-
         </div>
         <div className="search-bar">
           <Input

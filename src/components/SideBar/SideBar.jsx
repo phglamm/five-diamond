@@ -46,7 +46,7 @@ export default function SideBar() {
       </li>
       <li>
         <BarChartIcon color="info" fontSize="large"></BarChartIcon>
-        <Link to="">Biểu Đồ</Link>
+        <Link to={routes.adminchart}>Biểu Đồ</Link>
       </li>
       <li>
         <ShoppingCartIcon color="info" fontSize="large"></ShoppingCartIcon>
