@@ -28,6 +28,7 @@ export const routes = {
   adminCertificate: "/admin-chung-chi",
   adminUser: "/admin-nguoi-dung",
   adminbst: "/admin-bo-suu-tap",
+  adminstats: "/admin-thong-ke",
 
   productdetail: "/chi-tiet-san-pham",
   diamondprice: "/bang-gia-kim-cuong",

@@ -28,22 +28,25 @@
   }
   
   .username {
-    font-size: 1.1rem;
+    font-size: 15px;
     font-weight: bold;
     margin: 0;
   }
   
   .cart-wrapper {
     margin-top: 15px;
+    border-top: 1px black solid;
+    border-bottom: 1px black solid;
   }
   
   .cart-button {
     display: flex;
-    align-items: center;
+    align-items: left;
     gap: 5px;
     color: black;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 1rem;  
+    padding-right: 90px;
   }
   .logout-button {
     display: flex;
@@ -56,6 +59,11 @@
   }
   .cart-icon {
     font-size: 1.5rem;
+  }
+  .order-history-wrapper{
+    border-bottom: 1px black solid;
+    padding-left: 15px;
+    transform: translateX(-10px);
   }
   
   .Header-login {
