@@ -139,6 +139,7 @@ export default function CheckOut() {
         const response = await api.post("wallet/vnpay", {
           amount: amount,
         });
+        console.log(data);
         console.log(response.data);
         toast.success("Đặt Hàng Thành Công");
         window.location.assign(response.data);

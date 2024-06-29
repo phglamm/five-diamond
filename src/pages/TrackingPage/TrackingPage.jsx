@@ -183,23 +183,28 @@ const TrackingPage = () => {
             </Col>
             <Col md={4}>
               <h4>THÔNG TIN ĐƠN HÀNG</h4>
-              {/* {items.map((item) => (
-                <div key={item.msp} className="order-item">
+              {orderDetail.account?.cart?.cartItems.map((orderDetail) => (
+                <div key={orderDetail.productLine?.id} className="order-item">
                   <img
-                    src={`https://example.com/${item.msp}.jpg`}
+                    src={orderDetail.productLine?.imgURL}
                     alt="Product Image"
                     className="checkout-image"
                   />
                   <div className="order-item-details">
-                    <h6>{item.name}</h6>
-                    <p>Mã SP: {item.msp}</p>
-                    <p>Số lượng: {item.quantity}</p>
+                    <h6>{orderDetail.productLine?.name}</h6>
+                    <p>Mã SP: {orderDetail.productLine?.name}</p>
+                    <p>Số lượng: {orderDetail.productLine?.name}</p>
                     <p>
-                      Giá: {(item.price * item.quantity).toLocaleString()} VNĐ
+                      Giá:{" "}
+                      {(
+                        orderDetail.productLine?.name *
+                        orderDetail.productLine?.name
+                      ).toLocaleString()}{" "}
+                      VNĐ
                     </p>
                   </div>
                 </div>
-              ))} */}
+              ))}
               <h5>
                 Tạm tính:{" "}
                 <span style={{ color: "red" }}>
