@@ -44,6 +44,7 @@ import PaymentSuccess from "../pages/PaymentSuccessfulPage/PaymentSuccess";
 import OrderConfirmPage from "../pages/OrderConfirmPage/OrderConfirmPage";
 import PiercingProductPage from "../pages/ProductPage/AllProductPage/PiercingProductPage";
 import AdminStatistics from "../pages/AdminDashboard/AdminStatistics/AdminStatistics";
+import PaymentFail from "../pages/PaymentFail/PaymentFail";
 // import Payment from "../pages/Payment/PaymentPage";
 
 export default function AppRoute() {
