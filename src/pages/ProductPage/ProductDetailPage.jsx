@@ -14,6 +14,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
 import { useForm } from "antd/es/form/Form";
+import { routes } from "../../routes";
 
 export default function ProductPage() {
   const [form] = useForm();
@@ -67,10 +68,20 @@ export default function ProductPage() {
     fetchProduct();
   }, []);
 
-  const firstFiveProducts = relevantproduct.slice(0, 10);
+  const firstFiveProducts = relevantproduct.slice(0, 5);
 
   if (!product) {
-    return <></>;
+    return (
+      <div>
+        <Header />
+        <Container>
+          <p style={{ fontSize: '2rem' }}>Sản phẩm không tồn tại</p>
+          <Button onClick={() =>{navigate("/")}}>Quay về trang chủ</Button>
+        </Container>
+        <Footer />
+      </div>
+
+    )
   }
   const handleClickAddToCart = async () => {
     if (selectedSize) {
@@ -146,10 +157,10 @@ export default function ProductPage() {
                     .toLowerCase()
                     .localeCompare((optionB?.label ?? "").toLowerCase())
                 }
-                // options={product.size.map((size) => ({
-                //   value: size,
-                //   label: size,
-                // }))}
+              // options={product.size.map((size) => ({
+              //   value: size,
+              //   label: size,
+              // }))}
               >
                 {/* {product.map((item) => (
                   <Select.Option key={item.id} value={item.size}>

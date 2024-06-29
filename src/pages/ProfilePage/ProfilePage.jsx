@@ -5,7 +5,7 @@ import "./ProfilePage.css";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUser, login, selectUser, updateUser } from "../../redux/features/counterSlice";
-import { Modal, Button, Input, DatePicker, Form } from "antd";
+import { Modal, Button, Input, DatePicker, Form, Select } from "antd";
 import api from "../../config/axios";
 import dayjs from 'dayjs';
 import { EditOutlined, LockOutlined } from "@ant-design/icons";
@@ -170,7 +170,7 @@ function ProfilePage() {
           <h3>Thông tin cá nhân</h3>
           <div>
             <p>Họ và tên:{" "}{user.firstname + " " + user.lastname}</p>
-            <p>Giới tính:{" "}{user.gender === "MALE" ? "Nam" : "Nữ"}</p>
+            <p>Giới tính:{" "}{user.gender === "MALE" ? "Nam" : (user.gender === "FEMALE" ? "Nữ" : "Khác")}</p>
             <p>Số điện thoại:{" "} {user.phone}</p>
             <p>Ngày sinh:{" "}{formatDate(user.dob)}</p>
             <p>Địa chỉ:{" "}{user.address}</p>
@@ -216,10 +216,12 @@ function ProfilePage() {
                 placeholder="Tên"
               />
             </Form.Item >
-            <Form.Item label="Giới tính" name="gender" initialValue={user.gender === "MALE" ? "Nam" : "Nữ"}>
-              <Input
-                placeholder="Giới tính"
-              />
+            <Form.Item label="Giới tính" name="gender" initialValue={user.gender}>
+              <Select placeholder="Chọn Giới Tính của bạn">
+                <Option value="MALE">Nam</Option>
+                <Option value="FEMALE">Nữ</Option>
+                <Option value="OTHER">khác</Option>
+              </Select>
             </Form.Item>
             <Form.Item label="Số điện thoại" name="phone" initialValue={user.phone}>
               <Input
