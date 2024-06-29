@@ -7,6 +7,8 @@ import { Table, Input, Button } from "antd";
 import api from "../../config/axios";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import moment from "moment"; // Import moment for date formatting
+
 
 function SaleStaffPage() {
   const [filterStatus, setFilterStatus] = useState(null); // null means no filter
@@ -18,8 +20,12 @@ function SaleStaffPage() {
     async function fetchOrder() {
       try {
         const response = await api.get(`order/all`);
-        setOrder(response.data);
-        console.log(response.data);
+        // Filter orders to only include PENDING, CONFIRMED, PROCESSING
+        const filteredOrders = response.data.filter(order =>
+          ["PENDING", "CONFIRMED", "PROCESSING"].includes(order.orderStatus)
+        );
+        setOrder(filteredOrders);
+        console.log(filteredOrders);
       } catch (error) {
         console.log(error.response.data);
       }
@@ -124,9 +130,20 @@ function SaleStaffPage() {
               key: "fullname",
             },
             {
+              title: "Ngày đặt hàng",
+              dataIndex: "orderDate",
+              key: "orderDate",
+              render: (text) => moment(text).format("DD-MM-YYYY"), // Format date
+            },
+            {
               title: "Số điện thoại",
               dataIndex: "phone",
               key: "phone",
+            },
+            {
+              title: "Ghi chú KH",
+              dataIndex: "note",
+              key: "note",
             },
             {
               title: "Tình trạng",

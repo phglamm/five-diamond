@@ -44,6 +44,7 @@ import PaymentSuccess from "../pages/PaymentSuccessfulPage/PaymentSuccess";
 import OrderConfirmPage from "../pages/OrderConfirmPage/OrderConfirmPage";
 import PiercingProductPage from "../pages/ProductPage/AllProductPage/PiercingProductPage";
 import AdminStatistics from "../pages/AdminDashboard/AdminStatistics/AdminStatistics";
+import PaymentFail from "../pages/PaymentFail/PaymentFail";
 // import Payment from "../pages/Payment/PaymentPage";
 
 export default function AppRoute() {
@@ -154,6 +155,7 @@ export default function AppRoute() {
 
       <Route path={routes.tracking} element={<TrackingPage />} />
       <Route path={routes.successpayment} element={<PaymentSuccess />} />
+      <Route path={routes.failpayment} element={<PaymentFail />} />
 
       <Route path={`${routes.tracking}/:id`} element={<TrackingPage />} />
       <Route path={routes.successorder} element={<OrderConfirmPage />} />

@@ -20,31 +20,7 @@ const customDot = (dot, { status, index }) => (
 );
 
 const TrackingPage = () => {
-  const items = [
-    {
-      name: "HOA TAI 18K AFEC0004382DDA1",
-      msp: "AFEC0004382DDA1",
-      quantity: 1,
-      price: 42820000,
-    },
-    {
-      name: "NHẪN ĐÍNH HÔN KIM CƯƠNG ENR3111W",
-      msp: "ENR3111W",
-      quantity: 1,
-      price: 44520000,
-    },
-  ];
-  const voucher = null; // Example: {code: 'DISCOUNT10', discount: 10}
 
-  const calculateTotalPrice = () => {
-    const subtotal = items.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
-    const discount = voucher ? (subtotal * voucher.discount) / 100 : 0;
-    const total = subtotal - discount;
-    return { subtotal, discount, total };
-  };
 
   const { id } = useParams();
   const [orderDetail, setOrderDetail] = useState(null);
@@ -62,6 +38,14 @@ const TrackingPage = () => {
     fetchOrderDetail();
   }, []);
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
   if (!orderDetail) {
     return <></>;
   }
@@ -69,21 +53,38 @@ const TrackingPage = () => {
   function handleProgress() {
     if (orderDetail.orderStatus === "PENDING") {
       return 0;
-    } else if (orderDetail.orderStatus === "CONFIRM") {
+    } else if (orderDetail.orderStatus === "CONFIRMED") {
       return 1;
     } else if (orderDetail.orderStatus === "PROCESSING") {
       return 2;
-    } else if (orderDetail.orderStatus === "SHIPPING") {
+    } else if (orderDetail.orderStatus === "SHIPPED") {
       return 3;
     } else if (orderDetail.orderStatus === "DELIVERED") {
       return 4;
     }
   }
+
+  const getStatus = () => {
+    switch (orderDetail.orderStatus) {
+      case "PENDING":
+        return "Chờ xử lý";
+      case "CONFIRM":
+        return "Đã xử lý";
+      case "PROCESSING":
+        return "Đang chuẩn bị hàng";
+      case "SHIPPED":
+        return "Đang giao hàng";
+      case "DELIVERED":
+        return "Đã giao hàng";
+      default:
+        return "Chờ xử lý";
+    }
+  };
   return (
     <>
       <Header />
-      <div className="page-container tracking-page">
-        <Container>
+      <div className="tracking-page">
+        <Container className="tracking-container">
           <Row className="Rowall">
             <Col md={8} className="Col8">
               <h4>THÔNG TIN NGƯỜI MUA</h4>
@@ -128,7 +129,6 @@ const TrackingPage = () => {
                 <Form.Label className="form-label"></Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Nhập địa chỉ"
                   value={orderDetail?.address}
                   readOnly
                 />
@@ -158,7 +158,7 @@ const TrackingPage = () => {
                 <Form.Control
                   as="textarea"
                   rows={3}
-                  placeholder="Để lại lời nhắn"
+                  placeholder="Không có lời nhắn"
                   value={orderDetail?.note}
                   readOnly
                 />
@@ -166,23 +166,6 @@ const TrackingPage = () => {
             </Col>
             <Col md={4}>
               <h4>THÔNG TIN ĐƠN HÀNG</h4>
-              {/* {items.map((item) => (
-                <div key={item.msp} className="order-item">
-                  <img
-                    src={`https://example.com/${item.msp}.jpg`}
-                    alt="Product Image"
-                    className="checkout-image"
-                  />
-                  <div className="order-item-details">
-                    <h6>{item.name}</h6>
-                    <p>Mã SP: {item.msp}</p>
-                    <p>Số lượng: {item.quantity}</p>
-                    <p>
-                      Giá: {(item.price * item.quantity).toLocaleString()} VNĐ
-                    </p>
-                  </div>
-                </div>
-              ))} */}
               <h5>
                 Tạm tính:{" "}
                 <span style={{ color: "red" }}>
@@ -194,7 +177,7 @@ const TrackingPage = () => {
                 <Form.Control type="text" readOnly />
               </Form.Group>
               <p>
-                Phí vận chuyển: <span>50,000đ</span>
+                Phí vận chuyển: <span>Freeship</span>
               </p>
               <h5>
                 Tổng tiền:{" "}
@@ -208,17 +191,17 @@ const TrackingPage = () => {
             <h3>THEO DÕI ĐƠN HÀNG</h3>
             <Card>
               <Card.Body className="order-tracking-content">
-                <p className="order-tracking-id">Mã ID: {orderDetail.id}</p>
+                <span className="order-tracking-id">Mã ID: {orderDetail.id}</span>
                 <hr />
-                <p className="shipping-info">
-                  Ngày giao hàng dự kiến: {orderDetail.shippingDate}
-                  <span className="separator">
+                <span className="shipping-info">
+                  Ngày đặt hàng: {formatDate(orderDetail.orderDate)}
+                  <span className="tracking-separator">
                     Giao hàng bởi: 5Diamond Express
                   </span>
-                  <span className="separator">
-                    Trạng thái: {orderDetail.orderStatus}
+                  <span className="tracking-separator">
+                    Trạng thái: {getStatus(orderDetail.orderStatus)}
                   </span>
-                </p>
+                </span>
                 <hr />
 
                 <h5>Hành trình đơn hàng</h5>

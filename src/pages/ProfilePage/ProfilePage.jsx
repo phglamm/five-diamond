@@ -4,13 +4,16 @@ import Footer from "../../components/Footer/Footer";
 import "./ProfilePage.css";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchUser, login, selectUser, updateUser } from "../../redux/features/counterSlice";
-import { Modal, Button, Input, DatePicker, Form, Select } from "antd";
+import {
+  login,
+  selectUser,
+  updateUser,
+} from "../../redux/features/counterSlice";
+import { Modal, Button, Input, DatePicker, Form } from "antd";
 import api from "../../config/axios";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 import { EditOutlined, LockOutlined } from "@ant-design/icons";
 import { useForm } from "antd/es/form/Form";
-import { faL } from "@fortawesome/free-solid-svg-icons";
 
 function ProfilePage() {
   const dispatch = useDispatch();
@@ -58,8 +61,8 @@ function ProfilePage() {
     try {
       const response = await api.put(`/user/${user.id}`, value);
       console.log(response.data);
-      dispatch(login(response.data))
-      setVisible(false)
+      dispatch(login(response.data));
+      setVisible(false);
     } catch (error) {
       console.error("Error updating user:", error);
     }
@@ -67,14 +70,11 @@ function ProfilePage() {
   const dateOnChange = (date, dateString) => {
     console.log(date, dateString);
   };
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    dispatch(updateUser({ ...user, [name]: value }));
-  };
+
   function formatDate(dateString) {
     const date = new Date(dateString);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
   }
@@ -202,7 +202,7 @@ function ProfilePage() {
             layout="horizontal"
             labelCol={{ span: 5 }}
             wrapperCol={{ span: 20 }}
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             form={form}
             onFinish={handleUpdateProfile}
           >
@@ -223,23 +223,45 @@ function ProfilePage() {
                 <Option value="OTHER">khác</Option>
               </Select>
             </Form.Item>
-            <Form.Item label="Số điện thoại" name="phone" initialValue={user.phone}>
-              <Input
-                placeholder="Số điện thoại"
-              />
+            <Form.Item
+              label="Tên"
+              name="firstname"
+              style={{ width: "100%" }}
+              initialValue={user.firstname}
+            >
+              <Input placeholder="Tên" />
             </Form.Item>
-            <Form.Item label="Ngày sinh" name="dob" initialValue={dayjs(user.dob)} >
+            <Form.Item
+              label="Giới tính"
+              name="gender"
+              initialValue={user.gender}
+            >
+              <Input placeholder="Giới tính" />
+            </Form.Item>
+            <Form.Item
+              label="Số điện thoại"
+              name="phone"
+              initialValue={user.phone}
+            >
+              <Input placeholder="Số điện thoại" />
+            </Form.Item>
+            <Form.Item
+              label="Ngày sinh"
+              name="dob"
+              initialValue={dayjs(user.dob)}
+            >
               <DatePicker
                 style={{ width: "100%", marginBottom: "5px" }}
                 onChange={dateOnChange}
               />
             </Form.Item>
-            <Form.Item label="Địa chỉ" name="address" initialValue={user.address}>
-              <Input
-                placeholder="Địa chỉ"
-              />
+            <Form.Item
+              label="Địa chỉ"
+              name="address"
+              initialValue={user.address}
+            >
+              <Input placeholder="Địa chỉ" />
             </Form.Item>
-
           </Form>
         </div>
       </Modal>

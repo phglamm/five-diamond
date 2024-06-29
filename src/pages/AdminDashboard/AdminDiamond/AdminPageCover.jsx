@@ -125,11 +125,11 @@ export default function AdminCover() {
       value.diamondID = checkedList;
       const response = await api.post("product-line", value);
       console.log(response);
-      toast.success("Thêm vỏ kim cương thành công");
+      toast.success("Thêm sản phẩm thành công");
       console.log(response);
       fetchProductLine();
     } catch (error) {
-      toast.error("Đã có lỗi trong lúc thêm vỏ kim cương");
+      toast.error("Đã có lỗi trong lúc thêm sản phẩm");
     }
   }
   const [productLine, setProductLine] = useState([]);
@@ -186,7 +186,7 @@ export default function AdminCover() {
   }
 
   async function updateProductLine(values) {
-    console.log(values.id);
+    console.log(values);
     if (imgUpdate) {
       const imgURLUpdate = await uploadFile(imgUpdate);
       newData.imgURL = imgURLUpdate;
@@ -361,6 +361,7 @@ export default function AdminCover() {
                 onClick={() => {
                   setSelectedProductLine(values);
                   formUpdate.setFieldsValue(values);
+
                   setIsModalUpdateOpen(true);
                 }}
               >
@@ -418,6 +419,7 @@ export default function AdminCover() {
                       className="label-form"
                       label="Tên Sản Phẩm"
                       name="name"
+                      initialValue={values.name}
                       required
                       rules={[
                         {
@@ -600,13 +602,12 @@ export default function AdminCover() {
                       </Select>
                     </Form.Item>
 
-                    <Form.Item className="label-form" label="Kim Cương Đã Chọn">
-                      <Input
-                        type="text"
-                        className="select-input"
-                        readOnly
-                        value={checkedListUpdate}
-                      />
+                    <Form.Item
+                      className="label-form"
+                      label="Kim Cương Đã Chọn"
+                      initialValue={checkedListUpdate}
+                    >
+                      <Input type="text" className="select-input" readOnly />
                     </Form.Item>
                   </div>
                   <div className="form-content">
