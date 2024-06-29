@@ -1,9 +1,12 @@
+.delivery-toggle {
+  margin-top: 40px !important;
+}
+
 .table-deliver {
   /* margin-top: 20px; */
   padding: 30px;
   background-color: #f8f9fa;
-  /* border-radius: 8px; */
-  /* height: 100%; */
+
 }
 
 .search-bar {

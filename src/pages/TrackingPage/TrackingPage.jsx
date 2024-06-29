@@ -20,32 +20,6 @@ const customDot = (dot, { status, index }) => (
 );
 
 const TrackingPage = () => {
-  const items = [
-    {
-      name: "HOA TAI 18K AFEC0004382DDA1",
-      msp: "AFEC0004382DDA1",
-      quantity: 1,
-      price: 42820000,
-    },
-    {
-      name: "NHẪN ĐÍNH HÔN KIM CƯƠNG ENR3111W",
-      msp: "ENR3111W",
-      quantity: 1,
-      price: 44520000,
-    },
-  ];
-  const voucher = null; // Example: {code: 'DISCOUNT10', discount: 10}
-
-  const calculateTotalPrice = () => {
-    const subtotal = items.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
-    const discount = voucher ? (subtotal * voucher.discount) / 100 : 0;
-    const total = subtotal - discount;
-    return { subtotal, discount, total };
-  };
-
   const { id } = useParams();
   const [orderDetail, setOrderDetail] = useState(null);
 
@@ -61,6 +35,14 @@ const TrackingPage = () => {
     }
     fetchOrderDetail();
   }, []);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
 
   if (!orderDetail) {
     return <></>;
@@ -99,8 +81,8 @@ const TrackingPage = () => {
   return (
     <>
       <Header />
-      <div className="page-container tracking-page">
-        <Container>
+      <div className="tracking-page">
+        <Container className="tracking-container">
           <Row className="Rowall">
             <Col md={8} className="Col8">
               <h4>THÔNG TIN NGƯỜI MUA</h4>
@@ -145,7 +127,6 @@ const TrackingPage = () => {
                 <Form.Label className="form-label"></Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Nhập địa chỉ"
                   value={orderDetail?.address}
                   readOnly
                 />
@@ -175,7 +156,7 @@ const TrackingPage = () => {
                 <Form.Control
                   as="textarea"
                   rows={3}
-                  placeholder="Để lại lời nhắn"
+                  placeholder="Không có lời nhắn"
                   value={orderDetail?.note}
                   readOnly
                 />
@@ -216,7 +197,7 @@ const TrackingPage = () => {
                 <Form.Control type="text" readOnly />
               </Form.Group>
               <p>
-                Phí vận chuyển: <span>50,000đ</span>
+                Phí vận chuyển: <span>Freeship</span>
               </p>
               <h5>
                 Tổng tiền:{" "}
@@ -230,17 +211,19 @@ const TrackingPage = () => {
             <h3>THEO DÕI ĐƠN HÀNG</h3>
             <Card>
               <Card.Body className="order-tracking-content">
-                <p className="order-tracking-id">Mã ID: {orderDetail.id}</p>
+                <span className="order-tracking-id">
+                  Mã ID: {orderDetail.id}
+                </span>
                 <hr />
-                <p className="shipping-info">
-                  Ngày giao hàng dự kiến: {orderDetail.shippingDate}
-                  <span className="separator">
+                <span className="shipping-info">
+                  Ngày đặt hàng: {formatDate(orderDetail.orderDate)}
+                  <span className="tracking-separator">
                     Giao hàng bởi: 5Diamond Express
                   </span>
-                  <span className="separator">
+                  <span className="tracking-separator">
                     Trạng thái: {getStatus(orderDetail.orderStatus)}
                   </span>
-                </p>
+                </span>
                 <hr />
 
                 <h5>Hành trình đơn hàng</h5>

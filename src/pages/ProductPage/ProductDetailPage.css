@@ -2,13 +2,15 @@
   display: flex;
   margin-top: 50px;
 }
-.product-detail-img{
+
+.product-detail-img {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
 }
-.product-title{
+
+.product-title {
   font-weight: bold;
 }
 
@@ -38,56 +40,100 @@
   background-color: #00c2d1;
 }
 
+/*thong tin san pham*/
+
 .header-product-info {
   color: #38a9b8;
   font-weight: bold;
   border-bottom: 2px solid #38a9b8;
   padding-bottom: 10px;
+  padding-top: 30px;
 }
 
 .product-detail-stat {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); 
-  gap: 20px; 
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
 .info-detail {
   display: flex;
   gap: 3px;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
 
 .info-detail p {
-  margin: 0; 
+  margin: 0;
 }
 
 .info-detail p:first-child {
-  margin-top: 0; 
+  margin-top: 0;
   font-weight: bold;
 }
 
 
-.header-relevant-product {
-  font-weight: bold;
-  margin-top: 10px;
-}
+
+
 .relevant-product-list {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .relevant-productcard {
   width: 25%;
 }
-.size-choosing-img{
+
+.size-choosing-img {
   max-width: 100%;
   height: auto;
   display: block;
-  margin: 0 auto; 
+  margin: 0 auto;
 }
-.comment-section{
+
+.comment-section {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
+}
+
+
+
+
+/*san pham tuong tu*/
+
+.header-relevant-product {
+  color: #38a9b8;
+  font-weight: bold;
+  /* border-bottom: 2px solid #38a9b8; */
+  padding-bottom: 10px;
+  padding-top: 30px;
+
+}
+
+.product-card-item {
+  flex: 1 0 20%;
+  /* Ensure the column takes up 20% of the row */
+  margin-bottom: 20px;
+}
+
+.product-card-item .product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.product-card-item img {
+  max-height: 150px;
+  /* Adjust based on your design */
+  object-fit: contain;
+}
+
+.product-card-item .product-card-text {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

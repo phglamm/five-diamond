@@ -10,29 +10,17 @@ import {
   ShoppingOutlined,
 } from "@ant-design/icons";
 import ProductCard from "../../components/productCard/productCard";
+import ProductReview from "../../components/ProductReview/ProductReview"; //(nam)
+
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
 import { useForm } from "antd/es/form/Form";
 
-export default function ProductPage() {
+export default function ProductPage({ token }) {
   const [form] = useForm();
-  const [comment, setComment] = useState([]);
-  function handleClickSubmit() {
-    form.submit();
-  }
-  async function handleSubmit(value) {
-    console.log(value);
-    try {
-      const response = await api.get("comment", value);
-      console.log(response);
-      setComment(response.data);
-      toast.success("Phản hồi của bạn đã được ghi nhận");
-    } catch (error) {
-      toast.error("Có lỗi khi ghi nhận phản hồi của bạn");
-      console.log(error.response.data);
-    }
-  }
+
+
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -41,6 +29,8 @@ export default function ProductPage() {
 
   const [selectedSize, setSelectedSize] = useState(null);
   const { id } = useParams();
+  const [getLatestProductUpdate, setgetLatestProductUpdate] = useState(false);
+
 
   useEffect(() => {
     async function fetchProductLineById() {
@@ -59,7 +49,9 @@ export default function ProductPage() {
     const fetchProduct = async () => {
       try {
         const response = await api.get("product-line");
-        setRelevantproduct(response.data);
+        // setRelevantproduct(response.data);
+        setRelevantproduct(response.data.slice(0, 5)); // Only take the first 5 products
+
       } catch (error) {
         console.log(error.response.data);
       }
@@ -146,10 +138,10 @@ export default function ProductPage() {
                     .toLowerCase()
                     .localeCompare((optionB?.label ?? "").toLowerCase())
                 }
-                // options={product.size.map((size) => ({
-                //   value: size,
-                //   label: size,
-                // }))}
+              // options={product.size.map((size) => ({
+              //   value: size,
+              //   label: size,
+              // }))}
               >
                 {/* {product.map((item) => (
                   <Select.Option key={item.id} value={item.size}>
@@ -287,18 +279,15 @@ export default function ProductPage() {
             <p>{product.color}</p>
           </div>
         </div>
-        <div>
-          <h5 className="header-review">ĐÁNH GIÁ SẢN PHẨM</h5>
-          <div className="comment-section">
-            <Form id="form" form={form} onFinish={handleSubmit}>
-              <Form.Item name="content">
-                <Input placeholder="Đánh giá sản phẩm" type="text" />
-              </Form.Item>
-              <Button onClick={handleClickSubmit}>Gửi</Button>
-            </Form>
-          </div>
-        </div>
-        <h3 className="header-relevant-product">CÁC SẢN PHẨM TƯƠNG TỰ</h3>
+
+        <ProductReview
+          token={token} // Replace null with actual token if available
+          productLineId={id}
+          setgetLatestProductUpdate={setgetLatestProductUpdate}
+        />
+
+
+        <h5 className="header-relevant-product">CÁC SẢN PHẨM TƯƠNG TỰ</h5>
         <Row>
           {firstFiveProducts.map((item, index) => (
             <Col key={index} className="product-card-item">
