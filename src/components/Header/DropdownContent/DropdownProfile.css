@@ -9,7 +9,7 @@
     padding: 10px;
     border-radius: 5px;
     display: none; 
-    transform: translateY(-105px) translateX(-55px);
+    transform: translateY(-90px) translateX(-55px);
   }
   
   .dropdownContainer:hover .dropdownProfile {

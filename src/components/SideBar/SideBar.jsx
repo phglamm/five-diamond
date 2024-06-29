@@ -42,11 +42,11 @@ export default function SideBar() {
           color="info"
           fontSize="large"
         ></StackedLineChartIcon>
-        <Link to={routes.adminstats}>Thống Kê</Link>
+        <Link to="">Thống Kê</Link>
       </li>
       <li>
         <BarChartIcon color="info" fontSize="large"></BarChartIcon>
-        <Link to="">Biểu Đồ</Link>
+        <Link to={routes.adminchart}>Biểu Đồ</Link>
       </li>
       <li>
         <ShoppingCartIcon color="info" fontSize="large"></ShoppingCartIcon>

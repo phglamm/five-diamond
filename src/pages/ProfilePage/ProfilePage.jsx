@@ -49,7 +49,7 @@ function ProfilePage() {
     setVisible(false);
   };
 
-  function handleClickSave(){
+  function handleClickSave() {
     form.submit();
   }
 
@@ -83,8 +83,6 @@ function ProfilePage() {
       <Header />
       <div className="avatar-user">
         <div onClick={handleImageClick} className="img-avt">
-          {console.log(user.gender === "MALE")}
-          {console.log(user.gender)}
           {user.gender === "MALE" ? (
             <img
               id="avt-img"
@@ -171,11 +169,11 @@ function ProfilePage() {
         <div className="info-text">
           <h3>Thông tin cá nhân</h3>
           <div>
-            <p>Họ và tên:{" " + user.firstname + " " + user.lastname}</p>
-            <p>Giới tính:{" " + user.gender}</p>
-            <p>Số điện thoại:{" " + user.phone}</p>
-            <p>Ngày sinh:{" " + formatDate(user.dob)}</p>
-            <p>Địa chỉ:{" " + user.address}</p>
+            <p>Họ và tên:{" "}{user.firstname + " " + user.lastname}</p>
+            <p>Giới tính:{" "}{user.gender === "MALE" ? "Nam" : "Nữ"}</p>
+            <p>Số điện thoại:{" "} {user.phone}</p>
+            <p>Ngày sinh:{" "}{formatDate(user.dob)}</p>
+            <p>Địa chỉ:{" "}{user.address}</p>
           </div>
         </div>
 
@@ -207,7 +205,7 @@ function ProfilePage() {
             style={{ width: '100%' }}
             form={form}
             onFinish={handleUpdateProfile}
-          > 
+          >
             <Form.Item label="Họ" name="lastname" style={{ width: '100%' }} initialValue={user.lastname}>
               <Input
                 placeholder="Họ"
@@ -218,7 +216,7 @@ function ProfilePage() {
                 placeholder="Tên"
               />
             </Form.Item >
-            <Form.Item label="Giới tính" name="gender" initialValue={user.gender}>
+            <Form.Item label="Giới tính" name="gender" initialValue={user.gender === "MALE" ? "Nam" : "Nữ"}>
               <Input
                 placeholder="Giới tính"
               />
@@ -249,7 +247,7 @@ function ProfilePage() {
           <h3>Thông tin tài khoản</h3>
         </div>
         <Link to="">
-          <Button  style={{marginRight:"100px"}}>
+          <Button style={{ marginRight: "100px" }}>
             <LockOutlined />
             Đổi mật khẩu
           </Button>
