@@ -5,7 +5,6 @@ import "./ProfilePage.css";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  fetchUser,
   login,
   selectUser,
   updateUser,
