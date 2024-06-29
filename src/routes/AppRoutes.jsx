@@ -43,7 +43,7 @@ import NecklaceProductPage from "../pages/ProductPage/AllProductPage/NecklacePro
 import PaymentSuccess from "../pages/PaymentSuccessfulPage/PaymentSuccess";
 import OrderConfirmPage from "../pages/OrderConfirmPage/OrderConfirmPage";
 import PiercingProductPage from "../pages/ProductPage/AllProductPage/PiercingProductPage";
-import PaymentFail from "../pages/PaymentFail/PaymentFail";
+import AdminStatistics from "../pages/AdminDashboard/AdminStatistics/AdminStatistics";
 // import Payment from "../pages/Payment/PaymentPage";
 
 export default function AppRoute() {
@@ -81,6 +81,14 @@ export default function AppRoute() {
         element={
           <ProtectedRoute role="ADMIN">
             <AdminDiamond />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routes.adminstats}
+        element={
+          <ProtectedRoute role="ADMIN">
+            <AdminStatistics />
           </ProtectedRoute>
         }
       />

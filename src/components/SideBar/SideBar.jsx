@@ -42,7 +42,7 @@ export default function SideBar() {
           color="info"
           fontSize="large"
         ></StackedLineChartIcon>
-        <Link to="">Thống Kê</Link>
+        <Link to={routes.adminstats}>Thống Kê</Link>
       </li>
       <li>
         <BarChartIcon color="info" fontSize="large"></BarChartIcon>
