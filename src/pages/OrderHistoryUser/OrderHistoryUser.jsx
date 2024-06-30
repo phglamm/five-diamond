@@ -80,6 +80,7 @@ export default function OrderHistoryUser() {
       <Container>
         <h1>Lịch sử đặt hàng của bạn</h1>
         <Table
+          className="order-table"
           dataSource={order}
           columns={columns}
           pagination={{ pageSize: 5 }}
