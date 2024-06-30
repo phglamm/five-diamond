@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { Button, FormGroup, Input, Label } from "reactstrap";
+import { Button, Input } from "reactstrap";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 import api from "../../config/axios";
@@ -9,10 +9,10 @@ import { SendOutlined } from "@ant-design/icons";
 import { selectUser } from "../../redux/features/counterSlice";
 import { useSelector } from "react-redux";
 import { useForm } from "antd/es/form/Form";
-import { Form } from "antd";
-import { formatDistance, subDays } from 'date-fns'
+import { Form, Popconfirm } from "antd";
+import { formatDistanceToNow } from 'date-fns'
 
-const ProductReview = ({ productLineId, setgetLatestProductUpdate }) => {
+const ProductReview = ({ productLineId }) => {
     const [comments, setComments] = useState([])
     const user = useSelector(selectUser);
     const [form] = useForm();
@@ -29,6 +29,7 @@ const ProductReview = ({ productLineId, setgetLatestProductUpdate }) => {
         try {
             await api.post('comment', value)
             fetchComments();
+            form.resetFields();
         } catch (error) {
             toast.error("An error occurred!", {
                 hideProgressBar: true,
@@ -41,6 +42,11 @@ const ProductReview = ({ productLineId, setgetLatestProductUpdate }) => {
         fetchComments();
     }, []);
 
+    const handleDeleteComment = async (id) => {
+        await api.delete(`comment/${id}`)
+        console.log("Xóa thành công");
+        fetchComments();
+    }
     return (
         <div className="product-reviews">
             <h5 className="header-review">ĐÁNH GIÁ SẢN PHẨM</h5>
@@ -51,11 +57,13 @@ const ProductReview = ({ productLineId, setgetLatestProductUpdate }) => {
                 <Form
                     form={form}
                     onFinish={handleSendComment}
+                    className="comment-form"
                 >
                     <Form.Item name="content">
                         <Input
                             type="text"
                             placeholder="Hãy để lại đánh giá cho sản phẩm"
+                            style={{width:'300px', marginTop:'20px'}}
                         />
                     </Form.Item>
                     <Form.Item name="accountId" hidden initialValue={user.id}>
@@ -87,15 +95,38 @@ const ProductReview = ({ productLineId, setgetLatestProductUpdate }) => {
                         <div className="review" key={comment.id}>
                             <div className="customer">
                                 <IoPersonCircleOutline className="icon" />
-                                <span>{comment.account.firstname} {comment.account.lastname} </span>
-                                {/* <div className="review-meta" style={{ marginLeft: '10px' }}>{formatDistance(subDays(new Date(), comment.createAt), new Date(), { addSuffix: true })}</div>   */}
+                                <span style={{ fontSize: '16px' }}>{comment.account.firstname} {comment.account.lastname} </span>
+                                <div className="review-meta" style={{ marginLeft: '10px' }}>{formatDistanceToNow(comment.createAt)}</div>
                             </div>
-                            <p>{comment.content}</p>
+
+                            <div className="comment-content" style={{ marginLeft: '42px' }}>
+                                <p style={{ fontSize: '16px' }}>{comment.content}</p>
+                                {
+                                    (comment.account.id === user.id)
+                                    &&
+
+                                    <Popconfirm
+                                        title="Xóa bình luận"
+                                        description="Bạn có muốn xóa bình luận không?"
+                                        onConfirm={() => handleDeleteComment(comment.id)}
+                                        okText="Có"
+                                        cancelText="Không"
+                                    >
+                                        <p
+                                            className="delete-comment-button"
+                                            style={{ fontSize: '14px', color: 'red', width:'28px'}}
+                                        >
+                                            Xóa
+                                        </p>
+                                    </Popconfirm>
+                                }
+                            </div>
                         </div>
                     ))}
                 </div>
-            ) : <p>Chưa có bình luận về sản phẩm</p>}
-        </div>
+            ) : <p>Chưa có bình luận về sản phẩm</p>
+            }
+        </div >
     );
 };
 

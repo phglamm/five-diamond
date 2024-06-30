@@ -37,7 +37,7 @@ export default function ProductPage({ token }) {
 
   const [selectedSize, setSelectedSize] = useState(null);
   const { id } = useParams();
-  const [getLatestProductUpdate, setgetLatestProductUpdate] = useState(false);
+
 
 
   useEffect(() => {
@@ -66,7 +66,7 @@ export default function ProductPage({ token }) {
     };
     fetchProduct();
   }, []);
-  
+
 
   const firstFiveProducts = relevantproduct.slice(0, 5);
 
@@ -76,7 +76,7 @@ export default function ProductPage({ token }) {
         <Header />
         <Container>
           <p style={{ fontSize: '2rem' }}>Sản phẩm không tồn tại</p>
-          <Button onClick={() =>{navigate("/")}}>Quay về trang chủ</Button>
+          <Button onClick={() => { navigate("/") }}>Quay về trang chủ</Button>
         </Container>
         <Footer />
       </div>
@@ -299,10 +299,7 @@ export default function ProductPage({ token }) {
           </div>
         </div>
 
-        <ProductReview
-          productLineId={id}
-          setgetLatestProductUpdate={setgetLatestProductUpdate}
-        />
+        <ProductReview productLineId={id} />
 
 
         <h5 className="header-relevant-product">CÁC SẢN PHẨM TƯƠNG TỰ</h5>
