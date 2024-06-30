@@ -1,5 +1,5 @@
-importReact, { useState, useEffect } from "react";
-import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+import { useState, useEffect } from "react";
+import { Button, Input } from "reactstrap";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 import "./ProductReview.css";
