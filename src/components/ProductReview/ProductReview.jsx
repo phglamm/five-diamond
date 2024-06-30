@@ -1,8 +1,11 @@
 
 import React, { useState, useEffect } from "react";
-import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input, Label } from "reactstrap";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+
 import api from "../../config/axios";
 import './ProductReview.css'
 
@@ -11,10 +14,22 @@ const ProductReview = ({ token, productLineId, setgetLatestProductUpdate }) => {
     const [updateReviews, setUpdateReviews] = useState(false);
     const [isReviewAdded, setIsReviewAdded] = useState(false);
     const [review, setReview] = useState({});
+    const [dropdownOpen, setDropdownOpen] = useState({});
 
 
     const handleReviewText = ({ target: { value } }) => {
         setReview(value);
+    };
+
+    const toggleDropdown = (index) => {
+        setDropdownOpen((prevState) => ({
+            ...prevState,
+            [index]: !prevState[index],
+        }));
+    };
+
+    const handleDelete = (index) => {
+        setReviews(reviews.filter((_, i) => i !== index));
     };
 
     // Mock data for reviews
@@ -129,11 +144,21 @@ const ProductReview = ({ token, productLineId, setgetLatestProductUpdate }) => {
 
             {reviews.length ? (
                 <div className="reviews">
-                    {reviews.map(({ text, username, createdAt }) => (
+                    {reviews.map(({ text, username, createdAt }, index) => (
                         <div className="review" key={createdAt}>
                             <div className="customer">
-                                <IoPersonCircleOutline className="icon" />
-                                <span>{username}</span>
+                                <div className="customer-info">
+                                    <IoPersonCircleOutline className="icon" />
+                                    <span>{username}</span>
+                                </div>
+                                <Dropdown className="review-dropdown" isOpen={dropdownOpen[index]} toggle={() => toggleDropdown(index)}>
+                                    <DropdownToggle className="review-dropdown-toggle">
+                                        <FontAwesomeIcon icon={faEllipsisV} />
+                                    </DropdownToggle>
+                                    <DropdownMenu>
+                                        <DropdownItem onClick={() => handleDelete(index)}>Delete</DropdownItem>
+                                    </DropdownMenu>
+                                </Dropdown>
                             </div>
                             <div className="review-meta">Reviewed at: {new Date(createdAt).toLocaleDateString()}</div>
                             <p>{text}</p>
