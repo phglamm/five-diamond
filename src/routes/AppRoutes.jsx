@@ -86,7 +86,7 @@ export default function AppRoute() {
         }
       />
       <Route
-        path={routes.adminstats}
+        path={routes.adminchart}
         element={
           <ProtectedRoute role="ADMIN">
             <AdminStatistics />

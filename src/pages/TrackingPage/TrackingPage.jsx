@@ -20,8 +20,6 @@ const customDot = (dot, { status, index }) => (
 );
 
 const TrackingPage = () => {
-
-
   const { id } = useParams();
   const [orderDetail, setOrderDetail] = useState(null);
 
@@ -40,8 +38,8 @@ const TrackingPage = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
   };
@@ -166,6 +164,25 @@ const TrackingPage = () => {
             </Col>
             <Col md={4}>
               <h4>THÔNG TIN ĐƠN HÀNG</h4>
+              {orderDetail.orderItems.map((orderItem) => {
+                const productLine = orderItem.product.productLine;
+                return (
+                  <div key={productLine?.id} className="order-item">
+                    <img
+                      src={productLine?.imgURL}
+                      alt="Product Image"
+                      className="checkout-image"
+                    />
+                    <div className="order-item-details">
+                      <h6>{productLine?.name}</h6>
+                      <p>Mã SP: {productLine?.id}</p>
+                      <p>Số lượng: {productLine?.quantity}</p>
+                      <p>Giá: {orderItem.price.toLocaleString()} VNĐ</p>
+                    </div>
+                  </div>
+                );
+              })}
+
               <h5>
                 Tạm tính:{" "}
                 <span style={{ color: "red" }}>
@@ -191,7 +208,9 @@ const TrackingPage = () => {
             <h3>THEO DÕI ĐƠN HÀNG</h3>
             <Card>
               <Card.Body className="order-tracking-content">
-                <span className="order-tracking-id">Mã ID: {orderDetail.id}</span>
+                <span className="order-tracking-id">
+                  Mã ID: {orderDetail.id}
+                </span>
                 <hr />
                 <span className="shipping-info">
                   Ngày đặt hàng: {formatDate(orderDetail.orderDate)}

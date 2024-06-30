@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import { useNavigate, useLocation, Navigate, redirect } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./CheckOut.css";
 import { routes } from "../../routes";
 import api from "../../config/axios";
@@ -139,6 +139,7 @@ export default function CheckOut() {
         const response = await api.post("wallet/vnpay", {
           amount: amount,
         });
+        console.log(data);
         console.log(response.data);
         toast.success("Đặt Hàng Thành Công");
         window.location.assign(response.data);

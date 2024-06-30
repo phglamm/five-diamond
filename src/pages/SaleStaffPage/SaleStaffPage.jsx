@@ -21,7 +21,7 @@ function SaleStaffPage() {
       try {
         const response = await api.get(`order/all`);
         // Filter orders to only include PENDING, CONFIRMED, PROCESSING
-        const filteredOrders = response.data.filter(order =>
+        const filteredOrders = response.data.filter((order) =>
           ["PENDING", "CONFIRMED", "PROCESSING"].includes(order.orderStatus)
         );
         setOrder(filteredOrders);
@@ -35,7 +35,9 @@ function SaleStaffPage() {
 
   const handleUpdate = async (orderId, newStatus) => {
     try {
-      const response = await api.put(`/order/${orderId}`, { orderStatus: newStatus });
+      const response = await api.put(`/order/${orderId}`, {
+        orderStatus: newStatus,
+      });
       console.log(response.data);
       toast.success("Cập nhật thành công");
       setOrder((prevOrders) =>
@@ -60,19 +62,25 @@ function SaleStaffPage() {
     handleUpdate(orderId, newStatus);
   };
 
-  const filteredOrders = order.filter((ord) => {
-    const matchesStatus = filterStatus === null || ord.orderStatus === filterStatus;
-    const matchesSearchTerm = ord.id.toString().toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesStatus && matchesSearchTerm;
-  }).sort((a, b) => {
-    const nameA = a.id.toString();
-    const nameB = b.id.toString();
-    if (sortOrder === "asc") {
-      return nameA.localeCompare(nameB);
-    } else {
-      return nameB.localeCompare(nameA);
-    }
-  });
+  const filteredOrders = order
+    .filter((ord) => {
+      const matchesStatus =
+        filterStatus === null || ord.orderStatus === filterStatus;
+      const matchesSearchTerm = ord.id
+        .toString()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      return matchesStatus && matchesSearchTerm;
+    })
+    .sort((a, b) => {
+      const nameA = a.id.toString();
+      const nameB = b.id.toString();
+      if (sortOrder === "asc") {
+        return nameA.localeCompare(nameB);
+      } else {
+        return nameB.localeCompare(nameA);
+      }
+    });
 
   const handleFilterChange = (status) => {
     setFilterStatus(status);

@@ -9,7 +9,7 @@ import {
   selectUser,
   updateUser,
 } from "../../redux/features/counterSlice";
-import { Modal, Button, Input, DatePicker, Form } from "antd";
+import { Modal, Button, Input, DatePicker, Form, Select } from "antd";
 import api from "../../config/axios";
 import dayjs from "dayjs";
 import { EditOutlined, LockOutlined } from "@ant-design/icons";
@@ -83,8 +83,6 @@ function ProfilePage() {
       <Header />
       <div className="avatar-user">
         <div onClick={handleImageClick} className="img-avt">
-          {console.log(user.gender === "MALE")}
-          {console.log(user.gender)}
           {user.gender === "MALE" ? (
             <img
               id="avt-img"
@@ -171,11 +169,18 @@ function ProfilePage() {
         <div className="info-text">
           <h3>Thông tin cá nhân</h3>
           <div>
-            <p>Họ và tên:{" " + user.firstname + " " + user.lastname}</p>
-            <p>Giới tính:{" " + user.gender}</p>
-            <p>Số điện thoại:{" " + user.phone}</p>
-            <p>Ngày sinh:{" " + formatDate(user.dob)}</p>
-            <p>Địa chỉ:{" " + user.address}</p>
+            <p>Họ và tên: {user.firstname + " " + user.lastname}</p>
+            <p>
+              Giới tính:{" "}
+              {user.gender === "MALE"
+                ? "Nam"
+                : user.gender === "FEMALE"
+                ? "Nữ"
+                : "Khác"}
+            </p>
+            <p>Số điện thoại: {user.phone}</p>
+            <p>Ngày sinh: {formatDate(user.dob)}</p>
+            <p>Địa chỉ: {user.address}</p>
           </div>
         </div>
 
@@ -215,6 +220,25 @@ function ProfilePage() {
               initialValue={user.lastname}
             >
               <Input placeholder="Họ" />
+            </Form.Item>
+            <Form.Item
+              label="Tên"
+              name="firstname"
+              style={{ width: "100%" }}
+              initialValue={user.firstname}
+            >
+              <Input placeholder="Tên" />
+            </Form.Item>
+            <Form.Item
+              label="Giới tính"
+              name="gender"
+              initialValue={user.gender}
+            >
+              <Select placeholder="Chọn Giới Tính của bạn">
+                <Select.Option value="MALE">Nam</Select.Option>
+                <Select.Option value="FEMALE">Nữ</Select.Option>
+                <Select.Option value="OTHER">khác</Select.Option>
+              </Select>
             </Form.Item>
             <Form.Item
               label="Tên"

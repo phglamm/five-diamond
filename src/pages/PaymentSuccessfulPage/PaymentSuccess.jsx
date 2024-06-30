@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { selectOrder } from "../../redux/features/orderSlice";
 import { routes } from "../../routes";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const PaymentSuccess = () => {
   const orderId = "833883794";
@@ -16,11 +16,13 @@ const PaymentSuccess = () => {
   const params = useGetParams();
   const status = params("vnp_TransactionStatus");
   console.log(status);
+  const [orderfull, setOrderfull] = useState(null);
   async function handleSubmitOrder() {
     if (status === "00") {
       try {
         const response = await api.post("order", orderPost);
         console.log(response.data);
+        setOrderfull(response.data);
         navigate(routes.successpayment);
       } catch (error) {
         console.log(error.response.data);
