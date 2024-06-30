@@ -1,92 +1,34 @@
 
 import React, { useState, useEffect } from "react";
-import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+import { Button, FormGroup, Input, Label } from "reactstrap";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 import api from "../../config/axios";
 import './ProductReview.css'
+import { SendOutlined } from "@ant-design/icons";
+import { selectUser } from "../../redux/features/counterSlice";
+import { useSelector } from "react-redux";
+import { useForm } from "antd/es/form/Form";
+import { Form } from "antd";
+import { formatDistance, subDays } from 'date-fns'
 
-const ProductReview = ({ token, productLineId, setgetLatestProductUpdate }) => {
-    const [reviews, setReviews] = useState([]);
-    const [updateReviews, setUpdateReviews] = useState(false);
-    const [isReviewAdded, setIsReviewAdded] = useState(false);
-    const [review, setReview] = useState({});
+const ProductReview = ({ productLineId, setgetLatestProductUpdate }) => {
+    const [comments, setComments] = useState([])
+    const user = useSelector(selectUser);
+    const [form] = useForm();
 
 
-    const handleReviewText = ({ target: { value } }) => {
-        setReview(value);
-    };
+    async function fetchComments() {
+        const response = await api.get(`comment/${productLineId}`)
+        console.log(response.data);
+        setComments(response.data);
+    }
 
-    // Mock data for reviews
-    const mockReviews = [
-        {
-            text: "Great product!",
-            username: "Alice",
-            createdAt: "2023-06-01T12:00:00Z",
-        },
-        {
-            text: "Highly recommend!",
-            username: "Bob",
-            createdAt: "2023-06-02T15:30:00Z",
-        },
-        {
-            text: "Not bad, could be better.",
-            username: "Charlie",
-            createdAt: "2023-06-03T18:45:00Z",
-        },
-    ];
-
-    useEffect(() => {
-        const getReviews = async () => {
-            try {
-                // const headerConfig = token
-                //     ? {
-                //         headers: {
-                //             Authorization: `Bearer ${token}`,
-                //         },
-                //     }
-                //     : {};
-                // const { data: { data, hasReviewAdded } = [] } = await api.get(`comment`, headerConfig);
-
-                // setReviews(data.reverse());
-                setReviews(mockReviews.reverse());
-                // setIsReviewAdded(hasReviewAdded);
-                setIsReviewAdded(false); // Assuming no review is added initially
-                setUpdateReviews(false);
-                setgetLatestProductUpdate(true);
-                setReview("");
-            } catch (error) {
-                console.log({ error });
-            }
-        };
-        getReviews();
-    }, [productLineId, setgetLatestProductUpdate, token, updateReviews]);
-
-    const handleSubmit = async () => {
-        if (!review.text) {
-            toast.error("Please provide your review text", {
-                hideProgressBar: true,
-            });
-            return;
-        }
+    const handleSendComment = async (value) => {
+        console.log(value);
         try {
-            // await api.post(`comment`, { ...review, productLineId, },
-            //     {
-            //         headers: {
-            //             Authorization: `Bearer ${token}`,
-            //         },
-            //     }
-            // );
-
-            // Mock adding a review
-            const newReview = {
-                text: review.text,
-                username: "Current User", // Replace with actual username if available
-                createdAt: new Date().toISOString(),
-            };
-
-            setReviews([newReview, ...reviews]);
-            setUpdateReviews(true);
+            await api.post('comment', value)
+            fetchComments();
         } catch (error) {
             toast.error("An error occurred!", {
                 hideProgressBar: true,
@@ -95,52 +37,64 @@ const ProductReview = ({ token, productLineId, setgetLatestProductUpdate }) => {
         }
     };
 
+    useEffect(() => {
+        fetchComments();
+    }, []);
 
     return (
         <div className="product-reviews">
             <h5 className="header-review">ĐÁNH GIÁ SẢN PHẨM</h5>
-
-            {/* {isReviewAdded || !token ? null : ( */}
-            {!isReviewAdded && (
-                <div className="comment-section">
-                    <div className="user-icon">
-                        <IoPersonCircleOutline />
-                    </div>
-                    <Input
-                        type="text"
-                        placeholder="Hãy để lại đánh giá cho sản phẩm"
-                        value={review}
-                        onChange={handleReviewText}
-                    />
+            <div className="comment-section">
+                <div className="user-icon">
+                    <IoPersonCircleOutline />
+                </div>
+                <Form
+                    form={form}
+                    onFinish={handleSendComment}
+                >
+                    <Form.Item name="content">
+                        <Input
+                            type="text"
+                            placeholder="Hãy để lại đánh giá cho sản phẩm"
+                        />
+                    </Form.Item>
+                    <Form.Item name="accountId" hidden initialValue={user.id}>
+                        <Input
+                            type="text"
+                        />
+                    </Form.Item>
+                    <Form.Item name="productLineId" hidden initialValue={productLineId}>
+                        <Input
+                            type="text"
+                            placeholder="Hãy để lại đánh giá cho sản phẩm"
+                        />
+                    </Form.Item>
                     <div className="buttons">
-                        <Button className="cancel" onClick={() => setReview("")}>
-                            Cancel
-                        </Button>
                         <Button
                             className="submit"
-                            onClick={handleSubmit}
-                            disabled={!review}
+                            onClick={() => { form.submit() }}
+                            style={{ backgroundColor: 'lightblue' }}
                         >
-                            Comment
+                            <SendOutlined style={{ marginRight: '5px' }} />
+                            Gửi
                         </Button>
                     </div>
-                </div>
-            )}
-
-            {reviews.length ? (
+                </Form>
+            </div>
+            {comments.length ? (
                 <div className="reviews">
-                    {reviews.map(({ text, username, createdAt }) => (
-                        <div className="review" key={createdAt}>
+                    {comments.map((comment) => (
+                        <div className="review" key={comment.id}>
                             <div className="customer">
                                 <IoPersonCircleOutline className="icon" />
-                                <span>{username}</span>
+                                <span>{comment.account.firstname} {comment.account.lastname} </span>
+                                {/* <div className="review-meta" style={{ marginLeft: '10px' }}>{formatDistance(subDays(new Date(), comment.createAt), new Date(), { addSuffix: true })}</div>   */}
                             </div>
-                            <div className="review-meta">Reviewed at: {new Date(createdAt).toLocaleDateString()}</div>
-                            <p>{text}</p>
+                            <p>{comment.content}</p>
                         </div>
                     ))}
                 </div>
-            ) : null}
+            ) : <p>Chưa có bình luận về sản phẩm</p>}
         </div>
     );
 };

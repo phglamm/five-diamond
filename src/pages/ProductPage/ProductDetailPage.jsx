@@ -17,6 +17,12 @@ import api from "../../config/axios";
 import { toast } from "react-toastify";
 import { useForm } from "antd/es/form/Form";
 import { routes } from "../../routes";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  login,
+  selectUser,
+  updateUser,
+} from "../../redux/features/counterSlice";
 
 export default function ProductPage({ token }) {
   const [form] = useForm();
@@ -27,6 +33,7 @@ export default function ProductPage({ token }) {
 
   const [product, setProduct] = useState();
   const [relevantproduct, setRelevantproduct] = useState([]);
+  const user = useSelector(selectUser);
 
   const [selectedSize, setSelectedSize] = useState(null);
   const { id } = useParams();
@@ -59,6 +66,7 @@ export default function ProductPage({ token }) {
     };
     fetchProduct();
   }, []);
+  
 
   const firstFiveProducts = relevantproduct.slice(0, 5);
 
@@ -292,7 +300,6 @@ export default function ProductPage({ token }) {
         </div>
 
         <ProductReview
-          token={token} // Replace null with actual token if available
           productLineId={id}
           setgetLatestProductUpdate={setgetLatestProductUpdate}
         />

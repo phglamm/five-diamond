@@ -96,7 +96,7 @@ export default function Header() {
             onMouseOver={handleMouseOverProfile}
             onMouseLeave={handleMouseLeaveProfile}
           >
-            <span className="pi pi-user" style={{ fontSize: "1.5rem" }}></span>
+            <span className="pi pi-user" style={{ fontSize: "1.5rem", paddingRight:'10px' }}></span>
             {user.firstname} {user.lastname}
             {isProfileDropdownOpen && (
               <div className="dropdownWrapper">
