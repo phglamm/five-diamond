@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+importReact, { useState, useEffect } from "react";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
-import api from "../../config/axios";
 import "./ProductReview.css";
 
 const ProductReview = ({ token, productLineId, setgetLatestProductUpdate }) => {
