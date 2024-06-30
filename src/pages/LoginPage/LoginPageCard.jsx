@@ -18,13 +18,11 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../../config/firebase";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
-import ProductReview from "../../components/ProductReview/ProductReview"; //(nam)
 
 
 function LoginPageCard() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState(""); // State to store token (nam)
 
 
   const dispatch = useDispatch();
@@ -42,7 +40,6 @@ function LoginPageCard() {
         console.log(userApi);
         console.log(userApi.data);
         localStorage.setItem("token", userApi.data.token);
-        setToken(userApi.data.token); // Store token in state (nam)
 
 
         if (userApi.data.role === "CUSTOMER") {
@@ -75,7 +72,6 @@ function LoginPageCard() {
         // IdP data available using getAdditionalUserInfo(result)
         // ...
         localStorage.setItem("token", response.data.token);
-        setToken(response.data.token); // Store token in state (nam)
 
 
         if (response.data.role === "CUSTOMER") {
@@ -91,6 +87,13 @@ function LoginPageCard() {
         console.log(error);
       });
   };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleClickSubmit();
+    }
+  };
+
 
   return (
     <div className="background-login">
@@ -158,6 +161,8 @@ function LoginPageCard() {
                         type="email"
                         required
                         onChange={(e) => setEmail(e.target.value)}
+                        onKeyDown={handleKeyDown} // Added onKeyDown event
+
                       />
                     </Form.Item>
                     <Form.Item
@@ -184,6 +189,8 @@ function LoginPageCard() {
                         type="password"
                         required
                         onChange={(e) => setPassword(e.target.value)}
+                        onKeyDown={handleKeyDown} // Added onKeyDown event
+
                       />
                     </Form.Item>
                     <Button onClick={handleClickSubmit} className="form-button">
@@ -237,8 +244,6 @@ function LoginPageCard() {
             </MDBCol>
           </MDBRow>
         </MDBCard>
-        {/* <ProductReview token={token} /> Pass the token as a prop (nam) */}
-
       </MDBContainer>
     </div>
   );

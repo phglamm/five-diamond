@@ -90,7 +90,9 @@ function SaleStaffPage() {
     <div>
       <Header />
       <Container>
-        <div className="filter-buttons">
+        <h3 className="sale-staff-title">Nhân viên sale</h3>
+
+        <div className="sale-staff-filter-buttons">
           <Button
             type={filterStatus === null ? "primary" : ""}
             onClick={() => handleFilterChange(null)}
@@ -116,7 +118,7 @@ function SaleStaffPage() {
             Đang chuẩn bị hàng
           </Button>
         </div>
-        <div className="search-bar">
+        <div className="sales-search-bar">
           <Input
             placeholder="Tìm kiếm mã đơn hàng"
             value={searchTerm}
