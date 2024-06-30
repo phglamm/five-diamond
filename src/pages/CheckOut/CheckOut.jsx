@@ -212,90 +212,27 @@ export default function CheckOut() {
                 </Col>
               </Form.Group>
 
-              <h4>PHƯƠNG THỨC NHẬN HÀNG</h4>
-              <Row>
-                <Col md={4}>
-                  <Form.Group controlId="formProvince">
-                    <Form.Control
-                      as="select"
-                      value={selectedProvince.id}
-                      onChange={handleProvinceChange}
-                      name="province"
-                    >
-                      <option value="">Chọn Tỉnh/TP</option>
-                      {provinces.map((province) => (
-                        <option
-                          key={province.province_id}
-                          value={province.province_id}
-                        >
-                          {province.province_name}
-                        </option>
-                      ))}
-                    </Form.Control>
-                    <Form.Control.Feedback type="invalid">
-                      {errors.province}
-                    </Form.Control.Feedback>
-                  </Form.Group>
+              <Form.Group
+                as={Row}
+                controlId="formAddress"
+                className="align-items-center"
+              >
+                <Form.Label column md={2} className="form-label">
+                  Địa Chỉ:
+                </Form.Label>
+                <Col md={10}>
+                  <Form.Control
+                    name="address"
+                    type="text"
+                    placeholder="Nhập địa chỉ"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                  {errors.address && (
+                    <div className="text-danger">{errors.address}</div>
+                  )}
                 </Col>
-                <Col md={4}>
-                  <Form.Group controlId="formDistrict">
-                    <Form.Control
-                      as="select"
-                      value={selectedDistrict.id}
-                      onChange={handleDistrictChange}
-                      disabled={!selectedProvince.id}
-                      name="district"
-                    >
-                      <option value="">Chọn Quận/Huyện</option>
-                      {districts.map((district) => (
-                        <option
-                          key={district.district_id}
-                          value={district.district_id}
-                        >
-                          {district.district_name}
-                        </option>
-                      ))}
-                    </Form.Control>
-                    <Form.Control.Feedback type="invalid">
-                      {errors.district}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="formWard">
-                    <Form.Control
-                      as="select"
-                      value={selectedWard.id}
-                      onChange={handleWardChange}
-                      disabled={!selectedDistrict.id}
-                      name="ward"
-                    >
-                      <option value="">Chọn Xã/Phường</option>
-                      {wards.map((ward) => (
-                        <option key={ward.ward_id} value={ward.ward_id}>
-                          {ward.ward_name}
-                        </option>
-                      ))}
-                    </Form.Control>
-                    <Form.Control.Feedback type="invalid">
-                      {errors.ward}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-              </Row>
 
-              <Form.Group controlId="formAddress">
-                <Form.Label className="form-label"></Form.Label>
-                <Form.Control
-                  name="address"
-                  type="text"
-                  placeholder="Nhập địa chỉ"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                />
-                {errors.address && (
-                  <div className="text-danger">{errors.address}</div>
-                )}
               </Form.Group>
 
               <h4>HÌNH THỨC THANH TOÁN</h4>
