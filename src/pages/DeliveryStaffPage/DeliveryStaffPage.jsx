@@ -266,22 +266,23 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import { Button, Container } from "react-bootstrap";
-import { Table, Input } from "antd";
+import { Container } from "react-bootstrap";
+import { Table, Input, Button } from "antd";
 import api from "../../config/axios";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import moment from "moment"; // Import moment for date formatting
+
 
 function DeliveryStaffPage() {
-  const [filterStatus, setFilterStatus] = useState(null); // null means no filter
-  const [searchTerm, setSearchTerm] = useState(""); // State for search term
+  const [filterStatus, setFilterStatus] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const [order, setOrder] = useState([]);
 
   useEffect(() => {
     async function fetchOrder() {
       try {
         const response = await api.get(`order/all`);
-        // Filter orders to only include PROCESSING, SHIPPED, DELIVERED
         const filteredOrders = response.data.filter(order =>
           ["PROCESSING", "SHIPPED", "DELIVERED"].includes(order.orderStatus)
         );
@@ -299,9 +300,8 @@ function DeliveryStaffPage() {
       const response = await api.put(`/order/${orderId}`, { orderStatus: newStatus });
       console.log(response.data);
       toast.success("Cập nhật thành công");
-      // Update the local order state to reflect the changes
-      setOrder((prevOrders) =>
-        prevOrders.map((order) =>
+      setOrder(prevOrders =>
+        prevOrders.map(order =>
           order.id === orderId ? { ...order, orderStatus: newStatus } : order
         )
       );
@@ -313,7 +313,6 @@ function DeliveryStaffPage() {
 
   const handleEdit = (orderId, currentStatus) => {
     let newStatus = currentStatus;
-    // Logic to determine the next status
     if (currentStatus === "PROCESSING") {
       newStatus = "SHIPPED";
     } else if (currentStatus === "SHIPPED") {
@@ -322,14 +321,13 @@ function DeliveryStaffPage() {
     handleUpdate(orderId, newStatus);
   };
 
-  const filteredOrders = order.filter((ord) => {
-    if (filterStatus === null) {
-      return true;
-    }
-    return ord.orderStatus === filterStatus;
+  const filteredOrders = order.filter(ord => {
+    const matchesStatus = filterStatus === null || ord.orderStatus === filterStatus;
+    const matchesSearchTerm = ord.id.toString().includes(searchTerm.toLowerCase());
+    return matchesStatus && matchesSearchTerm;
   });
 
-  const handleFilterChange = (status) => {
+  const handleFilterChange = status => {
     setFilterStatus(status);
   };
 
@@ -339,25 +337,25 @@ function DeliveryStaffPage() {
       <Container>
         <div className="filter-buttons">
           <Button
-            variant={filterStatus === null ? "primary" : "outline-primary"}
+            type={filterStatus === null ? "primary" : ""}
             onClick={() => handleFilterChange(null)}
           >
             Tất cả
           </Button>
           <Button
-            variant={filterStatus === "PROCESSING" ? "primary" : "outline-primary"}
+            type={filterStatus === "PROCESSING" ? "primary" : ""}
             onClick={() => handleFilterChange("PROCESSING")}
           >
             Đang chuẩn bị hàng
           </Button>
           <Button
-            variant={filterStatus === "SHIPPED" ? "primary" : "outline-primary"}
+            type={filterStatus === "SHIPPED" ? "primary" : ""}
             onClick={() => handleFilterChange("SHIPPED")}
           >
             Đang vận chuyển
           </Button>
           <Button
-            variant={filterStatus === "DELIVERED" ? "primary" : "outline-primary"}
+            type={filterStatus === "DELIVERED" ? "primary" : ""}
             onClick={() => handleFilterChange("DELIVERED")}
           >
             Đã giao hàng
@@ -367,7 +365,7 @@ function DeliveryStaffPage() {
           <Input
             placeholder="Tìm kiếm mã đơn hàng"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
           />
         </div>
         <Table
@@ -383,6 +381,12 @@ function DeliveryStaffPage() {
               title: "Người nhận",
               dataIndex: "fullname",
               key: "fullname",
+            },
+            {
+              title: "Ngày đặt hàng",
+              dataIndex: "orderDate",
+              key: "orderDate",
+              render: (text) => moment(text).format("DD-MM-YYYY"), // Format date
             },
             {
               title: "Số điện thoại",

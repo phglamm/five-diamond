@@ -237,7 +237,7 @@ function LoginPageCard() {
             </MDBCol>
           </MDBRow>
         </MDBCard>
-        <ProductReview token={token} /> {/* Pass the token as a prop (nam) */}
+        {/* <ProductReview token={token} /> Pass the token as a prop (nam) */}
 
       </MDBContainer>
     </div>
