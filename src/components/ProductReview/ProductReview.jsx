@@ -1,145 +1,140 @@
-import { useState, useEffect } from "react";
+
+import React, { useState, useEffect } from "react";
 import { Button, Input } from "reactstrap";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
-import "./ProductReview.css";
+import api from "../../config/axios";
+import './ProductReview.css'
+import { SendOutlined } from "@ant-design/icons";
+import { selectUser } from "../../redux/features/counterSlice";
+import { useSelector } from "react-redux";
+import { useForm } from "antd/es/form/Form";
+import { Form, Popconfirm } from "antd";
+import { formatDistanceToNow } from 'date-fns'
 
-const ProductReview = ({ token, productLineId, setgetLatestProductUpdate }) => {
-  const [reviews, setReviews] = useState([]);
-  const [updateReviews, setUpdateReviews] = useState(false);
-  const [isReviewAdded, setIsReviewAdded] = useState(false);
-  const [review, setReview] = useState({});
+const ProductReview = ({ productLineId }) => {
+  const [comments, setComments] = useState([]);
+  const [inputValue, setInputValue] = useState(""); // **Added state to manage input value**
+  const user = useSelector(selectUser);
+  const [form] = useForm();
 
-  const handleReviewText = ({ target: { value } }) => {
-    setReview(value);
+  const handleInputChange = ({ target: { value } }) => { // **Updated input change handler**
+    setInputValue(value);
   };
 
-  // Mock data for reviews
-  const mockReviews = [
-    {
-      text: "Great product!",
-      username: "Alice",
-      createdAt: "2023-06-01T12:00:00Z",
-    },
-    {
-      text: "Highly recommend!",
-      username: "Bob",
-      createdAt: "2023-06-02T15:30:00Z",
-    },
-    {
-      text: "Not bad, could be better.",
-      username: "Charlie",
-      createdAt: "2023-06-03T18:45:00Z",
-    },
-  ];
+  async function fetchComments() {
+    const response = await api.get(`comment/${productLineId}`)
+    console.log(response.data);
+    setComments(response.data);
+  }
 
-  useEffect(() => {
-    const getReviews = async () => {
-      try {
-        // const headerConfig = token
-        //     ? {
-        //         headers: {
-        //             Authorization: `Bearer ${token}`,
-        //         },
-        //     }
-        //     : {};
-        // const { data: { data, hasReviewAdded } = [] } = await api.get(`comment`, headerConfig);
-
-        // setReviews(data.reverse());
-        setReviews(mockReviews.reverse());
-        // setIsReviewAdded(hasReviewAdded);
-        setIsReviewAdded(false); // Assuming no review is added initially
-        setUpdateReviews(false);
-        setgetLatestProductUpdate(true);
-        setReview("");
-      } catch (error) {
-        console.log({ error });
-      }
-    };
-    getReviews();
-  }, [productLineId, setgetLatestProductUpdate, token, updateReviews]);
-
-  const handleSubmit = async () => {
-    if (!review.text) {
-      toast.error("Please provide your review text", {
-        hideProgressBar: true,
-      });
-      return;
-    }
+  const handleSendComment = async (value) => {
+    console.log(value);
     try {
-      // await api.post(`comment`, { ...review, productLineId, },
-      //     {
-      //         headers: {
-      //             Authorization: `Bearer ${token}`,
-      //         },
-      //     }
-      // );
-
-      // Mock adding a review
-      const newReview = {
-        text: review.text,
-        username: "Current User", // Replace with actual username if available
-        createdAt: new Date().toISOString(),
-      };
-
-      setReviews([newReview, ...reviews]);
-      setUpdateReviews(true);
+      await api.post('comment', value)
+      fetchComments();
+      form.resetFields();
+      setInputValue(""); // **Reset input value after submission**
     } catch (error) {
-      toast.error("An error occurred!", {
+      toast.error("Gửi đánh giá không thành công!", {
         hideProgressBar: true,
       });
       console.log({ error });
     }
   };
 
+  useEffect(() => {
+    fetchComments();
+  }, []);
+
+  const handleDeleteComment = async (id) => {
+    await api.delete(`comment/${id}`)
+    console.log("Xóa thành công");
+    fetchComments();
+  }
   return (
     <div className="product-reviews">
       <h5 className="header-review">ĐÁNH GIÁ SẢN PHẨM</h5>
-
-      {/* {isReviewAdded || !token ? null : ( */}
-      {!isReviewAdded && (
-        <div className="comment-section">
-          <div className="user-icon">
-            <IoPersonCircleOutline />
-          </div>
-          <Input
-            type="text"
-            placeholder="Hãy để lại đánh giá cho sản phẩm"
-            value={review}
-            onChange={handleReviewText}
-          />
-          <div className="buttons">
-            <Button className="cancel" onClick={() => setReview("")}>
-              Cancel
-            </Button>
-            <Button
-              className="submit"
-              onClick={handleSubmit}
-              disabled={!review}
-            >
-              Comment
-            </Button>
-          </div>
+      <div className="comment-section">
+        <div className="user-icon">
+          <IoPersonCircleOutline />
         </div>
-      )}
+        <Form
+          form={form}
+          onFinish={handleSendComment}
+          className="comment-form"
+        >
+          <Form.Item name="content">
+            <Input
+              type="text"
+              placeholder="Hãy để lại đánh giá cho sản phẩm"
+              style={{ width: '400px', marginTop: '25px' }}
+              onChange={handleInputChange} // **Added onChange handler to input**
 
-      {reviews.length ? (
+            />
+          </Form.Item>
+          <Form.Item name="accountId" hidden initialValue={user.id}>
+            <Input
+              type="text"
+            />
+          </Form.Item>
+          <Form.Item name="productLineId" hidden initialValue={productLineId}>
+            <Input
+              type="text"
+              placeholder="Hãy để lại đánh giá cho sản phẩm"
+            />
+          </Form.Item>
+          <div className="buttons">
+            <Button
+              className={`submit ${inputValue ? 'active' : ''}`}
+              onClick={() => { form.submit(); }}
+              disabled={!inputValue}
+            >
+              <SendOutlined style={{ marginRight: '5px' }} />
+              Gửi
+            </Button>
+          </div>
+        </Form>
+      </div>
+      {comments.length ? (
         <div className="reviews">
-          {reviews.map(({ text, username, createdAt }) => (
-            <div className="review" key={createdAt}>
+          {comments.map((comment) => (
+            <div className="review" key={comment.id}>
               <div className="customer">
                 <IoPersonCircleOutline className="icon" />
-                <span>{username}</span>
+                <span style={{ fontSize: '16px' }}>{comment.account.firstname} {comment.account.lastname} </span>
+                <div className="review-meta" style={{ marginLeft: '10px' }}>{formatDistanceToNow(comment.createAt)}</div>
+                {
+                  (comment.account.id === user.id)
+                  &&
+
+                  <Popconfirm
+                    title="Xóa bình luận"
+                    description="Bạn có muốn xóa bình luận không?"
+                    onConfirm={() => handleDeleteComment(comment.id)}
+                    okText="Có"
+                    cancelText="Không"
+                  >
+                    <p
+                      className="delete-comment-button"
+                      style={{ marginLeft: '10px', fontSize: '12px', color: 'red', width: '28px' }}
+                    >
+                      Xóa
+                    </p>
+                  </Popconfirm>
+                }
               </div>
-              <div className="review-meta">
-                Reviewed at: {new Date(createdAt).toLocaleDateString()}
+
+              <div className="comment-content" style={{ marginLeft: '42px' }}>
+                <p style={{ fontSize: '16px' }}>{comment.content}</p>
+
               </div>
-              <p>{text}</p>
             </div>
           ))}
         </div>
-      ) : null}
-    </div>
+      ) : <p>Chưa có bình luận về sản phẩm</p>
+      }
+    </div >
   );
 };
 

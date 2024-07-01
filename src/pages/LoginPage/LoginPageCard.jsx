@@ -18,12 +18,10 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../../config/firebase";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
-import ProductReview from "../../components/ProductReview/ProductReview"; //(nam)
 
 function LoginPageCard() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState(""); // State to store token (nam)
 
   const dispatch = useDispatch();
 
@@ -40,7 +38,6 @@ function LoginPageCard() {
         console.log(userApi);
         console.log(userApi.data);
         localStorage.setItem("token", userApi.data.token);
-        setToken(userApi.data.token); // Store token in state (nam)
 
         if (userApi.data.role === "CUSTOMER") {
           navigate(routes.home);
@@ -74,7 +71,6 @@ function LoginPageCard() {
         // IdP data available using getAdditionalUserInfo(result)
         // ...
         localStorage.setItem("token", response.data.token);
-        setToken(response.data.token); // Store token in state (nam)
 
         if (response.data.role === "CUSTOMER") {
           if (response.data.address || response.data.phone === null) {
@@ -88,6 +84,12 @@ function LoginPageCard() {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleClickSubmit();
+    }
   };
 
   return (
@@ -156,6 +158,7 @@ function LoginPageCard() {
                         type="email"
                         required
                         onChange={(e) => setEmail(e.target.value)}
+                        onKeyDown={handleKeyDown} // Added onKeyDown event
                       />
                     </Form.Item>
                     <Form.Item
@@ -182,6 +185,7 @@ function LoginPageCard() {
                         type="password"
                         required
                         onChange={(e) => setPassword(e.target.value)}
+                        onKeyDown={handleKeyDown} // Added onKeyDown event
                       />
                     </Form.Item>
                     <Button onClick={handleClickSubmit} className="form-button">

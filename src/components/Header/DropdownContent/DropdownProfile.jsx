@@ -20,7 +20,7 @@ export default function DropdownProfile() {
 
   return (
     <div className="dropdownProfile">
-      <Col xs={12} className="Header-login">
+      <Col xs={12} className="Header-profile">
         <Link to={routes.profile} className="profile-name">
           <span className="pi pi-user" style={{ fontSize: "1.5rem" }}></span>
           <p className="username">

@@ -3,12 +3,13 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import api from "../../config/axios";
 import { Container } from "react-bootstrap";
-import { Button, Table } from "antd";
+import { Button, Table, Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import "./OrderHistoryUser.css";
 
 export default function OrderHistoryUser() {
   const [order, setOrder] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,9 +24,15 @@ export default function OrderHistoryUser() {
     }
     fetchOrderUser();
   }, []);
+
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
   };
+
+  const filteredOrders = order.filter((ord) => {
+    return ord.id.toString().includes(searchTerm.toLowerCase());
+  });
+
   const columns = [
     {
       title: "Mã đơn hàng",
@@ -52,7 +59,7 @@ export default function OrderHistoryUser() {
       title: "Tổng Đơn Hàng",
       dataIndex: "totalAmount",
       key: "totalAmount",
-      render: (text) => text.toLocaleString() + " đ",
+      render: (text) => text.toLocaleString() + " VND",
     },
     {
       title: "Trạng Thái",
@@ -60,16 +67,14 @@ export default function OrderHistoryUser() {
       key: "totalAmount",
     },
     {
-      title: "",
+      title: "Theo Dõi",
       dataIndex: "action",
       key: "action",
       render: (text, record) => {
         return (
-          <>
-            <Link to={`/theo-doi-don-hang/${record?.id}`}>
-              <Button className="view-detail">Xem Chi Tiết</Button>
-            </Link>
-          </>
+          <Link to={`/theo-doi-don-hang/${record?.id}`}>
+            <Button type="link">Xem chi tiết</Button>
+          </Link>
         );
       },
     },
@@ -77,8 +82,16 @@ export default function OrderHistoryUser() {
   return (
     <div>
       <Header></Header>
-      <Container>
-        <h1>Lịch sử đặt hàng của bạn</h1>
+      <Container fluid>
+        <h3 className="order-history-title">ĐƠN HÀNG CỦA BẠN</h3>
+        <div className="search-bar">
+          <Input
+            className="order-history-seach-bar"
+            placeholder="Tìm kiếm mã đơn hàng"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
         <Table
           className="order-table"
           dataSource={order}
