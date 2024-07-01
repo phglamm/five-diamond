@@ -88,7 +88,7 @@ export default function AppRoute() {
       <Route
         path={routes.adminchart}
         element={
-          <ProtectedRoute role="MANAGER">
+          <ProtectedRoute roles={["MANAGER", "ADMIN"]}>
             <AdminStatistics />
           </ProtectedRoute>
         }
@@ -120,7 +120,7 @@ export default function AppRoute() {
       <Route
         path={routes.adminUser}
         element={
-          <ProtectedRoute role="ADMIN">
+          <ProtectedRoute roles={["MANAGER", "ADMIN"]}>
             <AdminUser />
           </ProtectedRoute>
         }
@@ -168,7 +168,7 @@ export default function AppRoute() {
       <Route
         path={routes.saleStaff}
         element={
-          <ProtectedRoute role="SALES">
+          <ProtectedRoute roles={["MANAGER", "SALES"]}>
             <SaleStaffPage />
           </ProtectedRoute>
         }
@@ -177,7 +177,7 @@ export default function AppRoute() {
       <Route
         path={routes.deliveryStaff}
         element={
-          <ProtectedRoute role="DELIVERY">
+          <ProtectedRoute roles={["MANAGER", "DELIVERY"]}>
             <DeliveryStaffPage />
           </ProtectedRoute>
         }

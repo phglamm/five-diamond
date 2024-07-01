@@ -36,21 +36,34 @@ export default function SideBar() {
       <hr className="rounded" />
 
       <div className="user-info">
-        <h1>
-          {user.firstname} {user.lastname}
-        </h1>
-        <Link onClick={handleLogout} to={routes.login}>
-          <LogoutIcon color="info" fontSize="large"></LogoutIcon>
-        </Link>
+        <div className="user-details">
+          <h1>
+            {user.firstname} {user.lastname}
+          </h1>
+          <Link onClick={handleLogout} to={routes.login}>
+            <LogoutIcon color="info" fontSize="large"></LogoutIcon>
+          </Link>
+        </div>
       </div>
 
       <hr className="rounded" />
 
       {user.role === "ADMIN" ? (
-        <li>
-          <PersonIcon color="info" fontSize="large" />
-          <Link to={routes.adminUser}>Quản Lý Người Dùng</Link>
-        </li>
+        <>
+          {" "}
+          <li>
+            <StackedLineChartIcon color="info" fontSize="large" />
+            <Link to="">Thống Kê</Link>
+          </li>
+          <li>
+            <BarChartIcon color="info" fontSize="large" />
+            <Link to={routes.adminchart}>Biểu Đồ</Link>
+          </li>
+          <li>
+            <PersonIcon color="info" fontSize="large" />
+            <Link to={routes.adminUser}>Quản Lý Người Dùng</Link>
+          </li>
+        </>
       ) : (
         <></>
       )}
