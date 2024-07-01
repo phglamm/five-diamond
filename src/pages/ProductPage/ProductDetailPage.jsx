@@ -317,7 +317,6 @@ export default function ProductPage({ token }) {
           ))}
         </Row>
       </Container>
-
       <Footer />
     </div>
   );
