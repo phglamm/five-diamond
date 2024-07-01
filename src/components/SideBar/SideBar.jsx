@@ -13,12 +13,14 @@ import { useDispatch, useSelector } from "react-redux";
 import LogoutIcon from "@mui/icons-material/Logout";
 import FindInPageIcon from "@mui/icons-material/FindInPage";
 import InventoryIcon from "@mui/icons-material/Inventory";
+
 export default function SideBar() {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const handleLogout = () => {
     dispatch(logout());
   };
+
   return (
     <div className="sidenav">
       <div className="sidenav-header">
@@ -33,12 +35,14 @@ export default function SideBar() {
       <hr className="rounded" />
 
       <div className="user-info">
-        <h1>
-          {user.firstname} {user.lastname}
-        </h1>
-        <Link onClick={handleLogout} to={routes.login}>
-          <LogoutIcon color="info" fontSize="large"></LogoutIcon>
-        </Link>
+        <div className="user-details">
+          <h1>
+            {user.firstname} {user.lastname}
+          </h1>
+          <Link onClick={handleLogout} to={routes.login}>
+            <LogoutIcon color="info" fontSize="large"></LogoutIcon>
+          </Link>
+        </div>
       </div>
 
       <hr className="rounded" />
@@ -86,7 +90,6 @@ export default function SideBar() {
         <EventIcon color="info" fontSize="large"></EventIcon>
         <Link to="">Quản Lý Sự Kiện Sale</Link>
       </li>
-
     </div>
   );
 }

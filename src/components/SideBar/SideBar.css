@@ -60,21 +60,25 @@
 
 .user-info {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
+  margin-bottom: 15px; /* Adjust as needed */
 }
 
-.user-info h1 {
-  margin: 0;
-  margin-left: 10px;
-  padding-right: 10px; /* Adjust as needed */
-  white-space: nowrap;
-  /* overflow: hidden;
-  text-overflow: ellipsis; */
+.user-details {
+  display: flex;
+  align-items: center;
 }
-.user-info a{
-  margin-left: 60px;
+
+.user-details h1 {
+  margin: 0;
+  padding: 0 10px; /* Adjust as needed */
+  white-space: nowrap;
+}
+
+.user-details a {
+  margin-left: 10px; /* Adjust as needed */
 }
 
 hr.rounded {
@@ -85,7 +89,6 @@ hr.rounded {
 .sidenav-header {
   width: 100%;
   display: flex;
-  /* flex-direction: column; */
   gap: 10px; /* Adjust as needed */
   justify-content: center;
   align-items: center;
