@@ -42,9 +42,9 @@ function LoginPageCard() {
         if (userApi.data.role === "CUSTOMER") {
           navigate(routes.home);
         } else if (userApi.data.role === "ADMIN") {
-          navigate(routes.adminDiamond);
+          navigate(routes.adminUser);
         } else if (userApi.data.role === "MANAGER") {
-          navigate(routes.adminchart);
+          navigate(routes.adminDiamond);
         } else if (userApi.data.role === "SALES") {
           navigate(routes.home);
         } else if (userApi.data.role === "DELIVERY") {

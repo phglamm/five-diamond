@@ -45,22 +45,25 @@ export default function SideBar() {
       </div>
 
       <hr className="rounded" />
-      <li>
-        <StackedLineChartIcon color="info" fontSize="large" />
-        <Link to="">Thống Kê</Link>
-      </li>
-      <li>
-        <BarChartIcon color="info" fontSize="large" />
-        <Link to={routes.adminchart}>Biểu Đồ</Link>
-      </li>
-      {user.role === "ADMIN" && (
+
+      {user.role === "ADMIN" ? (
         <li>
           <PersonIcon color="info" fontSize="large" />
           <Link to={routes.adminUser}>Quản Lý Người Dùng</Link>
         </li>
+      ) : (
+        <></>
       )}
-      {user.role === "MANAGER" && (
+      {user.role === "MANAGER" ? (
         <>
+          <li>
+            <StackedLineChartIcon color="info" fontSize="large" />
+            <Link to="">Thống Kê</Link>
+          </li>
+          <li>
+            <BarChartIcon color="info" fontSize="large" />
+            <Link to={routes.adminchart}>Biểu Đồ</Link>
+          </li>
           <li>
             <ShoppingCartIcon color="info" fontSize="large" />
             <Link to={routes.adminmanageorder}>Quản Lý Đơn Hàng</Link>
@@ -90,8 +93,10 @@ export default function SideBar() {
             <Link to="">Quản Lý Sự Kiện Sale</Link>
           </li>
         </>
+      ) : (
+        <></>
       )}
-      <li>
+      {/* <li>
         <ShoppingCartIcon color="info" fontSize="large"></ShoppingCartIcon>
         <Link to={routes.adminmanageorder}>Quản Lý Đơn Hàng</Link>
       </li>
@@ -122,7 +127,7 @@ export default function SideBar() {
       <li>
         <EventIcon color="info" fontSize="large"></EventIcon>
         <Link to="">Quản Lý Sự Kiện Sale</Link>
-      </li>
+      </li> */}
     </div>
   );
 }
