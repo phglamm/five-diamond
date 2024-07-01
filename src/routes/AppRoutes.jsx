@@ -145,9 +145,10 @@ export default function AppRoute() {
       <Route path={routes.cart} element={<CartPage />} />
       <Route path={routes.checkout} element={<CheckOut />} />
       <Route path={routes.productdetail} element={<ProductPage />} />
+      <Route path={`${routes.productdetail}/:id`} element={<ProductPage />} />
+
       <Route path={routes.saleEvent} element={<SaleEventPage />} />
       <Route path={routes.saleProduct} element={<SaleProductPage />} />
-      <Route path={`${routes.productdetail}/:id`} element={<ProductPage />} />
       <Route path={routes.vongco} element={<NecklaceProductPage />} />
       <Route path={routes.vongtay} element={<CuffProductPage />} />
       <Route path={routes.nhan} element={<ProductRing />} />
