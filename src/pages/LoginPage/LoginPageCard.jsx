@@ -46,6 +46,8 @@ function LoginPageCard() {
           navigate(routes.home);
         } else if (userApi.data.role === "ADMIN") {
           navigate(routes.adminDiamond);
+        } else if (userApi.data.role === "MANAGER") {
+          navigate(routes.adminDiamond);
         } else if (userApi.data.role === "SALES") {
           navigate(routes.home);
         } else if (userApi.data.role === "DELIVERY") {
