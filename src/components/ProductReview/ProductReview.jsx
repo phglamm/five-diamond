@@ -13,12 +13,11 @@ import { formatDistanceToNow } from "date-fns";
 
 const ProductReview = ({ productLineId }) => {
   const [comments, setComments] = useState([]);
-  const [inputValue, setInputValue] = useState(""); // **Added state to manage input value**
+  const [inputValue, setInputValue] = useState("");
   const user = useSelector(selectUser);
   const [form] = useForm();
 
   const handleInputChange = ({ target: { value } }) => {
-    // **Updated input change handler**
     setInputValue(value);
   };
 
@@ -34,7 +33,7 @@ const ProductReview = ({ productLineId }) => {
       await api.post("comment", value);
       fetchComments();
       form.resetFields();
-      setInputValue(""); // **Reset input value after submission**
+      setInputValue("");
     } catch (error) {
       toast.error("Gửi đánh giá không thành công!", {
         hideProgressBar: true,
@@ -71,7 +70,7 @@ const ProductReview = ({ productLineId }) => {
                   type="text"
                   placeholder="Hãy để lại đánh giá cho sản phẩm"
                   style={{ width: "400px", marginTop: "25px" }}
-                  onChange={handleInputChange} // **Added onChange handler to input**
+                  onChange={handleInputChange}
                 />
               </Form.Item>
               <Form.Item name="accountId" hidden initialValue={user.id}>
