@@ -20,12 +20,10 @@ import api from "../../config/axios";
 import { toast } from "react-toastify";
 import ProductReview from "../../components/ProductReview/ProductReview"; //(nam)
 
-
 function LoginPageCard() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState(""); // State to store token (nam)
-
 
   const dispatch = useDispatch();
 
@@ -44,11 +42,12 @@ function LoginPageCard() {
         localStorage.setItem("token", userApi.data.token);
         setToken(userApi.data.token); // Store token in state (nam)
 
-
         if (userApi.data.role === "CUSTOMER") {
           navigate(routes.home);
         } else if (userApi.data.role === "ADMIN") {
           navigate(routes.adminDiamond);
+        } else if (userApi.data.role === "MANAGER") {
+          navigate(routes.adminchart);
         } else if (userApi.data.role === "SALES") {
           navigate(routes.home);
         } else if (userApi.data.role === "DELIVERY") {
@@ -76,7 +75,6 @@ function LoginPageCard() {
         // ...
         localStorage.setItem("token", response.data.token);
         setToken(response.data.token); // Store token in state (nam)
-
 
         if (response.data.role === "CUSTOMER") {
           if (response.data.address || response.data.phone === null) {
@@ -238,7 +236,6 @@ function LoginPageCard() {
           </MDBRow>
         </MDBCard>
         {/* <ProductReview token={token} /> Pass the token as a prop (nam) */}
-
       </MDBContainer>
     </div>
   );
