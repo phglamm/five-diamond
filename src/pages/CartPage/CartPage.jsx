@@ -91,8 +91,8 @@ export default function CartPage() {
     ? appliedDiscount.type === "percentage"
       ? (total * appliedDiscount.value) / 100
       : appliedDiscount.type === "fixed"
-      ? appliedDiscount.value
-      : 0
+        ? appliedDiscount.value
+        : 0
     : 0;
 
   const finalTotal = total - discountAmount + shippingCost;
@@ -120,7 +120,19 @@ export default function CartPage() {
       (d) => d.code === discountCode.toUpperCase()
     );
     if (discount) {
+      const currentDate = new Date();
+      const expiryDate = new Date(discount.expiryDate);
+      
+      if (currentDate > expiryDate) {
+        alert("Mã giảm giá đã hết hạn");
+        return;
+      }
+      if (discount.quantity <= 0) {
+        alert("Mã giảm giá đã hết số lượng");
+        return;
+      }
       setAppliedDiscount(discount);
+      discount.quantity -= 1; // Decrease the quantity of the discount code
     } else {
       alert("Mã giảm giá không hợp lệ");
     }
@@ -146,8 +158,8 @@ export default function CartPage() {
               </Button>
             </div>
             {user.role === "ADMIN" ||
-            user.role === "SALES" ||
-            user.role === "DELIVERY" ? (
+              user.role === "SALES" ||
+              user.role === "DELIVERY" ? (
               <>
                 {" "}
                 <div>
@@ -318,8 +330,8 @@ export default function CartPage() {
           </Col>
           <Col md={4} className="col-md-4">
             {user.role === "ADMIN" ||
-            user.role === "SALES" ||
-            user.role === "DELIVERY" ? (
+              user.role === "SALES" ||
+              user.role === "DELIVERY" ? (
               <div className="Col4">
                 <Card>
                   <Card.Header>
@@ -463,7 +475,7 @@ export default function CartPage() {
                         onClick={handleProceedToCheckout}
                         disabled
                       >
-                        Tiến hành đặt hàng  
+                        Tiến hành đặt hàng
                       </Button>
                     )}
                   </Card.Body>
