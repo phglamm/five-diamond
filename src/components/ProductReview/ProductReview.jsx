@@ -54,51 +54,53 @@ const ProductReview = ({ productLineId }) => {
   return (
     <div className="product-reviews">
       <h5 className="header-review">ĐÁNH GIÁ SẢN PHẨM</h5>
-      <div className="comment-section">
+      <div className="comment-all">
         {user ? (
           <>
-            <div className="user-icon">
-              <IoPersonCircleOutline />
-            </div>
-            <Form
-              form={form}
-              onFinish={handleSendComment}
-              className="comment-form"
-            >
-              <Form.Item name="content">
-                <Input
-                  type="text"
-                  placeholder="Hãy để lại đánh giá cho sản phẩm"
-                  style={{ width: "400px", marginTop: "25px" }}
-                  onChange={handleInputChange}
-                />
-              </Form.Item>
-              <Form.Item name="accountId" hidden initialValue={user.id}>
-                <Input type="text" />
-              </Form.Item>
-              <Form.Item
-                name="productLineId"
-                hidden
-                initialValue={productLineId}
-              >
-                <Input
-                  type="text"
-                  placeholder="Hãy để lại đánh giá cho sản phẩm"
-                />
-              </Form.Item>
-              <div className="buttons">
-                <Button
-                  className={`submit ${inputValue ? "active" : ""}`}
-                  onClick={() => {
-                    form.submit();
-                  }}
-                  disabled={!inputValue}
-                >
-                  <SendOutlined style={{ marginRight: "5px" }} />
-                  Gửi
-                </Button>
+            <div className="comment-section">
+              <div className="user-icon">
+                <IoPersonCircleOutline />
               </div>
-            </Form>
+              <Form
+                form={form}
+                onFinish={handleSendComment}
+                className="comment-form"
+              >
+                <Form.Item name="content">
+                  <Input
+                    type="text"
+                    placeholder="Hãy để lại đánh giá cho sản phẩm"
+                    style={{ width: "400px", marginTop: "25px" }}
+                    onChange={handleInputChange} // **Added onChange handler to input**
+                  />
+                </Form.Item>
+                <Form.Item name="accountId" hidden initialValue={user.id}>
+                  <Input type="text" />
+                </Form.Item>
+                <Form.Item
+                  name="productLineId"
+                  hidden
+                  initialValue={productLineId}
+                >
+                  <Input
+                    type="text"
+                    placeholder="Hãy để lại đánh giá cho sản phẩm"
+                  />
+                </Form.Item>
+                <div className="buttons">
+                  <Button
+                    className={`submit ${inputValue ? "active" : ""}`}
+                    onClick={() => {
+                      form.submit();
+                    }}
+                    disabled={!inputValue}
+                  >
+                    <SendOutlined style={{ marginRight: "5px" }} />
+                    Gửi
+                  </Button>
+                </div>
+              </Form>
+            </div>
             {comments.length ? (
               <div className="reviews">
                 {comments.map((comment) => (
@@ -152,7 +154,6 @@ const ProductReview = ({ productLineId }) => {
           </>
         ) : (
           <>
-            {" "}
             <p>Chưa có bình luận về sản phẩm</p>
           </>
         )}
