@@ -67,7 +67,7 @@ export default function AppRoute() {
       <Route
         path={routes.profile}
         element={
-          <ProtectedRoute role="CUSTOMER">
+          <ProtectedRoute roles={["CUSTOMER"]}>
             <ProfilePage />
           </ProtectedRoute>
         }
@@ -80,7 +80,7 @@ export default function AppRoute() {
       <Route
         path={routes.adminDiamond}
         element={
-          <ProtectedRoute role="MANAGER">
+          <ProtectedRoute roles={["MANAGER"]}>
             <AdminDiamond />
           </ProtectedRoute>
         }
@@ -96,7 +96,7 @@ export default function AppRoute() {
       <Route
         path={routes.adminCover}
         element={
-          <ProtectedRoute role="MANAGER">
+          <ProtectedRoute roles={["MANAGER"]}>
             <AdminCover />
           </ProtectedRoute>
         }
@@ -104,7 +104,7 @@ export default function AppRoute() {
       <Route
         path={routes.adminCategory}
         element={
-          <ProtectedRoute role="MANAGER">
+          <ProtectedRoute roles={["MANAGER"]}>
             <AdminCategory />
           </ProtectedRoute>
         }
@@ -112,7 +112,7 @@ export default function AppRoute() {
       <Route
         path={routes.adminCertificate}
         element={
-          <ProtectedRoute role="MANAGER">
+          <ProtectedRoute roles={["MANAGER"]}>
             <AdminCertificate />
           </ProtectedRoute>
         }
@@ -128,7 +128,7 @@ export default function AppRoute() {
       <Route
         path={routes.adminmanageorder}
         element={
-          <ProtectedRoute role="MANAGER">
+          <ProtectedRoute roles={["MANAGER"]}>
             <AdminOrder />
           </ProtectedRoute>
         }
@@ -136,7 +136,7 @@ export default function AppRoute() {
       <Route
         path={routes.adminbst}
         element={
-          <ProtectedRoute role="MANAGER">
+          <ProtectedRoute roles={["MANAGER"]}>
             <AdminCollection />
           </ProtectedRoute>
         }
