@@ -9,11 +9,11 @@ export default function LinkButton({ text, href }) {
                 variant="contained"
                 href={href}
                 sx={{
-                    padding: '5px 10px', // Adjust the padding to make the button smaller
-                    fontSize: '14px',    // Adjust the font size if needed
-                    lineHeight: '1.5',   // Adjust the line height if needed
-                    marginTop: '10px',   // Optional: Add margin to create space above the button
-                  }}
+                    padding: '5px 10px',
+                    fontSize: '14px',
+                    lineHeight: '1.5',
+                    marginTop: '10px',
+                }}
             >
                 {text}
             </Button>

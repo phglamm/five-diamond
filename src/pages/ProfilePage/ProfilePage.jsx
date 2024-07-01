@@ -81,22 +81,25 @@ function ProfilePage() {
   return (
     <div>
       <Header />
+      <h3 className="profile-title">Thông tin cá nhân</h3>
+
       <div className="avatar-user">
-        <div onClick={handleImageClick} className="img-avt">
-          {user.gender === "MALE" ? (
-            <img
-              id="avt-img"
-              src="https://drive.google.com/thumbnail?id=1qbgOEeSmZUjLlvazltYvqIWl58ds3Rwr&sz=w1000"
-              alt="Male Avatar"
-            />
-          ) : (
-            <img
-              id="avt-img"
-              src="https://drive.google.com/thumbnail?id=1-TZW7Js2ujLNyIXbYEEeiJfegVGgpjfd&sz=w1000"
-              alt="Female Avatar"
-            />
-          )}
-          {/* {image ? (
+        <div className="profile-img-avt">
+          <div onClick={handleImageClick} className="img-avt">
+            {user.gender === "MALE" ? (
+              <img
+                id="avt-img"
+                src="https://drive.google.com/thumbnail?id=1qbgOEeSmZUjLlvazltYvqIWl58ds3Rwr&sz=w1000"
+                alt="Male Avatar"
+              />
+            ) : (
+              <img
+                id="avt-img"
+                src="https://drive.google.com/thumbnail?id=1-TZW7Js2ujLNyIXbYEEeiJfegVGgpjfd&sz=w1000"
+                alt="Female Avatar"
+              />
+            )}
+            {/* {image ? (
             <img id="avt-img" src={URL.createObjectURL(image)} alt="" />
           ) : (
             <img id="avt-img" src="https://drive.google.com/thumbnail?id=1qbgOEeSmZUjLlvazltYvqIWl58ds3Rwr&sz=w1000" alt="Default Avatar" />
@@ -108,9 +111,15 @@ function ProfilePage() {
             onChange={handleImageChange}
             style={{ display: "none" }}
           /> */}
+            <button className="update-img-btn" onClick={handleUpdateClick}>
+              <EditOutlined />
+            </button>
+          </div>
         </div>
-        <button className="update-img-btn" onClick={handleUpdateClick}>
-          Cập nhật
+
+        <button className="update-info-btn" onClick={handleEditInfoClick}>
+          <EditOutlined />
+          Chỉnh sửa thông tin
         </button>
       </div>
 
@@ -167,27 +176,43 @@ function ProfilePage() {
 
       <div className="info">
         <div className="info-text">
-          <h3>Thông tin cá nhân</h3>
-          <div>
-            <p>Họ và tên: {user.firstname + " " + user.lastname}</p>
-            <p>
-              Giới tính:{" "}
-              {user.gender === "MALE"
-                ? "Nam"
-                : user.gender === "FEMALE"
-                ? "Nữ"
-                : "Khác"}
-            </p>
-            <p>Số điện thoại: {user.phone}</p>
-            <p>Ngày sinh: {formatDate(user.dob)}</p>
-            <p>Địa chỉ: {user.address}</p>
+
+          <div className="info-box">
+            <p>Họ và tên:</p>
+            <div className="info-value">{user.firstname + " " + user.lastname}</div>
+          </div>
+          <div className="info-box">
+            <p>Ngày sinh:</p>
+            <div className="info-value">{formatDate(user.dob)}</div>
+          </div>
+          <div className="info-box">
+            <p>Giới tính:</p>
+            <div className="info-value">
+              {user.gender === "MALE" ? "Nam" : user.gender === "FEMALE" ? "Nữ" : "Khác"}
+            </div>
+          </div>
+          <div className="info-box">
+            <p>Số điện thoại:</p>
+            <div className="info-value">{user.phone}</div>
+          </div>
+
+          <div className="info-box">
+            <p>Địa chỉ:</p>
+            <div className="info-value">{user.address}</div>
           </div>
         </div>
+      </div>
 
-        <Button onClick={handleEditInfoClick}>
-          <EditOutlined />
-          Chỉnh sửa thông tin
-        </Button>
+      <div className="info-change-password">
+        <div>
+          <h3>Thông tin tài khoản</h3>
+        </div>
+        <Link to="">
+          <Button style={{ marginRight: "100px" }}>
+            <LockOutlined />
+            Đổi mật khẩu
+          </Button>
+        </Link>
       </div>
 
       <Modal
@@ -283,17 +308,7 @@ function ProfilePage() {
         </div>
       </Modal>
 
-      <div className="info">
-        <div>
-          <h3>Thông tin tài khoản</h3>
-        </div>
-        <Link to="">
-          <Button style={{ marginRight: "100px" }}>
-            <LockOutlined />
-            Đổi mật khẩu
-          </Button>
-        </Link>
-      </div>
+
       <Footer />
     </div>
   );
