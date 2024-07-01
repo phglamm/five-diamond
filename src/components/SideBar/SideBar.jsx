@@ -31,9 +31,16 @@ export default function SideBar() {
         <span>Five Diamond</span>
       </div>
       <hr className="rounded" />
-      <h1>
-        {user.firstname} {user.lastname}
-      </h1>
+
+      <div className="user-info">
+        <h1>
+          {user.firstname} {user.lastname}
+        </h1>
+        <Link onClick={handleLogout} to={routes.login}>
+          <LogoutIcon color="info" fontSize="large"></LogoutIcon>
+        </Link>
+      </div>
+
       <hr className="rounded" />
 
       <li>
@@ -79,12 +86,7 @@ export default function SideBar() {
         <EventIcon color="info" fontSize="large"></EventIcon>
         <Link to="">Quản Lý Sự Kiện Sale</Link>
       </li>
-      <li>
-        <LogoutIcon color="info" fontSize="large"></LogoutIcon>
-        <Link onClick={handleLogout} to={routes.login}>
-          Đăng Xuất
-        </Link>
-      </li>
+
     </div>
   );
 }
