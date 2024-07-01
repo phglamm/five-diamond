@@ -103,10 +103,8 @@
 .review:not(:last-child)::after {
     content: "";
     width: 90%;
-    border-bottom: 0.01rem grey solid;
     position: absolute;
     bottom: 0;
-    left: 5%; /* Đảm bảo căn giữa */
 }
 
 

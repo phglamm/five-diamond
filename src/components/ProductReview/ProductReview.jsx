@@ -50,45 +50,47 @@ const ProductReview = ({ productLineId }) => {
     return (
         <div className="product-reviews">
             <h5 className="header-review">ĐÁNH GIÁ SẢN PHẨM</h5>
-            <div className="comment-section">
-                <div className="user-icon">
-                    <IoPersonCircleOutline />
-                </div>
-                <Form
-                    form={form}
-                    onFinish={handleSendComment}
-                    className="comment-form"
-                >
-                    <Form.Item name="content">
-                        <Input
-                            type="text"
-                            placeholder="Hãy để lại đánh giá cho sản phẩm"
-                            style={{width:'300px', marginTop:'20px'}}
-                        />
-                    </Form.Item>
-                    <Form.Item name="accountId" hidden initialValue={user.id}>
-                        <Input
-                            type="text"
-                        />
-                    </Form.Item>
-                    <Form.Item name="productLineId" hidden initialValue={productLineId}>
-                        <Input
-                            type="text"
-                            placeholder="Hãy để lại đánh giá cho sản phẩm"
-                        />
-                    </Form.Item>
-                    <div className="buttons">
-                        <Button
-                            className="submit"
-                            onClick={() => { form.submit() }}
-                            style={{ backgroundColor: 'lightblue' }}
-                        >
-                            <SendOutlined style={{ marginRight: '5px' }} />
-                            Gửi
-                        </Button>
+            {user &&
+                <div className="comment-section">
+                    <div className="user-icon">
+                        <IoPersonCircleOutline />
                     </div>
-                </Form>
-            </div>
+                    <Form
+                        form={form}
+                        onFinish={handleSendComment}
+                        className="comment-form"
+                    >
+                        <Form.Item name="content">
+                            <Input
+                                type="text"
+                                placeholder="Hãy để lại đánh giá cho sản phẩm"
+                                style={{ width: '300px', marginTop: '20px' }}
+                            />
+                        </Form.Item>
+                        <Form.Item name="accountId" hidden initialValue={user.id}>
+                            <Input
+                                type="text"
+                            />
+                        </Form.Item>
+                        <Form.Item name="productLineId" hidden initialValue={productLineId}>
+                            <Input
+                                type="text"
+                                placeholder="Hãy để lại đánh giá cho sản phẩm"
+
+                            />
+                        </Form.Item>
+                        <div className="buttons">
+                            <Button
+                                className="submit"
+                                onClick={() => { form.submit() }}
+                                style={{ backgroundColor: 'lightblue' }}
+                            >
+                                <SendOutlined style={{ marginRight: '5px' }} />
+                                Gửi
+                            </Button>
+                        </div>
+                    </Form>
+                </div>}
             {comments.length ? (
                 <div className="reviews">
                     {comments.map((comment) => (
@@ -102,7 +104,7 @@ const ProductReview = ({ productLineId }) => {
                             <div className="comment-content" style={{ marginLeft: '42px' }}>
                                 <p style={{ fontSize: '16px' }}>{comment.content}</p>
                                 {
-                                    (comment.account.id === user.id)
+                                    (comment.account.id === user?.id)
                                     &&
 
                                     <Popconfirm
@@ -114,7 +116,7 @@ const ProductReview = ({ productLineId }) => {
                                     >
                                         <p
                                             className="delete-comment-button"
-                                            style={{ fontSize: '14px', color: 'red', width:'28px'}}
+                                            style={{ fontSize: '14px', color: 'red', width: '28px' }}
                                         >
                                             Xóa
                                         </p>
