@@ -1,129 +1,132 @@
 /* General styles for the review section */
 .product-reviews {
-
-    font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 .header-review {
-    color: #38a9b8;
-    font-weight: bold;
-    padding-bottom: 10px;
-    padding-top: 30px;
+  color: #38a9b8;
+  font-weight: bold;
+  padding-top: 30px;
 }
 
 /* Style for the comment input section */
 .comment-section {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    background-color: #f5f5f5;
-    /* Assuming the original background color */
-    border-radius: 5px;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
 }
 
 .comment-section .user-icon {
-    font-size: 40px;
-    color: #ffffff;
-    background-color: #3ea6ff;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
-
-
+  font-size: 40px;
+  color: #ffffff;
+  background-color: #3ea6ff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
 }
 
 .comment-section input[type="text"] {
-    flex-grow: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    /* Assuming the original input background color */
-    border-radius: 4px;
-    outline: none;
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 4px;
+  outline: none;
 }
 
 .comment-section input[type="text"]::placeholder {
-    color: #909090;
+  color: #909090;
 }
 
 .comment-section .buttons {
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
 }
 
 .comment-section button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: #4caf50;
-    /* Assuming the original button color */
-    color: white;
-    margin-left: 5px;
-    display: none;
-    /* Hidden by default */
-}
-
-.comment-section button.cancel {
-    background-color: transparent;
-    color: #909090;
-}
-
-.comment-section button:disabled {
-    background-color: #4caf50;
-    opacity: 0.6;
-    cursor: not-allowed;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  margin-left: 5px;
 }
 
 .comment-section button.submit {
-    background-color: #4caf50;
+  background-color: #717171;
+  color: white;
 }
 
-.comment-section input[type="text"]:focus~.buttons button {
-    display: inline-block;
-    /* Show buttons when input is focused */
+.comment-section button.submit.active {
+  background-color: #3ea6ff;
+}
+
+.comment-section button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* Styles for individual reviews */
 .reviews {
-    margin-top: 20px;
+  margin-top: 5px;
+  background-color: #fff;
 }
 
 .review {
-    display: flex;
-    flex-direction: column;
-    padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  margin-left: 10px;
+  position: relative;
+}
+
+.review:not(:last-child)::after {
+  content: "";
+  width: 90%;
+  position: absolute;
+  bottom: 0;
+  left: 5px;
+  border-bottom: 0.01rem rgb(217, 214, 214) solid;
+  width: calc(100% - 20px);
 }
 
 .review .customer {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
 }
 
 .review .customer .icon {
-    font-size: 30px;
-    color: #666;
-    margin-right: 10px;
+  font-size: 30px;
+  color: #666;
+  margin-right: 10px;
 }
 
 .review .customer span {
-    font-size: 14px;
-    font-weight: bold;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .review .review-meta {
-    font-size: 12px;
-    color: #999;
-    margin-bottom: 5px;
+  font-size: 12px;
+  color: #999;
 }
 
 .review p {
-    margin: 5px 0;
+  margin: 5px 0;
+}
+
+.delete-comment-button:hover {
+  text-decoration: underline;
+}
+
+.comment-form {
+  display: flex;
+  align-items: center;
 }

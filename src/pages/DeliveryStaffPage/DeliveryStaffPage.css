@@ -1,61 +1,31 @@
+.delivery-staff-title {
+  padding: 20px 0 20px;
+  color: #38a9b8;
+  text-align: center;
+  font-size: 2.5em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
 .delivery-toggle {
   margin-top: 40px !important;
 }
 
 .table-deliver {
-  /* margin-top: 20px; */
   padding: 30px;
   background-color: #f8f9fa;
 
 }
 
-.search-bar {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.search-icon {
-  position: absolute;
-  left: 10px;
-  font-size: 20px;
-  color: #999;
-}
-
-.search-bar .form-control {
-  padding-left: 35px;
-}
-
-.table-deliver h1 {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-}
-
-.table-deliver .btn-group .btn {
-  font-size: 16px;
-  padding: 10px 20px;
-}
-
-.table-deliver .table {
+.delivery-staff-filter-buttons {
   margin-top: 20px;
 }
 
-.table-deliver .table th {
-  background-color: #343a40;
-  color: #fff;
-  font-size: 16px;
+.delivery-staff-filter-buttons>button {
+  border-radius: 0 !important;
 }
 
-.table-deliver .table tbody tr {
-  transition: background-color 0.2s ease;
-}
 
-.table-deliver .table tbody tr:hover {
-  background-color: #f1f1f1;
-}
-
-.delivery-button {
-  margin-top: 3px;
-  justify-content: left;
+.delivery-search-bar {
+  margin-top: 10px;
 }

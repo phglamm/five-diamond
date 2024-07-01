@@ -17,6 +17,7 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 export default function SideBar() {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -47,18 +48,68 @@ export default function SideBar() {
 
       <hr className="rounded" />
 
-      <li>
-        <StackedLineChartIcon
-          color="info"
-          fontSize="large"
-        ></StackedLineChartIcon>
-        <Link to="">Thống Kê</Link>
-      </li>
-      <li>
-        <BarChartIcon color="info" fontSize="large"></BarChartIcon>
-        <Link to={routes.adminchart}>Biểu Đồ</Link>
-      </li>
-      <li>
+      {user.role === "ADMIN" ? (
+        <>
+          {" "}
+          <li>
+            <StackedLineChartIcon color="info" fontSize="large" />
+            <Link to="">Thống Kê</Link>
+          </li>
+          <li>
+            <BarChartIcon color="info" fontSize="large" />
+            <Link to={routes.adminchart}>Biểu Đồ</Link>
+          </li>
+          <li>
+            <PersonIcon color="info" fontSize="large" />
+            <Link to={routes.adminUser}>Quản Lý Người Dùng</Link>
+          </li>
+        </>
+      ) : (
+        <></>
+      )}
+      {user.role === "MANAGER" ? (
+        <>
+          <li>
+            <StackedLineChartIcon color="info" fontSize="large" />
+            <Link to="">Thống Kê</Link>
+          </li>
+          <li>
+            <BarChartIcon color="info" fontSize="large" />
+            <Link to={routes.adminchart}>Biểu Đồ</Link>
+          </li>
+          <li>
+            <ShoppingCartIcon color="info" fontSize="large" />
+            <Link to={routes.adminmanageorder}>Quản Lý Đơn Hàng</Link>
+          </li>
+          <li>
+            <InventoryIcon color="info" fontSize="large" />
+            <Link to={routes.adminCover}>Danh Mục Sản Phẩm</Link>
+          </li>
+          <li>
+            <InventoryIcon color="info" fontSize="large" />
+            <Link to={routes.adminbst}>Quản Lý Bộ Sưu Tập</Link>
+          </li>
+          <li>
+            <DiamondIcon color="info" fontSize="large" />
+            <Link to={routes.adminDiamond}>Quản Lý Kim Cương</Link>
+          </li>
+          <li>
+            <FindInPageIcon color="info" fontSize="large" />
+            <Link to={routes.adminCertificate}>Quản Lý Chứng Chỉ</Link>
+          </li>
+          <li>
+            <CategoryIcon color="info" fontSize="large" />
+            <Link to={routes.adminCategory}>Quản Lý Danh Mục</Link>
+          </li>
+          <li>
+            <EventIcon color="info" fontSize="large" />
+            <Link to="">Quản Lý Sự Kiện Sale</Link>
+          </li>
+        </>
+      ) : (
+        <></>
+      )}
+      {/* <li>
         <ShoppingCartIcon color="info" fontSize="large"></ShoppingCartIcon>
         <Link to={routes.adminmanageorder}>Quản Lý Đơn Hàng</Link>
       </li>
@@ -90,6 +141,7 @@ export default function SideBar() {
         <EventIcon color="info" fontSize="large"></EventIcon>
         <Link to="">Quản Lý Sự Kiện Sale</Link>
       </li>
+      </li> */}
     </div>
   );
 }

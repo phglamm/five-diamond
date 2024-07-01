@@ -2,11 +2,20 @@
     margin-top: 20px;
 }
 
-.filter-buttons {
+.sale-staff-title {
+    padding: 20px 0 20px;
+    color: #38a9b8;
+    text-align: center;
+    font-size: 2.5em;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.sale-staff-filter-buttons {
     margin-top: 20px;
 }
 
-.filter-buttons>button {
+.sale-staff-filter-buttons>button {
     border-radius: 0 !important;
 }
 
@@ -20,6 +29,6 @@ button.btn-success {
     font-size: 12px !important;
 }
 
-.search-bar {
+.sales-search-bar {
     margin-top: 10px;
 }
