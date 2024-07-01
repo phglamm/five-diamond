@@ -24,11 +24,10 @@ export default function SideBar() {
       <div className="sidenav-header">
         <img
           src={
-            "https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"
+            "https://drive.google.com/thumbnail?id=1g8TEiTOlnpFsJRxWMH7EF89QuVk9qk6n&sz=w1000"
           }
-          alt=""
+          alt="diamond-img"
         />
-
         <span>Five Diamond</span>
       </div>
       <hr className="rounded" />

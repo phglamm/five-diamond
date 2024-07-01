@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import Header from "../../components/Header/Header";
@@ -10,6 +10,7 @@ import api from "../../config/axios";
 import { toast } from "react-toastify";
 import { order } from "../../redux/features/orderSlice";
 import { useDispatch } from "react-redux";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function CheckOut() {
   const location = useLocation();
@@ -19,105 +20,45 @@ export default function CheckOut() {
     finalTotal: 0,
   };
   const navigate = useNavigate();
-
-  const [provinces, setProvinces] = useState([]);
-  const [districts, setDistricts] = useState([]);
-  const [wards, setWards] = useState([]);
-  const [selectedProvince, setSelectedProvince] = useState({
-    id: "",
-    name: "",
-  });
-  const [selectedDistrict, setSelectedDistrict] = useState({
-    id: "",
-    name: "",
-  });
-  const [selectedWard, setSelectedWard] = useState({ id: "", name: "" });
   const [address, setAddress] = useState("");
   const [errors, setErrors] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
-
-  useEffect(() => {
-    const fetchProvinces = async () => {
-      try {
-        const response = await axios.get(
-          "https://vapi.vnappmob.com/api/province/"
-        );
-        setProvinces(response.data.results);
-      } catch (error) {
-        console.error("Error fetching provinces:", error);
-      }
-    };
-    fetchProvinces();
-  }, []);
-
-  useEffect(() => {
-    if (selectedProvince.id) {
-      const fetchDistricts = async () => {
-        try {
-          const response = await axios.get(
-            `https://vapi.vnappmob.com/api/province/district/${selectedProvince.id}`
-          );
-          setDistricts(response.data.results);
-        } catch (error) {
-          console.error("Error fetching districts:", error);
-        }
-      };
-      fetchDistricts();
-    } else {
-      setDistricts([]);
-    }
-  }, [selectedProvince]);
-
-  useEffect(() => {
-    if (selectedDistrict.id) {
-      const fetchWards = async () => {
-        try {
-          const response = await axios.get(
-            `https://vapi.vnappmob.com/api/province/ward/${selectedDistrict.id}`
-          );
-          setWards(response.data.results);
-        } catch (error) {
-          console.error("Error fetching wards:", error);
-        }
-      };
-      fetchWards();
-    } else {
-      setWards([]);
-    }
-  }, [selectedDistrict]);
-
-  const handleProvinceChange = (e) => {
-    const selectedOption = e.target.selectedOptions[0];
-    setSelectedProvince({ id: e.target.value, name: selectedOption.text });
-    setSelectedDistrict({ id: "", name: "" });
-    setSelectedWard({ id: "", name: "" });
-  };
-
-  const handleDistrictChange = (e) => {
-    const selectedOption = e.target.selectedOptions[0];
-    setSelectedDistrict({ id: e.target.value, name: selectedOption.text });
-    setSelectedWard({ id: "", name: "" });
-  };
-
-  const handleWardChange = (e) => {
-    const selectedOption = e.target.selectedOptions[0];
-    setSelectedWard({ id: e.target.value, name: selectedOption.text });
-  };
+  const dispatch = useDispatch();
 
   const validateForm = () => {
     const formErrors = {};
     const form = document.forms[0];
-    if (!form.name.value) formErrors.name = "Họ Tên là bắt buộc";
-    if (!form.phone.value) formErrors.phone = "Điện Thoại là bắt buộc";
-    if (!address) formErrors.address = "Địa chỉ là bắt buộc";
-    if (!selectedProvince.id) formErrors.province = "Chọn Tỉnh/TP là bắt buộc";
-    if (!selectedDistrict.id)
-      formErrors.district = "Chọn Quận/Huyện là bắt buộc";
-    if (!selectedWard.id) formErrors.ward = "Chọn Xã/Phường là bắt buộc";
+
+    // Kiểm tra họ tên
+    const nameRegex = /^[A-Z][a-zA-Z\s]*$/;
+    if (!form.name.value) {
+      formErrors.name = "Họ Tên là bắt buộc";
+    } else if (!nameRegex.test(form.name.value)) {
+      formErrors.name = "Họ Tên chỉ được chứa chữ cái viết hoa, không có số và ký tự đặc biệt";
+    }
+
+    // Kiểm tra số điện thoại
+    const phoneRegex = /^[0-9]+$/;
+    if (!form.phone.value) {
+      formErrors.phone = "Điện Thoại là bắt buộc";
+    } else if (!phoneRegex.test(form.phone.value)) {
+      formErrors.phone = "Điện Thoại chỉ được chứa số";
+    }
+
+    // Kiểm tra địa chỉ
+    if (!address) {
+      formErrors.address = "Địa chỉ là bắt buộc";
+    }
+
     setErrors(formErrors);
+
+    // Hiển thị lỗi bằng toast
+    Object.keys(formErrors).forEach((key) => {
+      toast.error(formErrors[key]);
+    });
+
     return Object.keys(formErrors).length === 0;
   };
-  const dispatch = useDispatch();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -166,11 +107,6 @@ export default function CheckOut() {
           <Row className="Rowall">
             <Col md={8} className="Col8">
               <h4>THÔNG TIN NGƯỜI MUA</h4>
-              {formSubmitted && Object.keys(errors).length > 0 && (
-                <Alert variant="danger">
-                  Vui lòng kiểm tra lại các trường thông tin.
-                </Alert>
-              )}
               <Form.Group
                 as={Row}
                 controlId="formFullName"
@@ -186,9 +122,9 @@ export default function CheckOut() {
                     placeholder="Nhập họ tên"
                     isInvalid={!!errors.name}
                   />
-                  <Form.Control.Feedback type="invalid">
+                  {/* <Form.Control.Feedback type="invalid">
                     {errors.name}
-                  </Form.Control.Feedback>
+                  </Form.Control.Feedback> */}
                 </Col>
               </Form.Group>
               <Form.Group
@@ -206,9 +142,9 @@ export default function CheckOut() {
                     placeholder="Nhập số điện thoại"
                     isInvalid={!!errors.phone}
                   />
-                  <Form.Control.Feedback type="invalid">
+                  {/* <Form.Control.Feedback type="invalid">
                     {errors.phone}
-                  </Form.Control.Feedback>
+                  </Form.Control.Feedback> */}
                 </Col>
               </Form.Group>
 
@@ -225,14 +161,14 @@ export default function CheckOut() {
                     name="address"
                     type="text"
                     placeholder="Nhập địa chỉ"
+                    isInvalid={!!errors.address}
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                   />
-                  {errors.address && (
+                  {/* {errors.address && (
                     <div className="text-danger">{errors.address}</div>
-                  )}
+                  )} */}
                 </Col>
-
               </Form.Group>
 
               <h4>HÌNH THỨC THANH TOÁN</h4>
