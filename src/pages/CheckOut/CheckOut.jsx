@@ -29,15 +29,15 @@ export default function CheckOut() {
     const formErrors = {};
     const form = document.forms[0];
 
-    // Kiểm tra họ tên
-    const nameRegex = /^[A-Z][a-zA-Z\s]*$/;
+    // check name
+    const nameRegex = /^[a-zA-ZÀ-ỹẠ-ỹ\s]*$/;  // Chấp nhận chữ cái thường và hoa, bao gồm dấu và khoảng trắng
     if (!form.name.value) {
       formErrors.name = "Họ Tên là bắt buộc";
     } else if (!nameRegex.test(form.name.value)) {
-      formErrors.name = "Họ Tên chỉ được chứa chữ cái viết hoa, không có số và ký tự đặc biệt";
+      formErrors.name = "Họ Tên chỉ được chứa chữ cái và khoảng trắng, không có số và ký tự đặc biệt";
     }
 
-    // Kiểm tra số điện thoại
+    // check phone
     const phoneRegex = /^[0-9]+$/;
     if (!form.phone.value) {
       formErrors.phone = "Điện Thoại là bắt buộc";
@@ -45,14 +45,14 @@ export default function CheckOut() {
       formErrors.phone = "Điện Thoại chỉ được chứa số";
     }
 
-    // Kiểm tra địa chỉ
+    // check address
     if (!address) {
       formErrors.address = "Địa chỉ là bắt buộc";
     }
 
     setErrors(formErrors);
 
-    // Hiển thị lỗi bằng toast
+    // display fail by toast
     Object.keys(formErrors).forEach((key) => {
       toast.error(formErrors[key]);
     });
@@ -63,6 +63,7 @@ export default function CheckOut() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setFormSubmitted(true);
+    const form = event.currentTarget;
     if (validateForm()) {
       try {
         const form = event.currentTarget;
