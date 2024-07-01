@@ -13,12 +13,13 @@ import { Form, Popconfirm } from "antd";
 import { formatDistanceToNow } from 'date-fns'
 
 const ProductReview = ({ productLineId }) => {
-  const [comments, setComments] = useState([])
+  const [comments, setComments] = useState([]);
+  const [inputValue, setInputValue] = useState(""); // **Added state to manage input value**
   const user = useSelector(selectUser);
   const [form] = useForm();
 
-  const handleReviewText = ({ target: { value } }) => {
-    setReview(value);
+  const handleInputChange = ({ target: { value } }) => { // **Updated input change handler**
+    setInputValue(value);
   };
 
   async function fetchComments() {
@@ -33,8 +34,9 @@ const ProductReview = ({ productLineId }) => {
       await api.post('comment', value)
       fetchComments();
       form.resetFields();
+      setInputValue(""); // **Reset input value after submission**
     } catch (error) {
-      toast.error("An error occurred!", {
+      toast.error("Gửi đánh giá không thành công!", {
         hideProgressBar: true,
       });
       console.log({ error });
@@ -66,7 +68,9 @@ const ProductReview = ({ productLineId }) => {
             <Input
               type="text"
               placeholder="Hãy để lại đánh giá cho sản phẩm"
-              style={{ width: '300px', marginTop: '20px' }}
+              style={{ width: '400px', marginTop: '25px' }}
+              onChange={handleInputChange} // **Added onChange handler to input**
+
             />
           </Form.Item>
           <Form.Item name="accountId" hidden initialValue={user.id}>
@@ -82,9 +86,9 @@ const ProductReview = ({ productLineId }) => {
           </Form.Item>
           <div className="buttons">
             <Button
-              className="submit"
-              onClick={() => { form.submit() }}
-              style={{ backgroundColor: 'lightblue' }}
+              className={`submit ${inputValue ? 'active' : ''}`}
+              onClick={() => { form.submit(); }}
+              disabled={!inputValue}
             >
               <SendOutlined style={{ marginRight: '5px' }} />
               Gửi
@@ -100,10 +104,6 @@ const ProductReview = ({ productLineId }) => {
                 <IoPersonCircleOutline className="icon" />
                 <span style={{ fontSize: '16px' }}>{comment.account.firstname} {comment.account.lastname} </span>
                 <div className="review-meta" style={{ marginLeft: '10px' }}>{formatDistanceToNow(comment.createAt)}</div>
-              </div>
-
-              <div className="comment-content" style={{ marginLeft: '42px' }}>
-                <p style={{ fontSize: '16px' }}>{comment.content}</p>
                 {
                   (comment.account.id === user.id)
                   &&
@@ -117,12 +117,17 @@ const ProductReview = ({ productLineId }) => {
                   >
                     <p
                       className="delete-comment-button"
-                      style={{ fontSize: '14px', color: 'red', width: '28px' }}
+                      style={{ marginLeft: '10px', fontSize: '12px', color: 'red', width: '28px' }}
                     >
                       Xóa
                     </p>
                   </Popconfirm>
                 }
+              </div>
+
+              <div className="comment-content" style={{ marginLeft: '42px' }}>
+                <p style={{ fontSize: '16px' }}>{comment.content}</p>
+
               </div>
             </div>
           ))}
