@@ -41,9 +41,29 @@
 .sidenav h1 {
   font-weight: bold;
   color: #e2e3e4;
-  padding: 5%;
   text-align: center;
-  font-size: 25px;
+  font-size: 22px;
+  margin-right: 20%;
+  
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.user-info h1 {
+  margin: 0;
+  margin-left: 10px;
+  padding-right: 10px; /* Adjust as needed */
+  white-space: nowrap;
+  /* overflow: hidden;
+  text-overflow: ellipsis; */
+}
+.user-info a{
+  margin-left: 60px;
 }
 
 hr.rounded {
@@ -54,13 +74,17 @@ hr.rounded {
 .sidenav-header {
   width: 100%;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
+  gap: 10px; /* Adjust as needed */
   justify-content: center;
   align-items: center;
+  margin-bottom: -28px;
 }
 
 .sidenav img {
-  width: 100px;
+  width: 120px;
+  margin-right: -30px;
+  margin-left: -41px;
 }
 
 .sidenav-header {

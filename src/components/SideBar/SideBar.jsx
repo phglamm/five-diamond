@@ -27,16 +27,23 @@ export default function SideBar() {
       <div className="sidenav-header">
         <img
           src={
-            "https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"
+            "https://drive.google.com/thumbnail?id=1g8TEiTOlnpFsJRxWMH7EF89QuVk9qk6n&sz=w1000"
           }
-          alt=""
+          alt="diamond-img"
         />
         <span>Five Diamond</span>
       </div>
       <hr className="rounded" />
-      <h1>
-        {user.firstname} {user.lastname}
-      </h1>
+
+      <div className="user-info">
+        <h1>
+          {user.firstname} {user.lastname}
+        </h1>
+        <Link onClick={handleLogout} to={routes.login}>
+          <LogoutIcon color="info" fontSize="large"></LogoutIcon>
+        </Link>
+      </div>
+
       <hr className="rounded" />
       <li>
         <StackedLineChartIcon color="info" fontSize="large" />
@@ -85,10 +92,36 @@ export default function SideBar() {
         </>
       )}
       <li>
-        <LogoutIcon color="info" fontSize="large" />
-        <Link onClick={handleLogout} to={routes.login}>
-          Đăng Xuất
-        </Link>
+        <ShoppingCartIcon color="info" fontSize="large"></ShoppingCartIcon>
+        <Link to={routes.adminmanageorder}>Quản Lý Đơn Hàng</Link>
+      </li>
+      <li>
+        <InventoryIcon color="info" fontSize="large"></InventoryIcon>
+        <Link to={routes.adminCover}>Danh Mục Sản Phẩm</Link>
+      </li>
+      <li>
+        <InventoryIcon color="info" fontSize="large"></InventoryIcon>
+        <Link to={routes.adminbst}>Quản Lý Bộ Sưu Tập</Link>
+      </li>
+      <li>
+        <DiamondIcon color="info" fontSize="large"></DiamondIcon>
+        <Link to={routes.adminDiamond}>Quản Lý Kim Cương</Link>
+      </li>
+      <li>
+        <FindInPageIcon color="info" fontSize="large"></FindInPageIcon>
+        <Link to={routes.adminCertificate}>Quản Lý Chứng Chỉ</Link>
+      </li>
+      <li>
+        <CategoryIcon color="info" fontSize="large"></CategoryIcon>
+        <Link to={routes.adminCategory}>Quản Lý Danh Mục</Link>
+      </li>
+      <li>
+        <PersonIcon color="info" fontSize="large"></PersonIcon>
+        <Link to={routes.adminUser}>Quản Lý Người Dùng</Link>
+      </li>
+      <li>
+        <EventIcon color="info" fontSize="large"></EventIcon>
+        <Link to="">Quản Lý Sự Kiện Sale</Link>
       </li>
     </div>
   );
