@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import useGetParams from "../../assets/useGetParams";
 import api from "../../config/axios";
 import "./PaymentSuccess.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { selectOrder } from "../../redux/features/orderSlice";
 import { routes } from "../../routes";
 import { toast } from "react-toastify";
@@ -25,6 +25,8 @@ const PaymentSuccess = () => {
         setOrderfull(response.data);
         navigate(routes.successpayment);
       } catch (error) {
+        navigate(routes.failpayment);
+        toast(error.response.data);
         console.log(error.response.data);
       }
     } else {
@@ -57,9 +59,12 @@ const PaymentSuccess = () => {
           </p>
           <p className="payment-success-text">
             Bạn có thể xem chi tiết trong{" "}
-            <a href="/theo-doi-don-hang" className="payment-success-order-link">
+            <Link
+              to={routes.orderhistory}
+              className="payment-success-order-link"
+            >
               đơn hàng của tôi
-            </a>
+            </Link>
             .
           </p>
           <button

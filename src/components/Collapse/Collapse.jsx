@@ -1,6 +1,7 @@
 import React from "react";
 import { Collapse, ConfigProvider } from "antd";
 import "./Collapse.css";
+import { Link } from "react-router-dom";
 
 const text = `
   A dog is a type of domesticated animal.
@@ -62,10 +63,10 @@ const itemsNest1 = [
         </p>
         <p className="larger">
           Chi tiết hướng dẫn đo size:
-          <a href="http://fivediamond.online/huong-dan-do-ni">
+          <Link to="http://fivediamond.online/huong-dan-do-ni">
             {" "}
             http://fivediamond.online/huong-dan-do-ni
-          </a>
+          </Link>
         </p>
       </>
     ),
@@ -113,7 +114,8 @@ const itemsNest1 = [
         <p className="larger">
           Kiểm tra trang sức định kỳ để phát hiện sớm bất kỳ hỏng hóc nào như
           chảy đá, mất nút kim cương, hoặc móc bị lỏng. Nếu phát hiện sự cố,
-          nhanh chóng đưa trang sức đến cửa hàng 5Diamond gần nhất để được sửa chữa.
+          nhanh chóng đưa trang sức đến cửa hàng 5Diamond gần nhất để được sửa
+          chữa.
         </p>
       </>
     ),
@@ -128,8 +130,9 @@ const itemsNest3 = [
     children: (
       <>
         <p className="larger">
-          Chính sách thu đổi khi quý khách mua hàng tại trang web http://fivediamond.online/
-          hoặc sàn Thương mại điện tử của 5Diamond và tại cửa hàng đều như nhau.
+          Chính sách thu đổi khi quý khách mua hàng tại trang web
+          http://fivediamond.online/ hoặc sàn Thương mại điện tử của 5Diamond và
+          tại cửa hàng đều như nhau.
         </p>
         <p className="larger">
           + Sản phẩm Bạc: đổi size (kích cỡ) trong vòng 72H đối với sản phẩm còn
@@ -138,7 +141,8 @@ const itemsNest3 = [
         <p className="larger">
           + Sản phẩm Vàng: thu đổi 100% giá trị sản phẩm trong vòng 48H (với
           điều kiện đổi sang sản phẩm khác giá trị cao hơn hoặc bằng sản phẩm
-          cũ, sau 48 tiếng 5Diamond sẽ đổi sản phẩm theo chế độ thu đổi thông thường)
+          cũ, sau 48 tiếng 5Diamond sẽ đổi sản phẩm theo chế độ thu đổi thông
+          thường)
         </p>
         <p className="larger">
           Lưu ý: thời gian được tính từ thời điểm khách hàng nhận được sản phẩm
@@ -189,8 +193,8 @@ const itemsNest4 = [
         </p>
         <p className="larger">
           Trong trường hợp hiếm hoi sản phẩm khách hàng nhận được bị lỗi, hư
-          hỏng hoặc không như mô tả, 5Diamond cam kết bảo vệ khách hàng bằng chính
-          sách thu đổi và bảo hành.
+          hỏng hoặc không như mô tả, 5Diamond cam kết bảo vệ khách hàng bằng
+          chính sách thu đổi và bảo hành.
         </p>
       </>
     ),
@@ -205,9 +209,9 @@ const itemsNest2 = [
       <>
         <p className="larger">
           Quý khách vui lòng truy cập website:{" "}
-          <a href="https://www.fivediamond.online/">
+          <Link to="https://www.fivediamond.online/">
             https://www.fivediamond.online/
-          </a>{" "}
+          </Link>{" "}
           - lựa chọn sản phẩm mình muốn mua, sau đó chọn hình thức thanh toán
           bằng tiền mặt, chuyển khoản, hoặc bằng thẻ tín dụng/thẻ ngân hàng. Sau
           khi giao dịch thanh toán hoàn tất, bạn sẽ nhận được thông báo xác nhận
@@ -255,10 +259,10 @@ const itemsNest2 = [
     children: (
       <>
         <p className="larger">
-          Thông tin Khách hàng là thông tin bảo mật được 5Diamond đặt lên hàng đầu.
-          Do đó, chúng tôi tôn trọng và cam kết sẽ bảo mật những thông tin mang
-          tính riêng tư và chỉ thu thập những thông tin cần thiết liên quan đến
-          giao dịch mua bán. .
+          Thông tin Khách hàng là thông tin bảo mật được 5Diamond đặt lên hàng
+          đầu. Do đó, chúng tôi tôn trọng và cam kết sẽ bảo mật những thông tin
+          mang tính riêng tư và chỉ thu thập những thông tin cần thiết liên quan
+          đến giao dịch mua bán. .
         </p>
       </>
     ),

@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import useGetParams from "../../assets/useGetParams";
 import api from "../../config/axios";
 import "./PaymentFail.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { selectOrder } from "../../redux/features/orderSlice";
 import { routes } from "../../routes";
 import { toast } from "react-toastify";

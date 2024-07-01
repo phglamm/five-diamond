@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -34,7 +33,8 @@ export default function CheckOut() {
     if (!form.name.value) {
       formErrors.name = "Họ Tên là bắt buộc";
     } else if (!nameRegex.test(form.name.value)) {
-      formErrors.name = "Họ Tên chỉ được chứa chữ cái viết hoa, không có số và ký tự đặc biệt";
+      formErrors.name =
+        "Họ Tên chỉ được chứa chữ cái viết hoa, không có số và ký tự đặc biệt";
     }
 
     // Kiểm tra số điện thoại

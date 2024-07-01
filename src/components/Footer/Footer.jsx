@@ -1,9 +1,8 @@
-
-
 import { Col, Container, Row } from "react-bootstrap";
 import "./Footer.css";
 import SearchBar from "../searchBar/searchBar";
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   const h5Refs = useRef([]);
@@ -27,15 +26,19 @@ export default function Footer() {
     <Container fluid className="Footer">
       {/* <hr className="Footer-head-hr" /> */}
       <Row>
-
         <Col xs={4} className="Footer-center">
           <i className="pi pi-phone"></i>
           <span> HOTLINE: </span>
-          <a href="tel:18001168">18001168</a>
+          <Link to="tel:18001168">18001168</Link>
         </Col>
 
         <Col xs={4} className="Footer-logo">
-          <img src={"https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"} alt="" />
+          <img
+            src={
+              "https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"
+            }
+            alt=""
+          />
         </Col>
         <Col xs={4} className="Footer-center">
           <i className="pi pi-map"></i>
@@ -43,26 +46,30 @@ export default function Footer() {
         </Col>
       </Row>
 
-
       <Row className="Footer-content">
         <Col className="Footer-middle">
-          <h5 ref={(el) => addToRefs(el, h5Refs)}><strong>LIÊN HỆ</strong></h5>
+          <h5 ref={(el) => addToRefs(el, h5Refs)}>
+            <strong>LIÊN HỆ</strong>
+          </h5>
           <hr ref={(el) => addToRefs(el, hrRefs)} className="blue-hr" />
           <p>Five Diamond Group</p>
           <p>
-            Địa chỉ: VNUHCM Student Cultural House, Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương
+            Địa chỉ: VNUHCM Student Cultural House, Lưu Hữu Phước, Đông Hoà, Dĩ
+            An, Bình Dương
           </p>
           <p>Điện thoại: 1800 1168</p>
           <p>Email: info@5diamond.vn</p>
         </Col>
         <Col className="Footer-middle">
-          <h5 ref={(el) => addToRefs(el, h5Refs)}><strong>VỀ CHÚNG TÔI</strong></h5>
+          <h5 ref={(el) => addToRefs(el, h5Refs)}>
+            <strong>VỀ CHÚNG TÔI</strong>
+          </h5>
           <hr ref={(el) => addToRefs(el, hrRefs)} className="blue-hr" />
           <p>
-            <a href="">Về Kim Cương 5Diamond</a>
+            <Link to="">Về Kim Cương 5Diamond</Link>
           </p>
           <p>
-            <a href="">Dịch vụ khách hàng</a>
+            <Link to="">Dịch vụ khách hàng</Link>
           </p>
           <p>
             <a href="">Kinh doanh bán sỉ</a>
@@ -72,7 +79,9 @@ export default function Footer() {
           </p>
         </Col>
         <Col className="Footer-middle">
-          <h5 ref={(el) => addToRefs(el, h5Refs)}><strong>DỊCH VỤ KHÁCH HÀNG</strong></h5>
+          <h5 ref={(el) => addToRefs(el, h5Refs)}>
+            <strong>DỊCH VỤ KHÁCH HÀNG</strong>
+          </h5>
           <hr ref={(el) => addToRefs(el, hrRefs)} className="blue-hr" />
           <p>
             <a href="">Hướng dẫn đặt hàng</a>
@@ -91,7 +100,9 @@ export default function Footer() {
           </p>
         </Col>
         <Col className="Footer-middle">
-          <h5 ref={(el) => addToRefs(el, h5Refs)}><strong>TIN TỨC</strong></h5>
+          <h5 ref={(el) => addToRefs(el, h5Refs)}>
+            <strong>TIN TỨC</strong>
+          </h5>
           <hr ref={(el) => addToRefs(el, hrRefs)} className="blue-hr" />
           <p>
             <a href="">Tin kim cương</a>
@@ -175,4 +186,3 @@ export default function Footer() {
     </Container>
   );
 }
-
