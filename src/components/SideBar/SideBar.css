@@ -6,9 +6,20 @@
   top: 0; /* Stay at the top */
   left: 0;
   background-color: #202531;
-
-  overflow-x: hidden;
+  overflow: auto; /* Enable scrolling */
+  /* overflow-x: hidden; */
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.sidenav::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.sidenav {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+} 
 
 .sidenav a {
   width: 100%;
