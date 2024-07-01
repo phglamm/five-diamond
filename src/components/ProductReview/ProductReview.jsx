@@ -100,55 +100,64 @@ const ProductReview = ({ productLineId }) => {
                 </Button>
               </div>
             </Form>
+            {comments.length ? (
+              <div className="reviews">
+                {comments.map((comment) => (
+                  <div className="review" key={comment.id}>
+                    <div className="customer">
+                      <IoPersonCircleOutline className="icon" />
+                      <span style={{ fontSize: "16px" }}>
+                        {comment.account.firstname} {comment.account.lastname}{" "}
+                      </span>
+                      <div
+                        className="review-meta"
+                        style={{ marginLeft: "10px" }}
+                      >
+                        {formatDistanceToNow(comment.createAt)}
+                      </div>
+                      {comment.account.id === user.id && (
+                        <Popconfirm
+                          title="Xóa bình luận"
+                          description="Bạn có muốn xóa bình luận không?"
+                          onConfirm={() => handleDeleteComment(comment.id)}
+                          okText="Có"
+                          cancelText="Không"
+                        >
+                          <p
+                            className="delete-comment-button"
+                            style={{
+                              marginLeft: "10px",
+                              fontSize: "12px",
+                              color: "red",
+                              width: "28px",
+                            }}
+                          >
+                            Xóa
+                          </p>
+                        </Popconfirm>
+                      )}
+                    </div>
+
+                    <div
+                      className="comment-content"
+                      style={{ marginLeft: "42px" }}
+                    >
+                      <p style={{ fontSize: "16px" }}>{comment.content}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p>Chưa có bình luận về sản phẩm</p>
+            )}
           </>
         ) : (
-          <></>
+          <>
+            {" "}
+            <p>Chưa có bình luận về sản phẩm</p>
+          </>
         )}
       </div>
-      {comments.length ? (
-        <div className="reviews">
-          {comments.map((comment) => (
-            <div className="review" key={comment.id}>
-              <div className="customer">
-                <IoPersonCircleOutline className="icon" />
-                <span style={{ fontSize: "16px" }}>
-                  {comment.account.firstname} {comment.account.lastname}{" "}
-                </span>
-                <div className="review-meta" style={{ marginLeft: "10px" }}>
-                  {formatDistanceToNow(comment.createAt)}
-                </div>
-                {comment.account.id === user.id && (
-                  <Popconfirm
-                    title="Xóa bình luận"
-                    description="Bạn có muốn xóa bình luận không?"
-                    onConfirm={() => handleDeleteComment(comment.id)}
-                    okText="Có"
-                    cancelText="Không"
-                  >
-                    <p
-                      className="delete-comment-button"
-                      style={{
-                        marginLeft: "10px",
-                        fontSize: "12px",
-                        color: "red",
-                        width: "28px",
-                      }}
-                    >
-                      Xóa
-                    </p>
-                  </Popconfirm>
-                )}
-              </div>
-
-              <div className="comment-content" style={{ marginLeft: "42px" }}>
-                <p style={{ fontSize: "16px" }}>{comment.content}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p>Chưa có bình luận về sản phẩm</p>
-      )}
     </div>
   );
 };
