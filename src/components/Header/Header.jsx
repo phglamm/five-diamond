@@ -1,6 +1,6 @@
 import "./Header.css";
 import { Col, Container, Row } from "react-bootstrap";
-import { ShoppingCartOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined } from "@ant-design/icons";
 import "primeicons/primeicons.css";
 import { routes } from "../../routes";
 import { Link } from "react-router-dom";
@@ -16,7 +16,6 @@ export default function Header() {
   const [isProductDropdownOpen, setIsProductDropdownOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
-
   const handleMouseOverProduct = () => {
     setIsProductDropdownOpen(true);
   };
@@ -31,17 +30,15 @@ export default function Header() {
     setIsProfileDropdownOpen(false);
   };
 
-
-  const handleMouseOverCart = () => {
-    setIsCartDropdownOpen(true);
-  };
-  const handleMouseLeaveCart = () => {
-    setIsCartDropdownOpen(false);
-  };
+  // const handleMouseOverCart = () => {
+  //   setIsCartDropdownOpen(true);
+  // };
+  // const handleMouseLeaveCart = () => {
+  //   setIsCartDropdownOpen(false);
+  // };
 
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
-
 
   return (
     <Container fluid className="Header" id="header">

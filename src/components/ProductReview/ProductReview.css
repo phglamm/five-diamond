@@ -1,13 +1,11 @@
 /* General styles for the review section */
 .product-reviews {
-
     font-family: Arial, sans-serif;
 }
 
 .header-review {
     color: #38a9b8;
     font-weight: bold;
-    padding-bottom: 10px;
     padding-top: 30px;
 }
 
@@ -15,7 +13,7 @@
 .comment-section {
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding-left: 10px;
 }
 
 .comment-section .user-icon {
@@ -29,8 +27,6 @@
     align-items: center;
     justify-content: center;
     margin-right: 10px;
-
-
 }
 
 .comment-section input[type="text"] {
@@ -38,7 +34,6 @@
     padding: 10px;
     border: 1px solid #ccc;
     background-color: #fff;
-    /* Assuming the original input background color */
     border-radius: 4px;
     outline: none;
 }
@@ -59,37 +54,30 @@
     border-radius: 4px;
     cursor: pointer;
     background-color: #4caf50;
-    /* Assuming the original button color */
     color: white;
     margin-left: 5px;
-    /* display: none; */
-    /* Hidden by default */
 }
 
-.comment-section button.cancel {
-    background-color: transparent;
-    color: #909090;
+
+
+.comment-section button.submit {
+    background-color: #717171;
+    color: white;
+}
+
+.comment-section button.submit.active {
+    background-color: #3ea6ff;
 }
 
 .comment-section button:disabled {
-    background-color: #4caf50;
     opacity: 0.6;
     cursor: not-allowed;
 }
 
-.comment-section button.submit {
-    background-color: #4caf50;
-}
-
-.comment-section input[type="text"]:focus~.buttons button {
-    display: inline-block;
-    /* Show buttons when input is focused */
-}
-
 /* Styles for individual reviews */
 .reviews {
-    margin-top: 20px;
-    background-color:  aliceblue;
+    margin-top: 5px;
+    background-color: #fff;
 }
 
 .review {
@@ -105,8 +93,10 @@
     width: 90%;
     position: absolute;
     bottom: 0;
+    left: 5px;
+    border-bottom: 0.01rem rgb(217, 214, 214) solid;
+    width: calc(100% - 20px);
 }
-
 
 .review .customer {
     display: flex;
@@ -128,16 +118,18 @@
 .review .review-meta {
     font-size: 12px;
     color: #999;
-    margin-bottom: 5px;
+
 }
 
 .review p {
     margin: 5px 0;
 }
-.delete-comment-button:hover{
+
+.delete-comment-button:hover {
     text-decoration: underline;
 }
-.comment-form{
+
+.comment-form {
     display: flex;
     align-items: center;
 }

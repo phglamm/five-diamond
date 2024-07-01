@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import SideBar from "../../../components/SideBar/SideBar";
 import { Button, Form, Image, Input, Modal, Select, Table, Upload } from "antd";
 import { useEffect, useState } from "react";

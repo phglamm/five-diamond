@@ -77,26 +77,7 @@
   text-decoration: none;
 }
 
-.Header-navigation a:hover {
-  color: #06b6d4;
-  position: relative;
-}
 
-.Header-navigation a::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: 0;
-  height: 2px;
-  background-color: #06b6d4;
-  transition: width 0.3s ease;
-}
-
-.Header-navigation a:hover::after {
-  width: 100%;
-}
 
 
 

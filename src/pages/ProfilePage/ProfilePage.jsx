@@ -9,7 +9,7 @@ import {
   selectUser,
   updateUser,
 } from "../../redux/features/counterSlice";
-import { Modal, Button, Input, DatePicker, Form } from "antd";
+import { Modal, Button, Input, DatePicker, Form, Select } from "antd";
 import api from "../../config/axios";
 import dayjs from "dayjs";
 import { EditOutlined, LockOutlined } from "@ant-design/icons";
@@ -169,11 +169,18 @@ function ProfilePage() {
         <div className="info-text">
           <h3>Thông tin cá nhân</h3>
           <div>
-            <p>Họ và tên:{" "}{user.firstname + " " + user.lastname}</p>
-            <p>Giới tính:{" "}{user.gender === "MALE" ? "Nam" : (user.gender === "FEMALE" ? "Nữ" : "Khác")}</p>
-            <p>Số điện thoại:{" "} {user.phone}</p>
-            <p>Ngày sinh:{" "}{formatDate(user.dob)}</p>
-            <p>Địa chỉ:{" "}{user.address}</p>
+            <p>Họ và tên: {user.firstname + " " + user.lastname}</p>
+            <p>
+              Giới tính:{" "}
+              {user.gender === "MALE"
+                ? "Nam"
+                : user.gender === "FEMALE"
+                ? "Nữ"
+                : "Khác"}
+            </p>
+            <p>Số điện thoại: {user.phone}</p>
+            <p>Ngày sinh: {formatDate(user.dob)}</p>
+            <p>Địa chỉ: {user.address}</p>
           </div>
         </div>
 
@@ -206,21 +213,31 @@ function ProfilePage() {
             form={form}
             onFinish={handleUpdateProfile}
           >
-            <Form.Item label="Họ" name="lastname" style={{ width: '100%' }} initialValue={user.lastname}>
-              <Input
-                placeholder="Họ"
-              />
-            </Form.Item >
-            <Form.Item label="Tên" name="firstname" style={{ width: '100%' }} initialValue={user.firstname}>
-              <Input
-                placeholder="Tên"
-              />
-            </Form.Item >
-            <Form.Item label="Giới tính" name="gender" initialValue={user.gender}>
+            <Form.Item
+              label="Họ"
+              name="lastname"
+              style={{ width: "100%" }}
+              initialValue={user.lastname}
+            >
+              <Input placeholder="Họ" />
+            </Form.Item>
+            <Form.Item
+              label="Tên"
+              name="firstname"
+              style={{ width: "100%" }}
+              initialValue={user.firstname}
+            >
+              <Input placeholder="Tên" />
+            </Form.Item>
+            <Form.Item
+              label="Giới tính"
+              name="gender"
+              initialValue={user.gender}
+            >
               <Select placeholder="Chọn Giới Tính của bạn">
-                <Option value="MALE">Nam</Option>
-                <Option value="FEMALE">Nữ</Option>
-                <Option value="OTHER">khác</Option>
+                <Select.Option value="MALE">Nam</Select.Option>
+                <Select.Option value="FEMALE">Nữ</Select.Option>
+                <Select.Option value="OTHER">khác</Select.Option>
               </Select>
             </Form.Item>
             <Form.Item

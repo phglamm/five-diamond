@@ -29,9 +29,9 @@ export default function GuestPage() {
   }, []);
 
   // Lấy 5 sản phẩm đầu tiên
-  const firstFiveProducts = product.slice(0, 10);
+  const firstFiveProducts = product.slice(0, 25);
   const specialpro = firstFiveProducts.filter(
-    (itemSpecial) => itemSpecial.deleted === false
+    (itemSpecial) => itemSpecial.special === true
   );
 
   return (
@@ -55,7 +55,7 @@ export default function GuestPage() {
         />
 
         <Row>
-          {specialpro.map((item, index) => (
+          {firstFiveProducts.map((item, index) => (
             <Col key={index} className="product-card-item">
               <ProductCard
                 img={item.imgURL}
