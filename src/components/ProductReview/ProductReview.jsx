@@ -10,7 +10,7 @@ import { selectUser } from "../../redux/features/counterSlice";
 import { useSelector } from "react-redux";
 import { useForm } from "antd/es/form/Form";
 import { Form, Popconfirm } from "antd";
-import { formatDistanceToNow } from 'date-fns'
+import { intlFormatDistance, formatDistanceToNow } from 'date-fns'
 
 const ProductReview = ({ productLineId }) => {
     const [comments, setComments] = useState([])
@@ -98,7 +98,7 @@ const ProductReview = ({ productLineId }) => {
                             <div className="customer">
                                 <IoPersonCircleOutline className="icon" />
                                 <span style={{ fontSize: '16px' }}>{comment.account.firstname} {comment.account.lastname} </span>
-                                <div className="review-meta" style={{ marginLeft: '10px' }}>{formatDistanceToNow(comment.createAt)}</div>
+                                <div className="review-meta" style={{ marginLeft: '10px' }}>{intlFormatDistance(comment.createAt,new Date())}</div>
                             </div>
 
                             <div className="comment-content" style={{ marginLeft: '42px' }}>
