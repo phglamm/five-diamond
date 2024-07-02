@@ -18,10 +18,12 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../../config/firebase";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 
 function LoginPageCard() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -182,10 +184,25 @@ function LoginPageCard() {
                       ]}
                     >
                       <Input
-                        type="password"
+                        type={passwordVisible ? "text" : "password"} // Conditional type
                         required
                         onChange={(e) => setPassword(e.target.value)}
                         onKeyDown={handleKeyDown} // Added onKeyDown event
+                        suffix={
+                          passwordVisible ? (
+                            <EyeInvisibleOutlined
+                              onClick={() =>
+                                setPasswordVisible(!passwordVisible)
+                              }
+                            />
+                          ) : (
+                            <EyeOutlined
+                              onClick={() =>
+                                setPasswordVisible(!passwordVisible)
+                              }
+                            />
+                          )
+                        }
                       />
                     </Form.Item>
                     <Button onClick={handleClickSubmit} className="form-button">
