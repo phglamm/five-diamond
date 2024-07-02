@@ -82,7 +82,7 @@ export default function OrderHistoryUser() {
   return (
     <div>
       <Header></Header>
-      <Container fluid>
+      <Container>
         <h3 className="order-history-title">ĐƠN HÀNG CỦA BẠN</h3>
         <div className="search-bar">
           <Input
