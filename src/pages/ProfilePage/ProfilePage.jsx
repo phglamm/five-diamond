@@ -13,7 +13,7 @@ import { routes } from "../../routes";
 import { Modal, Button, Input, DatePicker, Form, Select } from "antd";
 import api from "../../config/axios";
 import dayjs from "dayjs";
-import { EditOutlined, LockOutlined, EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { EditOutlined, LockOutlined, FormOutlined, EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { useForm } from "antd/es/form/Form";
 import { Container } from "react-bootstrap";
 
@@ -124,7 +124,7 @@ function ProfilePage() {
           </div>
 
           <button className="update-info-btn" onClick={handleEditInfoClick}>
-            <EditOutlined className="icon" />
+            <FormOutlined className="icon" />
             Chỉnh sửa thông tin
           </button>
 
