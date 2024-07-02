@@ -15,12 +15,14 @@ import { useForm } from "antd/es/form/Form";
 import { Option } from "antd/es/mentions";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 function RegisterPageCard() {
   const navigate = useNavigate();
   const dateFormat = "DD/MM/YYYY";
 
   const [form] = useForm();
+
   async function RegisterAccount(value) {
     console.log(value);
     try {
@@ -34,7 +36,7 @@ function RegisterPageCard() {
     }
   }
 
-  function hanldeClickSubmit() {
+  function handleClickSubmit() {
     form.submit();
   }
 
@@ -94,6 +96,11 @@ function RegisterPageCard() {
                         required: true,
                         message: "Hãy nhập Họ của bạn",
                       },
+                      {
+                        pattern: /^[a-zA-ZÀ-ỹẠ-ỹ\s]*$/,
+                        message:
+                          "Họ chỉ được chứa chữ cái và khoảng trắng, không có số và ký tự đặc biệt",
+                      },
                     ]}
                   >
                     <Input required />
@@ -107,6 +114,11 @@ function RegisterPageCard() {
                         required: true,
                         message: "Hãy nhập Tên của bạn",
                       },
+                      {
+                        pattern: /^[a-zA-ZÀ-ỹẠ-ỹ\s]*$/,
+                        message:
+                          "Tên chỉ được chứa chữ cái và khoảng trắng, không có số và ký tự đặc biệt",
+                      },
                     ]}
                   >
                     <Input required />
@@ -115,13 +127,27 @@ function RegisterPageCard() {
                     name="dob"
                     label="Ngày Sinh"
                     rules={[
-                      { required: true, message: "Chọn ngày sinh của bạn" },
+                      {
+                        required: true,
+                        message: "Chọn ngày sinh của bạn",
+                      },
+                      {
+                        validator: (_, value) =>
+                          value && value.isAfter(moment().endOf('day'))
+                            ? Promise.reject(
+                                new Error("Ngày sinh không được là ngày hiện tại hoặc tương lai")
+                              )
+                            : Promise.resolve(),
+                      },
                     ]}
                   >
                     <DatePicker
                       placeholder="Ngày Sinh"
                       style={{ width: "100%" }}
                       format={dateFormat}
+                      disabledDate={(current) =>
+                        current && current >= moment().endOf('day')
+                      }
                     />
                   </Form.Item>
 
@@ -133,6 +159,10 @@ function RegisterPageCard() {
                       {
                         required: true,
                         message: "Hãy nhập số điện thoại của bạn",
+                      },
+                      {
+                        pattern: /^[0-9]+$/,
+                        message: "Số Điện Thoại chỉ được chứa số",
                       },
                     ]}
                   >
@@ -178,6 +208,10 @@ function RegisterPageCard() {
                         type: "email",
                         message: "Hãy Nhập đúng Email",
                       },
+                      {
+                        pattern: /^([a-zA-Z0-9@.])*$/,
+                        message: "Mật khẩu của bạn không được chứa ký tự đặc biệt",
+                      },
                     ]}
                   >
                     <Input required />
@@ -192,10 +226,8 @@ function RegisterPageCard() {
                         message: "Mật khẩu của bạn phải chứa ít nhất 6 ký tự",
                       },
                       {
-                        pattern: /^([a-z]|[A-Z]|[0-9])*$/,
-
-                        message:
-                          "Mật khẩu của bạn phải không có ký tự đặc biệt",
+                        pattern: /^([a-zA-Z0-9])*$/,
+                        message: "Mật khẩu của bạn phải không có ký tự đặc biệt",
                       },
                       {
                         required: true,
@@ -231,13 +263,13 @@ function RegisterPageCard() {
                     <Input type="password" required />
                   </Form.Item>
 
-                  <Button onClick={hanldeClickSubmit} className="form-button ">
+                  <Button onClick={handleClickSubmit} className="form-button ">
                     Đăng Ký
                   </Button>
                 </Form>
               </div>
               <p className="mb-1 pb-lg-2 " style={{ color: "#393f81" }}>
-                Bạn đã có tài khoản ?{" "}
+                Bạn đã có tài khoản?{" "}
                 <Link
                   to={routes.login}
                   style={{ color: "#393f81" }}
