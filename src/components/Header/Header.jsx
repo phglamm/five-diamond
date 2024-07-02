@@ -94,7 +94,7 @@ export default function Header() {
             onMouseLeave={handleMouseLeaveProfile}
           >
             <span className="pi pi-user" style={{ fontSize: "1.5rem", paddingRight:'10px' }}></span>
-            {user.firstname} {user.lastname}
+            <div style={{marginLeft:'10px', fontSize:'16px', fontWeight:'bold'}}>{user.firstname} {user.lastname}</div>
             {isProfileDropdownOpen && (
               <div className="dropdownWrapper">
                 <DropdownProfile />

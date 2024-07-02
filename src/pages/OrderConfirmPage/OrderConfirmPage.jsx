@@ -25,6 +25,8 @@ export default function OrderConfirmation() {
     fetchOrderDetails();
   }, []);
 
+
+
   return (
     <Container fluid className="success-payment-wrapper">
       <div className="success-payment">

@@ -8,17 +8,18 @@ import { SendOutlined } from "@ant-design/icons";
 import { selectUser } from "../../redux/features/counterSlice";
 import { useSelector } from "react-redux";
 import { useForm } from "antd/es/form/Form";
-import { Form, Popconfirm } from "antd";
-import { formatDistanceToNow } from "date-fns";
+import { Form, Popconfirm, Pagination } from "antd";
+import { intlFormatDistance } from 'date-fns';
 
 const ProductReview = ({ productLineId }) => {
   const [comments, setComments] = useState([]);
-  const [inputValue, setInputValue] = useState(""); // **Added state to manage input value**
+  const [inputValue, setInputValue] = useState(""); // Added state to manage input value
+  const [currentPage, setCurrentPage] = useState(1); // Added state for current page
   const user = useSelector(selectUser);
   const [form] = useForm();
 
   const handleInputChange = ({ target: { value } }) => {
-    // **Updated input change handler**
+    // Updated input change handler
     setInputValue(value);
   };
 
@@ -34,7 +35,7 @@ const ProductReview = ({ productLineId }) => {
       await api.post("comment", value);
       fetchComments();
       form.resetFields();
-      setInputValue(""); // **Reset input value after submission**
+      setInputValue(""); // Reset input value after submission
     } catch (error) {
       toast.error("Gửi đánh giá không thành công!", {
         hideProgressBar: true,
@@ -52,6 +53,17 @@ const ProductReview = ({ productLineId }) => {
     console.log("Xóa thành công");
     fetchComments();
   };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const commentsPerPage = 5;
+  const currentComments = comments.slice(
+    (currentPage - 1) * commentsPerPage,
+    currentPage * commentsPerPage
+  );
+
   return (
     <div className="product-reviews">
       <h5 className="header-review">ĐÁNH GIÁ SẢN PHẨM</h5>
@@ -72,7 +84,7 @@ const ProductReview = ({ productLineId }) => {
                     type="text"
                     placeholder="Hãy để lại đánh giá cho sản phẩm"
                     style={{ width: "400px", marginTop: "25px" }}
-                    onChange={handleInputChange} // **Added onChange handler to input**
+                    onChange={handleInputChange} // Added onChange handler to input
                   />
                 </Form.Item>
                 <Form.Item name="accountId" hidden initialValue={user.id}>
@@ -104,7 +116,7 @@ const ProductReview = ({ productLineId }) => {
             </div>
             {comments.length ? (
               <div className="reviews">
-                {comments.map((comment) => (
+                {currentComments.map((comment) => (
                   <div className="review" key={comment.id}>
                     <div className="customer">
                       <IoPersonCircleOutline className="icon" />
@@ -115,7 +127,7 @@ const ProductReview = ({ productLineId }) => {
                         className="review-meta"
                         style={{ marginLeft: "10px" }}
                       >
-                        {formatDistanceToNow(comment.createAt)}
+                        {intlFormatDistance(comment.createAt, new Date())}
                       </div>
                       {comment.account.id === user.id && (
                         <Popconfirm
@@ -152,6 +164,13 @@ const ProductReview = ({ productLineId }) => {
             ) : (
               <p>Chưa có bình luận về sản phẩm</p>
             )}
+            <Pagination
+              current={currentPage}
+              pageSize={commentsPerPage}
+              total={comments.length}
+              onChange={handlePageChange}
+              style={{ marginTop: "20px", textAlign: "center" }}
+            />
           </>
         ) : (
           <>

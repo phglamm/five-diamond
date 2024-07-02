@@ -24,7 +24,6 @@ import { selectUser } from "../../redux/features/counterSlice";
 export default function CartPage() {
   const [cart, setCart] = useState([]);
   const [cartItems, setCartItems] = useState([]);
-  const [discountCode, setDiscountCode] = useState("");
   const [appliedDiscount, setAppliedDiscount] = useState(null);
   const navigate = useNavigate();
   const user = useSelector(selectUser);
@@ -115,28 +114,7 @@ export default function CartPage() {
   };
 
   // Apply discount code
-  const handleApplyDiscount = () => {
-    const discount = discountCodes.find(
-      (d) => d.code === discountCode.toUpperCase()
-    );
-    if (discount) {
-      const currentDate = new Date();
-      const expiryDate = new Date(discount.expiryDate);
-      
-      if (currentDate > expiryDate) {
-        alert("Mã giảm giá đã hết hạn");
-        return;
-      }
-      if (discount.quantity <= 0) {
-        alert("Mã giảm giá đã hết số lượng");
-        return;
-      }
-      setAppliedDiscount(discount);
-      discount.quantity -= 1; // Decrease the quantity of the discount code
-    } else {
-      alert("Mã giảm giá không hợp lệ");
-    }
-  };
+ 
 
   return (
     <div className="page-container">
@@ -372,23 +350,7 @@ export default function CartPage() {
                       </span>
                     </h5>
                     <hr className="solid" />
-                    <div className="d-flex">
-                      <input
-                        type="text"
-                        className="form-control mr-2"
-                        placeholder="Mã giảm giá/Quà tặng"
-                        value={discountCode}
-                        onChange={(e) => setDiscountCode(e.target.value)}
-                      />
-                      <Button
-                        style={{ background: "#614A4A" }}
-                        className="apply-button"
-                        onClick={handleApplyDiscount}
-                        disabled
-                      >
-                        Áp dụng
-                      </Button>
-                    </div>
+                    
                     <Button
                       style={{ background: "#ce0303", marginTop: "15px" }}
                       className="w-100 btn-proceed-to-checkout"
@@ -442,7 +404,7 @@ export default function CartPage() {
                       </span>
                     </h5>
                     <hr className="solid" />
-                    <div className="d-flex">
+                    {/* <div className="d-flex">
                       <input
                         type="text"
                         className="form-control mr-2"
@@ -457,7 +419,7 @@ export default function CartPage() {
                       >
                         Áp dụng
                       </Button>
-                    </div>
+                    </div> */}
                     {cartItems.length !== 0 ? (
                       <Button
                         style={{ background: "#ce0303", marginTop: "15px" }}
