@@ -89,7 +89,7 @@ export default function AppRoute() {
       <Route
         path={routes.adminsale}
         element={
-          <ProtectedRoute role="MANAGER">
+          <ProtectedRoute roles={["MANAGER"]}>
             <AdminSaleEvent />
           </ProtectedRoute>
         }

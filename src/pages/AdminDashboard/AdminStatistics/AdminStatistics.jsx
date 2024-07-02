@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "chart.js/auto";
-import { Bar } from "react-chartjs-2";
+import { Bar, Pie } from "react-chartjs-2";
 import SideBar from "../../../components/SideBar/SideBar";
 import axios from "axios";
 
@@ -89,10 +89,17 @@ export default function AdminStatistics() {
       <div className="admin-content">
         <div
           className="bar-chart-table"
-          style={{ width: "50%", marginLeft: "500px", marginTop: "100px" }}
+          style={{ width: "100%", marginLeft: "400px", marginTop: "100px" }}
         >
           <div style={{ height: "400px", width: "70%" }}>
-            <Bar data={data} />
+            <div>
+              <h1>Sơ đồ cột</h1>
+              <Bar data={data} />
+            </div>
+            <div>
+              <h1>Sơ đồ tròn</h1>
+              <Pie data={data} />
+            </div>
           </div>
         </div>
       </div>

@@ -9,13 +9,17 @@ import { routes } from "../../routes";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
 import { order } from "../../redux/features/orderSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
+import { selectUser } from "../../redux/features/counterSlice";
 
 export default function CheckOut() {
   const location = useLocation();
+  const [discountCode, setDiscountCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const user = useSelector(selectUser)
 
-  const { cartItems, finalTotal } = location.state || {
+  let { cartItems, finalTotal } = location.state || {
     cartItems: [],
     finalTotal: 0,
   };
@@ -24,31 +28,32 @@ export default function CheckOut() {
   const [errors, setErrors] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
   const dispatch = useDispatch();
+  
 
   const validateForm = () => {
     const formErrors = {};
     const form = document.forms[0];
 
     // Kiểm tra họ tên
-    const nameRegex = /^[A-Z][a-zA-Z\s]*$/;
-    if (!form.name.value) {
-      formErrors.name = "Họ Tên là bắt buộc";
-    } else if (!nameRegex.test(form.name.value)) {
-      formErrors.name = "Họ Tên chỉ được chứa chữ cái viết hoa, không có số và ký tự đặc biệt";
-    }
+    // const nameRegex = /^[A-Z][a-zA-Z\s]*$/;
+    // if (!form.name.value) {
+    //   formErrors.name = "Họ Tên là bắt buộc";
+    // } else if (!nameRegex.test(form.name.value)) {
+    //   formErrors.name = "Họ Tên chỉ được chứa chữ cái viết hoa, không có số và ký tự đặc biệt";
+    // }
 
-    // Kiểm tra số điện thoại
-    const phoneRegex = /^[0-9]+$/;
-    if (!form.phone.value) {
-      formErrors.phone = "Điện Thoại là bắt buộc";
-    } else if (!phoneRegex.test(form.phone.value)) {
-      formErrors.phone = "Điện Thoại chỉ được chứa số";
-    }
+    // // Kiểm tra số điện thoại
+    // const phoneRegex = /^[0-9]+$/;
+    // if (!form.phone.value) {
+    //   formErrors.phone = "Điện Thoại là bắt buộc";
+    // } else if (!phoneRegex.test(form.phone.value)) {
+    //   formErrors.phone = "Điện Thoại chỉ được chứa số";
+    // }
 
-    // Kiểm tra địa chỉ
-    if (!address) {
-      formErrors.address = "Địa chỉ là bắt buộc";
-    }
+    // // Kiểm tra địa chỉ
+    // if (!address) {
+    //   formErrors.address = "Địa chỉ là bắt buộc";
+    // }
 
     setErrors(formErrors);
 
@@ -60,6 +65,18 @@ export default function CheckOut() {
     return Object.keys(formErrors).length === 0;
   };
 
+
+  const handleApplyDiscount = async () => {
+    try {
+      const response = await api.get(`promotion/code/${discountCode}`);
+      console.log(response.data);
+      setDiscount(response.data.discountPercentage);
+    } catch (error) {
+      toast.error("Mã giảm giá không tồn tại hoặc không thể sử dụng được nữa")
+    }
+
+
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
     setFormSubmitted(true);
@@ -74,7 +91,9 @@ export default function CheckOut() {
           cartItems: cartItems,
           totalAmount: finalTotal,
         };
-        const amount = String(finalTotal);
+        console.log(data);
+        
+        const amount = String(finalTotal - finalTotal * discount / 100);
         console.log(amount);
 
         const response = await api.post("wallet/vnpay", {
@@ -91,6 +110,8 @@ export default function CheckOut() {
       }
     }
   };
+
+  
 
   const getTotalPrice = () => {
     return cartItems.reduce(
@@ -120,6 +141,7 @@ export default function CheckOut() {
                     name="name"
                     type="text"
                     placeholder="Nhập họ tên"
+                    defaultValue={`${user.lastname} ${user.firstname} `}
                     isInvalid={!!errors.name}
                   />
                   {/* <Form.Control.Feedback type="invalid">
@@ -139,6 +161,7 @@ export default function CheckOut() {
                   <Form.Control
                     name="phone"
                     type="text"
+                    defaultValue={user.phone}
                     placeholder="Nhập số điện thoại"
                     isInvalid={!!errors.phone}
                   />
@@ -162,7 +185,7 @@ export default function CheckOut() {
                     type="text"
                     placeholder="Nhập địa chỉ"
                     isInvalid={!!errors.address}
-                    value={address}
+                    defaultValue={user.address}
                     onChange={(e) => setAddress(e.target.value)}
                   />
                   {/* {errors.address && (
@@ -228,21 +251,46 @@ export default function CheckOut() {
                       <div className="cart-item-price">
                         Đơn giá: {item.productLine.price.toLocaleString()} đ
                       </div>
-                      <div className="cart-item-total">
-                        Thành tiền:{" "}
-                        {(
-                          item.productLine.price * item.quantity
-                        ).toLocaleString()}{" "}
-                        đ
-                      </div>
                     </div>
                   </div>
                 ))
               )}
+              <div className="d-flex">
+                <input
+                  type="text"
+                  className="form-control mr-2"
+                  placeholder="Mã giảm giá/Quà tặng"
+                  value={discountCode}
+                  onChange={(e) => setDiscountCode(e.target.value)}
+                />
+                <Button
+                  style={{ background: "#614A4A" }}
+                  className="apply-button"
+                  onClick={handleApplyDiscount}
+                  value={discountCode}
+                  onChange={(e) => { setDiscountCode(e.target.value) }}
+                >
+                  Áp dụng
+                </Button>
+              </div>
+              <div style={{marginLeft:'8px', marginTop:'12px'}}>
+                <h6>
+                  Tạm tính: {" "}
+                  <span style={{ color: "red" }}>
+                    {finalTotal.toLocaleString()} VNĐ
+                  </span>
+                </h6>
+                <h6>
+                  Số tiền đã giảm: {" "}
+                  <span style={{ color: "red" }}>
+                    {(finalTotal * discount / 100).toLocaleString()} VNĐ
+                  </span>
+                </h6>
+              </div>
               <h5>
-                Tổng giá:{" "}
+                Thành tiền:{" "}
                 <span style={{ color: "red" }}>
-                  {finalTotal.toLocaleString()} VNĐ
+                  {(finalTotal - finalTotal * discount / 100).toLocaleString()} VNĐ
                 </span>
               </h5>
             </Col>

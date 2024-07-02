@@ -103,7 +103,7 @@ export default function SideBar() {
           </li>
           <li>
             <EventIcon color="info" fontSize="large" />
-            <Link to="">Quản Lý Sự Kiện Sale</Link>
+            <Link to={routes.adminsale}>Quản Lý Sự Kiện Sale</Link>
           </li>
         </>
       ) : (
