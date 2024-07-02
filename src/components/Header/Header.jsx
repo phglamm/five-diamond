@@ -1,6 +1,6 @@
 import "./Header.css";
 import { Col, Container, Row } from "react-bootstrap";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { ImCart } from "react-icons/im";
 import "primeicons/primeicons.css";
 import { routes } from "../../routes";
@@ -117,7 +117,8 @@ export default function Header() {
         <Col xs={1} className="Header-navigation">
           <div className="cart">
             <Link to={routes.cart} className="cart-button">
-              <ImCart className="cart-icon" />
+              <HiOutlineShoppingBag className="cart-icon" />
+              <span>Giỏ hàng</span>
             </Link>
           </div>
         </Col>

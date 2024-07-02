@@ -20,10 +20,6 @@
   z-index: 1000;
   /* background: #ffffff; */
 }
-.Header-navigation{
-  margin-right: -7%;
-  margin-left: 1%;
-}
 
 .dropdownContainer a {
   color: black !important;
@@ -145,7 +141,14 @@
 }
 
 .cart-icon {
-  font-size: 23px;
+  font-size: 28px;
+  margin-right: 5px;
+  position: relative;
+
+}
+.cart{
+  margin-top: 6px;
+  margin-left: -90%;
 }
 
 @media screen and (max-width: 1440px) {
