@@ -221,7 +221,7 @@ function ProfilePage() {
                   <p>Email</p>
                   <div className="info-value">{user.email}</div>
                 </div>
-                <div className="info-box">
+                {/* <div className="info-box">
                   <p>Password</p>
                   <div className="info-value">
                     <span className="password">
@@ -231,7 +231,7 @@ function ProfilePage() {
                       {showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
                     </button>
                   </div>
-                </div>
+                </div> */}
                 <div className="info-box">
                   <p>Reward point</p>
                   <div className="info-value">{user.rewardPoint}</div>
