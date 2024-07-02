@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
 const PaymentSuccess = () => {
-  const orderId = "833883794";
   const orderPost = useSelector(selectOrder);
   console.log(orderPost);
   const navigate = useNavigate();
@@ -53,10 +52,7 @@ const PaymentSuccess = () => {
           <p className="payment-success-text">
             Cảm ơn bạn vì đã tin tưởng và ủng hộ.
           </p>
-          <p className="payment-success-text">
-            Mã số đơn hàng của bạn là{" "}
-            <span className="payment-success-order-id">{orderId}</span>.
-          </p>
+          <p className="payment-success-text">Mã số đơn hàng của bạn là </p>
           <p className="payment-success-text">
             Bạn có thể xem chi tiết trong{" "}
             <Link

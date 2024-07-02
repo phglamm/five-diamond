@@ -3,12 +3,11 @@ import "./SaleStaffPage.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Container } from "react-bootstrap";
-import { Table, Input, Button } from "antd";
+import { Table, Input, Button, Modal, Checkbox } from "antd";
 import api from "../../config/axios";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import moment from "moment"; // Import moment for date formatting
-
 
 function SaleStaffPage() {
   const [filterStatus, setFilterStatus] = useState(null); // null means no filter
@@ -86,6 +85,79 @@ function SaleStaffPage() {
     setFilterStatus(status);
   };
 
+  const [deliveryStaff, setDeliveryStaff] = useState([]);
+  async function fetchStaff() {
+    const response = await api.get("accounts");
+    const delivery = response.data.filter((user) => user.role === "DELIVERY");
+    setDeliveryStaff(delivery);
+  }
+
+  const onChange = (pagination, filters, sorter, extra) => {
+    console.log("params", pagination, filters, sorter, extra);
+  };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    fetchStaff();
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const columnOfStaff = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      sorter: (a, b) => a.id - b.id,
+    },
+
+    {
+      title: "Tên",
+      dataIndex: "firstname",
+      key: "firstname",
+    },
+    {
+      title: "Họ",
+      dataIndex: "lastname",
+      key: "lastname",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Số điện thoại",
+      dataIndex: "phone",
+      key: "phone",
+    },
+    {
+      title: "Địa Chỉ",
+      dataIndex: "address",
+      key: "address",
+    },
+    {
+      title: "Giới Tính",
+      dataIndex: "gender",
+      key: "gender",
+    },
+    {
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
+    },
+
+    {
+      title: "Select",
+      render: (value) => <Checkbox type="checkbox" value={value.id} />,
+    },
+  ];
   return (
     <div>
       <Header />
@@ -170,16 +242,41 @@ function SaleStaffPage() {
               ),
             },
             {
-              title: "Cập nhật đơn hàng",
+              title: "Thao tác",
               key: "update-order",
-              render: (text, record) => (
-                <Button
-                  type="primary"
-                  onClick={() => handleEdit(record.id, record.orderStatus)}
-                >
-                  Chuyển trạng thái
-                </Button>
-              ),
+              render: (text, record) =>
+                record.orderStatus === "PROCESSING" ? (
+                  <>
+                    <Button type="default" onClick={showModal}>
+                      Chọn nhân viên giao hàng
+                    </Button>
+
+                    <Modal
+                      className="modal-add-form"
+                      footer={false}
+                      title="Chọn Kim Cương để chỉnh sửa"
+                      okText={""}
+                      open={isModalOpen}
+                      onOk={handleOk}
+                      onCancel={handleCancel}
+                    >
+                      <Table
+                        dataSource={deliveryStaff}
+                        columns={columnOfStaff}
+                        pagination={{ pageSize: 5 }}
+                        scroll={{ x: "max-content" }}
+                        onChange={onChange}
+                      />
+                    </Modal>
+                  </>
+                ) : (
+                  <Button
+                    type="primary"
+                    onClick={() => handleEdit(record.id, record.orderStatus)}
+                  >
+                    Cập nhật trạng thái
+                  </Button>
+                ),
             },
           ]}
         />
