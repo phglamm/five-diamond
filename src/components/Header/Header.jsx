@@ -1,6 +1,7 @@
 import "./Header.css";
 import { Col, Container, Row } from "react-bootstrap";
 import { ShoppingCartOutlined } from "@ant-design/icons";
+import { ImCart } from "react-icons/im";
 import "primeicons/primeicons.css";
 import { routes } from "../../routes";
 import { Link } from "react-router-dom";
@@ -88,18 +89,19 @@ export default function Header() {
         </Col>
 
         {user ? (
-          <Col
+          <Col xs={2}
             className="Header-navigation dropdownContainer"
             onMouseOver={handleMouseOverProfile}
             onMouseLeave={handleMouseLeaveProfile}
           >
-            <span className="pi pi-user" style={{ fontSize: "1.5rem", paddingRight:'10px' }}></span>
+            <span className="pi pi-user" style={{ fontSize: "1.5rem", paddingRight: '10px' }}></span>
             {user.firstname} {user.lastname}
             {isProfileDropdownOpen && (
               <div className="dropdownWrapper">
                 <DropdownProfile />
               </div>
             )}
+
           </Col>
         ) : (
           <Col xs={3} className="Header-login">
@@ -112,6 +114,13 @@ export default function Header() {
             </Link>
           </Col>
         )}
+        <Col xs={1} className="Header-navigation">
+          <div className="cart">
+            <Link to={routes.cart} className="cart-button">
+              <ImCart className="cart-icon" />
+            </Link>
+          </div>
+        </Col>
       </Row>
 
       <Col className="Bottom-header">

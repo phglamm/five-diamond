@@ -1,74 +1,58 @@
 .dropdownProfile {
-    position: absolute;
-    top: 100%; 
-    right: 0;
-    background-color: white;
-    min-width: 200px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    padding: 10px;
-    border-radius: 5px;
-    display: none; 
-    transform: translateY(-90px) translateX(-55px);
-  }
-  
-  .dropdownContainer:hover .dropdownProfile {
-    display: block; 
-  }
-  
-  .profile-name {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
-  }
-  
-  .profile-name .pi-user {
-    font-size: 1.5rem;
-  }
-  
-  .username {
-    font-size: 15px;
-    font-weight: bold;
-    margin: 0;
-  }
-  
-  .cart-wrapper {
-    margin-top: 15px;
-    border-top: 1px black solid;
-    border-bottom: 1px black solid;
-  }
-  
-  .cart-button {
-    display: flex;
-    align-items: left;
-    gap: 5px;
-    color: black;
-    text-decoration: none;
-    font-size: 1rem;  
-    padding-right: 90px;
-  }
-  .logout-button {
-    display: flex;
-    /* align-items: center; */
-    margin-left: -45px;
-    gap: 5px;
-    color: black;
-    text-decoration: none;
-    font-size: 1rem;
-  }
-  .cart-icon {
-    font-size: 1.5rem;
-  }
-  .order-history-wrapper{
-    border-bottom: 1px black solid;
-    padding-left: 15px;
-    transform: translateX(-10px);
-  }
-  
-  .Header-profile {
-    
-    flex-direction: column;
-    align-items: flex-start;
-    flex-wrap: nowrap; */
+  position: absolute;
+  top: 100%; 
+  right: 0;
+  background-color: white;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  padding: 10px;
+  border-radius: 5px;
+  display: none; 
+  transform: translateY(-90px) translateX(-140px);
+}
+
+.dropdownContainer:hover .dropdownProfile {
+  display: block; 
+}
+
+.profile-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.profile-name .pi-user {
+  font-size: 1.5rem;
+}
+
+.username {
+  font-size: 15px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.logout-button {
+  display: flex;
+  margin-left: -45px;
+  gap: 5px;
+  color: black;
+  text-decoration: none;
+  font-size: 1rem;
+}
+.logout-button .logout-icon {
+  font-size: 1.5rem;
+}
+.order-history-wrapper{
+  margin-top: 15px;
+  border-top: 1px black solid;
+  border-bottom: 1px black solid;
+  padding-left: 15px;
+  transform: translateX(-10px);
+}
+
+.Header-profile {
+  flex-direction: column;
+  align-items: flex-start;
 }
