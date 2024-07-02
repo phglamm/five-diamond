@@ -1,6 +1,6 @@
 import React from "react";
 import { Col } from "react-bootstrap";
-import { ShoppingCartOutlined, UserOutlined, TruckOutlined, LogoutOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined, UserSwitchOutlined, TruckOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 import { routes } from "../../../routes";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,7 +21,7 @@ export default function DropdownProfile() {
 
         <div className="profile-title-wrapper">
           <Link to={routes.profile} className="profile-wrapper">
-            <UserOutlined className="profile-icon" />
+            <UserSwitchOutlined className="profile-icon" />
             <p>THÔNG TIN CÁ NHÂN</p>
           </Link>
         </div>

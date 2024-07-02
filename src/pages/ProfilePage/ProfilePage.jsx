@@ -9,6 +9,7 @@ import {
   selectUser,
   updateUser,
 } from "../../redux/features/counterSlice";
+import { routes } from "../../routes";
 import { Modal, Button, Input, DatePicker, Form, Select } from "antd";
 import api from "../../config/axios";
 import dayjs from "dayjs";
@@ -127,10 +128,11 @@ function ProfilePage() {
             Chỉnh sửa thông tin
           </button>
 
-          <button className="change-password-btn" onClick={handleUpdateClick}>
+          <Link className="change-password-btn" to={routes.changePassword}>
             <LockOutlined className="icon" />
             Đổi mật khẩu
-          </button>
+          </Link>
+
         </div>
 
         {/* useEffect(() => {

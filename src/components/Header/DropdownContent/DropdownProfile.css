@@ -1,30 +1,29 @@
-.Header-profile {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 15px 10px 0;
-}
-
 .dropdownProfile {
   position: absolute;
   top: 100%;
   right: 0;
   border: 1px solid grey;
   background-color: #fff;
-  min-width: 150px;
+  min-width: 200px;
   z-index: 10;
   border-radius: 10px;
   display: none;
   transform: translateY(-90px) translateX(-90px);
 }
 
+.Header-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+  width: 100%;
+
+}
+
 .dropdownContainer:hover .dropdownProfile {
   display: block;
 }
 
-
-
-.profile-title-wrapper,
 .profile-wrapper {
   display: flex;
   align-items: center;
@@ -32,30 +31,41 @@
   color: black;
   text-decoration: none;
   font-size: 0.9rem;
+  width: 100%;
+  margin: 7px 5px 0;
+
 
 }
 
 .profile-wrapper .p {
   padding-right: 5px;
-  margin: 5px 0;
+  margin: 0;
+
+}
+
+.profile-wrapper p {
+  margin: 0;
+  flex: 1;
 }
 
 .profile-icon {
   font-size: 1.3rem;
-  /* Giảm kích thước icon */
   margin-left: 3px;
-  margin-bottom: 15px;
+
+  margin-bottom: 3px;
 }
 
+.profile-title-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  text-align: left;
 
+}
 
-/* .profile-title-wrapper:hover,
-.profile-wrapper:hover {
-
+.profile-title-wrapper:hover {
   border-radius: 10px;
-  margin: 5px 0;
-  padding: 0;
-  background-color: #e0e0e0;
+  background-color: #e7e7e7;
   color: #000;
-  transition: background-color 0.3s;
-} */
+  transition: background-color 0.5s;
+}
