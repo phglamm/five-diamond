@@ -155,7 +155,7 @@ export default function Header() {
             </Link>
           </Col>
         )}
-      </Row>
+      </Row >
 
       <Col className="Bottom-header">
         <Col className="Header-navigation">
@@ -191,6 +191,6 @@ export default function Header() {
           <Link to={routes.faq}>Câu Hỏi Thường Gặp</Link>
         </Col>
       </Col>
-    </Container>
+    </Container >
   );
 }
