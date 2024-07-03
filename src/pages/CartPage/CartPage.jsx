@@ -15,7 +15,6 @@ import "./CartPage.css";
 import { ShoppingCartOutlined, RollbackOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
-import discountCodes from "./discountCodes";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
