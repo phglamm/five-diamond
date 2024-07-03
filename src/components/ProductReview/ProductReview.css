@@ -92,7 +92,7 @@
   position: absolute;
   bottom: 0;
   left: 5px;
-  border-bottom: 0.01rem rgb(217, 214, 214) solid;
+  /* border-bottom: 0.01rem rgb(217, 214, 214) solid; */
   width: calc(100% - 20px);
 }
 

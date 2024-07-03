@@ -9,17 +9,15 @@ import { selectUser } from "../../redux/features/counterSlice";
 import { useSelector } from "react-redux";
 import { useForm } from "antd/es/form/Form";
 import { Form, Popconfirm, Pagination } from "antd";
-import { intlFormatDistance } from 'date-fns';
+import { intlFormatDistance } from "date-fns";
 
 const ProductReview = ({ productLineId }) => {
   const [comments, setComments] = useState([]);
-  const [inputValue, setInputValue] = useState(""); // Added state to manage input value
-  const [currentPage, setCurrentPage] = useState(1); // Added state for current page
+  const [inputValue, setInputValue] = useState("");
   const user = useSelector(selectUser);
   const [form] = useForm();
 
   const handleInputChange = ({ target: { value } }) => {
-    // Updated input change handler
     setInputValue(value);
   };
 
@@ -35,7 +33,7 @@ const ProductReview = ({ productLineId }) => {
       await api.post("comment", value);
       fetchComments();
       form.resetFields();
-      setInputValue(""); // Reset input value after submission
+      setInputValue("");
     } catch (error) {
       toast.error("Gửi đánh giá không thành công!", {
         hideProgressBar: true,

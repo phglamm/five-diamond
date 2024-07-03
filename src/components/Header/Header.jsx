@@ -1,6 +1,5 @@
 import "./Header.css";
 import { Col, Container, Row } from "react-bootstrap";
-import { ShoppingCartOutlined } from "@ant-design/icons";
 import "primeicons/primeicons.css";
 import { routes } from "../../routes";
 import { Link } from "react-router-dom";
@@ -10,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import DropdownContent from "./DropdownContent/DropdownContent";
 import { Button } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import DropdownProfile from "./DropdownContent/DropdownProfile";
 
 export default function Header() {
@@ -93,13 +93,17 @@ export default function Header() {
             onMouseOver={handleMouseOverProfile}
             onMouseLeave={handleMouseLeaveProfile}
           >
-            <span className="pi pi-user" style={{ fontSize: "1.5rem", paddingRight:'10px' }}></span>
-            <div style={{marginLeft:'10px', fontSize:'16px', fontWeight:'bold'}}>{user.firstname} {user.lastname}</div>
-            {isProfileDropdownOpen && (
-              <div className="dropdownWrapper">
-                <DropdownProfile />
-              </div>
-            )}
+            <div className="header-profile-dropdown">
+              <UserOutlined
+                style={{ fontSize: "1.5rem", paddingRight: "10px" }}
+              />
+              {`${user.firstname.toUpperCase()} ${user.lastname.toUpperCase()}`}
+              {isProfileDropdownOpen && (
+                <div className="dropdownWrapper">
+                  <DropdownProfile />
+                </div>
+              )}
+            </div>
           </Col>
         ) : (
           <Col xs={3} className="Header-login">
