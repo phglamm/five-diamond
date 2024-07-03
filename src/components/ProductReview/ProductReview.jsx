@@ -13,7 +13,8 @@ import { intlFormatDistance } from "date-fns";
 
 const ProductReview = ({ productLineId }) => {
   const [comments, setComments] = useState([]);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(""); // Added state to manage input value
+  const [currentPage, setCurrentPage] = useState(1); // Added state for current page
   const user = useSelector(selectUser);
   const [form] = useForm();
 
