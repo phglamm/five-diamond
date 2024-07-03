@@ -80,19 +80,19 @@ export default function CheckOut() {
     if (validateForm()) {
       try {
         const form = event.currentTarget;
+
+        const amount = String(finalTotal - (finalTotal * discount) / 100);
+        console.log(amount);
         const data = {
           fullname: form.name.value,
           phone: form.phone.value,
           address: form.address.value,
           note: form.note.value,
           cartItems: cartItems,
-          totalAmount: finalTotal,
+          totalAmount: amount,
+          promotionCode: discountCode,
         };
         console.log(data);
-
-        const amount = String(finalTotal - (finalTotal * discount) / 100);
-        console.log(amount);
-
         const response = await api.post("wallet/vnpay", {
           amount: amount,
         });
