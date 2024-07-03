@@ -40,11 +40,11 @@ export default function AdminCollection() {
   async function AddCertificate(value) {
     console.log(value);
     try {
-      const img = value.fileURL.file.originFileObj;
       const imgURL = await uploadFile(img);
       value.imgURL = imgURL;
-      await api.post("certificate", value);
-      setCollection([...collection, value]);
+      console.log(value);
+      const response = await api.post("certificate", value);
+      console.log(response.data);
       toast.success("Thêm Bộ Sưu Tập thành công");
       fetchCollection();
     } catch (error) {
@@ -262,92 +262,92 @@ export default function AdminCollection() {
       },
     },
   ];
-  const [checkedList, setCheckedList] = useState([]);
-  const onChangeChecked = (e) => {
-    console.log(e.target.value);
-    if (e.target.checked) {
-      setCheckedList([...checkedList, e.target.value]);
-    } else {
-      setCheckedList(checkedList.filter((item) => item != e.target.value));
-    }
-  };
-  const columnOfProduct = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-      sorter: (a, b) => a.id - b.id,
-    },
+  // const [checkedList, setCheckedList] = useState([]);
+  // const onChangeChecked = (e) => {
+  //   console.log(e.target.value);
+  //   if (e.target.checked) {
+  //     setCheckedList([...checkedList, e.target.value]);
+  //   } else {
+  //     setCheckedList(checkedList.filter((item) => item != e.target.value));
+  //   }
+  // };
+  // const columnOfProduct = [
+  //   {
+  //     title: "ID",
+  //     dataIndex: "id",
+  //     key: "id",
+  //     sorter: (a, b) => a.id - b.id,
+  //   },
 
-    {
-      title: "Tên Sản Phẩm",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Mô Tả",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "Tỉ lệ Áp Giá",
-      dataIndex: "priceRate",
-      key: "priceRate",
-    },
+  //   {
+  //     title: "Tên Sản Phẩm",
+  //     dataIndex: "name",
+  //     key: "name",
+  //   },
+  //   {
+  //     title: "Mô Tả",
+  //     dataIndex: "description",
+  //     key: "description",
+  //   },
+  //   {
+  //     title: "Tỉ lệ Áp Giá",
+  //     dataIndex: "priceRate",
+  //     key: "priceRate",
+  //   },
 
-    {
-      title: "Shape",
-      dataIndex: "shape",
-      key: "shape",
-    },
-    {
-      title: "Color",
-      dataIndex: "color",
-      key: "color",
-    },
-    {
-      title: "Clarity",
-      dataIndex: "clarity",
-      key: "clarity",
-    },
-    {
-      title: "Cut",
-      dataIndex: "cut",
-      key: "cut",
-    },
-    {
-      title: "Origin",
-      dataIndex: "origin",
-      key: "origin",
-    },
-    {
-      title: "Select",
-      render: (value) => (
-        <Checkbox type="checkbox" onChange={onChangeChecked} value={value.id} />
-      ),
-    },
-  ];
+  //   {
+  //     title: "Shape",
+  //     dataIndex: "shape",
+  //     key: "shape",
+  //   },
+  //   {
+  //     title: "Color",
+  //     dataIndex: "color",
+  //     key: "color",
+  //   },
+  //   {
+  //     title: "Clarity",
+  //     dataIndex: "clarity",
+  //     key: "clarity",
+  //   },
+  //   {
+  //     title: "Cut",
+  //     dataIndex: "cut",
+  //     key: "cut",
+  //   },
+  //   {
+  //     title: "Origin",
+  //     dataIndex: "origin",
+  //     key: "origin",
+  //   },
+  //   {
+  //     title: "Select",
+  //     render: (value) => (
+  //       <Checkbox type="checkbox" onChange={onChangeChecked} value={value.id} />
+  //     ),
+  //   },
+  // ];
 
-  const [productLine, setProductLine] = useState([]);
-  const fetchProductLine = async () => {
-    const resposne = await api.get("product-line");
-    setProductLine(resposne.data);
-  };
+  // const [productLine, setProductLine] = useState([]);
+  // const fetchProductLine = async () => {
+  //   const resposne = await api.get("product-line");
+  //   setProductLine(resposne.data);
+  // };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+  // const handleOk = () => {
+  //   setIsModalOpen(false);
+  // };
+  // const handleCancel = () => {
+  //   setIsModalOpen(false);
+  // };
 
-  const showModal = () => {
-    fetchProductLine();
-    console.log();
-    setIsModalOpen(true);
-  };
+  // const showModal = () => {
+  //   fetchProductLine();
+  //   console.log();
+  //   setIsModalOpen(true);
+  // };
   return (
     <div className="Admin">
       <SideBar></SideBar>
@@ -388,7 +388,7 @@ export default function AdminCollection() {
               >
                 <Input type="text" required />
               </Form.Item>
-              <Form.Item className="label-form" label="Dòng Sản Phẩm Đã Chọn">
+              {/* <Form.Item className="label-form" label="Dòng Sản Phẩm Đã Chọn">
                 <Input
                   type="text"
                   className="select-input"
@@ -419,19 +419,14 @@ export default function AdminCollection() {
                   scroll={{ x: "max-content" }}
                   onChange={onChange}
                 />
-              </Modal>{" "}
+              </Modal>{" "} */}
               <Form.Item
                 className="label-form"
-                label="imgURL"
+                label="Image URL "
                 name="imgURL"
-                rules={[
-                  {
-                    required: true,
-                    message: "Nhập fileURL",
-                  },
-                ]}
               >
                 <Upload
+                  className="admin-upload-button"
                   fileList={img ? [img] : []}
                   beforeUpload={(file) => {
                     setImg(file);
@@ -439,8 +434,13 @@ export default function AdminCollection() {
                   }}
                   onRemove={() => setImg(null)}
                 >
-                  <Button icon={<UploadOutlined />}>Upload</Button>
-                </Upload>
+                  <Button
+                    icon={<UploadOutlined />}
+                    className="admin-upload-button"
+                  >
+                    Upload Hình Ảnh
+                  </Button>
+                </Upload>{" "}
               </Form.Item>
             </div>
           </div>

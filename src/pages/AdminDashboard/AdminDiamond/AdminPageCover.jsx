@@ -122,11 +122,13 @@ export default function AdminCover() {
     try {
       const imgURL = await uploadFile(img);
       value.imgURL = imgURL;
+      console.log(value.imgURL);
       value.diamondID = checkedList;
+      console.log(value);
       const response = await api.post("product-line", value);
       console.log(response);
       toast.success("Thêm sản phẩm thành công");
-      console.log(response);
+      console.log(response.data);
       fetchProductLine();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc thêm sản phẩm");
