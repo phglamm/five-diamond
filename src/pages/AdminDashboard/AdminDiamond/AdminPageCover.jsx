@@ -231,6 +231,7 @@ export default function AdminCover() {
       title: "ID",
       dataIndex: "id",
       key: "id",
+      fixed: 'left',
       sorter: (a, b) => a.id - b.id,
     },
     {
@@ -245,6 +246,7 @@ export default function AdminCover() {
       title: "Tên Sản Phẩm",
       dataIndex: "name",
       key: "name",
+      fixed: 'left',
     },
     {
       title: "Mô Tả",
@@ -344,6 +346,7 @@ export default function AdminCover() {
     },
     {
       title: "Hành Động",
+      fixed: 'right',
       render: (values) => {
         return (
           <>
