@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col } from "react-bootstrap";
-import { ShoppingCartOutlined, UserSwitchOutlined, TruckOutlined, LogoutOutlined } from '@ant-design/icons';
+import {
+  ShoppingCartOutlined,
+  UserSwitchOutlined,
+  TruckOutlined,
+  LogoutOutlined,
+} from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { routes } from "../../../routes";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,6 +13,7 @@ import { selectUser, logout } from "../../../redux/features/counterSlice";
 import "./DropdownProfile.css";
 
 export default function DropdownProfile() {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
@@ -15,10 +21,13 @@ export default function DropdownProfile() {
     dispatch(logout());
   };
 
-  return (
-    <div className="dropdownProfile">
-      <Col xs={12} className="Header-profile">
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
 
+  return (
+    <div className={`dropdownProfile ${dropdownOpen ? "open" : ""}`}>
+      <Col xs={12} className="Header-profile">
         <div className="profile-title-wrapper">
           <Link to={routes.profile} className="profile-wrapper">
             <UserSwitchOutlined className="profile-icon" />
@@ -38,7 +47,11 @@ export default function DropdownProfile() {
           </Link>
         </div>
         <div className="profile-title-wrapper">
-          <Link to={routes.login} className="profile-wrapper" onClick={handleLogout}>
+          <Link
+            to={routes.login}
+            className="profile-wrapper"
+            onClick={handleLogout}
+          >
             <LogoutOutlined className="profile-icon" />
             <p>ĐĂNG XUẤT</p>
           </Link>

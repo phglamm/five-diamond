@@ -40,6 +40,8 @@ export default function Header() {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
+  const cartItemCount = 5; // Replace this with the actual cart item count from your state
+
   return (
     <Container fluid className="Header" id="header">
       <Row className="Top-header">
@@ -89,6 +91,7 @@ export default function Header() {
 
         {user ? (
           <Col
+            xs={2}
             className="Header-navigation dropdownContainer"
             onMouseOver={handleMouseOverProfile}
             onMouseLeave={handleMouseLeaveProfile}
@@ -116,6 +119,17 @@ export default function Header() {
             </Link>
           </Col>
         )}
+        <Col xs={1} className="Header-navigation">
+          <div className="cart">
+            <Link to={routes.cart} className="cart-button">
+              <HiOutlineShoppingBag className="cart-icon" />
+              {cartItemCount > 0 && (
+                <div className="cart-count">{cartItemCount}</div>
+              )}
+              <span>Giỏ hàng</span>
+            </Link>
+          </div>
+        </Col>
       </Row>
 
       <Col className="Bottom-header">

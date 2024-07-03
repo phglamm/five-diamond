@@ -17,7 +17,6 @@
   align-items: flex-start;
   padding: 0;
   width: 100%;
-
 }
 
 .dropdownContainer:hover .dropdownProfile {
@@ -33,14 +32,11 @@
   font-size: 0.9rem;
   width: 100%;
   margin: 7px 5px 0;
-
-
 }
 
 .profile-wrapper .p {
   padding-right: 5px;
   margin: 0;
-
 }
 
 .profile-wrapper p {
@@ -60,7 +56,6 @@
   align-items: center;
   width: 100%;
   text-align: left;
-
 }
 
 .profile-title-wrapper:hover {
