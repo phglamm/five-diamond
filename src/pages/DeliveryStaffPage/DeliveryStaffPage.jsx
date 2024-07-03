@@ -81,7 +81,7 @@ function DeliveryStaffPage() {
   return (
     <div>
       <Header />
-      <Container fluid>
+      <Container>
         <h3 className="delivery-staff-title">Nhân viên giao hàng</h3>
         <div className="delivery-staff-filter-buttons">
           <Button
