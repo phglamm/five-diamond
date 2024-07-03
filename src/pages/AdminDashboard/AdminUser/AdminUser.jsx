@@ -48,7 +48,8 @@ export default function AdminUser() {
   };
   function hanldeClickSubmit() {
     form.submit();
-    setIsModalOpen(false)
+    setIsModalOpen(false);
+    fetchAccount();
   }
   const columns = [
     {
@@ -111,7 +112,7 @@ export default function AdminUser() {
             scroll={{ x: "max-content" }}
           />
           <Button type="primary" onClick={showModal}>
-            Tạo tài khoản nhân viên/ quản lý
+            Tạo tài khoản nhân viên/quản lý
           </Button>
           <Modal title="Tạo tài khoản" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
             <Form
@@ -284,7 +285,7 @@ export default function AdminUser() {
                 </Select>
               </Form.Item>
               <Button onClick={hanldeClickSubmit} className="form-button ">
-                Đăng Ký
+                Tạo tài khoản
               </Button>
             </Form>
           </Modal>
