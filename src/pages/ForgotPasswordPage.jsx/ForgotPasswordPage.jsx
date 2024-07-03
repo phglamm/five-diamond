@@ -29,7 +29,7 @@ function ForgotPasswordPage() {
       console.log(response);
       toast.success("Đã gửi yêu cầu đến Email của bạn");
     } catch (error) {
-      toast.success("Có sự cố khi gửi yêu cầu đến Email của bạn");
+      toast.error("Có sự cố khi gửi yêu cầu đến Email của bạn");
       console.log(error.response.data);
     }
   }
