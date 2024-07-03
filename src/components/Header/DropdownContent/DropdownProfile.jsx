@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Col } from "react-bootstrap";
 import {
   ShoppingCartOutlined,
   UserSwitchOutlined,
   TruckOutlined,
   LogoutOutlined,
+  DashboardOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { routes } from "../../../routes";
@@ -46,6 +48,25 @@ export default function DropdownProfile() {
             <p>LỊCH SỬ MUA HÀNG</p>
           </Link>
         </div>
+
+        {/* Conditional rendering based on user role */}
+        {user && user.role === "ADMIN" && (
+          <div className="profile-title-wrapper">
+            <Link to={routes.adminchart} className="profile-wrapper">
+              <DashboardOutlined className="profile-icon" />
+              <p>TRANG QUẢN TRỊ</p>
+            </Link>
+          </div>
+        )}
+        {user && user.role === "MANAGER" && (
+          <div className="profile-title-wrapper">
+            <Link to={routes.adminchart} className="profile-wrapper">
+              <TeamOutlined className="profile-icon" />
+              <p>TRANG QUẢN LÝ</p>
+            </Link>
+          </div>
+        )}
+
         <div className="profile-title-wrapper">
           <Link
             to={routes.login}

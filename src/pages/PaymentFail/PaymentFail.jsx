@@ -1,39 +1,6 @@
-import { useSelector } from "react-redux";
-import useGetParams from "../../assets/useGetParams";
-import api from "../../config/axios";
 import "./PaymentFail.css";
-import { useNavigate } from "react-router-dom";
-import { selectOrder } from "../../redux/features/orderSlice";
-import { routes } from "../../routes";
-import { toast } from "react-toastify";
-import { useEffect } from "react";
 
 const PaymentFail = () => {
-  const orderId = "833883794";
-  const orderPost = useSelector(selectOrder);
-  console.log(orderPost);
-  const navigate = useNavigate();
-  const params = useGetParams();
-  const status = params("vnp_TransactionStatus");
-  console.log(status);
-  async function handleSubmitOrder() {
-    if (status === "00") {
-      try {
-        const response = await api.post("order", orderPost);
-        console.log(response.data);
-        navigate(routes.orderhistory);
-      } catch (error) {
-        console.log(error.response.data);
-      }
-    } else {
-      toast.error("thanh toán thất bại");
-    }
-  }
-
-  useEffect(() => {
-    handleSubmitOrder();
-  }, []);
-
   return (
     <div className="pay">
       <div className="payment-fail-page">
