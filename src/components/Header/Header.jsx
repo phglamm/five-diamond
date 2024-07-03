@@ -10,6 +10,7 @@ import { useState } from "react";
 import DropdownContent from "./DropdownContent/DropdownContent";
 import { Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import { ShoppingCartOutlined } from "@ant-design/icons";
 import DropdownProfile from "./DropdownContent/DropdownProfile";
 
 export default function Header() {
@@ -119,17 +120,7 @@ export default function Header() {
             </Link>
           </Col>
         )}
-        <Col xs={1} className="Header-navigation">
-          <div className="cart">
-            <Link to={routes.cart} className="cart-button">
-              <HiOutlineShoppingBag className="cart-icon" />
-              {cartItemCount > 0 && (
-                <div className="cart-count">{cartItemCount}</div>
-              )}
-              <span>Giỏ hàng</span>
-            </Link>
-          </div>
-        </Col>
+
       </Row>
 
       <Col className="Bottom-header">
