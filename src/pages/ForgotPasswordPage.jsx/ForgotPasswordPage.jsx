@@ -23,7 +23,7 @@ function ForgotPasswordPage() {
   }
 
   async function ForgotPassword(value) {
-    console.log(value);
+    console.log(value); N
     try {
       const response = await api.post("forgot-password", value);
       console.log(response);
