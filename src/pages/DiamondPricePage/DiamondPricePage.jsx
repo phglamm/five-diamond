@@ -1,12 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import { Container, Table } from 'react-bootstrap';
-import "./DiamondPricePage.css"
+import "./DiamondPricePage.css";
+import axios from 'axios';
 
 export default function DiamondPricePage() {
+    const [diamondPrices, setDiamondPrices] = useState([]);
+
+    const fetchDiamondPrices = async () => {
+        try {
+            const response = await axios.get("https://6684dca756e7503d1ae169ba.mockapi.io/api/v1/DiamondPrice");
+            console.log(response.data);
+            setDiamondPrices(response.data);
+        } catch (error) {
+            console.error("Error fetching diamond prices:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchDiamondPrices();
+    }, []);
+
     const columnHeaders = ['IF', 'VVS1', 'VVS2', 'VS1', 'VS2'];
     const rowHeaders = ['D', 'E', 'F', 'J'];
+
+    const renderTableCells = (size) => {
+        return rowHeaders.map((color) => (
+            <tr key={color}>
+                <th>{color}</th>
+                {columnHeaders.map((cut) => {
+                    const priceData = diamondPrices.find(
+                        (price) => price.size === size && price.cut === cut && price.color === color
+                    );
+                    return (
+                        <td key={cut}>
+                            {priceData ? `${priceData.price} VNĐ` : 'N/A'}
+                        </td>
+                    );
+                })}
+            </tr>
+        ));
+    };
+
     return (
         <div>
             <Header />
@@ -25,14 +61,7 @@ export default function DiamondPricePage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {rowHeaders.map((rowHeader, rowIndex) => (
-                                    <tr key={rowIndex}>
-                                        <th>{rowHeader}</th>
-                                        {columnHeaders.map((_, colIndex) => (
-                                            <td key={colIndex}></td>
-                                        ))}
-                                    </tr>
-                                ))}
+                                {renderTableCells("3.6")}
                             </tbody>
                         </Table>
                     </div>
@@ -41,21 +70,14 @@ export default function DiamondPricePage() {
                         <Table bordered className='price-table'>
                             <thead>
                                 <tr>
-                                    <th>3.6MM</th>
+                                    <th>3.9MM</th>
                                     {columnHeaders.map((header, index) => (
                                         <th key={index}>{header}</th>
                                     ))}
                                 </tr>
                             </thead>
                             <tbody>
-                                {rowHeaders.map((rowHeader, rowIndex) => (
-                                    <tr key={rowIndex}>
-                                        <th>{rowHeader}</th>
-                                        {columnHeaders.map((_, colIndex) => (
-                                            <td key={colIndex}></td>
-                                        ))}
-                                    </tr>
-                                ))}
+                                {renderTableCells("3.9")}
                             </tbody>
                         </Table>
                     </div>

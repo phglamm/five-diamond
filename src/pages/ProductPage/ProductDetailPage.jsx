@@ -134,6 +134,7 @@ export default function ProductPage({ token }) {
     }
   };
   const handleBuyNow = async () => {
+    handleClickAddToCart();
     const cartItems = [{ productLine: product, quantity: 1 }];
     const finalTotal = product.price;
 
