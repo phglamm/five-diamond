@@ -30,6 +30,7 @@ export const routes = {
   adminbst: "/admin-bo-suu-tap",
   adminchart: "/admin-bieu-do",
   adminsale: "/admin-su-kien-sale",
+  adminDiamondPrice: "/admin-gia-kim-cuong",
 
   productdetail: "/chi-tiet-san-pham",
   diamondprice: "/bang-gia-kim-cuong",
