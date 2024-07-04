@@ -1,6 +1,5 @@
 import "./Header.css";
 import { Col, Container, Row } from "react-bootstrap";
-import { ShoppingCartOutlined } from "@ant-design/icons";
 import "primeicons/primeicons.css";
 import { routes } from "../../routes";
 import { Link } from "react-router-dom";
@@ -10,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import DropdownContent from "./DropdownContent/DropdownContent";
 import { Button } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import DropdownProfile from "./DropdownContent/DropdownProfile";
 
 export default function Header() {
@@ -30,32 +30,65 @@ export default function Header() {
     setIsProfileDropdownOpen(false);
   };
 
-  // const handleMouseOverCart = () => {
-  //   setIsCartDropdownOpen(true);
-  // };
-  // const handleMouseLeaveCart = () => {
-  //   setIsCartDropdownOpen(false);
-  // };
-
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
   return (
     <Container fluid className="Header" id="header">
       <Row className="Top-header">
-        {user && (user.role === "SALES" || user.role === "DELIVERY") ? (
-          <Col xs={4} className="Header-left">
-            <div className="Header-left-component">
-              <Link to={routes.saleStaff} className="sale-staff">
-                <p>Theo Dõi Đơn Hàng Cần Xử Lý</p>
-              </Link>
-            </div>
-            <div className="Header-left-component">
-              <Link to={routes.deliveryStaff} className="sale-staff">
-                <p>Theo Dõi Đơn Hàng Cần Giao Đi</p>
-              </Link>
-            </div>
-          </Col>
+        {user ? (
+          <>
+            {user.role === "SALES" && (
+              <Col xs={4} className="Header-left">
+                <div className="Header-left-component">
+                  <Link to={routes.saleStaff} className="sale-staff">
+                    <p>Theo Dõi Đơn Hàng Cần Xử Lý</p>
+                  </Link>
+                </div>
+              </Col>
+            )}
+            {user.role === "DELIVERY" && (
+              <Col xs={4} className="Header-left">
+                <div className="Header-left-component">
+                  <Link to={routes.deliveryStaff} className="sale-staff">
+                    <p>Theo Dõi Đơn Hàng Cần Giao Đi</p>
+                  </Link>
+                </div>
+              </Col>
+            )}
+            {user.role === "MANAGER" && (
+              <Col xs={4} className="Header-left">
+                <div className="Header-left-component">
+                  <Link to={routes.saleStaff} className="sale-staff">
+                    <p>Theo Dõi Đơn Hàng Cần Xử Lý</p>
+                  </Link>
+                </div>
+                <div className="Header-left-component">
+                  <Link to={routes.deliveryStaff} className="sale-staff">
+                    <p>Theo Dõi Đơn Hàng Cần Giao Đi</p>
+                  </Link>
+                </div>
+              </Col>
+            )}
+            {user.role !== "SALES" &&
+              user.role !== "DELIVERY" &&
+              user.role !== "MANAGER" && (
+                <Col xs={4} className="Header-left">
+                  <div className="Header-left-component">
+                    <i className="pi pi-phone"></i>
+                    <p>1800 1168</p>
+                  </div>
+                  <div className="Header-left-component">
+                    <i className="pi pi-building"></i>
+                    <p>HỆ THỐNG SHOWROOM</p>
+                  </div>
+                  <div className="Header-left-component">
+                    <i className="pi pi-map"></i>
+                    <p>HỆ THỐNG PHÂN PHỐI</p>
+                  </div>
+                </Col>
+              )}
+          </>
         ) : (
           <Col xs={4} className="Header-left">
             <div className="Header-left-component">
@@ -93,8 +126,19 @@ export default function Header() {
             onMouseOver={handleMouseOverProfile}
             onMouseLeave={handleMouseLeaveProfile}
           >
-            <span className="pi pi-user" style={{ fontSize: "1.5rem", paddingRight:'10px' }}></span>
-            <div style={{marginLeft:'10px', fontSize:'16px', fontWeight:'bold'}}>{user.firstname} {user.lastname}</div>
+            <span
+              className="pi pi-user"
+              style={{ fontSize: "1.5rem", paddingRight: "10px" }}
+            ></span>
+            <div
+              style={{
+                marginLeft: "10px",
+                fontSize: "16px",
+                fontWeight: "bold",
+              }}
+            >
+              {user.firstname} {user.lastname}
+            </div>
             {isProfileDropdownOpen && (
               <div className="dropdownWrapper">
                 <DropdownProfile />
@@ -104,7 +148,6 @@ export default function Header() {
         ) : (
           <Col xs={3} className="Header-login">
             <Link to={routes.login}>
-              {" "}
               <Button className="authen-button">Đăng nhập</Button>
             </Link>
             <Link to={routes.register}>
@@ -112,7 +155,7 @@ export default function Header() {
             </Link>
           </Col>
         )}
-      </Row>
+      </Row >
 
       <Col className="Bottom-header">
         <Col className="Header-navigation">
@@ -148,6 +191,6 @@ export default function Header() {
           <Link to={routes.faq}>Câu Hỏi Thường Gặp</Link>
         </Col>
       </Col>
-    </Container>
+    </Container >
   );
 }

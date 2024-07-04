@@ -1,5 +1,14 @@
 import SideBar from "../../../components/SideBar/SideBar";
-import { Button, Form, Image, Input, Modal, Table, Upload } from "antd";
+import {
+  Button,
+  Checkbox,
+  Form,
+  Image,
+  Input,
+  Modal,
+  Table,
+  Upload,
+} from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import "../../AdminDashboard/AdminPage.css";
@@ -31,11 +40,11 @@ export default function AdminCollection() {
   async function AddCertificate(value) {
     console.log(value);
     try {
-      const img = value.fileURL.file.originFileObj;
       const imgURL = await uploadFile(img);
       value.imgURL = imgURL;
-      await api.post("certificate", value);
-      setCollection([...collection, value]);
+      console.log(value);
+      const response = await api.post("certificate", value);
+      console.log(response.data);
       toast.success("Thêm Bộ Sưu Tập thành công");
       fetchCollection();
     } catch (error) {
@@ -106,6 +115,7 @@ export default function AdminCollection() {
   const handleUpdateCancel = () => {
     setIsModalUpdateOpen(false);
   };
+
   const columns = [
     {
       title: "ID",
@@ -252,7 +262,92 @@ export default function AdminCollection() {
       },
     },
   ];
+  // const [checkedList, setCheckedList] = useState([]);
+  // const onChangeChecked = (e) => {
+  //   console.log(e.target.value);
+  //   if (e.target.checked) {
+  //     setCheckedList([...checkedList, e.target.value]);
+  //   } else {
+  //     setCheckedList(checkedList.filter((item) => item != e.target.value));
+  //   }
+  // };
+  // const columnOfProduct = [
+  //   {
+  //     title: "ID",
+  //     dataIndex: "id",
+  //     key: "id",
+  //     sorter: (a, b) => a.id - b.id,
+  //   },
 
+  //   {
+  //     title: "Tên Sản Phẩm",
+  //     dataIndex: "name",
+  //     key: "name",
+  //   },
+  //   {
+  //     title: "Mô Tả",
+  //     dataIndex: "description",
+  //     key: "description",
+  //   },
+  //   {
+  //     title: "Tỉ lệ Áp Giá",
+  //     dataIndex: "priceRate",
+  //     key: "priceRate",
+  //   },
+
+  //   {
+  //     title: "Shape",
+  //     dataIndex: "shape",
+  //     key: "shape",
+  //   },
+  //   {
+  //     title: "Color",
+  //     dataIndex: "color",
+  //     key: "color",
+  //   },
+  //   {
+  //     title: "Clarity",
+  //     dataIndex: "clarity",
+  //     key: "clarity",
+  //   },
+  //   {
+  //     title: "Cut",
+  //     dataIndex: "cut",
+  //     key: "cut",
+  //   },
+  //   {
+  //     title: "Origin",
+  //     dataIndex: "origin",
+  //     key: "origin",
+  //   },
+  //   {
+  //     title: "Select",
+  //     render: (value) => (
+  //       <Checkbox type="checkbox" onChange={onChangeChecked} value={value.id} />
+  //     ),
+  //   },
+  // ];
+
+  // const [productLine, setProductLine] = useState([]);
+  // const fetchProductLine = async () => {
+  //   const resposne = await api.get("product-line");
+  //   setProductLine(resposne.data);
+  // };
+
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // const handleOk = () => {
+  //   setIsModalOpen(false);
+  // };
+  // const handleCancel = () => {
+  //   setIsModalOpen(false);
+  // };
+
+  // const showModal = () => {
+  //   fetchProductLine();
+  //   console.log();
+  //   setIsModalOpen(true);
+  // };
   return (
     <div className="Admin">
       <SideBar></SideBar>
@@ -280,7 +375,6 @@ export default function AdminCollection() {
               >
                 <Input type="text" required />
               </Form.Item>
-
               <Form.Item
                 className="label-form"
                 label="Mô Tả"
@@ -294,19 +388,45 @@ export default function AdminCollection() {
               >
                 <Input type="text" required />
               </Form.Item>
-
+              {/* <Form.Item className="label-form" label="Dòng Sản Phẩm Đã Chọn">
+                <Input
+                  type="text"
+                  className="select-input"
+                  readOnly
+                  value={checkedList}
+                />
+              </Form.Item>
+              <Button
+                icon={<UploadOutlined />}
+                className="admin-upload-button"
+                onClick={showModal}
+              >
+                Chọn Sản Phẩm trong BST
+              </Button>
+              <Modal
+                className="modal-add-form"
+                footer={false}
+                title="Chọn sản phẩm trong bộ sưu tập"
+                okText={""}
+                open={isModalOpen}
+                onOk={handleOk}
+                onCancel={handleCancel}
+              >
+                <Table
+                  dataSource={productLine}
+                  columns={columnOfProduct}
+                  pagination={{ pageSize: 5 }}
+                  scroll={{ x: "max-content" }}
+                  onChange={onChange}
+                />
+              </Modal>{" "} */}
               <Form.Item
                 className="label-form"
-                label="imgURL"
+                label="Image URL "
                 name="imgURL"
-                rules={[
-                  {
-                    required: true,
-                    message: "Nhập fireURL",
-                  },
-                ]}
               >
                 <Upload
+                  className="admin-upload-button"
                   fileList={img ? [img] : []}
                   beforeUpload={(file) => {
                     setImg(file);
@@ -314,8 +434,13 @@ export default function AdminCollection() {
                   }}
                   onRemove={() => setImg(null)}
                 >
-                  <Button icon={<UploadOutlined />}>Upload</Button>
-                </Upload>
+                  <Button
+                    icon={<UploadOutlined />}
+                    className="admin-upload-button"
+                  >
+                    Upload Hình Ảnh
+                  </Button>
+                </Upload>{" "}
               </Form.Item>
             </div>
           </div>

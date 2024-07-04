@@ -8,24 +8,33 @@ import {
 } from "mdb-react-ui-kit";
 import "./ChangePassword.css";
 import { routes } from "../../routes";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
-import api from "../../config/axios";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
+import axios from "axios";
 
 function ChangePasswordPage() {
   const navigate = useNavigate();
+  const url = useLocation()
+  const token = new URLSearchParams(url.search).get("token")
+
 
   const [form] = useForm();
   function hanldeClickSubmit() {
     form.submit();
   }
 
+
   async function ChangePassword(value) {
     console.log(value);
     try {
-      const response = await api.post("reset-password", value);
+      const response = await axios.post("http://157.245.145.162:8080/api/reset-password", value, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       console.log(response);
       toast.success("Thay đổi mật khẩu thành công");
       navigate(routes.login);

@@ -58,7 +58,6 @@
   border-radius: 1rem;
 }
 
-
 /*header-navigation*/
 .Header-navigation {
   display: flex;
@@ -76,10 +75,6 @@
   color: black;
   text-decoration: none;
 }
-
-
-
-
 
 .Header {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
@@ -131,29 +126,17 @@
   /* Ensure icons inherit the color */
 }
 
-.username {
-  align-items: center;
-  color: black;
+.header-profile-dropdown {
+  cursor: pointer;
 }
 
-.username:hover {
-  text-decoration: underline;
-}
-
-.cart-icon {
-  font-size: 23px;
+.header-profile-dropdown:hover {
+  color: #06b6d4;
+  transition: 0.1s;
 }
 
 @media screen and (max-width: 1440px) {
   .Header-navigation {
     font-size: 15px !important;
   }
-}
-
-.profile-name {
-  margin-top: 5%;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 3vh;
 }

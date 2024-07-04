@@ -9,11 +9,13 @@ import {
   selectUser,
   updateUser,
 } from "../../redux/features/counterSlice";
+import { routes } from "../../routes";
 import { Modal, Button, Input, DatePicker, Form, Select } from "antd";
 import api from "../../config/axios";
 import dayjs from "dayjs";
-import { EditOutlined, LockOutlined } from "@ant-design/icons";
+import { EditOutlined, LockOutlined, FormOutlined, EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { useForm } from "antd/es/form/Form";
+import { Container } from "react-bootstrap";
 
 function ProfilePage() {
   const dispatch = useDispatch();
@@ -21,6 +23,7 @@ function ProfilePage() {
   const inputRef = useRef(null);
   const [image, setImage] = useState(null);
   const [visible, setVisible] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [form] = useForm();
 
   useEffect(() => {
@@ -52,6 +55,10 @@ function ProfilePage() {
     setVisible(false);
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   function handleClickSave() {
     form.submit();
   }
@@ -81,22 +88,24 @@ function ProfilePage() {
   return (
     <div>
       <Header />
-      <div className="avatar-user">
-        <div onClick={handleImageClick} className="img-avt">
-          {user.gender === "MALE" ? (
-            <img
-              id="avt-img"
-              src="https://drive.google.com/thumbnail?id=1qbgOEeSmZUjLlvazltYvqIWl58ds3Rwr&sz=w1000"
-              alt="Male Avatar"
-            />
-          ) : (
-            <img
-              id="avt-img"
-              src="https://drive.google.com/thumbnail?id=1-TZW7Js2ujLNyIXbYEEeiJfegVGgpjfd&sz=w1000"
-              alt="Female Avatar"
-            />
-          )}
-          {/* {image ? (
+      <Container className="profile-page-container">
+        <div className="avatar-user">
+          <div className="profile-img-avt">
+            <div onClick={handleImageClick} className="img-avt">
+              {user.gender === "MALE" ? (
+                <img
+                  id="avt-img"
+                  src="https://drive.google.com/thumbnail?id=1qbgOEeSmZUjLlvazltYvqIWl58ds3Rwr&sz=w1000"
+                  alt="Male Avatar"
+                />
+              ) : (
+                <img
+                  id="avt-img"
+                  src="https://drive.google.com/thumbnail?id=1-TZW7Js2ujLNyIXbYEEeiJfegVGgpjfd&sz=w1000"
+                  alt="Female Avatar"
+                />
+              )}
+              {/* {image ? (
             <img id="avt-img" src={URL.createObjectURL(image)} alt="" />
           ) : (
             <img id="avt-img" src="https://drive.google.com/thumbnail?id=1qbgOEeSmZUjLlvazltYvqIWl58ds3Rwr&sz=w1000" alt="Default Avatar" />
@@ -108,13 +117,25 @@ function ProfilePage() {
             onChange={handleImageChange}
             style={{ display: "none" }}
           /> */}
-        </div>
-        <button className="update-img-btn" onClick={handleUpdateClick}>
-          Cập nhật
-        </button>
-      </div>
+              <button className="update-img-btn" onClick={handleUpdateClick}>
+                <EditOutlined />
+              </button>
+            </div>
+          </div>
 
-      {/* useEffect(() => {
+          <button className="update-info-btn" onClick={handleEditInfoClick}>
+            <FormOutlined className="icon" />
+            Chỉnh sửa thông tin
+          </button>
+
+          <Link className="change-password-btn" to={routes.changePassword}>
+            <LockOutlined className="icon" />
+            Đổi mật khẩu
+          </Link>
+
+        </div>
+
+        {/* useEffect(() => {
     const savedImage = localStorage.getItem('userImage');
     if (savedImage) {
       setDefaultImage(savedImage);
@@ -164,136 +185,162 @@ function ProfilePage() {
         </div>
         <button className="update-img-btn" onClick={handleUpdateClick}>Cập nhật</button>
       </div> */}
+        <div className="container">
+          <div className="profile-info">
 
-      <div className="info">
-        <div className="info-text">
-          <h3>Thông tin cá nhân</h3>
-          <div>
-            <p>Họ và tên: {user.firstname + " " + user.lastname}</p>
-            <p>
-              Giới tính:{" "}
-              {user.gender === "MALE"
-                ? "Nam"
-                : user.gender === "FEMALE"
-                ? "Nữ"
-                : "Khác"}
-            </p>
-            <p>Số điện thoại: {user.phone}</p>
-            <p>Ngày sinh: {formatDate(user.dob)}</p>
-            <p>Địa chỉ: {user.address}</p>
+            <div className="col-md-6 info">
+              <div className="info-text">
+                <h3>Thông tin cá nhân</h3>
+                <div className="info-box">
+                  <p>Họ và tên</p>
+                  <div className="info-value">{user.firstname + " " + user.lastname}</div>
+                </div>
+                <div className="info-box">
+                  <p>Ngày sinh</p>
+                  <div className="info-value">{formatDate(user.dob)}</div>
+                </div>
+                <div className="info-box">
+                  <p>Giới tính</p>
+                  <div className="info-value">
+                    {user.gender === "MALE" ? "Nam" : user.gender === "FEMALE" ? "Nữ" : "Khác"}
+                  </div>
+                </div>
+                <div className="info-box">
+                  <p>Số điện thoại</p>
+                  <div className="info-value">{user.phone}</div>
+                </div>
+                <div className="info-box">
+                  <p>Địa chỉ</p>
+                  <div className="info-value">{user.address}</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-md-6 info-change-password">
+              <div className="info-text">
+                <h3>Thông tin tài khoản</h3>
+                <div className="info-box">
+                  <p>Email</p>
+                  <div className="info-value">{user.email}</div>
+                </div>
+                {/* <div className="info-box">
+                  <p>Password</p>
+                  <div className="info-value">
+                    <span className="password">
+                      {showPassword ? user.password : '*'.repeat(user.email.length)}
+                    </span>
+                    <button onClick={toggleShowPassword} className="show-password-btn">
+                      {showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+                    </button>
+                  </div>
+                </div> */}
+                <div className="info-box">
+                  <p>Reward point</p>
+                  <div className="info-value">{user.rewardPoint}</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <Button onClick={handleEditInfoClick}>
-          <EditOutlined />
-          Chỉnh sửa thông tin
-        </Button>
-      </div>
 
-      <Modal
-        title="Chỉnh sửa thông tin cá nhân"
-        visible={visible}
-        onOk={handleUpdateProfile}
-        onCancel={handleModalCancel}
-        footer={[
-          <Button key="cancel" onClick={handleModalCancel}>
-            Hủy
-          </Button>,
-          <Button key="submit" type="primary" onClick={handleClickSave}>
-            Lưu
-          </Button>,
-        ]}
-      >
-        <div className="info-edit-form">
-          <Form
-            layout="horizontal"
-            labelCol={{ span: 5 }}
-            wrapperCol={{ span: 20 }}
-            style={{ width: "100%" }}
-            form={form}
-            onFinish={handleUpdateProfile}
-          >
-            <Form.Item
-              label="Họ"
-              name="lastname"
-              style={{ width: "100%" }}
-              initialValue={user.lastname}
-            >
-              <Input placeholder="Họ" />
-            </Form.Item>
-            <Form.Item
-              label="Tên"
-              name="firstname"
-              style={{ width: "100%" }}
-              initialValue={user.firstname}
-            >
-              <Input placeholder="Tên" />
-            </Form.Item>
-            <Form.Item
-              label="Giới tính"
-              name="gender"
-              initialValue={user.gender}
-            >
-              <Select placeholder="Chọn Giới Tính của bạn">
-                <Select.Option value="MALE">Nam</Select.Option>
-                <Select.Option value="FEMALE">Nữ</Select.Option>
-                <Select.Option value="OTHER">khác</Select.Option>
-              </Select>
-            </Form.Item>
-            <Form.Item
-              label="Tên"
-              name="firstname"
-              style={{ width: "100%" }}
-              initialValue={user.firstname}
-            >
-              <Input placeholder="Tên" />
-            </Form.Item>
-            <Form.Item
-              label="Giới tính"
-              name="gender"
-              initialValue={user.gender}
-            >
-              <Input placeholder="Giới tính" />
-            </Form.Item>
-            <Form.Item
-              label="Số điện thoại"
-              name="phone"
-              initialValue={user.phone}
-            >
-              <Input placeholder="Số điện thoại" />
-            </Form.Item>
-            <Form.Item
-              label="Ngày sinh"
-              name="dob"
-              initialValue={dayjs(user.dob)}
-            >
-              <DatePicker
-                style={{ width: "100%", marginBottom: "5px" }}
-                onChange={dateOnChange}
-              />
-            </Form.Item>
-            <Form.Item
-              label="Địa chỉ"
-              name="address"
-              initialValue={user.address}
-            >
-              <Input placeholder="Địa chỉ" />
-            </Form.Item>
-          </Form>
-        </div>
-      </Modal>
 
-      <div className="info">
-        <div>
-          <h3>Thông tin tài khoản</h3>
-        </div>
-        <Link to="">
-          <Button style={{ marginRight: "100px" }}>
-            <LockOutlined />
-            Đổi mật khẩu
-          </Button>
-        </Link>
-      </div>
+        <Modal
+          title="Chỉnh sửa thông tin cá nhân"
+          visible={visible}
+          onOk={handleUpdateProfile}
+          onCancel={handleModalCancel}
+          footer={[
+            <Button key="cancel" onClick={handleModalCancel}>
+              Hủy
+            </Button>,
+            <Button key="submit" type="primary" onClick={handleClickSave}>
+              Lưu
+            </Button>,
+          ]}
+        >
+          <div className="info-edit-form">
+            <Form
+              layout="horizontal"
+              labelCol={{ span: 5 }}
+              wrapperCol={{ span: 20 }}
+              style={{ width: "100%" }}
+              form={form}
+              onFinish={handleUpdateProfile}
+            >
+              <Form.Item
+                label="Họ"
+                name="lastname"
+                style={{ width: "100%" }}
+                initialValue={user.lastname}
+              >
+                <Input placeholder="Họ" />
+              </Form.Item>
+              <Form.Item
+                label="Tên"
+                name="firstname"
+                style={{ width: "100%" }}
+                initialValue={user.firstname}
+              >
+                <Input placeholder="Tên" />
+              </Form.Item>
+              <Form.Item
+                label="Giới tính"
+                name="gender"
+                initialValue={user.gender}
+              >
+                <Select placeholder="Chọn Giới Tính của bạn">
+                  <Select.Option value="MALE">Nam</Select.Option>
+                  <Select.Option value="FEMALE">Nữ</Select.Option>
+                  <Select.Option value="OTHER">khác</Select.Option>
+                </Select>
+              </Form.Item>
+              <Form.Item
+                label="Tên"
+                name="firstname"
+                style={{ width: "100%" }}
+                initialValue={user.firstname}
+              >
+                <Input placeholder="Tên" />
+              </Form.Item>
+              <Form.Item
+                label="Giới tính"
+                name="gender"
+                initialValue={user.gender}
+              >
+                <Input placeholder="Giới tính" />
+              </Form.Item>
+              <Form.Item
+                label="Số điện thoại"
+                name="phone"
+                initialValue={user.phone}
+              >
+                <Input placeholder="Số điện thoại" />
+              </Form.Item>
+              <Form.Item
+                label="Ngày sinh"
+                name="dob"
+                initialValue={dayjs(user.dob)}
+              >
+                <DatePicker
+                  style={{ width: "100%", marginBottom: "5px" }}
+                  onChange={dateOnChange}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Địa chỉ"
+                name="address"
+                initialValue={user.address}
+              >
+                <Input placeholder="Địa chỉ" />
+              </Form.Item>
+            </Form>
+          </div>
+        </Modal>
+
+      </Container>
+
+
       <Footer />
     </div>
   );

@@ -3,15 +3,16 @@ import "./SaleStaffPage.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Container } from "react-bootstrap";
-import { Table, Input, Button } from "antd";
+import { Table, Input, Button, Modal, Radio } from "antd";
 import api from "../../config/axios";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import moment from "moment"; // Import moment for date formatting
-
+import moment from "moment";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/features/counterSlice";
 
 function SaleStaffPage() {
-  const [filterStatus, setFilterStatus] = useState(null); // null means no filter
+  const [filterStatus, setFilterStatus] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [order, setOrder] = useState([]);
   const [sortOrder, setSortOrder] = React.useState("asc");
@@ -20,25 +21,23 @@ function SaleStaffPage() {
     async function fetchOrder() {
       try {
         const response = await api.get(`order/all`);
-        // Filter orders to only include PENDING, CONFIRMED, PROCESSING
         const filteredOrders = response.data.filter((order) =>
           ["PENDING", "CONFIRMED", "PROCESSING"].includes(order.orderStatus)
         );
         setOrder(filteredOrders);
-        console.log(filteredOrders);
       } catch (error) {
         console.log(error.response.data);
       }
     }
     fetchOrder();
   }, []);
-
+  const user = useSelector(selectUser);
   const handleUpdate = async (orderId, newStatus) => {
     try {
-      const response = await api.put(`/order/${orderId}`, {
+      const response = await api.put(`/order/${orderId}&${user.id}`, {
         orderStatus: newStatus,
       });
-      console.log(response.data);
+      console.log(response);
       toast.success("Cập nhật thành công");
       setOrder((prevOrders) =>
         prevOrders.map((order) =>
@@ -46,20 +45,21 @@ function SaleStaffPage() {
         )
       );
     } catch (error) {
-      console.log(error.response.data);
       toast.error("Cập nhật thất bại");
     }
   };
 
   const handleEdit = (orderId, currentStatus) => {
     let newStatus = currentStatus;
-    // Logic to determine the next status
     if (currentStatus === "PENDING") {
       newStatus = "CONFIRMED";
     } else if (currentStatus === "CONFIRMED") {
       newStatus = "PROCESSING";
     }
     handleUpdate(orderId, newStatus);
+  };
+  const handleChooseShipper = () => {
+    handleOK();
   };
 
   const filteredOrders = order
@@ -75,16 +75,129 @@ function SaleStaffPage() {
     .sort((a, b) => {
       const nameA = a.id.toString();
       const nameB = b.id.toString();
-      if (sortOrder === "asc") {
-        return nameA.localeCompare(nameB);
-      } else {
-        return nameB.localeCompare(nameA);
-      }
+      return sortOrder === "asc"
+        ? nameA.localeCompare(nameB)
+        : nameB.localeCompare(nameA);
     });
 
   const handleFilterChange = (status) => {
     setFilterStatus(status);
   };
+
+  const [deliveryStaff, setDeliveryStaff] = useState([]);
+  const [selectedStaff, setSelectedStaff] = useState(null);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+
+  async function fetchStaff() {
+    const response = await api.get("accounts");
+    const delivery = response.data.filter((user) => user.role === "DELIVERY");
+    setDeliveryStaff(delivery);
+  }
+
+  const onChange = (pagination, filters, sorter, extra) => {
+    console.log("params", pagination, filters, sorter, extra);
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = (orderId) => {
+    setSelectedOrder(orderId);
+    fetchStaff();
+    setIsModalOpen(true);
+  };
+
+  const handleOK = async () => {
+    if (!selectedStaff) {
+      toast.error("Please select a staff");
+      return;
+    }
+    try {
+      console.log(selectedOrder);
+      console.log(selectedStaff);
+
+      const response = await api.put(
+        `/order/${selectedOrder}&${selectedStaff}`,
+        {
+          orderStatus: "PROCESSING",
+        }
+      );
+      console.log(response.data);
+
+      toast.success("Chuyển đơn hàng qua Shipper");
+      setOrder((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === selectedOrder
+            ? { ...order, orderStatus: "PROCESSING" }
+            : order
+        )
+      );
+      setIsModalOpen(false);
+    } catch (error) {
+      toast.error("Có lỗi trong lúc chuyển đơn hàng");
+    }
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleRadioChange = (e) => {
+    setSelectedStaff(e.target.value);
+  };
+
+  const columnOfStaff = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      sorter: (a, b) => a.id - b.id,
+    },
+    {
+      title: "Tên",
+      dataIndex: "firstname",
+      key: "firstname",
+    },
+    {
+      title: "Họ",
+      dataIndex: "lastname",
+      key: "lastname",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Số điện thoại",
+      dataIndex: "phone",
+      key: "phone",
+    },
+    {
+      title: "Địa Chỉ",
+      dataIndex: "address",
+      key: "address",
+    },
+    {
+      title: "Giới Tính",
+      dataIndex: "gender",
+      key: "gender",
+    },
+    {
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
+    },
+    {
+      title: "Select",
+      render: (value) => (
+        <Radio
+          value={value.id}
+          checked={selectedStaff === value.id}
+          onChange={handleRadioChange}
+        />
+      ),
+    },
+  ];
 
   return (
     <div>
@@ -143,7 +256,7 @@ function SaleStaffPage() {
               title: "Ngày đặt hàng",
               dataIndex: "orderDate",
               key: "orderDate",
-              render: (text) => moment(text).format("DD-MM-YYYY"), // Format date
+              render: (text) => moment(text).format("DD-MM-YYYY"),
             },
             {
               title: "Số điện thoại",
@@ -170,16 +283,39 @@ function SaleStaffPage() {
               ),
             },
             {
-              title: "Cập nhật đơn hàng",
+              title: "Thao tác",
               key: "update-order",
-              render: (text, record) => (
-                <Button
-                  type="primary"
-                  onClick={() => handleEdit(record.id, record.orderStatus)}
-                >
-                  Chuyển trạng thái
-                </Button>
-              ),
+              render: (text, record) =>
+                record.orderStatus === "PROCESSING" ? (
+                  <>
+                    <Button type="default" onClick={() => showModal(record.id)}>
+                      Chọn nhân viên giao hàng
+                    </Button>
+                    <Modal
+                      className="modal-add-form"
+                      title="Chọn Nhân Viên để giao hàng"
+                      okText={"Chọn Shipper"}
+                      open={isModalOpen}
+                      onOk={handleChooseShipper}
+                      onCancel={handleCancel}
+                    >
+                      <Table
+                        dataSource={deliveryStaff}
+                        columns={columnOfStaff}
+                        pagination={{ pageSize: 5 }}
+                        scroll={{ x: "max-content" }}
+                        onChange={onChange}
+                      />
+                    </Modal>
+                  </>
+                ) : (
+                  <Button
+                    type="primary"
+                    onClick={() => handleEdit(record.id, record.orderStatus)}
+                  >
+                    Cập nhật trạng thái
+                  </Button>
+                ),
             },
           ]}
         />

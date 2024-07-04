@@ -1,74 +1,65 @@
 .dropdownProfile {
-    position: absolute;
-    top: 100%; 
-    right: 0;
-    background-color: white;
-    min-width: 200px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    padding: 10px;
-    border-radius: 5px;
-    display: none; 
-    transform: translateY(-90px) translateX(-55px);
-  }
-  
-  .dropdownContainer:hover .dropdownProfile {
-    display: block; 
-  }
-  
-  .profile-name {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
-  }
-  
-  .profile-name .pi-user {
-    font-size: 1.5rem;
-  }
-  
-  .username {
-    font-size: 15px;
-    font-weight: bold;
-    margin: 0;
-  }
-  
-  .cart-wrapper {
-    margin-top: 15px;
-    border-top: 1px black solid;
-    border-bottom: 1px black solid;
-  }
-  
-  .cart-button {
-    display: flex;
-    align-items: left;
-    gap: 5px;
-    color: black;
-    text-decoration: none;
-    font-size: 1rem;  
-    padding-right: 90px;
-  }
-  .logout-button {
-    display: flex;
-    /* align-items: center; */
-    margin-left: -45px;
-    gap: 5px;
-    color: black;
-    text-decoration: none;
-    font-size: 1rem;
-  }
-  .cart-icon {
-    font-size: 1.5rem;
-  }
-  .order-history-wrapper{
-    border-bottom: 1px black solid;
-    padding-left: 15px;
-    transform: translateX(-10px);
-  }
-  
-  .Header-profile {
-    
-    flex-direction: column;
-    align-items: flex-start;
-    flex-wrap: nowrap; */
+  position: absolute;
+  top: 100%;
+  right: 0;
+  border: 1px solid grey;
+  background-color: #fff;
+  min-width: 200px;
+  z-index: 10;
+  border-radius: 10px;
+  display: none;
+  transform: translateY(-90px) translateX(-85px);
+}
+
+.Header-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+  width: 100%;
+}
+
+.dropdownContainer:hover .dropdownProfile {
+  display: block;
+}
+
+.profile-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: black;
+  text-decoration: none;
+  font-size: 0.9rem;
+  width: 100%;
+  margin: 7px 5px 0;
+}
+
+.profile-wrapper .p {
+  padding-right: 5px;
+  margin: 0;
+}
+
+.profile-wrapper p {
+  margin: 0;
+  flex: 1;
+}
+
+.profile-icon {
+  font-size: 1.3rem;
+  margin-left: 3px;
+  margin-bottom: 3px;
+}
+
+.profile-title-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+}
+
+.profile-title-wrapper:hover {
+  border-radius: 10px;
+  background-color: #e7e7e7;
+  color: #000;
+  transition: background-color 0.5s;
 }

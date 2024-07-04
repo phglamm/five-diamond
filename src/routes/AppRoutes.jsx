@@ -46,6 +46,8 @@ import PiercingProductPage from "../pages/ProductPage/AllProductPage/PiercingPro
 import AdminStatistics from "../pages/AdminDashboard/AdminStatistics/AdminStatistics";
 import PaymentFail from "../pages/PaymentFail/PaymentFail";
 import AdminSaleEvent from "../pages/AdminDashboard/AdminSaleEvent/AdminSaleEvent";
+import AdminDiamondPrice from "../pages/AdminDashboard/AdminDiamondPrice/AdminDiamondPrice";
+
 // import Payment from "../pages/Payment/PaymentPage";
 
 export default function AppRoute() {
@@ -123,6 +125,14 @@ export default function AppRoute() {
         element={
           <ProtectedRoute roles={["MANAGER"]}>
             <AdminCertificate />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routes.adminDiamondPrice}
+        element={
+          <ProtectedRoute roles={["MANAGER"]}>
+            <AdminDiamondPrice />
           </ProtectedRoute>
         }
       />

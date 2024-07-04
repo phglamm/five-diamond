@@ -57,23 +57,31 @@ export default function CartPage() {
 
   // Function to update the quantity of an item in the cart
   const updateQuantity = async (id, amount) => {
-    setCartItems((prevItems) => {
-      return prevItems.reduce((acc, item) => {
-        if (item.id === id) {
-          const newQuantity = item.quantity + amount;
-          if (newQuantity > 0) {
-            // If the new quantity is greater than zero, update the quantity
-            acc.push({ ...item, quantity: newQuantity });
+
+    try {
+      const response = await api.put(`cart/add/${id}`);
+      setCartItems((prevItems) => {
+        return prevItems.reduce((acc, item) => {
+          if (item.id === id) {
+            const newQuantity = item.quantity + amount;
+            if (newQuantity > 0) {
+              // If the new quantity is greater than zero, update the quantity
+              acc.push({ ...item, quantity: newQuantity });
+            } else {
+              // If the new quantity is zero or less, remove the item from the cart
+              deleteCart(id);
+            }
           } else {
-            // If the new quantity is zero or less, remove the item from the cart
-            deleteCart(id);
+            acc.push(item);
           }
-        } else {
-          acc.push(item);
-        }
-        return acc;
-      }, []);
-    });
+          return acc;
+        }, []);
+      });
+    } catch (error) {
+      console.log(error.response.data);
+      toast.error("Không đủ sản phẩm trong kho");
+    }
+
   };
 
   // Calculate total, shipping cost, and discount amount
@@ -114,7 +122,6 @@ export default function CartPage() {
   };
 
   // Apply discount code
- 
 
   return (
     <div className="page-container">
@@ -137,7 +144,8 @@ export default function CartPage() {
             </div>
             {user.role === "ADMIN" ||
               user.role === "SALES" ||
-              user.role === "DELIVERY" ? (
+              user.role === "DELIVERY" ||
+              user.role === "MANAGER" ? (
               <>
                 {" "}
                 <div>
@@ -350,7 +358,7 @@ export default function CartPage() {
                       </span>
                     </h5>
                     <hr className="solid" />
-                    
+
                     <Button
                       style={{ background: "#ce0303", marginTop: "15px" }}
                       className="w-100 btn-proceed-to-checkout"

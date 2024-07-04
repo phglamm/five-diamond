@@ -48,7 +48,7 @@ export default function DiamondPricePage() {
             <Header />
             <div className='body-pricepage'>
                 <Container>
-                    <h1 className='header-price'>Bảng giá kim cương thiên nhiên kiểm định quốc tế hôm nay XX/XX/2024</h1>
+                    <h1 className='header-price'>Bảng giá kim cương kiểm định quốc tế hôm nay XX/XX/2024</h1>
                     <div>
                         <p className='price-title'>Giá Kim Cương Siêu Rẻ 3ly6</p>
                         <Table bordered className='price-table'>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button, Input } from "reactstrap";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
@@ -9,7 +9,7 @@ import { selectUser } from "../../redux/features/counterSlice";
 import { useSelector } from "react-redux";
 import { useForm } from "antd/es/form/Form";
 import { Form, Popconfirm, Pagination } from "antd";
-import { intlFormatDistance } from 'date-fns';
+import { intlFormatDistance } from "date-fns";
 
 const ProductReview = ({ productLineId }) => {
   const [comments, setComments] = useState([]);
@@ -19,7 +19,6 @@ const ProductReview = ({ productLineId }) => {
   const [form] = useForm();
 
   const handleInputChange = ({ target: { value } }) => {
-    // Updated input change handler
     setInputValue(value);
   };
 
@@ -35,7 +34,7 @@ const ProductReview = ({ productLineId }) => {
       await api.post("comment", value);
       fetchComments();
       form.resetFields();
-      setInputValue(""); // Reset input value after submission
+      setInputValue("");
     } catch (error) {
       toast.error("Gửi đánh giá không thành công!", {
         hideProgressBar: true,
