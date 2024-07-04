@@ -23,7 +23,7 @@ export default function DiamondPricePage() {
     }, []);
 
     const columnHeaders = ['IF', 'VVS1', 'VVS2', 'VS1', 'VS2'];
-    const rowHeaders = ['D', 'E', 'F', 'J'];
+    const rowHeaders = ['D', 'E', 'F'];
 
     const renderTableCells = (size) => {
         return rowHeaders.map((color) => (
@@ -66,18 +66,50 @@ export default function DiamondPricePage() {
                         </Table>
                     </div>
                     <div>
-                        <p className='price-title'>Giá Kim Cương 3ly9</p>
+                        <p className='price-title'>Giá Kim Cương 4ly1</p>
                         <Table bordered className='price-table'>
                             <thead>
                                 <tr>
-                                    <th>3.9MM</th>
+                                    <th>4.1MM</th>
                                     {columnHeaders.map((header, index) => (
                                         <th key={index}>{header}</th>
                                     ))}
                                 </tr>
                             </thead>
                             <tbody>
-                                {renderTableCells("3.9")}
+                                {renderTableCells("4.1")}
+                            </tbody>
+                        </Table>
+                    </div>
+                    <div>
+                        <p className='price-title'>Giá Kim Cương Siêu Rẻ 4ly5</p>
+                        <Table bordered className='price-table'>
+                            <thead>
+                                <tr>
+                                    <th>4.5MM</th>
+                                    {columnHeaders.map((header, index) => (
+                                        <th key={index}>{header}</th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {renderTableCells("4.5")}
+                            </tbody>
+                        </Table>
+                    </div>
+                    <div>
+                        <p className='price-title'>Giá Kim Cương Siêu Rẻ 5ly4</p>
+                        <Table bordered className='price-table'>
+                            <thead>
+                                <tr>
+                                    <th>5.4MM</th>
+                                    {columnHeaders.map((header, index) => (
+                                        <th key={index}>{header}</th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {renderTableCells("5.4")}
                             </tbody>
                         </Table>
                     </div>
