@@ -63,6 +63,10 @@ export default function SideBar() {
             <PersonIcon color="info" fontSize="large" />
             <Link to={routes.adminUser}>Quản Lý Người Dùng</Link>
           </li>
+          <li>
+            <PersonIcon color="info" fontSize="large" />
+            <Link to={routes.home}>Quay về trang chủ</Link>
+          </li>
         </>
       ) : (
         <></>
@@ -104,6 +108,10 @@ export default function SideBar() {
           <li>
             <EventIcon color="info" fontSize="large" />
             <Link to={routes.adminsale}>Quản Lý Sự Kiện Sale</Link>
+          </li>
+          <li>
+            <PersonIcon color="info" fontSize="large" />
+            <Link to={routes.home}>Quay về trang chủ</Link>
           </li>
         </>
       ) : (

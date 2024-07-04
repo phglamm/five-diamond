@@ -32,12 +32,14 @@ export default function ProductPage({ token }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [product, setProduct] = useState();
+  const [cartItems, setCartItems] = useState([]);
   const [relevantproduct, setRelevantproduct] = useState([]);
+  const [appliedDiscount, setAppliedDiscount] = useState(null);
   const user = useSelector(selectUser);
 
   const [selectedSize, setSelectedSize] = useState(null);
   const { id } = useParams();
-
+  const ringsize = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
 
   useEffect(() => {
@@ -68,6 +70,42 @@ export default function ProductPage({ token }) {
   }, []);
 
 
+  async function fetchCart() {
+    try {
+      const response = await api.get("cart");
+      console.log(response.data);
+      setCartItems(response.data.cartItems);
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  }
+
+  useEffect(() => {
+    fetchCart();
+  }, []);
+
+  const total = cartItems.reduce(
+    (acc, item) => acc + item.productLine.price * item.quantity,
+    0
+  );
+  const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const shippingCost =
+    appliedDiscount && appliedDiscount.type === "shipping"
+      ? appliedDiscount.value
+      : 0;
+  const discountAmount = appliedDiscount
+    ? appliedDiscount.type === "percentage"
+      ? (total * appliedDiscount.value) / 100
+      : appliedDiscount.type === "fixed"
+        ? appliedDiscount.value
+        : 0
+    : 0;
+
+  const finalTotal = total - discountAmount + shippingCost;
+
+
+
+
   const firstFiveProducts = relevantproduct.slice(0, 5);
 
   if (!product) {
@@ -84,18 +122,28 @@ export default function ProductPage({ token }) {
     )
   }
   const handleClickAddToCart = async () => {
-    if (selectedSize) {
-      try {
-        console.log("Product added to cart", id);
-        const response = await api.post(`cart/${id}`);
-        console.log(response.data);
-        toast.success("Thêm Vào Giỏ Hàng");
-      } catch (error) {
-        console.log(error.response.data);
-        toast.error("Có lỗi trong lúc thêm sản phẩm");
-      }
-    } else {
-      toast.error("Bạn Chưa Chọn Size cho sản phẩm");
+    try {
+      console.log("Product added to cart", id);
+      const response = await api.post(`cart/${id}`);
+      console.log(response.data);
+      fetchCart();
+      toast.success("Thêm Vào Giỏ Hàng");
+    } catch (error) {
+      console.log(error.response.data);
+      toast.error("Có lỗi trong lúc thêm sản phẩm");
+    }
+  };
+  const handleBuyNow = async () => {
+    const cartItems = [{ productLine: product, quantity: 1 }];
+    const finalTotal = product.price;
+
+    try {
+      const response = await api.get("cart/check");
+      console.log(response);
+      navigate(routes.checkout, { state: { cartItems, finalTotal } });
+    } catch (error) {
+      toast.error(error.response.data);
+      console.log(error.response.data);
     }
   };
 
@@ -154,8 +202,11 @@ export default function ProductPage({ token }) {
             <p>CÒN {product.quantity} SẢN PHẨM</p>
             <h5>TÙY CHỈNH SẢN PHẨM</h5>
             <div className="select-material"></div>
+            *Vì mỗi sản phẩm không cố định ni nên quý khách vui lòng
+            ghi phần ni mong muốn vào phần ghi chú
+            hoặc liên hệ 0123456789 nếu quý khách có thắc mắc
             <div className="select-size">
-              <p>Kích Thước</p>
+              {/* <p>Kích Thước</p>
               <Select
                 showSearch
                 style={{ width: 200 }}
@@ -170,20 +221,22 @@ export default function ProductPage({ token }) {
                     .toLowerCase()
                     .localeCompare((optionB?.label ?? "").toLowerCase())
                 }
-              // options={product.size.map((size) => ({
-              //   value: size,
-              //   label: size,
-              // }))}
+              options={product.size.map((size) => ({
+                value: size,
+                label: size,
+              }))}
               >
-                {/* {product.map((item) => (
+                {product.map((item) => (
                   <Select.Option key={item.id} value={item.size}>
                     {item.size}
                   </Select.Option>
-                ))} */}
-                <Select.Option value={product.size}>
-                  {product.size}
-                </Select.Option>
-              </Select>
+                ))}
+                {ringsize.map((size) => (
+                  <Select.Option key={size} value={size}>
+                    {size}
+                  </Select.Option>
+                ))}
+              </Select> */}
               <Button
                 onClick={showModal}
                 style={{
@@ -268,6 +321,7 @@ export default function ProductPage({ token }) {
                 icon={<ShoppingOutlined />}
                 onClick={handleClickBuyNow}
                 className="button-buybuy"
+                onClick={handleBuyNow}
                 style={{ fontWeight: "bold", width: "50%" }}
               >
                 MUA NGAY

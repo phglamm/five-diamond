@@ -122,11 +122,13 @@ export default function AdminCover() {
     try {
       const imgURL = await uploadFile(img);
       value.imgURL = imgURL;
+      console.log(value.imgURL);
       value.diamondID = checkedList;
+      console.log(value);
       const response = await api.post("product-line", value);
       console.log(response);
       toast.success("Thêm sản phẩm thành công");
-      console.log(response);
+      console.log(response.data);
       fetchProductLine();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc thêm sản phẩm");
@@ -229,6 +231,7 @@ export default function AdminCover() {
       title: "ID",
       dataIndex: "id",
       key: "id",
+      fixed: 'left',
       sorter: (a, b) => a.id - b.id,
     },
     {
@@ -243,6 +246,7 @@ export default function AdminCover() {
       title: "Tên Sản Phẩm",
       dataIndex: "name",
       key: "name",
+      fixed: 'left',
     },
     {
       title: "Mô Tả",
@@ -342,6 +346,7 @@ export default function AdminCover() {
     },
     {
       title: "Hành Động",
+      fixed: 'right',
       render: (values) => {
         return (
           <>

@@ -53,7 +53,7 @@ export default function OrderHistoryUser() {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      render: (text, record) => record.account?.email || "NA",
+      render: (text, record) => record.customer?.email || "NA",
     },
     {
       title: "Tổng Đơn Hàng",

@@ -130,6 +130,7 @@ export default function AdminDiamond() {
       title: "ID",
       dataIndex: "id",
       key: "id",
+      fixed: 'left',
       sorter: (a, b) => a.id - b.id,
     },
     {

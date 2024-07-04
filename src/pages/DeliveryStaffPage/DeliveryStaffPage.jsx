@@ -8,19 +8,26 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import moment from "moment";
 import "./DeliveryStaffPage.css";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/features/counterSlice";
 
 function DeliveryStaffPage() {
   const [filterStatus, setFilterStatus] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [order, setOrder] = useState([]);
-
+  const user = useSelector(selectUser);
+  console.log(user.id);
   useEffect(() => {
     async function fetchOrder() {
       try {
         const response = await api.get(`order/all`);
-        const filteredOrders = response.data.filter((order) =>
-          ["PROCESSING", "SHIPPED", "DELIVERED"].includes(order.orderStatus)
+        const filteredOrders = response.data.filter(
+          (order) =>
+            ["PROCESSING", "SHIPPED", "DELIVERED"].includes(
+              order.orderStatus
+            ) && order.shipper?.id === user.id
         );
+
         setOrder(filteredOrders);
         console.log(filteredOrders);
       } catch (error) {
@@ -32,7 +39,7 @@ function DeliveryStaffPage() {
 
   const handleUpdate = async (orderId, newStatus) => {
     try {
-      const response = await api.put(`/order/${orderId}`, {
+      const response = await api.put(`/order/${orderId}&${user.id}`, {
         orderStatus: newStatus,
       });
       console.log(response.data);
@@ -74,7 +81,7 @@ function DeliveryStaffPage() {
   return (
     <div>
       <Header />
-      <Container fluid>
+      <Container>
         <h3 className="delivery-staff-title">Nhân viên giao hàng</h3>
         <div className="delivery-staff-filter-buttons">
           <Button
