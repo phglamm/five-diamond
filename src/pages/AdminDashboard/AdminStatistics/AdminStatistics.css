@@ -1,4 +1,47 @@
-.bar-chart-table{
+.chart-container {
+    display: flex !important;
+    flex-direction: column;
+    width: 50%;
+    margin-top: 100px;
+}
+
+.chart-container-item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     width: 100%;
-    margin-left: 500px;
-}   
+}
+
+.widget-table {
+    display: flex;
+    gap: 20px;
+}
+
+.widget-table-item {
+    display: flex;
+    align-items: left;
+    padding:  10px  50px 10px 10px;
+    background-color: aqua;
+    gap: 10px;
+    border-radius: 20px;
+    box-shadow: 0 5px 1px lightgray;
+}
+
+.widget-table-item-icon {
+    font-size: 40px;
+}
+.widget-table-item-text{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 20px;
+}
+.widget-table-item-text>p{
+    margin-bottom: 1px !important;
+}
+.widget-table-item-text>p:first-child{
+    font-weight: bold;
+}
+.widget-table-item-text>p:last-child{
+    font-size: small;
+}

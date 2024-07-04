@@ -3,9 +3,46 @@ import "chart.js/auto";
 import { Bar, Pie } from "react-chartjs-2";
 import SideBar from "../../../components/SideBar/SideBar";
 import axios from "axios";
+import "./AdminStatistics.css";
+import { DollarOutlined } from "@ant-design/icons";
+import moment from "moment";
 
 export default function AdminStatistics() {
   const [statistics, setStatistics] = useState([]);
+
+  async function fetchSalesStatistic() {
+    const response = await axios.get(
+      "https://6684dca756e7503d1ae169ba.mockapi.io/api/v1/Order"
+    );
+    setStatistics(response.data);
+  }
+
+  useEffect(() => {
+    fetchSalesStatistic();
+  }, []);
+
+  function getMonthlyData(data) {
+    const revenueByMonth = {};
+    const ordersByMonth = {};
+
+    data.forEach(item => {
+      const month = moment(item.createdAt).format('MMMM');
+      const price = parseFloat(item.price);
+
+      if (revenueByMonth[month]) {
+        revenueByMonth[month] += price;
+        ordersByMonth[month] += 1;
+      } else {
+        revenueByMonth[month] = price;
+        ordersByMonth[month] = 1;
+      }
+    });
+
+    return { revenueByMonth, ordersByMonth };
+  }
+
+  const { revenueByMonth, ordersByMonth } = getMonthlyData(statistics);
+
   const labels = [
     "January",
     "February",
@@ -20,86 +57,111 @@ export default function AdminStatistics() {
     "November",
     "December",
   ];
-  async function fecthStatistic() {
-    const response = await axios.get(
-      "https://jsonplaceholder.typicode.com/users"
-    );
-    setStatistics(response.data);
-    console.log(response.data);
-  }
-  useEffect(() => {
-    fecthStatistic();
-  }, []);
 
   const data = {
     labels: labels,
     datasets: [
       {
-        label: "My First Dataset",
-        data: statistics.map((item, index) => item.address.geo.lat),
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-          "rgba(255, 205, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(201, 203, 207, 0.2)",
-        ],
-        borderColor: [
-          "rgb(255, 99, 132)",
-          "rgb(255, 159, 64)",
-          "rgb(255, 205, 86)",
-          "rgb(75, 192, 192)",
-          "rgb(54, 162, 235)",
-          "rgb(153, 102, 255)",
-          "rgb(201, 203, 207)",
-        ],
+        label: "Doanh thu của tháng",
+        data: labels.map(label => (revenueByMonth[label] * 100000) || 0),
+        backgroundColor: "rgba(54, 162, 235, 0.2)",
+        borderColor: "rgb(54, 162, 235)",
         borderWidth: 1,
+        yAxisID: 'y',
       },
       {
-        label: "My Second Dataset",
-        data: statistics.map((item, index) => item.address.geo.lng),
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-          "rgba(255, 205, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(201, 203, 207, 0.2)",
-        ],
-        borderColor: [
-          "rgb(255, 99, 132)",
-          "rgb(255, 159, 64)",
-          "rgb(255, 205, 86)",
-          "rgb(75, 192, 192)",
-          "rgb(54, 162, 235)",
-          "rgb(153, 102, 255)",
-          "rgb(201, 203, 207)",
-        ],
+        label: "Tổng số đơn hàng",
+        data: labels.map(label => (ordersByMonth[label] || 0)),
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        borderColor: "rgb(255, 99, 132)",
         borderWidth: 1,
+        yAxisID: 'y1',
       },
     ],
   };
 
+  const options = {
+    scales: {
+      y: {
+        beginAtZero: true,
+        position: 'left',
+        title: {
+          display: true,
+          text: 'Doanh thu'
+        },
+      },
+      y1: {
+        beginAtZero: true,
+        position: 'right',
+        grid: {
+          drawOnChartArea: false,
+        },
+        title: {
+          display: true,
+          text: 'Số đơn hàng'
+        },
+      },
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const label = context.dataset.label || '';
+            let value = context.raw;
+            if (label.includes("Orders")) { value }
+            return `${label}: ${value}`;
+          }
+        }
+      }
+    }
+  };
+  function getTotalRevenue(revenueByMonth) {
+    return Object.values(revenueByMonth).reduce((total, revenue) => total + revenue, 0);
+  }
+
+  const totalRevenue = getTotalRevenue(revenueByMonth);
   return (
     <div className="admin">
       <SideBar />
       <div className="admin-content">
-        <div
-          className="bar-chart-table"
-          style={{ width: "100%", marginLeft: "400px", marginTop: "100px" }}
-        >
-          <div style={{ height: "400px", width: "70%" }}>
-            <div>
-              <h1>Sơ đồ cột</h1>
-              <Bar data={data} />
+        <div className="widget-table">
+          <div className="widget-table-item">
+            <DollarOutlined className="widget-table-item-icon" />
+            <div className="widget-table-item-text">
+              <p>{(totalRevenue * 100000).toLocaleString()}đ</p>
+              <p>Doanh thu</p>
             </div>
-            <div>
-              <h1>Sơ đồ tròn</h1>
-              <Pie data={data} />
+          </div>
+          <div className="widget-table-item">
+            <DollarOutlined className="widget-table-item-icon" />
+            <div className="widget-table-item-text">
+              <p>700m</p>
+              <p>Doanh thu</p>
             </div>
+          </div>
+          <div className="widget-table-item">
+            <DollarOutlined className="widget-table-item-icon" />
+            <div className="widget-table-item-text">
+              <p>700m</p>
+              <p>Doanh thu</p>
+            </div>
+          </div>
+          <div className="widget-table-item">
+            <DollarOutlined className="widget-table-item-icon" />
+            <div className="widget-table-item-text">
+              <p>700m</p>
+              <p>Doanh thu</p>
+            </div>
+          </div>
+        </div>
+        <div className="chart-container">
+          <div className="chart-container-item">
+            <h1>Sơ đồ cột</h1>
+            <Bar data={data} options={options} />
+          </div>
+          <div className="chart-container-item">
+            <h1>Sơ đồ tròn</h1>
+            <Pie data={data} />
           </div>
         </div>
       </div>

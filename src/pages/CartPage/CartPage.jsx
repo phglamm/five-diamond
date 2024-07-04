@@ -394,17 +394,6 @@ export default function CartPage() {
                       </span>
                     </h5>
                     <hr className="solid"></hr>
-                    {discountAmount > 0 && (
-                      <>
-                        <h5>
-                          Giảm giá:{" "}
-                          <span style={{ color: "black", float: "right" }}>
-                            -{discountAmount.toLocaleString()} VNĐ
-                          </span>
-                        </h5>
-                        <hr className="solid" />
-                      </>
-                    )}
                     <h5>
                       Thanh toán:{" "}
                       <span style={{ color: "black", float: "right" }}>

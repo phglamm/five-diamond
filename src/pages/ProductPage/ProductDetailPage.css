@@ -21,7 +21,8 @@
 
 .select-size {
   display: flex;
-  gap: 50px;
+  justify-content: center;
+ margin-bottom: 10px;
 }
 
 .select-quantity {
