@@ -383,15 +383,15 @@ export default function CartPage() {
                         {total?.toLocaleString()} VNĐ
                       </span>
                     </h5>
-                    <hr className="solid"></hr>
-                    <h5>
+                    {/* <hr className="solid"></hr> */}
+                    {/* <h5>
                       Vận chuyển:{" "}
                       <span style={{ color: "black", float: "right" }}>
                         {shippingCost === 0
                           ? "Miễn phí vận chuyển"
                           : `${shippingCost?.toLocaleString()} VNĐ`}{" "}
                       </span>
-                    </h5>
+                    </h5> */}
                     <hr className="solid"></hr>
                     <h5>
                       Thanh toán:{" "}
