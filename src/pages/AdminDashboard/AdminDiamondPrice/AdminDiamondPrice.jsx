@@ -55,6 +55,7 @@ export default function AdminDiamondPrice() {
             title: "Hành Động",
             dataIndex: "action",
             key: "action",
+
         },
     ];
 
@@ -69,7 +70,7 @@ export default function AdminDiamondPrice() {
                         dataSource={price}
                         columns={columns}
                         onChange={onChange}
-                        pagination={{ pageSize: 5 }}
+                        pagination={{ pageSize: 15 }}
                         scroll={{ x: "max-content" }}
                     />
                 </div>
