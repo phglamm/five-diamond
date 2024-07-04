@@ -6,13 +6,13 @@ import "./DiamondPricePage.css"
 
 export default function DiamondPricePage() {
     const columnHeaders = ['IF', 'VVS1', 'VVS2', 'VS1', 'VS2'];
-    const rowHeaders = ['D', 'E', 'F', 'J'];
+    const rowHeaders = ['D', 'E', 'F'];
     return (
         <div>
             <Header />
             <div className='body-pricepage'>
                 <Container>
-                    <h1 className='header-price'>Bảng giá kim cương thiên nhiên kiểm định quốc tế hôm nay XX/XX/2024</h1>
+                    <h1 className='header-price'>Bảng giá kim cương kiểm định quốc tế hôm nay XX/XX/2024</h1>
                     <div>
                         <p className='price-title'>Giá Kim Cương Siêu Rẻ 3ly6</p>
                         <Table bordered className='price-table'>
