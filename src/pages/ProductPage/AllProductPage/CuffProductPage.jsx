@@ -8,6 +8,7 @@ import { products } from "./ListOfProducts";
 import ProductCard from "../../../components/productCard/productCard";
 import BasicPagination from "../../../components/BasicPagination/BasicPagination";
 import Banner from "../../../components/Banner/banner";
+import api from "../../../config/axios";
 
 export default function CuffProductPage() {
   const location = useLocation();
@@ -22,6 +23,18 @@ export default function CuffProductPage() {
     setCurrentPage(page);
   }, [location]);
 
+  
+  async function fetchProduct() {
+    const response = await api.get('http://157.245.145.162:8080/api/product-line');
+    // setProduct(response.data);
+    console.log(response.data);
+  }
+  useEffect(() => {
+    // console.log("abc");
+    fetchProduct();
+  }, []);
+  
+  
   const handleChangePage = (event, value) => {
     setCurrentPage(value);
     navigate(`?page=${value}`);
