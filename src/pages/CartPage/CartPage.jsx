@@ -15,7 +15,6 @@ import "./CartPage.css";
 import { ShoppingCartOutlined, RollbackOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
-import discountCodes from "./discountCodes";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -384,15 +383,15 @@ export default function CartPage() {
                         {total?.toLocaleString()} VNĐ
                       </span>
                     </h5>
-                    <hr className="solid"></hr>
-                    <h5>
+                    {/* <hr className="solid"></hr> */}
+                    {/* <h5>
                       Vận chuyển:{" "}
                       <span style={{ color: "black", float: "right" }}>
                         {shippingCost === 0
                           ? "Miễn phí vận chuyển"
                           : `${shippingCost?.toLocaleString()} VNĐ`}{" "}
                       </span>
-                    </h5>
+                    </h5> */}
                     <hr className="solid"></hr>
                     <h5>
                       Thanh toán:{" "}

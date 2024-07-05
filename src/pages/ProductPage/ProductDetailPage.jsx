@@ -148,6 +148,19 @@ export default function ProductPage({ token }) {
     }
   };
 
+  const handleClickBuyNow = () => {
+    if (selectedSize) {
+      navigate('/tien-hanh-thanh-toan', {
+        state: {
+          cartItems: [{ productLine: product, quantity: 1 }],
+          finalTotal: product.price
+        }
+      });
+    } else {
+      toast.error("Bạn Chưa Chọn Size cho sản phẩm");
+    }
+  };
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -307,6 +320,7 @@ export default function ProductPage({ token }) {
               <Button
                 type="primary"
                 icon={<ShoppingOutlined />}
+                onClick={handleClickBuyNow}
                 className="button-buybuy"
                 onClick={handleBuyNow}
                 style={{ fontWeight: "bold", width: "50%" }}

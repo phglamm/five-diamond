@@ -50,8 +50,12 @@ export default function CheckOut() {
     }
 
     // check address
-    if (!address) {
+    const addressRegex = /^[a-zA-ZÀ-ỹẠ-ỹ0-9\s]*$/; // Chấp nhận chữ cái thường và hoa, bao gồm dấu và khoảng trắng
+    if (!form.address.value) {
       formErrors.address = "Địa chỉ là bắt buộc";
+    } else if (!addressRegex.test(form.address.value)) {
+      formErrors.address =
+        "Địa chỉ không được chứa ký tự đặc biệt";
     }
 
     setErrors(formErrors);

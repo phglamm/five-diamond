@@ -10,6 +10,7 @@ import { useState } from "react";
 import DropdownContent from "./DropdownContent/DropdownContent";
 import { Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import { ShoppingCartOutlined } from "@ant-design/icons";
 import DropdownProfile from "./DropdownContent/DropdownProfile";
 
 export default function Header() {
