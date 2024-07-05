@@ -70,12 +70,12 @@ export default function RingProductPage() {
             </Col>
           ))}
         </Row>
-        <div style={{display:"flex", justifyContent:"center", marginTop:"10px"}}>
-        <BasicPagination
-          count={totalPage}
-          page={currentPage}
-          onChange={handleChangePage}
-        />
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+          <BasicPagination
+            count={totalPage}
+            page={currentPage}
+            onChange={handleChangePage}
+          />
         </div>
       </Container>
       <Footer />
