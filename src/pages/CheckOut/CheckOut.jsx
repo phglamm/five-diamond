@@ -62,11 +62,8 @@ export default function CheckOut() {
     }
 
     // Validate address
-    const addressRegex = /^[a-zA-ZÀ-ỹẠ-ỹ0-9\s]*$/;
     if (!formData.address) {
       formErrors.address = "Địa chỉ là bắt buộc";
-    } else if (!addressRegex.test(formData.address)) {
-      formErrors.address = "Địa chỉ không được chứa ký tự đặc biệt";
     }
 
     setErrors(formErrors);
