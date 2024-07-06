@@ -26,6 +26,7 @@ export default function RingProductPage() {
     setProduct(response.data);
     console.log(response.data);
   }
+
   useEffect(() => {
     fetchProduct();
   }, []);
@@ -33,11 +34,9 @@ export default function RingProductPage() {
     (product) => product.category.name === "vòng tay"
   );
 
-  // Calculate the index range for the current page
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
 
-  // Slice the products array based on the current page and page size
   const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
 
   const totalPage = Math.ceil(filteredProducts.length / pageSize);

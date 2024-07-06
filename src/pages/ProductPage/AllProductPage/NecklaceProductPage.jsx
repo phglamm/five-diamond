@@ -20,7 +20,9 @@ export default function NecklaceProductPage() {
     navigate(`?page=${value}`);
   };
 
-  // Filter products by category
+  useEffect(() => {
+    fetchProduct();
+  }, []);
 
   async function fetchProduct() {
     const response = await api.get(
@@ -36,11 +38,6 @@ export default function NecklaceProductPage() {
     ? product.filter((product) => product.category === selectedCategory)
     : product;
 
-  // Calculate the index range for the current page
-  const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-
-  // Slice the products array based on the current page and page size
   const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
 
   const totalPage = Math.ceil(filteredProducts.length / pageSize);

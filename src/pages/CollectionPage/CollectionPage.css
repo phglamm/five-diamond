@@ -2,3 +2,18 @@
   text-align: center;
   margin-top: 10%;
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.pagination a {
+  margin: 0 0.5rem;
+  cursor: pointer;
+}
+
+.pagination .active a {
+  font-weight: bold;
+  text-decoration: underline;
+}
