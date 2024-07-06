@@ -9,20 +9,20 @@ import Banner from "../../../components/Banner/banner";
 import api from "../../../config/axios";
 
 export default function NecklaceProductPage() {
-    const [product, setProduct] = useState([]);
-    const navigate = useNavigate();
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 20;
+  const [product, setProduct] = useState([]);
+  const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 20;
 
   const handleChangePage = (event, value) => {
     setCurrentPage(value);
     navigate(`?page=${value}`);
   };
 
-    useEffect(() => {
-        fetchProduct();
-    }, []);
+  useEffect(() => {
+    fetchProduct();
+  }, []);
 
   async function fetchProduct() {
     const response = await api.get(
@@ -38,14 +38,9 @@ export default function NecklaceProductPage() {
     ? product.filter((product) => product.category === selectedCategory)
     : product;
 
-    const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
 
-    const totalPage = Math.ceil(filteredProducts.length / pageSize);
-
-    const firstFiveProducts = product.slice(0, 15);
-    const specialpro = firstFiveProducts.filter(
-        (itemSpecial) => itemSpecial.deleted === false
-    );
+  const totalPage = Math.ceil(filteredProducts.length / pageSize);
 
   // Lấy 5 sản phẩm đầu tiên
   const firstFiveProducts = product.slice(0, 15);
