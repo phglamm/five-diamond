@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "chart.js/auto";
-import { Bar, Pie } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import SideBar from "../../../components/SideBar/SideBar";
-import axios from "axios";
 import "./AdminStatistics.css";
-import { DollarOutlined } from "@ant-design/icons";
+import { DollarOutlined, UsergroupAddOutlined, UserOutlined } from "@ant-design/icons";
 import moment from "moment";
 import api from "../../../config/axios";
 
 export default function AdminStatistics() {
   const [statistics, setStatistics] = useState([]);
+  const [accountCount, setAccountCount] = useState([]);
+  const [accountByMonth, setAccountByMonth] = useState([]);
 
   async function fetchSalesStatistic() {
-    const response = await api.get("order/delivered");
+    const response = await api.get("dashboard/revenue");
     setStatistics(response.data);
   }
 
@@ -20,41 +21,64 @@ export default function AdminStatistics() {
     fetchSalesStatistic();
   }, []);
 
-  function getMonthlyData(data) {
-    const revenueByMonth = {};
-    const ordersByMonth = {};
-
-    data.forEach(item => {
-      const month = moment(item.orderDate).format('MMMM');
-      const totalAmount = parseFloat(item.totalAmount);
-
-      if (revenueByMonth[month]) {
-        revenueByMonth[month] += totalAmount;
-        ordersByMonth[month] += 1;
-      } else {
-        revenueByMonth[month] = totalAmount;
-        ordersByMonth[month] = 1;
-      }
-    });
-
-    return { revenueByMonth, ordersByMonth };
+  async function fetchAccountCount() {
+    const response = await api.get("dashboard/account");
+    setAccountCount(response.data.customerQuantity);
   }
 
-  const { revenueByMonth, ordersByMonth } = getMonthlyData(statistics);
+  useEffect(() => {
+    fetchAccountCount();
+  }, []);
+
+  async function fetchAccountByMonth() {
+    const response = await api.get("dashboard/account-by-month");
+    setAccountByMonth(response.data);
+  }
+
+  useEffect(() => {
+    fetchAccountByMonth();
+  }, []);
+
+  function getMonthlyData(statistics, accountByMonth) {
+    const revenueByMonth = {};
+    const ordersByMonth = {};
+    const profitByMonth = {};
+    const customerByMonth = {};
+
+    statistics.forEach(item => {
+      const month = item.month;
+      const monthName = `Tháng ${month}`;
+
+      revenueByMonth[monthName] = parseFloat(item.totalRevenue || 0);
+      ordersByMonth[monthName] = item.list.length;
+      profitByMonth[monthName] = parseFloat(item.totalProfit || 0);
+    });
+
+    accountByMonth.forEach(item => {
+      const month = item.month;
+      const monthName = `Tháng ${month}`;
+
+      customerByMonth[monthName] = item.customerQuantity || 0;
+    });
+
+    return { revenueByMonth, ordersByMonth, profitByMonth, customerByMonth };
+  }
+
+  const { revenueByMonth, ordersByMonth, profitByMonth, customerByMonth } = getMonthlyData(statistics, accountByMonth);
 
   const labels = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "Tháng 1",
+    "Tháng 2",
+    "Tháng 3",
+    "Tháng 4",
+    "Tháng 5",
+    "Tháng 6",
+    "Tháng 7",
+    "Tháng 8",
+    "Tháng 9",
+    "Tháng 10",
+    "Tháng 11",
+    "Tháng 12",
   ];
 
   const data = {
@@ -121,51 +145,51 @@ export default function AdminStatistics() {
     return Object.values(revenueByMonth).reduce((total, revenue) => total + revenue, 0);
   }
 
+  function getTotalProfit(profitByMonth) {
+    return Object.values(profitByMonth).reduce((total, profit) => total + profit, 0);
+  }
+
   const totalRevenue = getTotalRevenue(revenueByMonth);
+  const totalProfit = getTotalProfit(profitByMonth);
+  const currentMonthName = `Tháng ${moment().month() + 1}`;
+  const currentMonthCustomerQuantity = customerByMonth[currentMonthName] || 0;
 
   return (
     <div className="admin">
       <SideBar />
       <div className="admin-content">
         <div className="widget-table">
-          <div className="widget-table-item">
+          <div className="widget-table-item" >
             <DollarOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
               <p>{totalRevenue.toLocaleString()}đ</p>
-              <p>Doanh thu</p>
+              <span>Tổng doanh thu</span>
             </div>
           </div>
-          <div className="widget-table-item">
+          <div className="widget-table-item" >
             <DollarOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
-              <p>700m</p>
-              <p>Doanh thu</p>
+              <p>{totalProfit.toLocaleString()}đ</p>
+              <span>Tổng lợi nhuận</span>
             </div>
           </div>
-          <div className="widget-table-item">
-            <DollarOutlined className="widget-table-item-icon" />
+          <div className="widget-table-item" >
+            <UsergroupAddOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
-              <p>700m</p>
-              <p>Doanh thu</p>
+              <p>{accountCount}</p>
+              <span>Tổng thành viên</span>
             </div>
           </div>
-          <div className="widget-table-item">
-            <DollarOutlined className="widget-table-item-icon" />
+          <div className="widget-table-item" >
+            <UserOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
-              <p>700m</p>
-              <p>Doanh thu</p>
+              <p>{currentMonthCustomerQuantity}</p>
+              <span>Lượt truy cập của tháng</span>
             </div>
           </div>
         </div>
         <div className="chart-container">
-          <div className="chart-container-item">
-            <h1>Sơ đồ cột</h1>
-            <Bar data={data} options={options} />
-          </div>
-          <div className="chart-container-item">
-            <h1>Sơ đồ tròn</h1>
-            <Pie data={data} />
-          </div>
+          <Bar data={data} options={options}  />
         </div>
       </div>
     </div>

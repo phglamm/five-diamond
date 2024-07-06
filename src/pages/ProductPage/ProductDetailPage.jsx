@@ -100,7 +100,7 @@ export default function ProductPage({ token }) {
 
   const finalTotal = total - discountAmount + shippingCost;
 
-  const firstFiveProducts = relevantproduct.slice(0, 5);
+  const firstFiveProducts = relevantProduct.slice(0, 5);
 
   if (!product) {
     return (

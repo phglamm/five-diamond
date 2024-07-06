@@ -79,7 +79,6 @@ export default function AppRoute() {
         }
       />
       <Route path={routes.about} element={<AboutPage />} />
-      <Route path={routes.search} element={<SearchPage />} />
       <Route path={routes.chain} element={<ChainSizePage />} />
       <Route path={routes.kienthuc} element={<DiamondKnowledgePage />} />
       <Route path={routes.accessoryInfor} element={<AccessoryInfor />} />
