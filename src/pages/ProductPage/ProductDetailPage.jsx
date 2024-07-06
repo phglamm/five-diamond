@@ -140,6 +140,7 @@ export default function ProductPage({ token }) {
     }
 
     fetchProductLineById();
+    fetchComments();
   }, [id]);
 
   async function fetchCart() {
