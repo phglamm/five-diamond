@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { products } from "./products"; // Adjust the path as necessary
 import "./searchBar.css";
+import { Button } from "antd";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../routes";
 
 export default function SearchBar({ placeholder, icon }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [searching, setSearching] = useState(false);
+  const navigate = useNavigate();
 
   const handleSearch = () => {
+    navigate(routes.search)
     const results = products.filter(product =>
       product.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
