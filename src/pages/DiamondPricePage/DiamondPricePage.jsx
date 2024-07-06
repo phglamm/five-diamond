@@ -48,9 +48,9 @@ export default function DiamondPricePage() {
             <Header />
             <div className='body-pricepage'>
                 <Container>
-                    <h1 className='header-price'>Bảng giá kim cương kiểm định quốc tế hôm nay XX/XX/2024</h1>
+                    <h1 className='header-price'>Bảng giá kim cương kiểm định quốc tế hôm nay</h1>
                     <div>
-                        <p className='price-title'>Giá Kim Cương Siêu Rẻ 3ly6</p>
+                        <p className='price-title'>Giá Kim Cương 3ly6</p>
                         <Table bordered className='price-table'>
                             <thead>
                                 <tr>
@@ -82,7 +82,7 @@ export default function DiamondPricePage() {
                         </Table>
                     </div>
                     <div>
-                        <p className='price-title'>Giá Kim Cương Siêu Rẻ 4ly5</p>
+                        <p className='price-title'>Giá Kim Cương 4ly5</p>
                         <Table bordered className='price-table'>
                             <thead>
                                 <tr>
@@ -98,7 +98,7 @@ export default function DiamondPricePage() {
                         </Table>
                     </div>
                     <div>
-                        <p className='price-title'>Giá Kim Cương Siêu Rẻ 5ly4</p>
+                        <p className='price-title'>Giá Kim Cương 5ly4</p>
                         <Table bordered className='price-table'>
                             <thead>
                                 <tr>

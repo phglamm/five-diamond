@@ -6,49 +6,41 @@ import { useNavigate } from 'react-router-dom';
 import api from '../../../config/axios';
 import ProductCard from '../../../components/productCard/productCard';
 import BasicPagination from '../../../components/BasicPagination/BasicPagination';
+import './RingProductPage.css'; // Import file CSS
 
 export default function RingProductPage() {
   const [product, setProduct] = useState([]);
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 20;
-
 
   const handleChangePage = (event, value) => {
     setCurrentPage(value);
     navigate(`?page=${value}`);
   };
 
-  // Filter products by category
-
-
   async function fetchProduct() {
-    const response = await api.get("product-line");
-    setProduct(response.data);
-    console.log(response.data);
+    try {
+      const response = await api.get('product-line');
+      const ringProducts = response.data.filter(item => item.category.id === 3);
+      setProduct(ringProducts);
+      console.log(ringProducts);
+    } catch (error) {
+      console.error('Failed to fetch products:', error);
+    }
   }
+
   useEffect(() => {
     fetchProduct();
   }, []);
-  const filteredProducts = selectedCategory
-    ? product.filter((product) => product.category === selectedCategory)
-    : product;
 
-  // Calculate the index range for the current page
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
+  const paginatedProducts = product.slice(startIndex, endIndex);
+  const totalPage = Math.ceil(product.length / pageSize);
 
-  // Slice the products array based on the current page and page size
-  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
-
-  const totalPage = Math.ceil(filteredProducts.length / pageSize);
-
-  // Lấy 5 sản phẩm đầu tiên
-  const firstFiveProducts = product.slice(0, 15);
-  const specialpro = firstFiveProducts.filter(
-    (itemSpecial) => itemSpecial.deleted === false
-  );
+  const firstFifteenProducts = product.slice(0, 15);
+  const specialProducts = firstFifteenProducts.filter(item => !item.deleted);
 
   return (
     <div>
@@ -57,29 +49,32 @@ export default function RingProductPage() {
         <div className='product-ring-banner' style={{ width: "100%" }}>
           <img src='https://drive.google.com/thumbnail?id=1URfmW1gg8-XLmPFOugwEw9KfWVcV19w3&sz=w1000' alt='Ring Banner' style={{ width: "100%" }} />
         </div>
-        <Row>
-          {specialpro.map((item, index) => (
-            <Col key={index} className="product-card-item">
-              <ProductCard
-                img={item.imgURL}
-                text={item.name}
-                price={item.price.toLocaleString() + "đ"}
-                pageType="guest-page"
-                id={item.id}
+        {specialProducts.length > 0 ? (
+          <>
+            <Row>
+              {specialProducts.map((item, index) => (
+                <Col key={index} xs={12} sm={6} md={4} lg={3} className="d-flex justify-content-center mb-4 product-card-item-ring">
+                  <ProductCard
+                    img={item.imgURL}
+                    text={item.name}
+                    price={item.price.toLocaleString() + "đ"}
+                    pageType="guest-page"
+                    id={item.id}
+                  />
+                </Col>
+              ))}
+            </Row>
+            <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+              <BasicPagination
+                count={totalPage}
+                page={currentPage}
+                onChange={handleChangePage}
               />
-            </Col>
-          ))}
-        </Row>
-        <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
-          <BasicPagination
-            count={totalPage}
-            page={currentPage}
-            onChange={handleChangePage}
-          />
-        </div>
+            </div>
+          </>
+        ) : (<>Không có sản phẩm</>)}
       </Container>
       <Footer />
     </div>
   );
 }
-

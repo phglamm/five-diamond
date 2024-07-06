@@ -22,16 +22,13 @@ import { selectUser } from "../../redux/features/counterSlice";
 
 export default function ProductPage({ token }) {
   const [form] = useForm();
-
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [product, setProduct] = useState();
   const [cartItems, setCartItems] = useState([]);
-  const [relevantproduct, setRelevantproduct] = useState([]);
+  const [relevantProduct, setRelevantProduct] = useState([]);
   const [appliedDiscount, setAppliedDiscount] = useState(null);
   const user = useSelector(selectUser);
-
   const [selectedSize, setSelectedSize] = useState(null);
   const { id } = useParams();
   const ringsize = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
@@ -42,25 +39,29 @@ export default function ProductPage({ token }) {
         const response = await api.get(`product-line/${id}`);
         console.log(response.data);
         setProduct(response.data);
+
+        if (response.data && response.data.category) {
+          fetchRelevantProducts(response.data.category.id, response.data.id);
+        }
       } catch (error) {
         console.log(error.response.data);
       }
     }
-    fetchProductLineById(id);
-  }, [id]);
 
-  useEffect(() => {
-    const fetchProduct = async () => {
+    async function fetchRelevantProducts(categoryId, currentProductId) {
       try {
-        const response = await api.get("product-line");
-        // setRelevantproduct(response.data);
-        setRelevantproduct(response.data.slice(0, 5)); // Only take the first 5 products
+        const response = await api.get(`product-line?category=${categoryId}`);
+        const filteredProducts = response.data.filter(
+          (product) => product.category.id === categoryId && product.id !== currentProductId
+        );
+        setRelevantProduct(filteredProducts.slice(0, 5)); // Chỉ lấy 5 sản phẩm đầu tiên
       } catch (error) {
         console.log(error.response.data);
       }
-    };
-    fetchProduct();
-  }, []);
+    }
+
+    fetchProductLineById();
+  }, [id]);
 
   async function fetchCart() {
     try {
@@ -95,7 +96,7 @@ export default function ProductPage({ token }) {
 
   const finalTotal = total - discountAmount + shippingCost;
 
-  const firstFiveProducts = relevantproduct.slice(0, 5);
+  const firstFiveProducts = relevantProduct.slice(0, 5);
 
   if (!product) {
     return (
@@ -115,34 +116,47 @@ export default function ProductPage({ token }) {
       </div>
     );
   }
+
   const handleClickAddToCart = async () => {
-    try {
-      console.log("Product added to cart", id);
-      const response = await api.post(`cart/${id}`);
-      console.log(response.data);
-      fetchCart();
-      toast.success("Thêm Vào Giỏ Hàng");
-    } catch (error) {
-      console.log(error.response.data);
-      toast.error("Có lỗi trong lúc thêm sản phẩm");
+    if (user) {
+      try {
+        console.log("Product added to cart", id);
+        const response = await api.post(`cart/${id}`);
+        console.log(response.data);
+        fetchCart();
+        toast.success("Thêm Vào Giỏ Hàng");
+      } catch (error) {
+        console.log(error.response.data);
+        toast.error("Có lỗi trong lúc thêm sản phẩm");
+      }
+    } else {
+      return toast.error("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng");
     }
   };
+
   const handleBuyNow = async () => {
+    if (!user) {
+      toast.error("Vui lòng đăng nhập để mua sản phẩm");
+      return;
+    }
     handleClickAddToCart();
     const cartItems = [{ productLine: product, quantity: 1 }];
     const finalTotal = product.price;
-
-    try {
-      const response = await api.get("cart/check");
-      console.log(response);
-      navigate(routes.checkout, { state: { cartItems, finalTotal } });
-    } catch (error) {
-      toast.error(error.response.data);
-      console.log(error.response.data);
-    }
+      try {
+        const response = await api.get("cart/check");
+        console.log(response);
+        navigate(routes.checkout, { state: { cartItems, finalTotal } });
+      } catch (error) {
+        toast.error(error.response.data);
+        console.log(error.response.data);
+      }
   };
 
   const handleClickBuyNow = () => {
+    if (!user) {
+      toast.error("Vui lòng đăng nhập để mua sản phẩm");
+      return;
+    }
     if (selectedSize) {
       navigate("/tien-hanh-thanh-toan", {
         state: {
@@ -226,7 +240,7 @@ export default function ProductPage({ token }) {
                     {item.size}
                   </Select.Option>
                 ))}
-                {ringsize.map((size) => (
+                {ringSizes.map((size) => (
                   <Select.Option key={size} value={size}>
                     {size}
                   </Select.Option>
@@ -265,17 +279,16 @@ export default function ProductPage({ token }) {
                 </p>
                 <p>Bước 1: Cắt một sợi len hoặc giấy bản nhỏ.</p>
                 <p>
-                  Bước 2: Dùng len hoặc giấy bản nhỏ vừa cắt rời quấn quanh khu
-                  vực trên ngón tay mà bạn muốn đeo nhẫn.
+                  Bước 2: Quấn quanh ngón tay cần đo (lưu ý không nên quấn quá
+                  chặt hoặc quá lỏng).
                 </p>
-                <p>Bước 3: Đánh dấu điểm giao nhau</p>
+                <p>Bước 3: Đánh dấu phần len hoặc giấy đã quấn một vòng.</p>
                 <p>
-                  Bước 4:Dùng thước đo chiều dài mẩu giấy vừa thực hiện, sau đó
-                  lấy kết quả bạn vừa đo được chia cho 3.14 để tìm ra đường kính
-                  của nhẫn.
+                  Bước 4: Đo chiều dài của đoạn len hoặc giấy vừa quấn (bạn sẽ
+                  được chu vi của ngón tay).
                 </p>
                 <p>
-                  Bước 5:Cuối cùng, lấy đường kính nhẫn vừa đo được so với kích
+                  Bước 5: Cuối cùng, lấy đường kính nhẫn vừa đo được so với kích
                   thước đường kính của bảng kích thước nhẫn quy chuẩn. Bạn sẽ
                   nhận được size nhẫn của mình.
                 </p>
@@ -316,7 +329,6 @@ export default function ProductPage({ token }) {
                 icon={<ShoppingOutlined />}
                 onClick={handleClickBuyNow}
                 className="button-buybuy"
-                onClick={handleBuyNow}
                 style={{ fontWeight: "bold", width: "50%" }}
               >
                 MUA NGAY
@@ -365,8 +377,8 @@ export default function ProductPage({ token }) {
         <ProductReview productLineId={id} />
 
         <h5 className="header-relevant-product">CÁC SẢN PHẨM TƯƠNG TỰ</h5>
-        <Row>
-          {firstFiveProducts.map((item, index) => (
+        {relevantProduct.length !== 0 ? (<Row>
+          {relevantProduct.map((item, index) => (
             <Col key={index} className="product-card-item">
               <ProductCard
                 img={item.imgURL}
@@ -377,7 +389,7 @@ export default function ProductPage({ token }) {
               />
             </Col>
           ))}
-        </Row>
+        </Row>) : (<p style={{ fontWeight: 'bold' }}>Không có sản phẩm tương tự.</p>)}
       </Container>
       <Footer />
     </div>

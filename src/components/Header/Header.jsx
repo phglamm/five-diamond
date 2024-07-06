@@ -118,7 +118,7 @@ export default function Header() {
           </Link>
         </Col>
         <Col xs={2} className="Header-search">
-          <SearchBar placeholder={"Tìm Kiếm Sản Phẩm"} icon={"pi pi-search"} />
+          <SearchBar placeholder={"Tìm Kiếm Sản Phẩm"} icon={"pi pi-search"}/>
         </Col>
 
         {user ? (
