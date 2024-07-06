@@ -9,7 +9,7 @@ import Banner from "../../../components/Banner/banner";
 import api from '../../../config/axios';
 
 
-export default function RingProductPage() {
+export default function CuffProductPage() {
   const [product, setProduct] = useState([]);
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState(null);
