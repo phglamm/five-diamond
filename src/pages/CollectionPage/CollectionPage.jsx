@@ -6,11 +6,12 @@ import "./CollectionPage.css";
 import { routes } from "../../routes";
 import api from "../../config/axios";
 import { useEffect, useState } from "react";
-import ReactPaginate from "react-paginate";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 export default function CollectionPage() {
   const [collection, setCollection] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
   async function fetchCollection() {
@@ -22,17 +23,17 @@ export default function CollectionPage() {
     fetchCollection();
   }, []);
 
-  const handlePageClick = ({ selected }) => {
-    setCurrentPage(selected);
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
   };
 
-  const offset = currentPage * itemsPerPage;
+  const offset = (currentPage - 1) * itemsPerPage;
   const currentPageData = collection.slice(offset, offset + itemsPerPage);
   const pageCount = Math.ceil(collection.length / itemsPerPage);
 
   return (
     <div>
-      <Header></Header>
+      <Header />
       <Container>
         <h1 className="CollectionPage-Title">Bộ Sưu Tập</h1>
 
@@ -43,24 +44,21 @@ export default function CollectionPage() {
             collectionTitle={collection.name}
             collectionDesc={collection.description}
             collectionLink={`${routes.bst}/${collection.id}`}
-          ></RowCollection>
+          />
         ))}
 
-        <ReactPaginate
-          previousLabel={"previous"}
-          nextLabel={"next"}
-          breakLabel={"..."}
-          breakClassName={"break-me"}
-          pageCount={pageCount}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={3}
-          onPageChange={handlePageClick}
-          containerClassName={"pagination"}
-          subContainerClassName={"pages pagination"}
-          activeClassName={"active"}
-        />
+        <Stack spacing={2} alignItems="center">
+          <Pagination
+            count={pageCount}
+            page={currentPage}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+            className="custom-pagination"
+          />
+        </Stack>
       </Container>
-      <Footer></Footer>
+      <Footer />
     </div>
   );
 }
