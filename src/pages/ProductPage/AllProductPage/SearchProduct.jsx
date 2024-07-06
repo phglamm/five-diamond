@@ -15,7 +15,7 @@ export default function SearchProduct() {
   const [filters, setFilters] = useState({
     gender: [],
     category: [],
-    price: ""
+    price: "",
   });
   const pageSize = 20;
   const navigate = useNavigate();
@@ -32,7 +32,6 @@ export default function SearchProduct() {
       state: { SearchProduct: product },
     });
   };
-
 
   //SORTER
   const handleSortChange = (e) => {
@@ -57,7 +56,9 @@ export default function SearchProduct() {
       let updatedFilters = { ...prevFilters };
       if (type === "gender" || type === "category") {
         if (updatedFilters[type].includes(value)) {
-          updatedFilters[type] = updatedFilters[type].filter((item) => item !== value);
+          updatedFilters[type] = updatedFilters[type].filter(
+            (item) => item !== value
+          );
         } else {
           updatedFilters[type].push(value);
         }
@@ -109,7 +110,6 @@ export default function SearchProduct() {
     return filteredProducts;
   };
 
-
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const paginatedProducts = product.slice(startIndex, endIndex);
@@ -144,7 +144,9 @@ export default function SearchProduct() {
                   type="checkbox"
                   label={category}
                   value={category}
-                  onChange={(e) => handleFilterChange("category", e.target.value)}
+                  onChange={(e) =>
+                    handleFilterChange("category", e.target.value)
+                  }
                 />
               ))}
             </Form.Group>
@@ -169,10 +171,13 @@ export default function SearchProduct() {
             </Form.Group>
           </Col>
 
-
           <Col md={9}>
             <Col xs={2}>
-              <Form.Select aria-label="Sort by price" onChange={handleSortChange} value={sortOrder}>
+              <Form.Select
+                aria-label="Sort by price"
+                onChange={handleSortChange}
+                value={sortOrder}
+              >
                 <option value="none">Sort by</option>
                 <option value="asc">Price: Low to High</option>
                 <option value="desc">Price: High to Low</option>

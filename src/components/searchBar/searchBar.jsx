@@ -1,23 +1,36 @@
-import React, { useState } from "react";
 import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { useNavigate } from "react-router-dom";
-import api from "../../config/axios";
-import { routes } from "../../routes";
-import './searchBar.css';
+import api from "../../config/axios"; // Ensure axios is configured properly
+import { routes } from "../../routes"; // Ensure the routes are correctly defined
+import "./searchBar.css"; // Your custom CSS
 
 export default function SearchBar({ placeholder, icon }) {
   const [form] = useForm();
   const navigate = useNavigate();
 
+  // Function to handle form submission manually
+  const handleClickSubmit = () => {
+    form.submit();
+  };
+
+  // Function to handle search logic
   const handleSearch = async (values) => {
+    console.log(values);
     try {
-      const response = await api.get(`product-line/search?name=${values.name}`);
+      let response;
+      if (values.name) {
+        // If name is provided, search for products
+        response = await api.get(`product-line/search?name=${values.name}`);
+      } else {
+        // If no name is provided, fetch available products
+        response = await api.get("product-line/available");
+      }
       navigate(routes.timkiemsanpham, {
         state: { SearchProduct: response.data },
       });
     } catch (error) {
-      console.log(error.response.data);
+      console.error(error.response.data);
     }
   };
 
@@ -28,7 +41,7 @@ export default function SearchBar({ placeholder, icon }) {
           <Form.Item name="name" className="search-input-item">
             <Input placeholder={placeholder} className="search-input" />
           </Form.Item>
-          <Button type="submit" className="search-button">
+          <Button onClick={handleClickSubmit} className="search-button">
             <i className={icon}></i>
           </Button>
         </div>
