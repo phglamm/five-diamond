@@ -23,6 +23,7 @@ export default function AdminCover() {
   const [form] = useForm();
   const [formUpdate] = useForm();
   const [category, setCategory] = useState([]);
+  const [collection, setCollection] = useState([]);
 
   const [checkedList, setCheckedList] = useState([]);
   const [checkedListUpdate, setCheckedListUpdate] = useState([]);
@@ -126,7 +127,7 @@ export default function AdminCover() {
       value.diamondID = checkedList;
       console.log(value);
       const response = await api.post("product-line", value);
-      console.log(response);
+      console.log(response.data);
       toast.success("Thêm sản phẩm thành công");
       console.log(response.data);
       fetchProductLine();
@@ -158,10 +159,16 @@ export default function AdminCover() {
     setCategory(response.data);
   }
 
+  async function fetchCollection() {
+    const response = await api.get("collection");
+    setCollection(response.data);
+  }
+
   useEffect(() => {
     fetchProductLine();
     fetchDiamond();
     fetchCategory();
+    fetchCollection();
   }, []);
   useEffect(() => {}, []); // Only re-run this effect when diamond changes
 
@@ -231,7 +238,7 @@ export default function AdminCover() {
       title: "ID",
       dataIndex: "id",
       key: "id",
-      fixed: 'left',
+      fixed: "left",
       sorter: (a, b) => a.id - b.id,
     },
     {
@@ -246,7 +253,7 @@ export default function AdminCover() {
       title: "Tên Sản Phẩm",
       dataIndex: "name",
       key: "name",
-      fixed: 'left',
+      fixed: "left",
     },
     {
       title: "Mô Tả",
@@ -290,6 +297,11 @@ export default function AdminCover() {
       dataIndex: "name",
       key: "name",
       render: (text, record) => record.category?.name,
+    },
+    {
+      title: "Bộ Sưu Tập",
+      dataIndex: "collection",
+      key: "collection",
     },
     {
       title: "Dành Cho",
@@ -346,7 +358,7 @@ export default function AdminCover() {
     },
     {
       title: "Hành Động",
-      fixed: 'right',
+      fixed: "right",
       render: (values) => {
         return (
           <>
@@ -733,6 +745,22 @@ export default function AdminCover() {
                         placeholder="chọn Danh Mục"
                       >
                         {category.map((item) => (
+                          <Select.Option value={item.id}>
+                            {item.name}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                    <Form.Item
+                      className="label-form"
+                      label="Bộ Sưu Tập"
+                      name="collectionID"
+                    >
+                      <Select
+                        className="select-input"
+                        placeholder="chọn Bộ sưu tập"
+                      >
+                        {collection.map((item) => (
                           <Select.Option value={item.id}>
                             {item.name}
                           </Select.Option>
@@ -1264,20 +1292,25 @@ export default function AdminCover() {
               >
                 <Input type="number" required />
               </Form.Item>
-
               <Form.Item
                 className="label-form"
-                label="Danh Mục"
+                label="Danh mục"
                 name="categoryID"
-                rules={[
-                  {
-                    required: true,
-                    message: "Nhập Danh Mục",
-                  },
-                ]}
               >
                 <Select className="select-input" placeholder="chọn Danh Mục">
                   {category.map((item) => (
+                    <Select.Option value={item.id}>{item.name}</Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+
+              <Form.Item
+                className="label-form"
+                label="Bộ Sưu Tập"
+                name="collectionID"
+              >
+                <Select className="select-input" placeholder="chọn Bộ sưu tập">
+                  {collection.map((item) => (
                     <Select.Option value={item.id}>{item.name}</Select.Option>
                   ))}
                 </Select>

@@ -19,38 +19,33 @@ export default function ProductCard({
 
   return (
     <div className={`product-hit ${pageType}`}>
-      <div className="product-img" >
-        <Link to={`/chi-tiet-san-pham/${id}`}>
+      <Link to={`/chi-tiet-san-pham/${id}`}>
+        <div className="product-img">
           <img src={img} alt={text} />
-        </Link>
-        <Link
-          to={`/chi-tiet-san-pham/${id}`}
-          className="see-more-red"
-          title="Chi tiết"
-        ></Link>
-      </div>
-      <div className="product-text">
-        <p>
-          <Link to={`/chi-tiet-san-pham/${id}`}>{text}</Link>
-        </p>
-        {salePrice ? (
-          <div className="price-info">
-            <span className="sale-price">{salePrice}</span>
-            <div>
-              <span className={retailPriceClass}>{price}</span>
-              <span className="sale-percent">(-{salePercent})</span>
+        </div>
+        <div className="product-text">
+          <p>
+            <Link to={`/chi-tiet-san-pham/${id}`}>{text}</Link>
+          </p>
+          {salePrice ? (
+            <div className="price-info">
+              <span className="sale-price">{salePrice}</span>
+              <div>
+                <span className={retailPriceClass}>{price}</span>
+                <span className="sale-percent">(-{salePercent})</span>
+              </div>
             </div>
-          </div>
-        ) : (
-          <span className={retailPriceClass}>{price}</span>
-        )}
-        {rating && (
-          <div className="star-rating">
-            <FontAwesomeIcon icon={faStar} />
-            <span>{rating}</span>
-          </div>
-        )}
-      </div>
+          ) : (
+            <span className={retailPriceClass}>{price}</span>
+          )}
+          {rating && (
+            <div className="star-rating">
+              <FontAwesomeIcon icon={faStar} />
+              <span>{rating}</span>
+            </div>
+          )}
+        </div>
+      </Link>
     </div>
   );
 }
