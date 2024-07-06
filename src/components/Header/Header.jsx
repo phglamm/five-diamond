@@ -118,7 +118,10 @@ export default function Header() {
           </Link>
         </Col>
         <Col xs={2} className="Header-search">
-          <SearchBar placeholder={"Tìm Kiếm Sản Phẩm"} icon={"pi pi-search"}/>
+          <SearchBar
+            placeholder={"Tìm kiếm sản phẩm ..."}
+            icon={"pi pi-search"}
+          />
         </Col>
 
         {user ? (
@@ -147,7 +150,7 @@ export default function Header() {
             )}
           </Col>
         ) : (
-          <Col xs={3} className="Header-login">
+          <Col xs={2} className="Header-login">
             <Link to={routes.login}>
               <Button className="authen-button">Đăng nhập</Button>
             </Link>
@@ -156,7 +159,7 @@ export default function Header() {
             </Link>
           </Col>
         )}
-      </Row >
+      </Row>
 
       <Col className="Bottom-header">
         <Col className="Header-navigation">
@@ -192,6 +195,6 @@ export default function Header() {
           <Link to={routes.faq}>Câu Hỏi Thường Gặp</Link>
         </Col>
       </Col>
-    </Container >
+    </Container>
   );
 }

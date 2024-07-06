@@ -1,6 +1,6 @@
 import { Col, Container, Row } from "react-bootstrap";
 import "./Footer.css";
-import SearchBar from "../searchBar/searchBar";
+import MailBar from "../MailBar/MailBar";
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
@@ -116,11 +116,11 @@ export default function Footer() {
         </Col>
         <Col className="Footer-middle">
           <h5>ĐĂNG KÝ NHẬN THÔNG BÁO</h5>
-          <SearchBar
+          <MailBar
             placeholder={"Nhập Email"}
             icon={"pi pi-envelope"}
-          ></SearchBar>
-          <p id="text-center">
+          ></MailBar>
+          <p className="Footer-middle-p" id="text-center">
             Nhận ngay thông tin ưu đãi mới nhất từ FiveDiamond
           </p>
         </Col>

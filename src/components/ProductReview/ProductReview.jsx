@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"; //
+import { IoPersonCircleOutline } from "react-icons/io5"; //
+import { toast } from "react-toastify"; //
+import api from "../../config/axios"; //
 import { Button, Input } from "reactstrap";
-import { IoPersonCircleOutline } from "react-icons/io5";
-import { toast } from "react-toastify";
-import api from "../../config/axios";
 import "./ProductReview.css";
-import { SendOutlined } from "@ant-design/icons";
-import { selectUser } from "../../redux/features/counterSlice";
-import { useSelector } from "react-redux";
-import { useForm } from "antd/es/form/Form";
-import { Form, Popconfirm, Pagination } from "antd";
-import { intlFormatDistance } from "date-fns";
+import { SendOutlined } from "@ant-design/icons"; //
+import { selectUser } from "../../redux/features/counterSlice"; //
+import { useSelector } from "react-redux"; //
+import { useForm } from "antd/es/form/Form"; //
+import { Form, Popconfirm, Pagination } from "antd"; //
+import { intlFormatDistance } from "date-fns"; //
 
 const ProductReview = ({ productLineId }) => {
   const [comments, setComments] = useState([]);
@@ -122,7 +122,8 @@ const ProductReview = ({ productLineId }) => {
                         <div className="customer">
                           <IoPersonCircleOutline className="icon" />
                           <span style={{ fontSize: "16px" }}>
-                            {comment.account.firstname} {comment.account.lastname}{" "}
+                            {comment.account.firstname}{" "}
+                            {comment.account.lastname}{" "}
                           </span>
                           <div
                             className="review-meta"
@@ -178,39 +179,38 @@ const ProductReview = ({ productLineId }) => {
                 <p>Chưa có bình luận về sản phẩm</p>
               </>
             )}
-          </>) : (
+          </>
+        ) : (
           <>
-            {
-              comments.length ? (
-                <div className="reviews">
-                  {currentComments.map((comment) => (
-                    <div className="review" key={comment.id}>
-                      <div className="customer">
-                        <IoPersonCircleOutline className="icon" />
-                        <span style={{ fontSize: "16px" }}>
-                          {comment.account.firstname} {comment.account.lastname}{" "}
-                        </span>
-                        <div
-                          className="review-meta"
-                          style={{ marginLeft: "10px" }}
-                        >
-                          {intlFormatDistance(comment.createAt, new Date())}
-                        </div>
-                      </div>
-
+            {comments.length ? (
+              <div className="reviews">
+                {currentComments.map((comment) => (
+                  <div className="review" key={comment.id}>
+                    <div className="customer">
+                      <IoPersonCircleOutline className="icon" />
+                      <span style={{ fontSize: "16px" }}>
+                        {comment.account.firstname} {comment.account.lastname}{" "}
+                      </span>
                       <div
-                        className="comment-content"
-                        style={{ marginLeft: "42px" }}
+                        className="review-meta"
+                        style={{ marginLeft: "10px" }}
                       >
-                        <p style={{ fontSize: "16px" }}>{comment.content}</p>
+                        {intlFormatDistance(comment.createAt, new Date())}
                       </div>
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <p>Chưa có bình luận về sản phẩm</p>
-              )
-            }
+
+                    <div
+                      className="comment-content"
+                      style={{ marginLeft: "42px" }}
+                    >
+                      <p style={{ fontSize: "16px" }}>{comment.content}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p>Chưa có bình luận về sản phẩm</p>
+            )}
           </>
         )}
       </div>

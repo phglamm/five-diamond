@@ -16,9 +16,8 @@
   flex-direction: column;
   top: 22vh;
   width: 100% !important;
-  left: 0;
+  left: 0px;
   z-index: 1000;
-  /* background: #ffffff; */
 }
 
 .dropdownContainer a {
@@ -30,6 +29,7 @@
   justify-content: center;
   align-items: center;
   /* height: 100px; */
+  margin-left: 7%;
 }
 
 .Header-login {
@@ -59,11 +59,15 @@
 }
 
 /*header-navigation*/
+
+
+
 .Header-navigation {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 
 .Header-navigation a {
   width: 100%;

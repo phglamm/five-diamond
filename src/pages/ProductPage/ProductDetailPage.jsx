@@ -3,14 +3,25 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Col, Container, Row } from "react-bootstrap";
 import "./ProductDetailPage.css";
-import { Button, Form, Input, Modal, Select } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Modal,
+  Select,
+  Popconfirm,
+  Pagination,
+} from "antd";
+import { intlFormatDistance } from "date-fns";
 import {
   PushpinOutlined,
   ShoppingCartOutlined,
   ShoppingOutlined,
+  SendOutlined,
 } from "@ant-design/icons";
+import { IoPersonCircleOutline } from "react-icons/io5";
 import ProductCard from "../../components/productCard/productCard";
-import ProductReview from "../../components/ProductReview/ProductReview"; //(nam)
+// import ProductReview from "../../components/ProductReview/ProductReview"; //(nam)
 
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../config/axios";
@@ -22,16 +33,82 @@ import { selectUser } from "../../redux/features/counterSlice";
 
 export default function ProductPage({ token }) {
   const [form] = useForm();
+
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [product, setProduct] = useState();
   const [cartItems, setCartItems] = useState([]);
   const [relevantProduct, setRelevantProduct] = useState([]);
   const [appliedDiscount, setAppliedDiscount] = useState(null);
-  const user = useSelector(selectUser);
   const [selectedSize, setSelectedSize] = useState(null);
   const { id } = useParams();
   const ringsize = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+
+  //comment component hook
+  const [comments, setComments] = useState([]);
+  const [inputValue, setInputValue] = useState(""); // Added state to manage input value
+  const [currentPage, setCurrentPage] = useState(1); // Added state for current page
+  const user = useSelector(selectUser);
+
+  //comment function
+  const handleInputChange = ({ target: { value } }) => {
+    setInputValue(value);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const commentsPerPage = 5;
+  const currentComments = comments.slice(
+    (currentPage - 1) * commentsPerPage,
+    currentPage * commentsPerPage
+  );
+
+  //comment api
+  async function fetchComments() {
+    try {
+      const response = await api.get(`comment/${id}`);
+      console.log(response.data);
+      const sortedComments = response.data.sort(
+        (a, b) => new Date(b.createAt) - new Date(a.createAt)
+      );
+      setComments(sortedComments);
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  }
+
+  const handleSendComment = async (value) => {
+    const commentPayload = {
+      content: value.content,
+      accountId: user.id,
+      productLineId: id,
+    };
+
+    // console.log(value);
+    try {
+      await api.post("comment", commentPayload);
+      fetchComments();
+      form.resetFields();
+      setInputValue("");
+    } catch (error) {
+      toast.error("Gửi đánh giá không thành công!", {
+        hideProgressBar: true,
+      });
+      console.log({ error });
+    }
+  };
+
+  useEffect(() => {
+    fetchComments();
+  }, []);
+
+  const handleDeleteComment = async (id) => {
+    await api.delete(`comment/${id}`);
+    console.log("Xóa thành công");
+    fetchComments();
+  };
 
   useEffect(() => {
     async function fetchProductLineById() {
@@ -52,7 +129,9 @@ export default function ProductPage({ token }) {
       try {
         const response = await api.get(`product-line?category=${categoryId}`);
         const filteredProducts = response.data.filter(
-          (product) => product.category.id === categoryId && product.id !== currentProductId
+          (product) =>
+            product.category.id === categoryId &&
+            product.id !== currentProductId
         );
         setRelevantProduct(filteredProducts.slice(0, 5)); // Chỉ lấy 5 sản phẩm đầu tiên
       } catch (error) {
@@ -142,14 +221,14 @@ export default function ProductPage({ token }) {
     handleClickAddToCart();
     const cartItems = [{ productLine: product, quantity: 1 }];
     const finalTotal = product.price;
-      try {
-        const response = await api.get("cart/check");
-        console.log(response);
-        navigate(routes.checkout, { state: { cartItems, finalTotal } });
-      } catch (error) {
-        toast.error(error.response.data);
-        console.log(error.response.data);
-      }
+    try {
+      const response = await api.get("cart/check");
+      console.log(response);
+      navigate(routes.checkout, { state: { cartItems, finalTotal } });
+    } catch (error) {
+      toast.error(error.response.data);
+      console.log(error.response.data);
+    }
   };
 
   const handleClickBuyNow = () => {
@@ -336,6 +415,7 @@ export default function ProductPage({ token }) {
             </div>
           </div>
         </div>
+
         <h5 className="header-product-info">THÔNG TIN SẢN PHẨM</h5>
         <div className="product-detail-stat">
           <div className="info-detail">
@@ -374,22 +454,137 @@ export default function ProductPage({ token }) {
           </div>
         </div>
 
-        <ProductReview productLineId={id} />
+        {/* <ProductReview productLineId={id} /> */}
+        <div className="product-reviews">
+          <h5 className="header-review">ĐÁNH GIÁ SẢN PHẨM</h5>
+          <div className="comment-all">
+            {user ? (
+              <>
+                <div className="comment-section">
+                  <div className="user-icon">
+                    <IoPersonCircleOutline />
+                  </div>
+                  <Form
+                    form={form}
+                    onFinish={handleSendComment}
+                    className="comment-form"
+                  >
+                    <Form.Item name="content">
+                      <Input
+                        type="text"
+                        placeholder="Hãy để lại đánh giá cho sản phẩm"
+                        style={{ width: "400px", marginTop: "25px" }}
+                        onChange={handleInputChange}
+                      />
+                    </Form.Item>
+                    <Form.Item name="accountId" hidden initialValue={user.id}>
+                      <Input type="text" />
+                    </Form.Item>
+                    <Form.Item name="productLineId" hidden initialValue={id}>
+                      <Input
+                        type="text"
+                        placeholder="Hãy để lại đánh giá cho sản phẩm"
+                      />
+                    </Form.Item>
+                    <div className="buttons">
+                      <Button
+                        className={`submit ${inputValue ? "active" : ""}`}
+                        onClick={() => {
+                          form.submit();
+                        }}
+                        disabled={!inputValue}
+                      >
+                        <SendOutlined style={{ marginRight: "5px" }} />
+                        Gửi
+                      </Button>
+                    </div>
+                  </Form>
+                </div>
+                {comments.length ? (
+                  <div className="reviews">
+                    {currentComments.map((comment) => (
+                      <div className="review" key={comment.id}>
+                        <div className="customer">
+                          <IoPersonCircleOutline className="icon" />
+                          <span style={{ fontSize: "16px" }}>
+                            {comment.account.firstname}{" "}
+                            {comment.account.lastname}{" "}
+                          </span>
+                          <div
+                            className="review-meta"
+                            style={{ marginLeft: "10px" }}
+                          >
+                            {intlFormatDistance(comment.createAt, new Date())}
+                          </div>
+                          {comment.account.id === user.id && (
+                            <Popconfirm
+                              title="Xóa bình luận"
+                              description="Bạn có muốn xóa bình luận không?"
+                              onConfirm={() => handleDeleteComment(comment.id)}
+                              okText="Có"
+                              cancelText="Không"
+                            >
+                              <p
+                                className="delete-comment-button"
+                                style={{
+                                  marginLeft: "10px",
+                                  fontSize: "12px",
+                                  color: "red",
+                                  width: "28px",
+                                }}
+                              >
+                                Xóa
+                              </p>
+                            </Popconfirm>
+                          )}
+                        </div>
+
+                        <div
+                          className="comment-content"
+                          style={{ marginLeft: "42px" }}
+                        >
+                          <p style={{ fontSize: "16px" }}>{comment.content}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p>Chưa có bình luận về sản phẩm</p>
+                )}
+                <Pagination
+                  current={currentPage}
+                  pageSize={commentsPerPage}
+                  total={comments.length}
+                  onChange={handlePageChange}
+                  style={{ marginTop: "20px", textAlign: "center" }}
+                />
+              </>
+            ) : (
+              <>
+                <p>Chưa có bình luận về sản phẩm</p>
+              </>
+            )}
+          </div>
+        </div>
 
         <h5 className="header-relevant-product">CÁC SẢN PHẨM TƯƠNG TỰ</h5>
-        {relevantProduct.length !== 0 ? (<Row>
-          {relevantProduct.map((item, index) => (
-            <Col key={index} className="product-card-item">
-              <ProductCard
-                img={item.imgURL}
-                text={item.name}
-                price={item.price.toLocaleString() + "đ"}
-                pageType="guest-page"
-                id={item.id}
-              />
-            </Col>
-          ))}
-        </Row>) : (<p style={{ fontWeight: 'bold' }}>Không có sản phẩm tương tự.</p>)}
+        {relevantProduct.length !== 0 ? (
+          <Row>
+            {relevantProduct.map((item, index) => (
+              <Col key={index} className="product-card-item">
+                <ProductCard
+                  img={item.imgURL}
+                  text={item.name}
+                  price={item.price.toLocaleString() + "đ"}
+                  pageType="guest-page"
+                  id={item.id}
+                />
+              </Col>
+            ))}
+          </Row>
+        ) : (
+          <p style={{ fontWeight: "bold" }}>Không có sản phẩm tương tự.</p>
+        )}
       </Container>
       <Footer />
     </div>

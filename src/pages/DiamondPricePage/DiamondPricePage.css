@@ -5,6 +5,7 @@
   text-align: center;
   font-weight: bold;
   margin-top: 5%;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .body-pricepage {
@@ -15,7 +16,11 @@
   display: flex;
   justify-content: center;
   margin-top: 5%;
-  margin-bottom: 2%;
+  margin-bottom: 1%;
+  font-weight: bold;
+  color: #FF0000;
+  font-size: 24px;
+  /* Example color */
 }
 
 .price-table td {
@@ -37,4 +42,9 @@
   text-align: center;
   width: 16.66%;
 
+}
+
+.price-table-header-row {
+  background-color: #68bac0;
+  color: #FFFFFF;
 }

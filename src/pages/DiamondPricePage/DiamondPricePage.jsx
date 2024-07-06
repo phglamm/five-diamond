@@ -53,8 +53,8 @@ export default function DiamondPricePage() {
                         <p className='price-title'>Giá Kim Cương 3ly6</p>
                         <Table bordered className='price-table'>
                             <thead>
-                                <tr>
-                                    <th>3.6MM</th>
+                                <tr className='price-table-header-row'> {/* Add this class */}
+                                    <th className='price-table-header'>3.6MM</th>
                                     {columnHeaders.map((header, index) => (
                                         <th key={index}>{header}</th>
                                     ))}
@@ -69,8 +69,8 @@ export default function DiamondPricePage() {
                         <p className='price-title'>Giá Kim Cương 4ly1</p>
                         <Table bordered className='price-table'>
                             <thead>
-                                <tr>
-                                    <th>4.1MM</th>
+                                <tr className='price-table-header-row'> {/* Add this class */}
+                                    <th className='price-table-header'>4.1MM</th>
                                     {columnHeaders.map((header, index) => (
                                         <th key={index}>{header}</th>
                                     ))}
@@ -85,8 +85,8 @@ export default function DiamondPricePage() {
                         <p className='price-title'>Giá Kim Cương 4ly5</p>
                         <Table bordered className='price-table'>
                             <thead>
-                                <tr>
-                                    <th>4.5MM</th>
+                                <tr className='price-table-header-row'> {/* Add this class */}
+                                    <th className='price-table-header'>4.5MM</th>
                                     {columnHeaders.map((header, index) => (
                                         <th key={index}>{header}</th>
                                     ))}
@@ -101,8 +101,8 @@ export default function DiamondPricePage() {
                         <p className='price-title'>Giá Kim Cương 5ly4</p>
                         <Table bordered className='price-table'>
                             <thead>
-                                <tr>
-                                    <th>5.4MM</th>
+                                <tr className='price-table-header-row'> {/* Add this class */}
+                                    <th className='price-table-header'>5.4MM</th>
                                     {columnHeaders.map((header, index) => (
                                         <th key={index}>{header}</th>
                                     ))}

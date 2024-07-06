@@ -4,6 +4,7 @@ import { useForm } from "antd/es/form/Form";
 import { useNavigate } from "react-router-dom";
 import api from "../../config/axios";
 import { routes } from "../../routes";
+import './searchBar.css';
 
 export default function SearchBar({ placeholder, icon }) {
   const [form] = useForm();
@@ -23,12 +24,14 @@ export default function SearchBar({ placeholder, icon }) {
   return (
     <div className="search-bar-container">
       <Form form={form} onFinish={handleSearch} className="form-main">
-        <Form.Item name="name">
-          <Input placeholder={placeholder} className="search-input" />
-        </Form.Item>
-        <Button htmlType="submit" className="search-button">
-          <i className={icon}></i>
-        </Button>
+        <div className="search-bar">
+          <Form.Item name="name" className="search-input-item">
+            <Input placeholder={placeholder} className="search-input" />
+          </Form.Item>
+          <Button type="submit" className="search-button">
+            <i className={icon}></i>
+          </Button>
+        </div>
       </Form>
     </div>
   );
