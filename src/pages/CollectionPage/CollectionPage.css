@@ -1,3 +1,8 @@
+.CollectionPage-Title {
+  text-align: center;
+  margin-top: 3%;
+}
+
 .custom-pagination .MuiPaginationItem-root {
   color: #000;
   margin-top: 20px ;

@@ -6,7 +6,8 @@ import "./CollectionSet.css";
 import ProductCard from "../../components/productCard/productCard";
 import api from "../../config/axios";
 import { Link, useParams } from "react-router-dom";
-import Pagination from 'react-bootstrap/Pagination';
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 function CollectionDetail() {
   const { id } = useParams();
@@ -54,7 +55,7 @@ function CollectionDetail() {
   const totalPages = Math.ceil(productByCollection.length / productsPerPage);
 
   // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const handlePageChange = (event, value) => setCurrentPage(value);
 
   if (!collection) {
     return <div>Không có bộ sưu tập này</div>;
@@ -69,7 +70,7 @@ function CollectionDetail() {
         </div>
         <h3 className="collection-set-header">{collection.name}</h3>
         <Row>
-          {currentProducts.map((product, index) => (
+          {currentProducts.map((product) => (
             <Col key={product.id} sm={6} md={3}>
               <Link to={`/chi-tiet-san-pham/${product.id}`}>
                 <ProductCard
@@ -83,17 +84,27 @@ function CollectionDetail() {
             </Col>
           ))}
         </Row>
-        <Pagination>
-          {Array.from({ length: totalPages }, (_, index) => (
-            <Pagination.Item
-              key={index + 1}
-              active={index + 1 === currentPage}
-              onClick={() => paginate(index + 1)}
-            >
-              {index + 1}
-            </Pagination.Item>
-          ))}
-        </Pagination>
+        <Stack spacing={2} alignItems="center">
+          <Pagination
+            className="custom-pagination"
+            count={totalPages}
+            page={currentPage}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+            classes={{
+              root: 'pagination-root',
+              ul: 'pagination-ul',
+              item: 'pagination-item',
+              outlined: 'pagination-outlined',
+              rounded: 'pagination-rounded',
+              selected: 'pagination-selected',
+              ellipsis: 'pagination-ellipsis',
+              textPrimary: 'pagination-text-primary',
+              textSecondary: 'pagination-text-secondary',
+            }}
+          />
+        </Stack>
       </Container>
       <Footer />
     </div>
