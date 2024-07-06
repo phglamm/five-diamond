@@ -43,9 +43,9 @@ export default function SearchProduct() {
   const sortProducts = (order) => {
     let sortedProducts = [...product];
     if (order === "asc") {
-      sortedProducts.sort((a, b) => a.price - b.price);
+      sortedProducts.sort((a, b) => a.finalPrice - b.finalPrice);
     } else if (order === "desc") {
-      sortedProducts.sort((a, b) => b.price - a.price);
+      sortedProducts.sort((a, b) => b.finalPrice - a.finalPrice);
     }
     setProduct(sortedProducts);
   };
@@ -89,7 +89,7 @@ export default function SearchProduct() {
     //  price
     if (filters.price) {
       filteredProducts = filteredProducts.filter((product) => {
-        const price = product.price;
+        const price = product.finalPrice;
         switch (filters.price) {
           case "under1m":
             return price < 1000000;
@@ -190,7 +190,7 @@ export default function SearchProduct() {
                   <ProductCard
                     img={item.imgURL}
                     text={item.name}
-                    price={`${item.price.toLocaleString()}đ`}
+                    price={`${item.finalPrice.toLocaleString()}đ`}
                     pageType="guest-page"
                     id={item.id}
                   />

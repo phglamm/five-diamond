@@ -25,9 +25,7 @@ export default function NecklaceProductPage() {
   }, []);
 
   async function fetchProduct() {
-    const response = await api.get(
-      "http://157.245.145.162:8080/api/product-line"
-    );
+    const response = await api.get("product-line/available");
     setProduct(response.data);
     console.log(response.data);
   }
@@ -38,7 +36,7 @@ export default function NecklaceProductPage() {
     ? product.filter((product) => product.category === selectedCategory)
     : product;
 
-  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+  // const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
 
   const totalPage = Math.ceil(filteredProducts.length / pageSize);
 
@@ -73,7 +71,7 @@ export default function NecklaceProductPage() {
               <ProductCard
                 img={item.imgURL}
                 text={item.name}
-                price={item.price.toLocaleString() + "đ"}
+                price={item.finalPrice.toLocaleString() + "đ"}
                 pageType="guest-page"
                 id={item.id}
               />

@@ -157,7 +157,7 @@ export default function ProductPage({ token }) {
   }, []);
 
   const total = cartItems.reduce(
-    (acc, item) => acc + item.productLine.price * item.quantity,
+    (acc, item) => acc + item.productLine.finalPrice * item.quantity,
     0
   );
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -220,7 +220,7 @@ export default function ProductPage({ token }) {
     }
     handleClickAddToCart();
     const cartItems = [{ productLine: product, quantity: 1 }];
-    const finalTotal = product.price;
+    const finalTotal = product.finalPrice;
     try {
       const response = await api.get("cart/check");
       console.log(response);
@@ -240,7 +240,7 @@ export default function ProductPage({ token }) {
       navigate("/tien-hanh-thanh-toan", {
         state: {
           cartItems: [{ productLine: product, quantity: 1 }],
-          finalTotal: product.price,
+          finalTotal: product.finalPrice,
         },
       });
     } else {
@@ -575,7 +575,7 @@ export default function ProductPage({ token }) {
                 <ProductCard
                   img={item.imgURL}
                   text={item.name}
-                  price={item.price.toLocaleString() + "đ"}
+                  price={item.finalPrice.toLocaleString() + "đ"}
                   pageType="guest-page"
                   id={item.id}
                 />
