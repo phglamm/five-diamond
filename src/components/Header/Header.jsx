@@ -147,7 +147,7 @@ export default function Header() {
             )}
           </Col>
         ) : (
-          <Col xs={3} className="Header-login">
+          <Col xs={2} className="Header-login">
             <Link to={routes.login}>
               <Button className="authen-button">Đăng nhập</Button>
             </Link>

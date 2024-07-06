@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";//
+import { IoPersonCircleOutline } from "react-icons/io5";//
+import { toast } from "react-toastify";//
+import api from "../../config/axios";//
 import { Button, Input } from "reactstrap";
-import { IoPersonCircleOutline } from "react-icons/io5";
-import { toast } from "react-toastify";
-import api from "../../config/axios";
 import "./ProductReview.css";
-import { SendOutlined } from "@ant-design/icons";
-import { selectUser } from "../../redux/features/counterSlice";
-import { useSelector } from "react-redux";
-import { useForm } from "antd/es/form/Form";
-import { Form, Popconfirm, Pagination } from "antd";
-import { intlFormatDistance } from "date-fns";
+import { SendOutlined } from "@ant-design/icons";//
+import { selectUser } from "../../redux/features/counterSlice";//
+import { useSelector } from "react-redux";//
+import { useForm } from "antd/es/form/Form";//
+import { Form, Popconfirm, Pagination } from "antd"; //
+import { intlFormatDistance } from "date-fns";//
 
 const ProductReview = ({ productLineId }) => {
   const [comments, setComments] = useState([]);
@@ -83,7 +83,7 @@ const ProductReview = ({ productLineId }) => {
                     type="text"
                     placeholder="Hãy để lại đánh giá cho sản phẩm"
                     style={{ width: "400px", marginTop: "25px" }}
-                    onChange={handleInputChange} // Added onChange handler to input
+                    onChange={handleInputChange}
                   />
                 </Form.Item>
                 <Form.Item name="accountId" hidden initialValue={user.id}>
