@@ -1,19 +1,16 @@
-.CollectionPage-Title {
-  text-align: center;
-  margin-top: 10%;
-}
-.pagination {
-  display: flex;
-  justify-content: center;
-  padding: 1rem 0;
+.custom-pagination .MuiPaginationItem-root {
+  color: #000;
+  margin-top: 20px ;
+
 }
 
-.pagination a {
-  margin: 0 0.5rem;
-  cursor: pointer;
+.custom-pagination .MuiPaginationItem-root.Mui-selected {
+  background-color: #3f51b5;
+  color: #fff;
 }
 
-.pagination .active a {
-  font-weight: bold;
-  text-decoration: underline;
+.custom-pagination .MuiPaginationItem-root:hover {
+  background-color: #f1f1f1;
+    margin-top: 20px ;
+
 }
