@@ -60,7 +60,7 @@ export default function GuestPage() {
               <ProductCard
                 img={item.imgURL}
                 text={item.name}
-                price={item.price.toLocaleString() + "đ"}
+                price={item.finalPrice.toLocaleString() + "đ"}
                 pageType="guest-page"
                 id={item.id}
               />

@@ -54,8 +54,7 @@ export default function CheckOut() {
     if (!form.address.value) {
       formErrors.address = "Địa chỉ là bắt buộc";
     } else if (!addressRegex.test(form.address.value)) {
-      formErrors.address =
-        "Địa chỉ không được chứa ký tự đặc biệt";
+      formErrors.address = "Địa chỉ không được chứa ký tự đặc biệt";
     }
 
     setErrors(formErrors);

@@ -37,13 +37,13 @@ export default function AdminCollection() {
     form.submit();
   }
 
-  async function AddCertificate(value) {
+  async function AddCollection(value) {
     console.log(value);
     try {
       const imgURL = await uploadFile(img);
       value.imgURL = imgURL;
       console.log(value);
-      const response = await api.post("certificate", value);
+      const response = await api.post("collection", value);
       console.log(response.data);
       toast.success("Thêm Bộ Sưu Tập thành công");
       fetchCollection();
@@ -70,7 +70,7 @@ export default function AdminCollection() {
       Modal.confirm({
         title: "Bạn có chắc muốn xóa chứng chỉ này ?",
         onOk: () => {
-          api.delete(`certificate/${values.id}`);
+          api.delete(`collection/${values.id}`);
           toast.success("Xóa thành công");
           setCollection(
             collection.filter((col) => {
@@ -88,19 +88,25 @@ export default function AdminCollection() {
 
   async function updateCollection(values) {
     console.log(values);
-    const dataUpdate = {
-      ...newData,
-    };
 
     try {
-      await api.put(`collection/${values.id}`, dataUpdate);
+      if (imgUpdate) {
+        const imgURLUpdate = await uploadFile(imgUpdate);
+        newData.imgURL = imgURLUpdate;
+      } else {
+        newData.imgURL = values.imgURL;
+      }
+      const dataUpdate = {
+        ...newData,
+      };
       console.log(dataUpdate);
+      const response = await api.put(`collection/${values.id}`, dataUpdate);
+      console.log(response);
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công");
       fetchCollection();
     } catch (error) {
       toast.error("chỉnh sửa thất bại, có lỗi");
-      console.log(dataUpdate);
       console.log(error.response.data);
     }
   }
@@ -356,7 +362,7 @@ export default function AdminCollection() {
         <h1>Thêm Bộ Sưu Tập</h1>
         <Form
           form={form}
-          onFinish={AddCertificate}
+          onFinish={AddCollection}
           id="form"
           className="form-main"
         >

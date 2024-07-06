@@ -56,7 +56,6 @@ export default function CartPage() {
 
   // Function to update the quantity of an item in the cart
   const updateQuantity = async (id, amount) => {
-
     try {
       const response = await api.put(`cart/add/${id}`);
       setCartItems((prevItems) => {
@@ -80,7 +79,6 @@ export default function CartPage() {
       console.log(error.response.data);
       toast.error("Không đủ sản phẩm trong kho");
     }
-
   };
 
   // Calculate total, shipping cost, and discount amount
@@ -97,8 +95,8 @@ export default function CartPage() {
     ? appliedDiscount.type === "percentage"
       ? (total * appliedDiscount.value) / 100
       : appliedDiscount.type === "fixed"
-        ? appliedDiscount.value
-        : 0
+      ? appliedDiscount.value
+      : 0
     : 0;
 
   const finalTotal = total - discountAmount + shippingCost;
@@ -142,9 +140,9 @@ export default function CartPage() {
               </Button>
             </div>
             {user.role === "ADMIN" ||
-              user.role === "SALES" ||
-              user.role === "DELIVERY" ||
-              user.role === "MANAGER" ? (
+            user.role === "SALES" ||
+            user.role === "DELIVERY" ||
+            user.role === "MANAGER" ? (
               <>
                 {" "}
                 <div>
@@ -315,8 +313,9 @@ export default function CartPage() {
           </Col>
           <Col md={4} className="col-md-4">
             {user.role === "ADMIN" ||
-              user.role === "SALES" ||
-              user.role === "DELIVERY" ? (
+            user.role === "SALES" ||
+            user.role === "DELIVERY" ||
+            user.role === "MANAGER" ? (
               <div className="Col4">
                 <Card>
                   <Card.Header>
