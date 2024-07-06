@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -22,48 +22,63 @@ export default function CheckOut() {
     cartItems: [],
     finalTotal: 0,
   };
+
   const navigate = useNavigate();
-  const [address, setAddress] = useState("");
   const [errors, setErrors] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: `${user.lastname} ${user.firstname}`,
+    phone: user.phone || "",
+    address: user.address || "",
+    note: "",
+  });
+
   const dispatch = useDispatch();
 
+  // Use useEffect to log formData changes
+  useEffect(() => {
+    console.log("Form data updated:", formData);
+  }, [formData]);
+
+  // Validate form data
   const validateForm = () => {
     const formErrors = {};
-    const form = document.forms[0];
 
-    // check name
-    const nameRegex = /^[a-zA-ZÀ-ỹẠ-ỹ\s]*$/; // Chấp nhận chữ cái thường và hoa, bao gồm dấu và khoảng trắng
-    if (!form.name.value) {
+    // Validate name
+    const nameRegex = /^[a-zA-ZÀ-ỹẠ-ỹ\s]*$/;
+    if (!formData.name) {
       formErrors.name = "Họ Tên là bắt buộc";
-    } else if (!nameRegex.test(form.name.value)) {
+    } else if (!nameRegex.test(formData.name)) {
       formErrors.name =
         "Họ Tên chỉ được chứa chữ cái và khoảng trắng, không có số và ký tự đặc biệt";
     }
 
-    // check phone
+    // Validate phone
     const phoneRegex = /^[0-9]+$/;
-    if (!form.phone.value) {
+    if (!formData.phone) {
       formErrors.phone = "Điện Thoại là bắt buộc";
-    } else if (!phoneRegex.test(form.phone.value)) {
+    } else if (!phoneRegex.test(formData.phone)) {
       formErrors.phone = "Điện Thoại chỉ được chứa số";
     }
 
-    // check address
-    if (!address) {
+    // Validate address
+    if (!formData.address) {
       formErrors.address = "Địa chỉ là bắt buộc";
     }
 
     setErrors(formErrors);
 
-    // display fail by toast
-    Object.keys(formErrors).forEach((key) => {
-      toast.error(formErrors[key]);
-    });
+    // Display error messages using toast
+    if (Object.keys(formErrors).length > 0) {
+      Object.keys(formErrors).forEach((key) => {
+        toast.error(formErrors[key]);
+      });
+    }
 
     return Object.keys(formErrors).length === 0;
   };
 
+  // Apply discount code
   const handleApplyDiscount = async () => {
     try {
       const response = await api.get(`promotion/code/${discountCode}`);
@@ -73,30 +88,27 @@ export default function CheckOut() {
       toast.error("Mã giảm giá không tồn tại hoặc không thể sử dụng được nữa");
     }
   };
+
+  // Submit the form
   const handleSubmit = async (event) => {
     event.preventDefault();
     setFormSubmitted(true);
-    const form = event.currentTarget;
+
     if (validateForm()) {
       try {
-        const form = event.currentTarget;
-
         const amount = String(finalTotal - (finalTotal * discount) / 100);
         console.log(amount);
         const data = {
-          fullname: form.name.value,
-          phone: form.phone.value,
-          address: form.address.value,
-          note: form.note.value,
+          fullname: formData.name,
+          phone: formData.phone,
+          address: formData.address,
+          note: formData.note,
           cartItems: cartItems,
           totalAmount: amount,
           promotionCode: discountCode,
         };
         console.log(data);
-        const response = await api.post("wallet/vnpay", {
-          amount: amount,
-        });
-        console.log(data);
+        const response = await api.post("wallet/vnpay", { amount });
         console.log(response.data);
         toast.success("Đặt Hàng Thành Công");
         window.location.assign(response.data);
@@ -108,6 +120,7 @@ export default function CheckOut() {
     }
   };
 
+  // Get total price of the cart items
   const getTotalPrice = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
@@ -136,12 +149,12 @@ export default function CheckOut() {
                     name="name"
                     type="text"
                     placeholder="Nhập họ tên"
-                    defaultValue={`${user.lastname} ${user.firstname} `}
+                    value={formData.name}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     isInvalid={!!errors.name}
                   />
-                  {/* <Form.Control.Feedback type="invalid">
-                    {errors.name}
-                  </Form.Control.Feedback> */}
                 </Col>
               </Form.Group>
               <Form.Group
@@ -156,16 +169,15 @@ export default function CheckOut() {
                   <Form.Control
                     name="phone"
                     type="text"
-                    defaultValue={user.phone}
                     placeholder="Nhập số điện thoại"
+                    value={formData.phone}
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value })
+                    }
                     isInvalid={!!errors.phone}
                   />
-                  {/* <Form.Control.Feedback type="invalid">
-                    {errors.phone}
-                  </Form.Control.Feedback> */}
                 </Col>
               </Form.Group>
-
               <Form.Group
                 as={Row}
                 controlId="formAddress"
@@ -179,23 +191,22 @@ export default function CheckOut() {
                     name="address"
                     type="text"
                     placeholder="Nhập địa chỉ"
+                    value={formData.address}
+                    onChange={(e) =>
+                      setFormData({ ...formData, address: e.target.value })
+                    }
                     isInvalid={!!errors.address}
-                    defaultValue={user.address}
-                    onChange={(e) => setAddress(e.target.value)}
                   />
-                  {/* {errors.address && (
-                    <div className="text-danger">{errors.address}</div>
-                  )} */}
                 </Col>
               </Form.Group>
 
               <h4>HÌNH THỨC THANH TOÁN</h4>
               <Form.Group controlId="formPaymentMethod">
-                <h5>•Thanh toán chuyển khoản</h5>
+                <h5>• Thanh toán chuyển khoản</h5>
                 <div>
                   <p>
                     Quý khách vui lòng kiểm tra sự nguyên vẹn của gói hàng và
-                    tem niêm phong, trước khi thanh toán tiền mặt và nhận hàng
+                    tem niêm phong, trước khi thanh toán tiền mặt và nhận hàng.
                     <br />
                     + Tên tài khoản: Công ty Cổ phần 10TRACK
                     <br />
@@ -217,6 +228,10 @@ export default function CheckOut() {
                       name="note"
                       rows={3}
                       placeholder="Để lại lời nhắn"
+                      value={formData.note}
+                      onChange={(e) =>
+                        setFormData({ ...formData, note: e.target.value })
+                      }
                     />
                   </Col>
                 </Form.Group>
@@ -262,10 +277,6 @@ export default function CheckOut() {
                   style={{ background: "#614A4A" }}
                   className="apply-button"
                   onClick={handleApplyDiscount}
-                  value={discountCode}
-                  onChange={(e) => {
-                    setDiscountCode(e.target.value);
-                  }}
                 >
                   Áp dụng
                 </Button>

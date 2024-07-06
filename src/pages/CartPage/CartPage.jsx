@@ -15,7 +15,6 @@ import "./CartPage.css";
 import { ShoppingCartOutlined, RollbackOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
-import discountCodes from "./discountCodes";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -57,7 +56,6 @@ export default function CartPage() {
 
   // Function to update the quantity of an item in the cart
   const updateQuantity = async (id, amount) => {
-
     try {
       const response = await api.put(`cart/add/${id}`);
       setCartItems((prevItems) => {
@@ -81,12 +79,11 @@ export default function CartPage() {
       console.log(error.response.data);
       toast.error("Không đủ sản phẩm trong kho");
     }
-
   };
 
   // Calculate total, shipping cost, and discount amount
   const total = cartItems.reduce(
-    (acc, item) => acc + item.productLine.price * item.quantity,
+    (acc, item) => acc + item.productLine.finalPrice * item.quantity,
     0
   );
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -98,8 +95,8 @@ export default function CartPage() {
     ? appliedDiscount.type === "percentage"
       ? (total * appliedDiscount.value) / 100
       : appliedDiscount.type === "fixed"
-        ? appliedDiscount.value
-        : 0
+      ? appliedDiscount.value
+      : 0
     : 0;
 
   const finalTotal = total - discountAmount + shippingCost;
@@ -143,9 +140,9 @@ export default function CartPage() {
               </Button>
             </div>
             {user.role === "ADMIN" ||
-              user.role === "SALES" ||
-              user.role === "DELIVERY" ||
-              user.role === "MANAGER" ? (
+            user.role === "SALES" ||
+            user.role === "DELIVERY" ||
+            user.role === "MANAGER" ? (
               <>
                 {" "}
                 <div>
@@ -190,7 +187,7 @@ export default function CartPage() {
                                 Giá tiền:{" "}
                                 <span style={{ color: "red" }}>
                                   {(
-                                    item.productLine?.price * item.quantity
+                                    item.productLine?.finalPrice * item.quantity
                                   ).toLocaleString()}
                                   đ
                                 </span>
@@ -199,7 +196,7 @@ export default function CartPage() {
                                 Tạm tính:{" "}
                                 <span style={{ color: "red" }}>
                                   {(
-                                    item.productLine?.price * item.quantity
+                                    item.productLine?.finalPrice * item.quantity
                                   ).toLocaleString()}
                                   đ
                                 </span>
@@ -209,7 +206,7 @@ export default function CartPage() {
                               Thành tiền:{" "}
                               <span style={{ color: "red" }}>
                                 {(
-                                  item.productLine?.price * item.quantity
+                                  item.productLine?.finalPrice * item.quantity
                                 ).toLocaleString()}
                                 đ
                               </span>
@@ -271,7 +268,7 @@ export default function CartPage() {
                               Giá tiền:{" "}
                               <span style={{ color: "red" }}>
                                 {(
-                                  item.productLine?.price * item.quantity
+                                  item.productLine?.finalPrice * item.quantity
                                 ).toLocaleString()}
                                 đ
                               </span>
@@ -280,7 +277,7 @@ export default function CartPage() {
                               Tạm tính:{" "}
                               <span style={{ color: "red" }}>
                                 {(
-                                  item.productLine?.price * item.quantity
+                                  item.productLine?.finalPrice * item.quantity
                                 ).toLocaleString()}
                                 đ
                               </span>
@@ -290,7 +287,7 @@ export default function CartPage() {
                             Thành tiền:{" "}
                             <span style={{ color: "red" }}>
                               {(
-                                item.productLine?.price * item.quantity
+                                item.productLine?.finalPrice * item.quantity
                               ).toLocaleString()}
                               đ
                             </span>
@@ -316,8 +313,9 @@ export default function CartPage() {
           </Col>
           <Col md={4} className="col-md-4">
             {user.role === "ADMIN" ||
-              user.role === "SALES" ||
-              user.role === "DELIVERY" ? (
+            user.role === "SALES" ||
+            user.role === "DELIVERY" ||
+            user.role === "MANAGER" ? (
               <div className="Col4">
                 <Card>
                   <Card.Header>
@@ -384,15 +382,15 @@ export default function CartPage() {
                         {total?.toLocaleString()} VNĐ
                       </span>
                     </h5>
-                    <hr className="solid"></hr>
-                    <h5>
+                    {/* <hr className="solid"></hr> */}
+                    {/* <h5>
                       Vận chuyển:{" "}
                       <span style={{ color: "black", float: "right" }}>
                         {shippingCost === 0
                           ? "Miễn phí vận chuyển"
                           : `${shippingCost?.toLocaleString()} VNĐ`}{" "}
                       </span>
-                    </h5>
+                    </h5> */}
                     <hr className="solid"></hr>
                     <h5>
                       Thanh toán:{" "}

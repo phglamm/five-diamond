@@ -53,7 +53,6 @@ export const routes = {
   vongco: "/san-pham-vong-co",
   nhan: "/san-pham-nhan",
   khuyentai: "/san-pham-khuyen-tai",
-  search: "/tim-kiem",
-
+  timkiemsanpham: "/san-pham",
   // payment: "/thanh-toan",
 };

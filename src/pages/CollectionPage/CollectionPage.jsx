@@ -4,36 +4,34 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import "./CollectionPage.css";
 import { routes } from "../../routes";
+import api from "../../config/axios";
+import { useEffect, useState } from "react";
 export default function CollectionPage() {
+  const [collection, setCollection] = useState([]);
+
+  async function fetchCollection() {
+    const response = await api.get("collection");
+    setCollection(response.data);
+  }
+
+  useEffect(() => {
+    fetchCollection();
+  }, []);
   return (
     <div>
       <Header></Header>
       <Container>
         <h1 className="CollectionPage-Title">Bộ Sưu Tập</h1>
-        <RowCollection
-          collectionImage="https://drive.google.com/thumbnail?id=1EG3EKHpm1-MJKmZ_GrwAm7uvsZtvEWee&sz=w1000"
-          collectionTitle={"BST TRANG SỨC 14K LUCKY ME"}
-          collectionDesc={
-            "BST Trang sức 14k LUCKY ME mang đến sự may mắn trong thành công trong công việc trong cuộc sống"
-          }
-          collectionLink={routes.bstset1}
-        ></RowCollection>
-        <RowCollection
-          collectionImage="https://drive.google.com/thumbnail?id=1EG3EKHpm1-MJKmZ_GrwAm7uvsZtvEWee&sz=w1000"
-          collectionTitle={"BST TRANG SỨC 14K LUCKY ME"}
-          collectionDesc={
-            "BST Trang sức 14k LUCKY ME mang đến sự may mắn trong thành công trong công việc trong cuộc sống"
-          }
-          collectionLink={routes.bstset2}
-        ></RowCollection>
-        <RowCollection
-          collectionImage="https://drive.google.com/thumbnail?id=1EG3EKHpm1-MJKmZ_GrwAm7uvsZtvEWee&sz=w1000"
-          collectionTitle={"BST TRANG SỨC 14K LUCKY ME"}
-          collectionDesc={
-            "BST Trang sức 14k LUCKY ME mang đến sự may mắn trong thành công trong công việc trong cuộc sống"
-          }
-          collectionLink={routes.bstset3}
-        ></RowCollection>
+
+        {collection.map((collection) => (
+          <RowCollection
+            key={collection.id}
+            collectionImage={collection.imgURL}
+            collectionTitle={collection.name}
+            collectionDesc={collection.description}
+            collectionLink={`${routes.bst}/${collection.id}`}
+          ></RowCollection>
+        ))}
       </Container>
       <Footer></Footer>
     </div>

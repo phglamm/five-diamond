@@ -35,7 +35,7 @@ export default function ProductPage({ token }) {
   const user = useSelector(selectUser);
   const [selectedSize, setSelectedSize] = useState(null);
   const { id } = useParams();
-  const ringSizes = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+  const ringsize = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
   useEffect(() => {
     async function fetchProductLineById() {
@@ -67,7 +67,6 @@ export default function ProductPage({ token }) {
     fetchProductLineById();
   }, [id]);
 
-
   async function fetchCart() {
     try {
       const response = await api.get("cart");
@@ -95,19 +94,27 @@ export default function ProductPage({ token }) {
     ? appliedDiscount.type === "percentage"
       ? (total * appliedDiscount.value) / 100
       : appliedDiscount.type === "fixed"
-        ? appliedDiscount.value
-        : 0
+      ? appliedDiscount.value
+      : 0
     : 0;
 
   const finalTotal = total - discountAmount + shippingCost;
+
+  const firstFiveProducts = relevantproduct.slice(0, 5);
 
   if (!product) {
     return (
       <div>
         <Header />
         <Container>
-          <p style={{ fontSize: '2rem' }}>Sản phẩm không tồn tại</p>
-          <Button onClick={() => { navigate("/") }}>Quay về trang chủ</Button>
+          <p style={{ fontSize: "2rem" }}>Sản phẩm không tồn tại</p>
+          <Button
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Quay về trang chủ
+          </Button>
         </Container>
         <Footer />
       </div>
@@ -149,6 +156,23 @@ export default function ProductPage({ token }) {
       }
   };
 
+  const handleClickBuyNow = () => {
+    if (!user) {
+      toast.error("Vui lòng đăng nhập để mua sản phẩm");
+      return;
+    }
+    if (selectedSize) {
+      navigate("/tien-hanh-thanh-toan", {
+        state: {
+          cartItems: [{ productLine: product, quantity: 1 }],
+          finalTotal: product.price,
+        },
+      });
+    } else {
+      toast.error("Bạn Chưa Chọn Size cho sản phẩm");
+    }
+  };
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -181,7 +205,7 @@ export default function ProductPage({ token }) {
             <h4 className="product-title">{product.name}</h4>
             <p>MÃ SẢN PHẨM: {product.id}</p>
             <p style={{ color: "red" }}>
-              {product.price ? product.price.toLocaleString() : ""}đ
+              {product == undefined ? "" : product.finalPrice.toLocaleString()}đ
             </p>
             <p>Mô tả: {product.description}</p>
             <p>
@@ -191,9 +215,9 @@ export default function ProductPage({ token }) {
             <p>CÒN {product.quantity} SẢN PHẨM</p>
             <h5>TÙY CHỈNH SẢN PHẨM</h5>
             <div className="select-material"></div>
-            *Vì mỗi sản phẩm không cố định ni nên quý khách vui lòng
-            ghi phần ni mong muốn vào phần ghi chú
-            hoặc liên hệ 0123456789 nếu quý khách có thắc mắc
+            *Vì mỗi sản phẩm không cố định ni nên quý khách vui lòng ghi phần ni
+            mong muốn vào phần ghi chú hoặc liên hệ 0123456789 nếu quý khách có
+            thắc mắc
             <div className="select-size">
               {/* <p>Kích Thước</p>
               <Select
@@ -307,8 +331,8 @@ export default function ProductPage({ token }) {
               <Button
                 type="primary"
                 icon={<ShoppingOutlined />}
+                onClick={handleClickBuyNow}
                 className="button-buybuy"
-                onClick={handleBuyNow}
                 style={{ fontWeight: "bold", width: "50%" }}
               >
                 MUA NGAY

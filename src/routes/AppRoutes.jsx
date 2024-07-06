@@ -31,7 +31,7 @@ import AdminUser from "../pages/AdminDashboard/AdminUser/AdminUser";
 import AdminOrder from "../pages/AdminDashboard/AdminManageOrder/AdmiManageOrder";
 import ChangePasswordPage from "../pages/ChangePassword/ChangePassword";
 import AdminCover from "../pages/AdminDashboard/AdminDiamond/AdminPageCover";
-import CollectionSet1 from "../pages/CollectionPage/CollectionSet1";
+import CollectionSet1 from "../pages/CollectionPage/CollectionDetail";
 import CollectionSet2 from "../pages/CollectionPage/CollectionSet2";
 import CollectionSet3 from "../pages/CollectionPage/CollectionSet3";
 import AdminCollection from "../pages/AdminDashboard/AdminCollection/AdminCollection";
@@ -47,7 +47,9 @@ import AdminStatistics from "../pages/AdminDashboard/AdminStatistics/AdminStatis
 import PaymentFail from "../pages/PaymentFail/PaymentFail";
 import AdminSaleEvent from "../pages/AdminDashboard/AdminSaleEvent/AdminSaleEvent";
 import AdminDiamondPrice from "../pages/AdminDashboard/AdminDiamondPrice/AdminDiamondPrice";
-import SearchPage from "../pages/SearchPage/SearchPage";
+import Dashboard from "../pages/Dashboard/Dashboard";
+import CollectionDetail from "../pages/CollectionPage/CollectionDetail";
+import SearchProduct from "../pages/ProductPage/AllProductPage/SearchProduct";
 
 // import Payment from "../pages/Payment/PaymentPage";
 
@@ -205,6 +207,9 @@ export default function AppRoute() {
       />
 
       <Route path={routes.orderhistory} element={<OrderHistoryUser />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path={`${routes.bst}/:id`} element={<CollectionDetail />} />
+      <Route path={routes.timkiemsanpham} element={<SearchProduct />} />
     </Routes>
   );
 }

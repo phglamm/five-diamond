@@ -61,7 +61,7 @@ export default function AdminDiamondPrice() {
             onChange={(e) => setNewPrice(e.target.value)}
           />
         ) : (
-            parseFloat(text).toLocaleString()
+          parseFloat(text).toLocaleString()
         )
       ),
     },
