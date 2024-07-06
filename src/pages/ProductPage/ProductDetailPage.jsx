@@ -27,7 +27,6 @@ import {
 export default function ProductPage({ token }) {
   const [form] = useForm();
 
-
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -39,8 +38,7 @@ export default function ProductPage({ token }) {
 
   const [selectedSize, setSelectedSize] = useState(null);
   const { id } = useParams();
-  const ringsize = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-
+  const ringsize = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
   useEffect(() => {
     async function fetchProductLineById() {
@@ -61,14 +59,12 @@ export default function ProductPage({ token }) {
         const response = await api.get("product-line");
         // setRelevantproduct(response.data);
         setRelevantproduct(response.data.slice(0, 5)); // Only take the first 5 products
-
       } catch (error) {
         console.log(error.response.data);
       }
     };
     fetchProduct();
   }, []);
-
 
   async function fetchCart() {
     try {
@@ -97,14 +93,11 @@ export default function ProductPage({ token }) {
     ? appliedDiscount.type === "percentage"
       ? (total * appliedDiscount.value) / 100
       : appliedDiscount.type === "fixed"
-        ? appliedDiscount.value
-        : 0
+      ? appliedDiscount.value
+      : 0
     : 0;
 
   const finalTotal = total - discountAmount + shippingCost;
-
-
-
 
   const firstFiveProducts = relevantproduct.slice(0, 5);
 
@@ -113,13 +106,18 @@ export default function ProductPage({ token }) {
       <div>
         <Header />
         <Container>
-          <p style={{ fontSize: '2rem' }}>Sản phẩm không tồn tại</p>
-          <Button onClick={() => { navigate("/") }}>Quay về trang chủ</Button>
+          <p style={{ fontSize: "2rem" }}>Sản phẩm không tồn tại</p>
+          <Button
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Quay về trang chủ
+          </Button>
         </Container>
         <Footer />
       </div>
-
-    )
+    );
   }
   const handleClickAddToCart = async () => {
     try {
@@ -150,11 +148,11 @@ export default function ProductPage({ token }) {
 
   const handleClickBuyNow = () => {
     if (selectedSize) {
-      navigate('/tien-hanh-thanh-toan', {
+      navigate("/tien-hanh-thanh-toan", {
         state: {
           cartItems: [{ productLine: product, quantity: 1 }],
-          finalTotal: product.price
-        }
+          finalTotal: product.price,
+        },
       });
     } else {
       toast.error("Bạn Chưa Chọn Size cho sản phẩm");
@@ -193,7 +191,7 @@ export default function ProductPage({ token }) {
             <h4 className="product-title">{product.name}</h4>
             <p>MÃ SẢN PHẨM: {product.id}</p>
             <p style={{ color: "red" }}>
-              {product == undefined ? "" : product.price.toLocaleString()}đ
+              {product == undefined ? "" : product.finalPrice.toLocaleString()}đ
             </p>
             <p>Mô tả: {product.description}</p>
             <p>
@@ -203,9 +201,9 @@ export default function ProductPage({ token }) {
             <p>CÒN {product.quantity} SẢN PHẨM</p>
             <h5>TÙY CHỈNH SẢN PHẨM</h5>
             <div className="select-material"></div>
-            *Vì mỗi sản phẩm không cố định ni nên quý khách vui lòng
-            ghi phần ni mong muốn vào phần ghi chú
-            hoặc liên hệ 0123456789 nếu quý khách có thắc mắc
+            *Vì mỗi sản phẩm không cố định ni nên quý khách vui lòng ghi phần ni
+            mong muốn vào phần ghi chú hoặc liên hệ 0123456789 nếu quý khách có
+            thắc mắc
             <div className="select-size">
               {/* <p>Kích Thước</p>
               <Select
@@ -369,7 +367,6 @@ export default function ProductPage({ token }) {
         </div>
 
         <ProductReview productLineId={id} />
-
 
         <h5 className="header-relevant-product">CÁC SẢN PHẨM TƯƠNG TỰ</h5>
         <Row>

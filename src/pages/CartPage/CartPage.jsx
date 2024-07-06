@@ -83,7 +83,7 @@ export default function CartPage() {
 
   // Calculate total, shipping cost, and discount amount
   const total = cartItems.reduce(
-    (acc, item) => acc + item.productLine.price * item.quantity,
+    (acc, item) => acc + item.productLine.finalPrice * item.quantity,
     0
   );
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -187,7 +187,7 @@ export default function CartPage() {
                                 Giá tiền:{" "}
                                 <span style={{ color: "red" }}>
                                   {(
-                                    item.productLine?.price * item.quantity
+                                    item.productLine?.finalPrice * item.quantity
                                   ).toLocaleString()}
                                   đ
                                 </span>
@@ -196,7 +196,7 @@ export default function CartPage() {
                                 Tạm tính:{" "}
                                 <span style={{ color: "red" }}>
                                   {(
-                                    item.productLine?.price * item.quantity
+                                    item.productLine?.finalPrice * item.quantity
                                   ).toLocaleString()}
                                   đ
                                 </span>
@@ -206,7 +206,7 @@ export default function CartPage() {
                               Thành tiền:{" "}
                               <span style={{ color: "red" }}>
                                 {(
-                                  item.productLine?.price * item.quantity
+                                  item.productLine?.finalPrice * item.quantity
                                 ).toLocaleString()}
                                 đ
                               </span>
@@ -268,7 +268,7 @@ export default function CartPage() {
                               Giá tiền:{" "}
                               <span style={{ color: "red" }}>
                                 {(
-                                  item.productLine?.price * item.quantity
+                                  item.productLine?.finalPrice * item.quantity
                                 ).toLocaleString()}
                                 đ
                               </span>
@@ -277,7 +277,7 @@ export default function CartPage() {
                               Tạm tính:{" "}
                               <span style={{ color: "red" }}>
                                 {(
-                                  item.productLine?.price * item.quantity
+                                  item.productLine?.finalPrice * item.quantity
                                 ).toLocaleString()}
                                 đ
                               </span>
@@ -287,7 +287,7 @@ export default function CartPage() {
                             Thành tiền:{" "}
                             <span style={{ color: "red" }}>
                               {(
-                                item.productLine?.price * item.quantity
+                                item.productLine?.finalPrice * item.quantity
                               ).toLocaleString()}
                               đ
                             </span>

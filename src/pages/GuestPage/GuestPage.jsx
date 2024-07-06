@@ -19,7 +19,7 @@ export default function GuestPage() {
   };
 
   async function fetchProduct() {
-    const response = await api.get("product-line");
+    const response = await api.get("product-line/available");
     setProduct(response.data);
     console.log(response.data);
   }
