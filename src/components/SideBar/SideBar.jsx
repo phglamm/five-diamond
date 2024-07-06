@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import LogoutIcon from "@mui/icons-material/Logout";
 import FindInPageIcon from "@mui/icons-material/FindInPage";
 import InventoryIcon from "@mui/icons-material/Inventory";
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 
 export default function SideBar() {
   const dispatch = useDispatch();
@@ -89,10 +90,7 @@ export default function SideBar() {
             <InventoryIcon color="info" fontSize="large" />
             <Link to={routes.adminCover}>Danh Mục Sản Phẩm</Link>
           </li>
-          <li>
-            <InventoryIcon color="info" fontSize="large" />
-            <Link to={routes.adminbst}>Quản Lý Bộ Sưu Tập</Link>
-          </li>
+
           <li>
             <DiamondIcon color="info" fontSize="large" />
             <Link to={routes.adminDiamond}>Quản Lý Kim Cương</Link>
@@ -102,12 +100,20 @@ export default function SideBar() {
             <Link to={routes.adminCertificate}>Quản Lý Chứng Chỉ</Link>
           </li>
           <li>
+            <InventoryIcon color="info" fontSize="large" />
+            <Link to={routes.adminbst}>Quản Lý Bộ Sưu Tập</Link>
+          </li>
+          <li>
             <CategoryIcon color="info" fontSize="large" />
             <Link to={routes.adminCategory}>Quản Lý Danh Mục</Link>
           </li>
           <li>
             <EventIcon color="info" fontSize="large" />
             <Link to={routes.adminsale}>Quản Lý Sự Kiện Sale</Link>
+          </li>
+          <li>
+            <MonetizationOnIcon color="info" fontSize="large" />
+            <Link to={routes.adminDiamondPrice}>Quản Lý Giá Kim Cương</Link>
           </li>
           <li>
             <PersonIcon color="info" fontSize="large" />

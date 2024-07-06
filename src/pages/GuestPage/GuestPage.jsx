@@ -19,7 +19,7 @@ export default function GuestPage() {
   };
 
   async function fetchProduct() {
-    const response = await api.get("product-line");
+    const response = await api.get("product-line/available");
     setProduct(response.data);
     console.log(response.data);
   }
@@ -27,6 +27,29 @@ export default function GuestPage() {
   useEffect(() => {
     fetchProduct();
   }, []);
+
+  const [collection, setCollection] = useState([]);
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        // Fetch banners and products concurrently
+        const [bannersResponse, productsResponse] = await Promise.all([
+          api.get("collection"),
+          api.get("product-line"),
+        ]);
+
+        setCollection(bannersResponse.data);
+        setProducts(productsResponse.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  const sliceCollection = collection.slice(0, 3);
 
   // Lấy 5 sản phẩm đầu tiên
   const firstFiveProducts = product.slice(0, 25);
@@ -73,21 +96,9 @@ export default function GuestPage() {
             <h4 className="Top-title">SẢN PHẨM NỔI BẬT</h4>
           </Col>
         </Row>
-        <RowProduct
-          banner={
-            "https://drive.google.com/thumbnail?id=1EG3EKHpm1-MJKmZ_GrwAm7uvsZtvEWee&sz=w1000"
-          }
-        />
-        <RowProduct
-          banner={
-            "https://drive.google.com/thumbnail?id=1EG3EKHpm1-MJKmZ_GrwAm7uvsZtvEWee&sz=w1000"
-          }
-        />
-        <RowProduct
-          banner={
-            "https://drive.google.com/thumbnail?id=1EG3EKHpm1-MJKmZ_GrwAm7uvsZtvEWee&sz=w1000"
-          }
-        />
+        {sliceCollection.map((banner, index) => (
+          <RowProduct key={index} banner={banner.imgURL} products={products} />
+        ))}
       </Container>
       <Footer />
     </div>

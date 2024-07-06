@@ -6,16 +6,35 @@
   font-weight: bold;
   margin-top: 5%;
 }
-.body-pricepage{
+
+.body-pricepage {
   margin-bottom: 5%;
 }
+
 .price-title {
   display: flex;
   justify-content: center;
   margin-top: 5%;
   margin-bottom: 2%;
 }
+
 .price-table td {
   width: 16.66%;
   text-align: center;
+}
+
+.price-table tr {
+  color: red;
+  padding: 8px;
+  text-align: center;
+  width: 16.66%;
+
+}
+
+
+.price-table td {
+  padding: 8px;
+  text-align: center;
+  width: 16.66%;
+
 }

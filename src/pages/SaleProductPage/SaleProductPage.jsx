@@ -103,7 +103,6 @@ const SaleProductPage = () => {
                     price={product.price}
                     salePrice={salePrice}
                     salePercent={salePercentage}
-                    rating={product.rating}
                     pageType="sale-page"
                   />
                 </div>

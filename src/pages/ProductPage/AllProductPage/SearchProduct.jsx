@@ -1,45 +1,36 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Col, Row } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
 import ProductCard from "../../../components/productCard/productCard";
 import BasicPagination from "../../../components/BasicPagination/BasicPagination";
 import Banner from "../../../components/Banner/banner";
-import api from "../../../config/axios";
 
-export default function RingProductPage() {
+export default function SearchProduct() {
+  const location = useLocation();
   const [product, setProduct] = useState([]);
-  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 20;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location.state && location.state.SearchProduct) {
+      setProduct(location.state.SearchProduct);
+    }
+  }, [location.state]);
 
   const handleChangePage = (event, value) => {
     setCurrentPage(value);
-    navigate(`?page=${value}`);
+    navigate(`/search-product?page=${value}`, {
+      state: { SearchProduct: product },
+    });
   };
-
-  // Filter products by category
-
-  async function fetchProduct() {
-    const response = await api.get("product-line");
-    setProduct(response.data);
-    console.log(response.data);
-  }
-
-  useEffect(() => {
-    fetchProduct();
-  }, []);
-  const filteredProducts = product.filter(
-    (product) => product.category.name === "vòng tay"
-  );
 
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-
-  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
-
-  const totalPage = Math.ceil(filteredProducts.length / pageSize);
+  const paginatedProducts = product.slice(startIndex, endIndex);
+  const totalPage = Math.ceil(product.length / pageSize);
 
   return (
     <div>
@@ -63,7 +54,7 @@ export default function RingProductPage() {
               <ProductCard
                 img={item.imgURL}
                 text={item.name}
-                price={item.price.toLocaleString() + "đ"}
+                price={`${item.price.toLocaleString()}đ`}
                 pageType="guest-page"
                 id={item.id}
               />

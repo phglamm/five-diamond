@@ -30,6 +30,7 @@ export const routes = {
   adminbst: "/admin-bo-suu-tap",
   adminchart: "/admin-bieu-do",
   adminsale: "/admin-su-kien-sale",
+  adminDiamondPrice: "/admin-gia-kim-cuong",
 
   productdetail: "/chi-tiet-san-pham",
   diamondprice: "/bang-gia-kim-cuong",
@@ -52,6 +53,6 @@ export const routes = {
   vongco: "/san-pham-vong-co",
   nhan: "/san-pham-nhan",
   khuyentai: "/san-pham-khuyen-tai",
-
+  timkiemsanpham: "/san-pham",
   // payment: "/thanh-toan",
 };
