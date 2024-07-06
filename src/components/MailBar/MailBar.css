@@ -1,0 +1,55 @@
+.mail-bar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgb(226, 226, 226);
+}
+
+.form-main {
+    width: 100%;
+}
+
+.mail-bar {
+    display: flex;
+    width: 100%;
+}
+
+.mail-input-item {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.mail-input {
+    width: 100%;
+    padding: 5px 10px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    height: 40px;
+}
+
+.mail-button {
+    background-color: #00c2d1;
+    border: none;
+    border-radius: 0px;
+    padding: 5px 10px;
+    cursor: pointer;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mail-button i {
+    color: white;
+    font-size: 14px;
+}
+
+.mail-button:hover {
+    background-color: #00a9b6;
+}
