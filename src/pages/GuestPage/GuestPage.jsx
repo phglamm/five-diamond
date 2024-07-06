@@ -33,7 +33,6 @@ export default function GuestPage() {
   useEffect(() => {
     async function fetchData() {
       try {
-        // Fetch banners and products concurrently
         const [bannersResponse, productsResponse] = await Promise.all([
           api.get("collection"),
           api.get("product-line"),
@@ -48,6 +47,8 @@ export default function GuestPage() {
 
     fetchData();
   }, []);
+
+  console.log(collection);
 
   const sliceCollection = collection.slice(0, 3);
 
@@ -96,8 +97,12 @@ export default function GuestPage() {
             <h4 className="Top-title">SẢN PHẨM NỔI BẬT</h4>
           </Col>
         </Row>
-        {sliceCollection.map((banner, index) => (
-          <RowProduct key={index} banner={banner.imgURL} products={products} />
+        {sliceCollection.map((collection, index) => (
+          <RowProduct
+            key={index}
+            banner={collection.imgURL}
+            products={products}
+          />
         ))}
       </Container>
       <Footer />
