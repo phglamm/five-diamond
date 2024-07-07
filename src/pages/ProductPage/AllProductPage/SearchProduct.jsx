@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Container, Col, Row, Form } from "react-bootstrap";
+import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
+import { CloseCircleOutlined } from '@ant-design/icons';
+import { Tag } from 'antd';
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
 import ProductCard from "../../../components/productCard/productCard";
@@ -16,9 +18,16 @@ export default function SearchProduct() {
     gender: [],
     category: [],
     price: "",
+    shape: [],
+    size: [],
+    cut: [],
+    clarity: [],
+    origin: [],
+    collection: [],
   });
   const pageSize = 20;
   const navigate = useNavigate();
+
 
   useEffect(() => {
     if (location.state && location.state.SearchProduct) {
@@ -54,11 +63,9 @@ export default function SearchProduct() {
   const handleFilterChange = (type, value) => {
     setFilters((prevFilters) => {
       let updatedFilters = { ...prevFilters };
-      if (type === "gender" || type === "category") {
+      if (["gender", "category", "shape", "size", "cut", "clarity", "origin", "collection"].includes(type)) {
         if (updatedFilters[type].includes(value)) {
-          updatedFilters[type] = updatedFilters[type].filter(
-            (item) => item !== value
-          );
+          updatedFilters[type] = updatedFilters[type].filter((item) => item !== value);
         } else {
           updatedFilters[type].push(value);
         }
@@ -68,25 +75,47 @@ export default function SearchProduct() {
       return updatedFilters;
     });
   };
+  const removeFilterTag = (type, value) => {
+    setFilters((prevFilters) => {
+      let updatedFilters = { ...prevFilters };
+      if (Array.isArray(updatedFilters[type])) {
+        updatedFilters[type] = updatedFilters[type].filter((item) => item !== value);
+      } else {
+        updatedFilters[type] = "";
+      }
+      return updatedFilters;
+    });
+  };
+
+
+  const clearAllFilters = () => {
+    setFilters({
+      gender: [],
+      category: [],
+      price: "",
+      shape: [],
+      size: [],
+      cut: [],
+      clarity: [],
+      origin: [],
+      collection: [],
+    });
+  };
 
   const applyFilters = (products) => {
     let filteredProducts = [...products];
 
     // gender
     if (filters.gender.length > 0) {
-      filteredProducts = filteredProducts.filter((product) =>
-        filters.gender.includes(product.gender)
-      );
+      filteredProducts = filteredProducts.filter((product) => filters.gender.includes(product.gender));
     }
 
-    //  category
+    // category
     if (filters.category.length > 0) {
-      filteredProducts = filteredProducts.filter((product) =>
-        filters.category.includes(product.category)
-      );
+      filteredProducts = filteredProducts.filter((product) => filters.category.includes(product.category));
     }
 
-    //  price
+    // price
     if (filters.price) {
       filteredProducts = filteredProducts.filter((product) => {
         const price = product.finalPrice;
@@ -107,6 +136,36 @@ export default function SearchProduct() {
       });
     }
 
+    // shape
+    if (filters.shape.length > 0) {
+      filteredProducts = filteredProducts.filter((product) => filters.shape.includes(product.shape));
+    }
+
+    // size
+    if (filters.size.length > 0) {
+      filteredProducts = filteredProducts.filter((product) => filters.size.includes(product.size));
+    }
+
+    // cut
+    if (filters.cut.length > 0) {
+      filteredProducts = filteredProducts.filter((product) => filters.cut.includes(product.cut));
+    }
+
+    // clarity
+    if (filters.clarity.length > 0) {
+      filteredProducts = filteredProducts.filter((product) => filters.clarity.includes(product.clarity));
+    }
+
+    // origin
+    if (filters.origin.length > 0) {
+      filteredProducts = filteredProducts.filter((product) => filters.origin.includes(product.origin));
+    }
+
+    // collection
+    if (filters.collection.length > 0) {
+      filteredProducts = filteredProducts.filter((product) => filters.collection.includes(product.collection));
+    }
+
     return filteredProducts;
   };
 
@@ -121,9 +180,43 @@ export default function SearchProduct() {
       <Container>
         <h1>Kết quả tìm kiếm</h1>
 
+
+
         <Row>
           <Col md={3}>
             <h3>Bộ lọc</h3>
+
+            <div>
+              {Object.keys(filters).map((key) => {
+                if (Array.isArray(filters[key])) {
+                  return filters[key].map((value) => (
+                    <Tag
+                      key={`${key}-${value}`}
+                      closable
+                      onClose={() => removeFilterTag(key, value)}
+                    >
+                      {value}
+                    </Tag>
+                  ));
+                } else if (filters[key]) {
+                  return (
+                    <Tag
+                      key={`${key}-${filters[key]}`}
+                      closable
+                      onClose={() => removeFilterTag(key, filters[key])}
+                    >
+                      {filters[key]}
+                    </Tag>
+                  );
+                }
+                return null;
+              })}
+            </div>
+
+            <Button variant="danger" onClick={clearAllFilters} style={{ marginBottom: "10px" }}>
+              Clear All
+            </Button>
+
             <Form.Group>
               <Form.Label>Giới Tính</Form.Label>
               {["Nữ", "Nam"].map((gender) => (
@@ -169,9 +262,72 @@ export default function SearchProduct() {
                 />
               ))}
             </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Hình dạng</Form.Label>
+              {["Round", "Oval", "Cushion", "Pear", "Emerald", "Princess", "Radiant", "Heart", "Marquise", "Assher"].map((shape) => (
+                <Form.Check
+                  key={shape}
+                  type="checkbox"
+                  label={shape}
+                  value={shape}
+                  onChange={(e) => handleFilterChange("shape", e.target.value)}
+                />
+              ))}
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Kích thước</Form.Label>
+              {["1", "2", "3"].map((size) => (
+                <Form.Check
+                  key={size}
+                  type="checkbox"
+                  label={size}
+                  value={size}
+                  onChange={(e) => handleFilterChange("size", e.target.value)}
+                />
+              ))}
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Độ cắt</Form.Label>
+              {["Excellent", "Very Good", "Good", "Fair", "Poor"].map((cut) => (
+                <Form.Check
+                  key={cut}
+                  type="checkbox"
+                  label={cut}
+                  value={cut}
+                  onChange={(e) => handleFilterChange("cut", e.target.value)}
+                />
+              ))}
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Độ tinh khiết</Form.Label>
+              {["VVS1", "VVS2", "VS1", "VS2 ", " SI1 ", "SI2  ", " I1 ", "I2  ", "I3  "].map((clarity) => (
+                <Form.Check
+                  key={clarity}
+                  type="checkbox"
+                  label={clarity}
+                  value={clarity}
+                  onChange={(e) => handleFilterChange("clarity", e.target.value)}
+                />
+              ))}
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Nguồn gốc</Form.Label>
+              {["Tự nhiên", "Nhân tạo"].map((origin) => (
+                <Form.Check
+                  key={origin}
+                  type="checkbox"
+                  label={origin}
+                  value={origin}
+                  onChange={(e) => handleFilterChange("origin", e.target.value)}
+                />
+              ))}
+            </Form.Group>
+
           </Col>
 
           <Col md={9}>
+
             <Col xs={2}>
               <Form.Select
                 aria-label="Sort by price"
