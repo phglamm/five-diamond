@@ -352,9 +352,9 @@ export default function SearchProduct() {
                 onChange={handleSortChange}
                 value={sortOrder}
               >
-                <option value="none">Sort by</option>
-                <option value="asc">Price: Low to High</option>
-                <option value="desc">Price: High to Low</option>
+                <option value="none">Lọc theo</option>
+                <option value="asc">Giá: Thấp đến Cao</option>
+                <option value="desc">Giá: Cao đến Thấp</option>
               </Form.Select>
             </Col>
 

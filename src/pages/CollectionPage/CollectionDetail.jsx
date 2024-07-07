@@ -104,16 +104,16 @@ function CollectionDetail() {
         <div className="filter-sort-container">
           <Form.Control
             type="text"
-            placeholder="Search products..."
+            placeholder="Tìm kiếm sản phẩm..."
             value={filter}
             onChange={handleFilterChange}
           />
           <Form.Select value={sort} onChange={handleSortChange}>
-            <option value="">Sort By</option>
-            <option value="price-asc">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-            <option value="name-asc">Name: A-Z</option>
-            <option value="name-desc">Name: Z-A</option>
+            <option value="">Lọc theo</option>
+            <option value="price-asc">Giá: Thấp tới Cao</option>
+            <option value="price-desc">Giá: Cao tới Thấp</option>
+            <option value="name-asc">A-Z</option>
+            <option value="name-desc">Z-A</option>
           </Form.Select>
         </div>
         <Row>
