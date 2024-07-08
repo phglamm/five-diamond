@@ -1,3 +1,4 @@
+/* General Page Styles */
 .tracking-page h4 {
   color: #38A9B8;
   margin-top: 20px;
@@ -10,8 +11,7 @@ hr.solid {
   border-top: 3px solid #bbb;
 }
 
-/*theo doi don hang*/
-
+/* Order Tracking Section */
 .order-tracking {
   margin-top: 40px;
 }
@@ -20,15 +20,13 @@ hr.solid {
   color: #38A9B8;
   margin: 20px 0 15px;
   font-weight: bold;
-
 }
 
 .order-tracking-content {
-
   border: 1px solid #bbb;
-  border-radius: 0;
+  border-radius: 10px; /* Add slight rounding for a softer look */
   background-color: #fff;
-  /* Remove border-radius to make the border rectangular */
+  padding: 20px; /* Ensure padding for content spacing */
 }
 
 .shipping-info {
@@ -36,6 +34,7 @@ hr.solid {
   justify-content: space-between;
   border-top: none;
   border-bottom: none;
+  padding: 10px 0; /* Add padding for better spacing */
 }
 
 .tracking-separator {
@@ -44,17 +43,78 @@ hr.solid {
 
 .order-tracking-content .order-tracking-id {
   text-align: left;
+  font-weight: bold; /* Make the order ID stand out */
+  margin-bottom: 10px; /* Add margin for spacing */
 }
 
-/*  */
+/* Order Item Styles */
+.order-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px; /* Add spacing between items */
+}
 
+.order-item img {
+  width: 80px; /* Set a fixed size for images */
+  height: auto;
+  margin-right: 15px;
+  border-radius: 5px; /* Slight rounding for images */
+}
+
+.order-item-details h6 {
+  margin: 0;
+  font-weight: bold; /* Make product names stand out */
+}
+
+.order-item-details p {
+  margin: 5px 0;
+  color: #555; /* Use a softer color for item details */
+}
+
+/* Card Styles */
 .card {
   margin-bottom: 20px;
-  /* border: 1px solid #ffffff; */
-  border-radius: 0;
-
+  border-radius: 10px; /* Consistent rounding with other elements */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
 }
 
 .card-body {
   padding: 20px;
+}
+
+/* Form Styles */
+.form-label {
+  font-weight: bold;
+  color: #555; /* Softer color for labels */
+}
+
+.form-control {
+  border-radius: 5px; /* Slight rounding for input fields */
+  margin-bottom: 15px; /* Space between input fields */
+}
+
+.form-control[readonly] {
+  background-color: #f9f9f9; /* Light background for readonly fields */
+  color: #888; /* Softer text color for readonly fields */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .shipping-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-item img {
+    margin-bottom: 10px;
+  }
+
+  .tracking-separator {
+    margin: 10px 0;
+  }
 }
