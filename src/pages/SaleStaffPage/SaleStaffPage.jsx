@@ -216,19 +216,19 @@ function SaleStaffPage() {
             type={filterStatus === "PENDING" ? "primary" : ""}
             onClick={() => handleFilterChange("PENDING")}
           >
-            Chờ xử lý
+            Đặt hàng
           </Button>
           <Button
             type={filterStatus === "CONFIRMED" ? "primary" : ""}
             onClick={() => handleFilterChange("CONFIRMED")}
           >
-            Đã xử lí
+            Xác nhận đơn hàng
           </Button>
           <Button
             type={filterStatus === "PROCESSING" ? "primary" : ""}
             onClick={() => handleFilterChange("PROCESSING")}
           >
-            Đang chuẩn bị hàng
+            Đang xử lý
           </Button>
         </div>
         <div className="sales-search-bar">
@@ -274,9 +274,9 @@ function SaleStaffPage() {
               key: "orderStatus",
               render: (value) => {
                 if (value === "PENDING") {
-                  return "Đã đặt hàng";
+                  return "Đặt hàng";
                 } else if (value === "CONFIRMED") {
-                  return "Đã xác nhận"; // Example for completed status
+                  return "Xác nhận đơn hàng"; // Example for completed status
                 } else if (value === "PROCESSING") {
                   return "Đang xử lý"; // Example for canceled status
                 } else if (value === "SHIPPED") {

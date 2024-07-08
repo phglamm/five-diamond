@@ -65,6 +65,10 @@ export default function SideBar() {
             <PersonIcon color="info" fontSize="large" />
             <Link to={routes.adminUser}>Quản Lý Người Dùng</Link>
           </li>
+          <li>
+            <KeyboardReturn color="info" fontSize="large" />
+            <Link to={routes.home}>Quay về trang chủ</Link>
+          </li>
         </>
       ) : (
         <></>
@@ -111,6 +115,10 @@ export default function SideBar() {
           <li>
             <MonetizationOnIcon color="info" fontSize="large" />
             <Link to={routes.adminDiamondPrice}>Quản Lý Giá Kim Cương</Link>
+          </li>
+          <li>
+            <KeyboardReturn color="info" fontSize="large" />
+            <Link to={routes.home}>Quay về trang chủ</Link>
           </li>
         </>
       ) : (
