@@ -13,7 +13,7 @@ import { routes } from "../../routes";
 import { Modal, Button, Input, DatePicker, Form, Select } from "antd";
 import api from "../../config/axios";
 import dayjs from "dayjs";
-import { EditOutlined, LockOutlined, FormOutlined, EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { EditOutlined, LockOutlined, FormOutlined } from "@ant-design/icons";
 import { useForm } from "antd/es/form/Form";
 import { Container } from "react-bootstrap";
 
@@ -85,6 +85,15 @@ function ProfilePage() {
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
   }
+
+  // Utility function to get default field value
+  function getDefaultFieldValue(field, placeholder) {
+    return user && user[field] ? user[field] : placeholder;
+  }
+
+  const fullName = [user.firstname, user.lastname].filter(Boolean).join(" ");
+
+
   return (
     <div>
       <Header />
@@ -105,18 +114,7 @@ function ProfilePage() {
                   alt="Female Avatar"
                 />
               )}
-              {/* {image ? (
-            <img id="avt-img" src={URL.createObjectURL(image)} alt="" />
-          ) : (
-            <img id="avt-img" src="https://drive.google.com/thumbnail?id=1qbgOEeSmZUjLlvazltYvqIWl58ds3Rwr&sz=w1000" alt="Default Avatar" />
-            <img id="avt-img" src="https://drive.google.com/thumbnail?id=1qbgOEeSmZUjLlvazltYvqIWl58ds3Rwr&sz=w1000" alt="Default Avatar" />
-          )}
-          <input
-            type="file"
-            ref={inputRef}
-            onChange={handleImageChange}
-            style={{ display: "none" }}
-          /> */}
+
               <button className="update-img-btn" onClick={handleUpdateClick}>
                 <EditOutlined />
               </button>
@@ -135,56 +133,6 @@ function ProfilePage() {
 
         </div>
 
-        {/* useEffect(() => {
-    const savedImage = localStorage.getItem('userImage');
-    if (savedImage) {
-      setDefaultImage(savedImage);
-    } else {
-      setDefaultImage(Ninja);
-    }
-  }, []);
-  const handleImageClick = () => {
-    inputRef.current.click();
-  };
-
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    console.log(file);
-    setImage(event.target.files[0]);
-  };
-
-  const handleUpdateClick = () => {
-    if (image) {
-      const newDefaultImage = URL.createObjectURL(image);
-      setDefaultImage(newDefaultImage);
-      localStorage.setItem('userImage', newDefaultImage);
-      setImage(null);
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      if (image) {
-        URL.revokeObjectURL(image);
-      }
-    };
-  }, [image]);
-
-  return (
-    <div>
-      <Header></Header>
-      <div className="avatar-user">
-        <div onClick={handleImageClick} className="img-avt">
-          <img id="avt-img" src={image ? URL.createObjectURL(image) : defaultImage} alt="Avatar" />
-          <input
-            type="file"
-            ref={inputRef}
-            onChange={handleImageChange}
-            style={{ display: "none" }}
-          />
-        </div>
-        <button className="update-img-btn" onClick={handleUpdateClick}>Cập nhật</button>
-      </div> */}
         <div className="container">
           <div className="profile-info">
 
@@ -193,11 +141,13 @@ function ProfilePage() {
                 <h3>Thông tin cá nhân</h3>
                 <div className="info-box">
                   <p>Họ và tên</p>
-                  <div className="info-value">{user.firstname + " " + user.lastname}</div>
+                  <div className="info-value">{fullName}</div>
                 </div>
                 <div className="info-box">
                   <p>Ngày sinh</p>
-                  <div className="info-value">{formatDate(user.dob)}</div>
+                  <div className="info-value">
+                    {user.dob ? formatDate(user.dob) : "Cần cập nhật"}
+                  </div>
                 </div>
                 <div className="info-box">
                   <p>Giới tính</p>
@@ -207,11 +157,15 @@ function ProfilePage() {
                 </div>
                 <div className="info-box">
                   <p>Số điện thoại</p>
-                  <div className="info-value">{user.phone}</div>
+                  <div className="info-value">
+                    {getDefaultFieldValue("phone", "Cần cập nhật")}
+                  </div>
                 </div>
                 <div className="info-box">
                   <p>Địa chỉ</p>
-                  <div className="info-value">{user.address}</div>
+                  <div className="info-value">
+                    {getDefaultFieldValue("address", "Cần cập nhật")}
+                  </div>
                 </div>
               </div>
             </div>
@@ -223,17 +177,7 @@ function ProfilePage() {
                   <p>Email</p>
                   <div className="info-value">{user.email}</div>
                 </div>
-                {/* <div className="info-box">
-                  <p>Password</p>
-                  <div className="info-value">
-                    <span className="password">
-                      {showPassword ? user.password : '*'.repeat(user.email.length)}
-                    </span>
-                    <button onClick={toggleShowPassword} className="show-password-btn">
-                      {showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
-                    </button>
-                  </div>
-                </div> */}
+
                 <div className="info-box">
                   <p>Reward point</p>
                   <div className="info-value">{user.rewardPoint}</div>
@@ -295,14 +239,7 @@ function ProfilePage() {
                   <Select.Option value="OTHER">khác</Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item
-                label="Tên"
-                name="firstname"
-                style={{ width: "100%" }}
-                initialValue={user.firstname}
-              >
-                <Input placeholder="Tên" />
-              </Form.Item>
+
               <Form.Item
                 label="Giới tính"
                 name="gender"
