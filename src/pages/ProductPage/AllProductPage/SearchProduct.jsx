@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Container, Col, Row, Form } from "react-bootstrap";
+import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Tag } from 'antd';
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
 import ProductCard from "../../../components/productCard/productCard";
+import './SearchProduct.css';
 import BasicPagination from "../../../components/BasicPagination/BasicPagination";
-// import Banner from "../../../components/Banner/banner";
 
 export default function SearchProduct() {
   const location = useLocation();
@@ -15,10 +16,17 @@ export default function SearchProduct() {
   const [filters, setFilters] = useState({
     gender: [],
     category: [],
-    price: "",
+    price: [],
+    shape: [],
+    size: [],
+    cut: [],
+    clarity: [],
+    origin: [],
+    collection: [],
   });
   const pageSize = 20;
   const navigate = useNavigate();
+
 
   useEffect(() => {
     if (location.state && location.state.SearchProduct) {
@@ -50,22 +58,47 @@ export default function SearchProduct() {
     setProduct(sortedProducts);
   };
 
+
   //FILTER
   const handleFilterChange = (type, value) => {
     setFilters((prevFilters) => {
       let updatedFilters = { ...prevFilters };
-      if (type === "gender" || type === "category") {
+      if (["gender", "category", "shape", "size", "cut", "clarity", "origin", "collection", "price"].includes(type)) {
         if (updatedFilters[type].includes(value)) {
-          updatedFilters[type] = updatedFilters[type].filter(
-            (item) => item !== value
-          );
+          updatedFilters[type] = updatedFilters[type].filter((item) => item !== value);
         } else {
           updatedFilters[type].push(value);
         }
-      } else if (type === "price") {
-        updatedFilters[type] = value;
       }
       return updatedFilters;
+    });
+  };
+
+
+  const removeFilterTag = (type, value) => {
+    setFilters((prevFilters) => {
+      let updatedFilters = { ...prevFilters };
+      if (Array.isArray(updatedFilters[type])) {
+        updatedFilters[type] = updatedFilters[type].filter((item) => item !== value);
+      } else {
+        updatedFilters[type] = "";
+      }
+      return updatedFilters;
+    });
+  };
+
+
+  const clearAllFilters = () => {
+    setFilters({
+      gender: [],
+      category: [],
+      price: [],
+      shape: [],
+      size: [],
+      cut: [],
+      clarity: [],
+      origin: [],
+      collection: [],
     });
   };
 
@@ -74,37 +107,65 @@ export default function SearchProduct() {
 
     // gender
     if (filters.gender.length > 0) {
-      filteredProducts = filteredProducts.filter((product) =>
-        filters.gender.includes(product.gender)
-      );
+      filteredProducts = filteredProducts.filter((product) => filters.gender.includes(product.gender));
     }
 
-    //  category
+    // category
     if (filters.category.length > 0) {
-      filteredProducts = filteredProducts.filter((product) =>
-        filters.category.includes(product.category)
-      );
+      filteredProducts = filteredProducts.filter((product) => filters.category.includes(product.category));
     }
 
-    //  price
-    if (filters.price) {
+    // price
+    if (filters.price.length > 0) {
       filteredProducts = filteredProducts.filter((product) => {
         const price = product.finalPrice;
-        switch (filters.price) {
-          case "under1m":
-            return price < 1000000;
-          case "1mto2m":
-            return price >= 1000000 && price < 2000000;
-          case "2mto3m":
-            return price >= 2000000 && price < 3000000;
-          case "3mto5m":
-            return price >= 3000000 && price < 5000000;
-          case "above5m":
-            return price >= 5000000;
-          default:
-            return true;
-        }
+        return filters.price.some((priceFilter) => {
+          switch (priceFilter) {
+            case "under1m":
+              return price < 1000000;
+            case "1mto2m":
+              return price >= 1000000 && price < 2000000;
+            case "2mto3m":
+              return price >= 2000000 && price < 3000000;
+            case "3mto5m":
+              return price >= 3000000 && price < 5000000;
+            case "above5m":
+              return price >= 5000000;
+            default:
+              return true;
+          }
+        });
       });
+    }
+
+    // shape
+    if (filters.shape.length > 0) {
+      filteredProducts = filteredProducts.filter((product) => filters.shape.includes(product.shape));
+    }
+
+    // size
+    if (filters.size.length > 0) {
+      filteredProducts = filteredProducts.filter((product) => filters.size.includes(product.size));
+    }
+
+    // cut
+    if (filters.cut.length > 0) {
+      filteredProducts = filteredProducts.filter((product) => filters.cut.includes(product.cut));
+    }
+
+    // clarity
+    if (filters.clarity.length > 0) {
+      filteredProducts = filteredProducts.filter((product) => filters.clarity.includes(product.clarity));
+    }
+
+    // origin
+    if (filters.origin.length > 0) {
+      filteredProducts = filteredProducts.filter((product) => filters.origin.includes(product.origin));
+    }
+
+    // collection
+    if (filters.collection.length > 0) {
+      filteredProducts = filteredProducts.filter((product) => filters.collection.includes(product.collection));
     }
 
     return filteredProducts;
@@ -118,60 +179,173 @@ export default function SearchProduct() {
   return (
     <div>
       <Header />
-      <Container>
-        <h1>Kết quả tìm kiếm</h1>
-
+      <Container className="search-product-container">
         <Row>
-          <Col md={3}>
-            <h3>Bộ lọc</h3>
-            <Form.Group>
-              <Form.Label>Giới Tính</Form.Label>
-              {["Nữ", "Nam"].map((gender) => (
-                <Form.Check
-                  key={gender}
-                  type="checkbox"
-                  label={gender}
-                  value={gender}
-                  onChange={(e) => handleFilterChange("gender", e.target.value)}
-                />
-              ))}
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Chủng Loại</Form.Label>
-              {["Nhẫn", "Vòng cổ", "Khuyên tay", "Vòng tay"].map((category) => (
-                <Form.Check
-                  key={category}
-                  type="checkbox"
-                  label={category}
-                  value={category}
-                  onChange={(e) =>
-                    handleFilterChange("category", e.target.value)
-                  }
-                />
-              ))}
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Giá</Form.Label>
-              {[
-                { label: "Dưới 1tr", value: "under1m" },
-                { label: "Từ 1tr đến 2tr", value: "1mto2m" },
-                { label: "Từ 2tr đến 3tr", value: "2mto3m" },
-                { label: "Từ 3tr đến 5tr", value: "3mto5m" },
-                { label: "Trên 5tr", value: "above5m" },
-              ].map((price) => (
-                <Form.Check
-                  key={price.value}
-                  type="radio"
-                  name="price"
-                  label={price.label}
-                  value={price.value}
-                  onChange={(e) => handleFilterChange("price", e.target.value)}
-                />
-              ))}
-            </Form.Group>
-          </Col>
+          <Col md={4}>
+            <div className="filter-section">
+              <div className="filter-section-header">
+                <h3>Bộ lọc</h3>
+                <Button
+                  onClick={clearAllFilters}
+                  className="clear-button"
+                >
+                  Clear All
+                </Button>
+              </div>
 
-          <Col md={9}>
+              <div className="tag-container">
+                {Object.keys(filters).map((key) => {
+                  if (Array.isArray(filters[key])) {
+                    return filters[key].map((value) => (
+                      <Tag
+                        key={`${key}-${value}`}
+                        closable
+                        onClose={() => removeFilterTag(key, value)}
+                        className="tag"
+                      >
+                        {value}
+                      </Tag>
+                    ));
+                  } else if (filters[key]) {
+                    return (
+                      <Tag
+                        key={`${key}-${filters[key]}`}
+                        closable
+                        onClose={() => removeFilterTag(key, filters[key])}
+                        className="tag"
+                      >
+                        {filters[key]}
+                      </Tag>
+                    );
+                  }
+                  return null;
+                })}
+              </div>
+
+
+
+              <Form.Group>
+                <Form.Label>Giới Tính</Form.Label>
+                {["Nữ", "Nam"].map((gender) => (
+                  <Form.Check
+                    key={gender}
+                    type="checkbox"
+                    label={gender}
+                    value={gender}
+                    checked={filters.gender.includes(gender)}
+                    onChange={(e) => handleFilterChange("gender", e.target.value)}
+                    className="form-check"
+                  />
+                ))}
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Chủng Loại</Form.Label>
+                {["Nhẫn", "Vòng cổ", "Khuyên tay", "Vòng tay"].map((category) => (
+                  <Form.Check
+                    key={category}
+                    type="checkbox"
+                    label={category}
+                    value={category}
+                    checked={filters.category.includes(category)}
+                    onChange={(e) => handleFilterChange("category", e.target.value)}
+                    className="form-check"
+                  />
+                ))}
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Giá</Form.Label>
+                {[
+                  { label: "Dưới 1tr", value: "under1m" },
+                  { label: "Từ 1tr đến 2tr", value: "1mto2m" },
+                  { label: "Từ 2tr đến 3tr", value: "2mto3m" },
+                  { label: "Từ 3tr đến 5tr", value: "3mto5m" },
+                  { label: "Trên 5tr", value: "above5m" },
+                ].map((price) => (
+                  <Form.Check
+                    key={price.value}
+                    type="checkbox"
+                    label={price.label}
+                    value={price.value}
+                    checked={filters.price.includes(price.value)}
+                    onChange={(e) => handleFilterChange("price", e.target.value)}
+                    className="form-check"
+                  />
+                ))}
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Hình dạng</Form.Label>
+                {["Round", "Oval", "Cushion", "Pear", "Emerald", "Princess", "Radiant", "Heart", "Marquise", "Assher"].map((shape) => (
+                  <Form.Check
+                    key={shape}
+                    type="checkbox"
+                    label={shape}
+                    value={shape}
+                    checked={filters.shape.includes(shape)}
+                    onChange={(e) => handleFilterChange("shape", e.target.value)}
+                    className="form-check"
+                  />
+                ))}
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Kích thước</Form.Label>
+                {["1", "2", "3"].map((size) => (
+                  <Form.Check
+                    key={size}
+                    type="checkbox"
+                    label={size}
+                    value={size}
+                    checked={filters.size.includes(size)}
+                    onChange={(e) => handleFilterChange("size", e.target.value)}
+                    className="form-check"
+                  />
+                ))}
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Độ cắt</Form.Label>
+                {["Excellent", "Very Good", "Good", "Fair", "Poor"].map((cut) => (
+                  <Form.Check
+                    key={cut}
+                    type="checkbox"
+                    label={cut}
+                    value={cut}
+                    checked={filters.cut.includes(cut)}
+                    onChange={(e) => handleFilterChange("cut", e.target.value)}
+                    className="form-check"
+                  />
+                ))}
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Độ tinh khiết</Form.Label>
+                {["VVS1", "VVS2", "VS1", "VS2", "SI1", "SI2", "I1", "I2", "I3"].map((clarity) => (
+                  <Form.Check
+                    key={clarity}
+                    type="checkbox"
+                    label={clarity}
+                    value={clarity}
+                    checked={filters.clarity.includes(clarity)}
+                    onChange={(e) => handleFilterChange("clarity", e.target.value)}
+                    className="form-check"
+                  />
+                ))}
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Nguồn gốc</Form.Label>
+                {["Tự nhiên", "Nhân tạo"].map((origin) => (
+                  <Form.Check
+                    key={origin}
+                    type="checkbox"
+                    label={origin}
+                    value={origin}
+                    checked={filters.origin.includes(origin)}
+                    onChange={(e) => handleFilterChange("origin", e.target.value)}
+                    className="form-check"
+                  />
+                ))}
+              </Form.Group>
+            </div>
+          </Col>
+          <Col md={8}>
+            <h1>Kết quả tìm kiếm</h1>
             <Col xs={2}>
               <Form.Select
                 aria-label="Sort by price"
@@ -186,7 +360,7 @@ export default function SearchProduct() {
 
             <Row>
               {paginatedProducts.map((item, index) => (
-                <Col key={index} className="product-card-item">
+                <Col key={index} md={3} className="product-card-item">
                   <ProductCard
                     img={item.imgURL}
                     text={item.name}

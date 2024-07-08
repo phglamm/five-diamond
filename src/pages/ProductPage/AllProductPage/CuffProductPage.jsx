@@ -30,6 +30,7 @@ export default function RingProductPage() {
   useEffect(() => {
     fetchProduct();
   }, []);
+
   const filteredProducts = product.filter(
     (product) => product.category.name === "vòng tay"
   );

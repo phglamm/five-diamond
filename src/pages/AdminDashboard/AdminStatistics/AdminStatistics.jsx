@@ -3,7 +3,11 @@ import "chart.js/auto";
 import { Bar } from "react-chartjs-2";
 import SideBar from "../../../components/SideBar/SideBar";
 import "./AdminStatistics.css";
-import { DollarOutlined, UsergroupAddOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  DollarOutlined,
+  UsergroupAddOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import moment from "moment";
 import api from "../../../config/axios";
 
@@ -45,7 +49,7 @@ export default function AdminStatistics() {
     const profitByMonth = {};
     const customerByMonth = {};
 
-    statistics.forEach(item => {
+    statistics.forEach((item) => {
       const month = item.month;
       const monthName = `Tháng ${month}`;
 
@@ -54,7 +58,7 @@ export default function AdminStatistics() {
       profitByMonth[monthName] = parseFloat(item.totalProfit || 0);
     });
 
-    accountByMonth.forEach(item => {
+    accountByMonth.forEach((item) => {
       const month = item.month;
       const monthName = `Tháng ${month}`;
 
@@ -64,7 +68,8 @@ export default function AdminStatistics() {
     return { revenueByMonth, ordersByMonth, profitByMonth, customerByMonth };
   }
 
-  const { revenueByMonth, ordersByMonth, profitByMonth, customerByMonth } = getMonthlyData(statistics, accountByMonth);
+  const { revenueByMonth, ordersByMonth, profitByMonth, customerByMonth } =
+    getMonthlyData(statistics, accountByMonth);
 
   const labels = [
     "Tháng 1",
@@ -86,19 +91,19 @@ export default function AdminStatistics() {
     datasets: [
       {
         label: "Doanh thu của tháng",
-        data: labels.map(label => (revenueByMonth[label] || 0)),
+        data: labels.map((label) => revenueByMonth[label] || 0),
         backgroundColor: "rgba(54, 162, 235, 0.2)",
         borderColor: "rgb(54, 162, 235)",
         borderWidth: 1,
-        yAxisID: 'y',
+        yAxisID: "y",
       },
       {
         label: "Tổng số đơn hàng",
-        data: labels.map(label => (ordersByMonth[label] || 0)),
+        data: labels.map((label) => ordersByMonth[label] || 0),
         backgroundColor: "rgba(255, 99, 132, 0.2)",
         borderColor: "rgb(255, 99, 132)",
         borderWidth: 1,
-        yAxisID: 'y1',
+        yAxisID: "y1",
       },
     ],
   };
@@ -107,21 +112,21 @@ export default function AdminStatistics() {
     scales: {
       y: {
         beginAtZero: true,
-        position: 'left',
+        position: "left",
         title: {
           display: true,
-          text: 'Doanh thu (VND)'
+          text: "Doanh thu (VND)",
         },
       },
       y1: {
         beginAtZero: true,
-        position: 'right',
+        position: "right",
         grid: {
           drawOnChartArea: false,
         },
         title: {
           display: true,
-          text: 'Số đơn hàng'
+          text: "Số đơn hàng",
         },
       },
     },
@@ -129,24 +134,30 @@ export default function AdminStatistics() {
       tooltip: {
         callbacks: {
           label: function (context) {
-            const label = context.dataset.label || '';
+            const label = context.dataset.label || "";
             let value = context.raw;
             if (label.includes("Doanh thu")) {
               value = value.toLocaleString() + "đ";
             }
             return `${label}: ${value}`;
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    },
   };
 
   function getTotalRevenue(revenueByMonth) {
-    return Object.values(revenueByMonth).reduce((total, revenue) => total + revenue, 0);
+    return Object.values(revenueByMonth).reduce(
+      (total, revenue) => total + revenue,
+      0
+    );
   }
 
   function getTotalProfit(profitByMonth) {
-    return Object.values(profitByMonth).reduce((total, profit) => total + profit, 0);
+    return Object.values(profitByMonth).reduce(
+      (total, profit) => total + profit,
+      0
+    );
   }
 
   const totalRevenue = getTotalRevenue(revenueByMonth);
@@ -159,28 +170,28 @@ export default function AdminStatistics() {
       <SideBar />
       <div className="admin-content">
         <div className="widget-table">
-          <div className="widget-table-item" >
+          <div className="widget-table-item">
             <DollarOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
               <p>{totalRevenue.toLocaleString()}đ</p>
               <span>Tổng doanh thu</span>
             </div>
           </div>
-          <div className="widget-table-item" >
+          <div className="widget-table-item">
             <DollarOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
               <p>{totalProfit.toLocaleString()}đ</p>
               <span>Tổng lợi nhuận</span>
             </div>
           </div>
-          <div className="widget-table-item" >
+          <div className="widget-table-item">
             <UsergroupAddOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
               <p>{accountCount}</p>
               <span>Tổng thành viên</span>
             </div>
           </div>
-          <div className="widget-table-item" >
+          <div className="widget-table-item">
             <UserOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
               <p>{currentMonthCustomerQuantity}</p>
@@ -189,7 +200,7 @@ export default function AdminStatistics() {
           </div>
         </div>
         <div className="chart-container">
-          <Bar data={data} options={options}  />
+          <Bar data={data} options={options} />
         </div>
       </div>
     </div>
