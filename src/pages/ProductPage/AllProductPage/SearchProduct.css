@@ -1,16 +1,16 @@
 /*FILTER*/
 .filter-section {
     padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    border: 1px solid #e90303;
+    background-color: #ffffff;
     margin-bottom: 20px;
     overflow: scroll;
 }
 
 .filter-section-header {
     display: flex;
-    gap: 50px;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .filter-section h3 {
@@ -40,6 +40,47 @@
 }
 
 .filter-section .tag {
+    padding: 5px 10px;
     margin-right: 5px;
     margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.filter-section .tag:hover {
+    border: 1px solid black;
+}
+
+/*CLEAR BUTTON*/
+.clear-button {
+    border: none;
+    background: none;
+    color: inherit;
+    padding: 0;
+    cursor: pointer;
+    font-size: inherit;
+    /* Ensure the font size matches the surrounding text */
+    text-decoration: none;
+
+}
+
+.clear-button:hover {
+    text-decoration: underline;
+    color: red;
+}
+
+
+
+/*SEARCH-PRODUCT*/
+.search-product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-product-title {
+    margin: 0;
+}
+
+.search-product-sort {
+    align-self: flex-end;
 }

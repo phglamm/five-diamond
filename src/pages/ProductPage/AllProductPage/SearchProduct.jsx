@@ -18,7 +18,6 @@ export default function SearchProduct() {
     gender: [],
     category: [],
     shape: [],
-    size: [],
     cut: [],
     clarity: [],
     origin: [],
@@ -93,7 +92,6 @@ export default function SearchProduct() {
       gender: [],
       category: [],
       shape: [],
-      size: [],
       cut: [],
       clarity: [],
       origin: [],
@@ -120,10 +118,6 @@ export default function SearchProduct() {
       filteredProducts = filteredProducts.filter((product) => filters.shape.includes(product.shape));
     }
 
-    // size
-    if (filters.size.length > 0) {
-      filteredProducts = filteredProducts.filter((product) => filters.size.includes(product.size));
-    }
 
     // cut
     if (filters.cut.length > 0) {
@@ -162,13 +156,16 @@ export default function SearchProduct() {
             <div className="filter-section">
               <div className="filter-section-header">
                 <h3>Bộ lọc</h3>
+
                 <Button
                   onClick={clearAllFilters}
                   className="clear-button"
+
                 >
                   Xóa tất cả
                 </Button>
               </div>
+
 
               <div className="tag-container">
                 {Object.keys(filters).map((key) => {
@@ -177,7 +174,7 @@ export default function SearchProduct() {
                       <Tag
                         key={`${key}-${value}`}
                         closable
-                        onClose={() => removeFilterTag(key, value)}
+                        onClick={() => removeFilterTag(key, value)}
                         className="tag"
                       >
                         {value}
@@ -188,7 +185,7 @@ export default function SearchProduct() {
                       <Tag
                         key={`${key}-${filters[key]}`}
                         closable
-                        onClose={() => removeFilterTag(key, filters[key])}
+                        onClick={() => removeFilterTag(key, value)}
                         className="tag"
                       >
                         {filters[key]}
@@ -199,7 +196,7 @@ export default function SearchProduct() {
                 })}
               </div>
 
-
+              <hr />
 
               <Form.Group>
                 <Form.Label>Giới Tính</Form.Label>
@@ -215,6 +212,7 @@ export default function SearchProduct() {
                   />
                 ))}
               </Form.Group>
+              <hr />
               <Form.Group>
                 <Form.Label>Chủng Loại</Form.Label>
                 {["Nhẫn", "Vòng cổ", "Khuyên tay", "Vòng tay"].map((category) => (
@@ -229,7 +227,7 @@ export default function SearchProduct() {
                   />
                 ))}
               </Form.Group>
-
+              <hr />
               <Form.Group>
                 <Form.Label>Hình dạng</Form.Label>
                 {["Round", "Oval", "Cushion", "Pear", "Emerald", "Princess", "Radiant", "Heart", "Marquise", "Assher"].map((shape) => (
@@ -244,20 +242,7 @@ export default function SearchProduct() {
                   />
                 ))}
               </Form.Group>
-              <Form.Group>
-                <Form.Label>Kích thước</Form.Label>
-                {["1", "2", "3"].map((size) => (
-                  <Form.Check
-                    key={size}
-                    type="checkbox"
-                    label={size}
-                    value={size}
-                    checked={filters.size.includes(size)}
-                    onChange={(e) => handleFilterChange("size", e.target.value)}
-                    className="form-check"
-                  />
-                ))}
-              </Form.Group>
+              <hr />
               <Form.Group>
                 <Form.Label>Độ cắt</Form.Label>
                 {["Excellent", "Very Good", "Good", "Fair", "Poor"].map((cut) => (
@@ -272,6 +257,7 @@ export default function SearchProduct() {
                   />
                 ))}
               </Form.Group>
+              <hr />
               <Form.Group>
                 <Form.Label>Độ tinh khiết</Form.Label>
                 {["VVS1", "VVS2", "VS1", "VS2", "SI1", "SI2", "I1", "I2", "I3"].map((clarity) => (
@@ -286,6 +272,7 @@ export default function SearchProduct() {
                   />
                 ))}
               </Form.Group>
+              <hr />
               <Form.Group>
                 <Form.Label>Nguồn gốc</Form.Label>
                 {["Tự nhiên", "Nhân tạo"].map((origin) => (
@@ -302,20 +289,22 @@ export default function SearchProduct() {
               </Form.Group>
             </div>
           </Col>
-          <Col md={8}>
-            <h1>Kết quả tìm kiếm</h1>
-            <Col xs={2}>
-              <Form.Select
-                aria-label="Sort by price"
-                onChange={handleSortChange}
-                value={sortOrder}
-              >
-                <option value="none">Lọc theo</option>
-                <option value="asc">Giá: Thấp đến Cao</option>
-                <option value="desc">Giá: Cao đến Thấp</option>
-              </Form.Select>
-            </Col>
 
+          <Col md={8}>
+            <div className="search-product-header">
+              <h1 className="search-product-title">Kết quả tìm kiếm</h1>
+              <Col xs={3} className="search-product-sort">
+                <Form.Select
+                  aria-label="Sort by price"
+                  onChange={handleSortChange}
+                  value={sortOrder}
+                >
+                  <option value="none">Lọc theo</option>
+                  <option value="asc">Giá: Thấp đến Cao</option>
+                  <option value="desc">Giá: Cao đến Thấp</option>
+                </Form.Select>
+              </Col>
+            </div>
             <Row>
               {paginatedProducts.map((item, index) => (
                 <Col key={index} md={3} className="product-card-item">

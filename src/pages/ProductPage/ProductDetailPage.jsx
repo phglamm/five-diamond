@@ -170,8 +170,8 @@ export default function ProductPage({ token }) {
     ? appliedDiscount.type === "percentage"
       ? (total * appliedDiscount.value) / 100
       : appliedDiscount.type === "fixed"
-      ? appliedDiscount.value
-      : 0
+        ? appliedDiscount.value
+        : 0
     : 0;
 
   const finalTotal = total - discountAmount + shippingCost;
@@ -207,7 +207,7 @@ export default function ProductPage({ token }) {
         toast.success("Thêm Vào Giỏ Hàng");
       } catch (error) {
         console.log(error.response.data);
-        toast.error("Có lỗi trong lúc thêm sản phẩm");
+        toast.error("Sản phẩm đã hết hàng");
       }
     } else {
       return toast.error("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng");
