@@ -53,7 +53,6 @@ export default function CollectionPage() {
             page={currentPage}
             onChange={handlePageChange}
             variant="outlined"
-            shape="rounded"
             className="custom-pagination"
           />
         </Stack>

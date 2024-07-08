@@ -558,7 +558,6 @@ export default function ProductPage({ token }) {
                     page={currentPage}
                     onChange={handlePageChange}
                     variant="outlined"
-                    shape="rounded"
                     className="custom-pagination"
                   />
                 </div>
