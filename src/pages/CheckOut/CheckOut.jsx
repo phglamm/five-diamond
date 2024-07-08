@@ -209,7 +209,24 @@ export default function CheckOut() {
                 </Col>
               </Form.Group>
 
-              
+              <h4>HÌNH THỨC THANH TOÁN</h4>
+              <Form.Group controlId="formPaymentMethod">
+                <h5>•Thanh toán chuyển khoản</h5>
+                <div>
+                  <p>
+                    Quý khách vui lòng kiểm tra sự nguyên vẹn của gói hàng và
+                    tem niêm phong, trước khi thanh toán tiền mặt và nhận hàng +
+                    Tên tài khoản: CÔNG TY CP TẬP ĐOÀN VÀNG BẠC ĐÁ QUÝ
+                    FIVEDIAMOND
+                    <br />
+                    + Số tài khoản: 1206866868
+                    <br />
+                    + Ngân hàng: Ngân hàng TMCP Đầu tư & Phát triển Việt Nam
+                    (BIDV) - CN Sở Giao dịch 1<br />+ Nội dung chuyển khoản:{" "}
+                    <em>“Tên người chuyển + Số điện thoại + Mã đơn hàng”</em>
+                  </p>
+                </div>
+              </Form.Group>
 
               <div className="checkout-note">
                 <h4>GHI CHÚ</h4>
