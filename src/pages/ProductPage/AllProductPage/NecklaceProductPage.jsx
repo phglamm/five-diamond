@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, Col, Row } from "react-bootstrap";
+import { Container, Col, Row, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
@@ -14,6 +14,24 @@ export default function NecklaceProductPage() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 20;
+
+  // Placeholder for filter and sort state
+  const [filter, setFilter] = useState("");
+  const [sort, setSort] = useState("");
+
+  // Handle filter change
+  const handleFilterChange = (event) => {
+    const value = event.target.value;
+    setFilter(value);
+    // Apply filtering logic
+  };
+
+  // Handle sort change
+  const handleSortChange = (event) => {
+    const value = event.target.value;
+    setSort(value);
+    // Apply sorting logic
+  };
 
   const handleChangePage = (event, value) => {
     setCurrentPage(value);
@@ -65,6 +83,23 @@ export default function NecklaceProductPage() {
             "https://drive.google.com/thumbnail?id=1AJRpQgCI7U_pS0Mf8-29fECsxFIhHtSQ&sz=w1000"
           }
         />
+
+        <div className="filter-sort-container">
+          <Form.Control
+            type="text"
+            placeholder="Tìm kiếm sản phẩm..."
+            value={filter}
+            onChange={handleFilterChange}
+          />
+          <Form.Select value={sort} onChange={handleSortChange}>
+            <option value="">Lọc theo</option>
+            <option value="price-asc">Giá: Thấp tới Cao</option>
+            <option value="price-desc">Giá: Cao tới Thấp</option>
+            <option value="name-asc">A-Z</option>
+            <option value="name-desc">Z-A</option>
+          </Form.Select>
+        </div>
+
         <Row>
           {specialpro.map((item, index) => (
             <Col key={index} className="product-card-item">

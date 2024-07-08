@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Container, Col, Row, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
@@ -15,51 +15,50 @@ export default function PiercingProductPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 20;
 
+  // Placeholder for filter and sort state
+  const [filter, setFilter] = useState("");
+  const [sort, setSort] = useState("");
+
+  // Handle filter change
+  const handleFilterChange = (event) => {
+    const value = event.target.value;
+    setFilter(value);
+    // Apply filtering logic
+  };
+
+  // Handle sort change
+  const handleSortChange = (event) => {
+    const value = event.target.value;
+    setSort(value);
+    // Apply sorting logic
+  };
+
   const handleChangePage = (event, value) => {
     setCurrentPage(value);
     navigate(`?page=${value}`);
   };
 
+  useEffect(() => {
+    fetchProduct();
+  }, []);
+
   async function fetchProduct() {
-    const response = await api.get("product-line");
+    const response = await api.get("product-line/available");
     setProduct(response.data);
     console.log(response.data);
   }
   useEffect(() => {
     fetchProduct();
   }, []);
-
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const page = parseInt(params.get("page")) || 1;
-    setCurrentPage(page);
-  }, [location]);
-
-  // Filter products by category
-
-  async function fetchProduct() {
-    const response = await api.get(
-      "http://157.245.145.162:8080/api/product-line"
-    );
-    setProduct(response.data);
-    console.log(response.data);
-  }
-
-  useEffect(() => {
-    fetchProduct();
-  }, []);
-
   const filteredProducts = selectedCategory
     ? product.filter((product) => product.category === selectedCategory)
     : product;
 
-  const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-
-  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+  // const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
 
   const totalPage = Math.ceil(filteredProducts.length / pageSize);
 
+  // Lấy 5 sản phẩm đầu tiên
   const firstFiveProducts = product.slice(0, 15);
   const specialpro = firstFiveProducts.filter(
     (itemSpecial) => itemSpecial.deleted === false
@@ -84,6 +83,23 @@ export default function PiercingProductPage() {
             "https://drive.google.com/thumbnail?id=1_6da1JV9G2H7NgXhg32Pa2uCLlSmXKAN&sz=w1000"
           }
         />
+
+        <div className="filter-sort-container">
+          <Form.Control
+            type="text"
+            placeholder="Tìm kiếm sản phẩm..."
+            value={filter}
+            onChange={handleFilterChange}
+          />
+          <Form.Select value={sort} onChange={handleSortChange}>
+            <option value="">Lọc theo</option>
+            <option value="price-asc">Giá: Thấp tới Cao</option>
+            <option value="price-desc">Giá: Cao tới Thấp</option>
+            <option value="name-asc">A-Z</option>
+            <option value="name-desc">Z-A</option>
+          </Form.Select>
+        </div>
+
         <Row>
           {specialpro.map((item, index) => (
             <Col key={index} className="product-card-item">
