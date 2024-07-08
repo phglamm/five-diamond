@@ -121,16 +121,24 @@ const TrackingPage = () => {
                 </Col>
               </Form.Group>
 
-              <h4>PHƯƠNG THỨC NHẬN HÀNG</h4>
-
-              <Form.Group controlId="formAddress">
-                <Form.Label className="form-label"></Form.Label>
-                <Form.Control
-                  type="text"
-                  value={orderDetail?.address}
-                  readOnly
-                />
+              <Form.Group
+                as={Row}
+                controlId="formAddress"
+                className="align-items-center"
+              >
+                <Form.Label column md={2} className="form-label">
+                  Địa chỉ
+                </Form.Label>
+                <Col md={10}>
+                  <Form.Control
+                    type="text"
+                    placeholder="Nhập địa chỉ"
+                    value={orderDetail?.address}
+                    readOnly
+                  />
+                </Col>
               </Form.Group>
+
               <h4>GHI CHÚ</h4>
 
               <Form.Group controlId="formNote">
