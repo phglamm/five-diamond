@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import api from "../../../config/axios";
 import ProductCard from "../../../components/productCard/productCard";
 import BasicPagination from "../../../components/BasicPagination/BasicPagination";
-import "./RingProductPage.css"; // Import file CSS
+import "./RingProductPage.css"; // Import CSS file
 
 export default function RingProductPage() {
   const [product, setProduct] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [filter, setFilter] = useState("");
+  const [sort, setSort] = useState("");
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 20;
@@ -26,8 +31,12 @@ export default function RingProductPage() {
         (item) => item.category.id === 3
       );
       setProduct(ringProducts);
+      setFilteredProducts(ringProducts);
+      setLoading(false);
       console.log(ringProducts);
     } catch (error) {
+      setError("Failed to fetch products");
+      setLoading(false);
       console.error("Failed to fetch products:", error);
     }
   }
@@ -36,13 +45,52 @@ export default function RingProductPage() {
     fetchProduct();
   }, []);
 
+  useEffect(() => {
+    let updatedProducts = [...product];
+
+    // Filter products
+    if (filter) {
+      updatedProducts = updatedProducts.filter((item) =>
+        item.name.toLowerCase().includes(filter.toLowerCase())
+      );
+    }
+
+    // Sort products
+    if (sort) {
+      if (sort === "price-asc") {
+        updatedProducts.sort((a, b) => a.finalPrice - b.finalPrice);
+      } else if (sort === "price-desc") {
+        updatedProducts.sort((a, b) => b.finalPrice - a.finalPrice);
+      } else if (sort === "name-asc") {
+        updatedProducts.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (sort === "name-desc") {
+        updatedProducts.sort((a, b) => b.name.localeCompare(a.name));
+      }
+    }
+
+    setFilteredProducts(updatedProducts);
+  }, [filter, sort, product]);
+
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
+
+  const handleSortChange = (event) => {
+    setSort(event.target.value);
+  };
+
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const paginatedProducts = product.slice(startIndex, endIndex);
-  const totalPage = Math.ceil(product.length / pageSize);
+  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+  const totalPage = Math.ceil(filteredProducts.length / pageSize);
 
-  const firstFifteenProducts = product.slice(0, 15);
-  const specialProducts = firstFifteenProducts.filter((item) => !item.deleted);
+  if (loading) {
+    return <div>Loading...</div>; // Show a loading indicator while fetching data
+  }
+
+  if (error) {
+    return <div>{error}</div>; // Show an error message if fetching fails
+  }
 
   return (
     <div>
@@ -55,10 +103,25 @@ export default function RingProductPage() {
             style={{ width: "100%" }}
           />
         </div>
-        {specialProducts.length > 0 ? (
+        <div className="filter-sort-container">
+          <Form.Control
+            type="text"
+            placeholder="Tìm kiếm sản phẩm..."
+            value={filter}
+            onChange={handleFilterChange}
+          />
+          <Form.Select value={sort} onChange={handleSortChange}>
+            <option value="">Lọc theo</option>
+            <option value="price-asc">Giá: Thấp tới Cao</option>
+            <option value="price-desc">Giá: Cao tới Thấp</option>
+            <option value="name-asc">A-Z</option>
+            <option value="name-desc">Z-A</option>
+          </Form.Select>
+        </div>
+        {paginatedProducts.length > 0 ? (
           <>
             <Row>
-              {specialProducts.map((item, index) => (
+              {paginatedProducts.map((item, index) => (
                 <Col
                   key={index}
                   xs={12}
