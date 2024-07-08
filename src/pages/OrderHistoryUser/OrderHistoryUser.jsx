@@ -61,13 +61,13 @@ export default function OrderHistoryUser() {
       key: "orderStatus",
       render: (value) => {
         if (value === "PENDING") {
-          return "Đã đặt hàng";
+          return "Đặt Hàng";
         } else if (value === "CONFIRMED") {
-          return "Đã xác nhận"; // Example for completed status
+          return "Xác nhận đơn hàng"; // Example for completed status
         } else if (value === "PROCESSING") {
-          return "Đang chuẩn bị hàng"; // Example for canceled status
+          return "Đang xử lý"; // Example for canceled status
         } else if (value === "SHIPPED") {
-          return "Đang vận chuyển"; // Example for canceled status
+          return "Đang giao hàng"; // Example for canceled status
         } else if (value === "DELIVERED") {
           return "Đã giao hàng"; // Example for canceled status
         }

@@ -54,6 +54,10 @@ export default function SideBar() {
         <>
           {" "}
           <li>
+            <StackedLineChartIcon color="info" fontSize="large" />
+            <Link to={routes.adminstatistics}>Thống Kê</Link>
+          </li>
+          <li>
             <BarChartIcon color="info" fontSize="large" />
             <Link to={routes.adminchart}>Biểu Đồ</Link>
           </li>
@@ -61,12 +65,20 @@ export default function SideBar() {
             <PersonIcon color="info" fontSize="large" />
             <Link to={routes.adminUser}>Quản Lý Người Dùng</Link>
           </li>
+          <li>
+            <KeyboardReturn color="info" fontSize="large" />
+            <Link to={routes.home}>Quay về trang chủ</Link>
+          </li>
         </>
       ) : (
         <></>
       )}
       {user.role === "MANAGER" ? (
         <>
+          <li>
+            <StackedLineChartIcon color="info" fontSize="large" />
+            <Link to={routes.adminstatistics}>Thống Kê</Link>
+          </li>
           <li>
             <BarChartIcon color="info" fontSize="large" />
             <Link to={routes.adminchart}>Biểu Đồ</Link>
