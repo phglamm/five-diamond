@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Col, Row, Form } from "react-bootstrap";
-import { Button } from "antd";
+import { Button, Tag } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Tag } from "antd";
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
 import ProductCard from "../../../components/productCard/productCard";
@@ -13,7 +12,7 @@ export default function SearchProduct() {
   const location = useLocation();
   const [product, setProduct] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortOrder, setSortOrder] = useState(""); // Add state for sorting order
+  const [sortOrder, setSortOrder] = useState("");
   const [filters, setFilters] = useState({
     gender: [],
     category: [],
@@ -22,6 +21,7 @@ export default function SearchProduct() {
     clarity: [],
     origin: [],
     collection: [],
+    price: [],
   });
   const pageSize = 20;
   const navigate = useNavigate();
@@ -39,45 +39,30 @@ export default function SearchProduct() {
     });
   };
 
-  // Sorter
   const handleSortChange = (e) => {
-    const order = e.target.value;
-    setSortOrder(order);
+    setSortOrder(e.target.value);
   };
 
   const sortProducts = (products, order) => {
-    if (order === "asc") {
-      return products.sort((a, b) => a.finalPrice - b.finalPrice);
-    } else if (order === "desc") {
-      return products.sort((a, b) => b.finalPrice - a.finalPrice);
-    }
-    return products;
+    return products.sort((a, b) => {
+      if (order === "asc") {
+        return a.finalPrice - b.finalPrice;
+      } else if (order === "desc") {
+        return b.finalPrice - a.finalPrice;
+      }
+      return 0;
+    });
   };
 
-  // Filter
   const handleFilterChange = (type, value) => {
     setFilters((prevFilters) => {
-      let updatedFilters = { ...prevFilters };
-      if (
-        [
-          "gender",
-          "category",
-          "shape",
-          "size",
-          "cut",
-          "clarity",
-          "origin",
-          "collection",
-          "price",
-        ].includes(type)
-      ) {
-        if (updatedFilters[type].includes(value)) {
-          updatedFilters[type] = updatedFilters[type].filter(
-            (item) => item !== value
-          );
-        } else {
-          updatedFilters[type].push(value);
-        }
+      const updatedFilters = { ...prevFilters };
+      if (updatedFilters[type].includes(value)) {
+        updatedFilters[type] = updatedFilters[type].filter(
+          (item) => item !== value
+        );
+      } else {
+        updatedFilters[type].push(value);
       }
       return updatedFilters;
     });
@@ -85,14 +70,10 @@ export default function SearchProduct() {
 
   const removeFilterTag = (type, value) => {
     setFilters((prevFilters) => {
-      let updatedFilters = { ...prevFilters };
-      if (Array.isArray(updatedFilters[type])) {
-        updatedFilters[type] = updatedFilters[type].filter(
-          (item) => item !== value
-        );
-      } else {
-        updatedFilters[type] = "";
-      }
+      const updatedFilters = { ...prevFilters };
+      updatedFilters[type] = updatedFilters[type].filter(
+        (item) => item !== value
+      );
       return updatedFilters;
     });
   };
@@ -106,78 +87,52 @@ export default function SearchProduct() {
       clarity: [],
       origin: [],
       collection: [],
+      price: [],
     });
   };
 
   const applyFilters = (products) => {
-    let filteredProducts = [...products];
-
-    // gender
-    if (filters.gender.length > 0) {
-      filteredProducts = filteredProducts.filter((product) =>
-        filters.gender.includes(product.gender)
+    return products.filter((product) => {
+      return (
+        (filters.gender.length === 0 ||
+          filters.gender.includes(product.gender)) &&
+        (filters.category.length === 0 ||
+          filters.category.includes(product.category)) &&
+        (filters.shape.length === 0 || filters.shape.includes(product.shape)) &&
+        (filters.cut.length === 0 || filters.cut.includes(product.cut)) &&
+        (filters.clarity.length === 0 ||
+          filters.clarity.includes(product.clarity)) &&
+        (filters.origin.length === 0 ||
+          filters.origin.includes(product.origin)) &&
+        (filters.collection.length === 0 ||
+          filters.collection.includes(product.collection))
+        //   &&
+        // (filters.price.length === 0 ||
+        //   filters.price.some((priceFilter) => {
+        //     if (priceFilter === "under1m") return product.finalPrice < 1000000;
+        //     if (priceFilter === "1mto2m")
+        //       return (
+        //         product.finalPrice >= 1000000 && product.finalPrice < 2000000
+        //       );
+        //     if (priceFilter === "2mto3m")
+        //       return (
+        //         product.finalPrice >= 2000000 && product.finalPrice < 3000000
+        //       );
+        //     if (priceFilter === "3mto5m")
+        //       return (
+        //         product.finalPrice >= 3000000 && product.finalPrice < 5000000
+        //       );
+        //     if (priceFilter === "above5m") return product.finalPrice >= 5000000;
+        //     return false;
+        //   }))
       );
-    }
-
-    // category
-    if (filters.category.length > 0) {
-      filteredProducts = filteredProducts.filter((product) =>
-        filters.category.includes(product.category)
-      );
-    }
-
-
-    // shape
-    if (filters.shape.length > 0) {
-      filteredProducts = filteredProducts.filter((product) =>
-        filters.shape.includes(product.shape)
-      );
-    }
-
-    // size
-    if (filters.size.length > 0) {
-      filteredProducts = filteredProducts.filter((product) =>
-        filters.size.includes(product.size)
-      );
-    }
-
-    // cut
-    if (filters.cut.length > 0) {
-      filteredProducts = filteredProducts.filter((product) =>
-        filters.cut.includes(product.cut)
-      );
-    }
-
-    // clarity
-    if (filters.clarity.length > 0) {
-      filteredProducts = filteredProducts.filter((product) =>
-        filters.clarity.includes(product.clarity)
-      );
-    }
-
-    // origin
-    if (filters.origin.length > 0) {
-      filteredProducts = filteredProducts.filter((product) =>
-        filters.origin.includes(product.origin)
-      );
-    }
-
-    // collection
-    if (filters.collection.length > 0) {
-      filteredProducts = filteredProducts.filter((product) =>
-        filters.collection.includes(product.collection)
-      );
-    }
-
-    return filteredProducts;
+    });
   };
 
-  // Apply filters and sorting
   const filteredAndSortedProducts = sortProducts(
     applyFilters(product),
     sortOrder
   );
-
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const paginatedProducts = filteredAndSortedProducts.slice(
@@ -185,6 +140,55 @@ export default function SearchProduct() {
     endIndex
   );
   const totalPage = Math.ceil(filteredAndSortedProducts.length / pageSize);
+
+  // Filter mappings
+  const filterMappings = {
+    gender: { Nữ: "FEMALE", Nam: "MALE" },
+    category: {
+      Nhẫn: "ring",
+      "Vòng cổ": "necklace",
+      "Khuyên tay": "earring",
+      "Vòng tay": "bracelet",
+    },
+    // price: {
+    //   "Dưới 1tr": "under1m",
+    //   "Từ 1tr đến 2tr": "1mto2m",
+    //   "Từ 2tr đến 3tr": "2mto3m",
+    //   "Từ 3tr đến 5tr": "3mto5m",
+    //   "Trên 5tr": "above5m",
+    // },
+    shape: {
+      Round: "ROUND",
+      Oval: "OVAL",
+      Cushion: "CUSHION",
+      Pear: "PEAR",
+      Emerald: "EMERALD",
+      Princess: "PRINCESS",
+      Radiant: "RADIANT",
+      Heart: "HEART",
+      Marquise: "MARQUISE",
+      Assher: "ASSHER",
+    },
+    cut: {
+      Excellent: "EXCELLENT",
+      "Very Good": "VERY GOOD",
+      Good: "GOOD",
+      Fair: "FAIR",
+      Poor: "POOR",
+    },
+    clarity: {
+      VVS1: "VVS1",
+      VVS2: "VVS2",
+      VS1: "VS1",
+      VS2: "VS2",
+      SI1: "SI1",
+      SI2: "SI2",
+      I1: "I1",
+      I2: "I2",
+      I3: "I3",
+    },
+    origin: { "Tự nhiên": "NATURAL", "Nhân tạo": "ARTIFICIAL" },
+  };
 
   return (
     <div>
@@ -196,190 +200,163 @@ export default function SearchProduct() {
               <div className="filter-section-header">
                 <h3>Bộ lọc</h3>
                 <Button onClick={clearAllFilters} className="clear-button">
-                  Clear All
+                  Lọc lại
                 </Button>
               </div>
-
-
               <div className="tag-container">
-                {Object.keys(filters).map((key) => {
-                  if (Array.isArray(filters[key])) {
-                    return filters[key].map((value) => (
-                      <Tag
-                        key={`${key}-${value}`}
-                        closable
-                        onClick={() => removeFilterTag(key, value)}
-                        className="tag"
-                      >
-                        {value}
-                      </Tag>
-                    ));
-                  } else if (filters[key]) {
-                    return (
-                      <Tag
-                        key={`${key}-${filters[key]}`}
-                        closable
-                        onClick={() => removeFilterTag(key, value)}
-                        className="tag"
-                      >
-                        {filters[key]}
-                      </Tag>
-                    );
-                  }
-                  return null;
-                })}
+                {Object.keys(filters).flatMap((key) =>
+                  filters[key].map((value) => (
+                    <Tag
+                      key={`${key}-${value}`}
+                      closable
+                      onClick={() => removeFilterTag(key, value)}
+                      className="tag"
+                    >
+                      {Object.entries(filterMappings[key]).find(
+                        ([displayText, dbValue]) => dbValue === value
+                      )?.[0] || value}
+                    </Tag>
+                  ))
+                )}
               </div>
-
-              <Form.Group>
-                <Form.Label>Giới Tính</Form.Label>
-                {["Nữ", "Nam"].map((gender) => (
-                  <Form.Check
-                    key={gender}
-                    type="checkbox"
-                    label={gender}
-                    value={gender}
-                    checked={filters.gender.includes(gender)}
-                    onChange={(e) =>
-                      handleFilterChange("gender", e.target.value)
-                    }
-                    className="form-check"
-                  />
-                ))}
-              </Form.Group>
-              <hr />
-              <Form.Group>
-                <Form.Label>Chủng Loại</Form.Label>
-                {["Nhẫn", "Vòng cổ", "Khuyên tay", "Vòng tay"].map(
-                  (category) => (
-                    <Form.Check
-                      key={category}
-                      type="checkbox"
-                      label={category}
-                      value={category}
-                      checked={filters.category.includes(category)}
-                      onChange={(e) =>
-                        handleFilterChange("category", e.target.value)
-                      }
-                      className="form-check"
-                    />
-                  )
-                )}
-              </Form.Group>
-              <Form.Group>
+              <div className="filter-main">
+                <div className="filter-part">
+                  <Form.Group>
+                    <Form.Label>Giới Tính</Form.Label>
+                    {Object.entries(filterMappings.gender).map(
+                      ([displayText, dbValue]) => (
+                        <Form.Check
+                          key={dbValue}
+                          type="checkbox"
+                          label={displayText}
+                          value={dbValue}
+                          checked={filters.gender.includes(dbValue)}
+                          onChange={(e) =>
+                            handleFilterChange("gender", e.target.value)
+                          }
+                          className="form-check"
+                        />
+                      )
+                    )}
+                  </Form.Group>
+                  <hr />
+                  <Form.Group>
+                    <Form.Label>Chủng Loại</Form.Label>
+                    {Object.entries(filterMappings.category).map(
+                      ([displayText, dbValue]) => (
+                        <Form.Check
+                          key={dbValue}
+                          type="checkbox"
+                          label={displayText}
+                          value={dbValue}
+                          checked={filters.category.includes(dbValue)}
+                          onChange={(e) =>
+                            handleFilterChange("category", e.target.value)
+                          }
+                          className="form-check"
+                        />
+                      )
+                    )}
+                  </Form.Group>
+                  {/* <Form.Group>
                 <Form.Label>Giá</Form.Label>
-                {[
-                  { label: "Dưới 1tr", value: "under1m" },
-                  { label: "Từ 1tr đến 2tr", value: "1mto2m" },
-                  { label: "Từ 2tr đến 3tr", value: "2mto3m" },
-                  { label: "Từ 3tr đến 5tr", value: "3mto5m" },
-                  { label: "Trên 5tr", value: "above5m" },
-                ].map((price) => (
-                  <Form.Check
-                    key={price.value}
-                    type="checkbox"
-                    label={price.label}
-                    value={price.value}
-                    checked={filters.price.includes(price.value)}
-                    onChange={(e) =>
-                      handleFilterChange("price", e.target.value)
-                    }
-                    className="form-check"
-                  />
-                ))}
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Hình dạng</Form.Label>
-                {[
-                  "Round",
-                  "Oval",
-                  "Cushion",
-                  "Pear",
-                  "Emerald",
-                  "Princess",
-                  "Radiant",
-                  "Heart",
-                  "Marquise",
-                  "Assher",
-                ].map((shape) => (
-                  <Form.Check
-                    key={shape}
-                    type="checkbox"
-                    label={shape}
-                    value={shape}
-                    checked={filters.shape.includes(shape)}
-                    onChange={(e) =>
-                      handleFilterChange("shape", e.target.value)
-                    }
-                    className="form-check"
-                  />
-                ))}
-              </Form.Group>
-              <hr />
-              <Form.Group>
-                <Form.Label>Độ cắt</Form.Label>
-                {["Excellent", "Very Good", "Good", "Fair", "Poor"].map(
-                  (cut) => (
+                {Object.entries(filterMappings.price).map(
+                  ([displayText, dbValue]) => (
                     <Form.Check
-                      key={cut}
+                      key={dbValue}
                       type="checkbox"
-                      label={cut}
-                      value={cut}
-                      checked={filters.cut.includes(cut)}
+                      label={displayText}
+                      value={dbValue}
+                      checked={filters.price.includes(dbValue)}
                       onChange={(e) =>
-                        handleFilterChange("cut", e.target.value)
+                        handleFilterChange("price", e.target.value)
                       }
                       className="form-check"
                     />
                   )
                 )}
-              </Form.Group>
-              <hr />
-              <Form.Group>
-                <Form.Label>Độ tinh khiết</Form.Label>
-                {[
-                  "VVS1",
-                  "VVS2",
-                  "VS1",
-                  "VS2",
-                  "SI1",
-                  "SI2",
-                  "I1",
-                  "I2",
-                  "I3",
-                ].map((clarity) => (
-                  <Form.Check
-                    key={clarity}
-                    type="checkbox"
-                    label={clarity}
-                    value={clarity}
-                    checked={filters.clarity.includes(clarity)}
-                    onChange={(e) =>
-                      handleFilterChange("clarity", e.target.value)
-                    }
-                    className="form-check"
-                  />
-                ))}
-              </Form.Group>
-              <hr />
-              <Form.Group>
-                <Form.Label>Nguồn gốc</Form.Label>
-                {["Tự nhiên", "Nhân tạo"].map((origin) => (
-                  <Form.Check
-                    key={origin}
-                    type="checkbox"
-                    label={origin}
-                    value={origin}
-                    checked={filters.origin.includes(origin)}
-                    onChange={(e) =>
-                      handleFilterChange("origin", e.target.value)
-                    }
-                    className="form-check"
-                  />
-                ))}
-              </Form.Group>
+              </Form.Group> */}
+                  <hr />
+                  <Form.Group>
+                    <Form.Label>Hình dạng</Form.Label>
+                    {Object.entries(filterMappings.shape).map(
+                      ([displayText, dbValue]) => (
+                        <Form.Check
+                          key={dbValue}
+                          type="checkbox"
+                          label={displayText}
+                          value={dbValue}
+                          checked={filters.shape.includes(dbValue)}
+                          onChange={(e) =>
+                            handleFilterChange("shape", e.target.value)
+                          }
+                          className="form-check"
+                        />
+                      )
+                    )}
+                  </Form.Group>
+                </div>
+                <div className="filter-part">
+                  <Form.Group>
+                    <Form.Label>Độ cắt</Form.Label>
+                    {Object.entries(filterMappings.cut).map(
+                      ([displayText, dbValue]) => (
+                        <Form.Check
+                          key={dbValue}
+                          type="checkbox"
+                          label={displayText}
+                          value={dbValue}
+                          checked={filters.cut.includes(dbValue)}
+                          onChange={(e) =>
+                            handleFilterChange("cut", e.target.value)
+                          }
+                          className="form-check"
+                        />
+                      )
+                    )}
+                  </Form.Group>
+                  <hr />
+                  <Form.Group>
+                    <Form.Label>Độ tinh khiết</Form.Label>
+                    {Object.entries(filterMappings.clarity).map(
+                      ([displayText, dbValue]) => (
+                        <Form.Check
+                          key={dbValue}
+                          type="checkbox"
+                          label={displayText}
+                          value={dbValue}
+                          checked={filters.clarity.includes(dbValue)}
+                          onChange={(e) =>
+                            handleFilterChange("clarity", e.target.value)
+                          }
+                          className="form-check"
+                        />
+                      )
+                    )}
+                  </Form.Group>
+                  <hr />
+                  <Form.Group>
+                    <Form.Label>Nguồn gốc</Form.Label>
+                    {Object.entries(filterMappings.origin).map(
+                      ([displayText, dbValue]) => (
+                        <Form.Check
+                          key={dbValue}
+                          type="checkbox"
+                          label={displayText}
+                          value={dbValue}
+                          checked={filters.origin.includes(dbValue)}
+                          onChange={(e) =>
+                            handleFilterChange("origin", e.target.value)
+                          }
+                          className="form-check"
+                        />
+                      )
+                    )}
+                  </Form.Group>
+                </div>
+              </div>
             </div>
           </Col>
-
           <Col md={8}>
             <div className="search-product-header">
               <h1 className="search-product-title">Kết quả tìm kiếm</h1>

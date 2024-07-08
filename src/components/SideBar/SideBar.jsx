@@ -54,6 +54,10 @@ export default function SideBar() {
         <>
           {" "}
           <li>
+            <StackedLineChartIcon color="info" fontSize="large" />
+            <Link to={routes.adminstatistics}>Thống Kê</Link>
+          </li>
+          <li>
             <BarChartIcon color="info" fontSize="large" />
             <Link to={routes.adminchart}>Biểu Đồ</Link>
           </li>
@@ -67,6 +71,10 @@ export default function SideBar() {
       )}
       {user.role === "MANAGER" ? (
         <>
+          <li>
+            <StackedLineChartIcon color="info" fontSize="large" />
+            <Link to={routes.adminstatistics}>Thống Kê</Link>
+          </li>
           <li>
             <BarChartIcon color="info" fontSize="large" />
             <Link to={routes.adminchart}>Biểu Đồ</Link>
@@ -103,10 +111,6 @@ export default function SideBar() {
           <li>
             <MonetizationOnIcon color="info" fontSize="large" />
             <Link to={routes.adminDiamondPrice}>Quản Lý Giá Kim Cương</Link>
-          </li>
-          <li>
-            <KeyboardReturn color="info" fontSize="large" />
-            <Link to={routes.home}>Quay về trang chủ</Link>
           </li>
         </>
       ) : (
