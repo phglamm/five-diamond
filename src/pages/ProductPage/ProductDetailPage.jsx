@@ -10,8 +10,8 @@ import {
   Modal,
   Select,
   Popconfirm,
-  Pagination,
 } from "antd";
+import Pagination from '@mui/material/Pagination';
 import { intlFormatDistance } from "date-fns";
 import {
   PushpinOutlined,
@@ -558,13 +558,16 @@ export default function ProductPage({ token }) {
                 ) : (
                   <p>Chưa có bình luận về sản phẩm</p>
                 )}
-                <Pagination
-                  current={currentPage}
-                  pageSize={commentsPerPage}
-                  total={comments.length}
-                  onChange={handlePageChange}
-                  style={{ marginTop: "20px", textAlign: "center" }}
-                />
+                <div className="pagination-container" style={{ textAlign: 'center' }}>
+                  <Pagination
+                    count={Math.ceil(comments.length / commentsPerPage)}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    variant="outlined"
+                    className="custom-pagination"
+                  />
+                </div>
+
               </>
             ) : (
               <>

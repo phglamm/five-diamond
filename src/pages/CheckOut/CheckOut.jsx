@@ -209,21 +209,8 @@ export default function CheckOut() {
                 </Col>
               </Form.Group>
 
-              <h4>HÌNH THỨC THANH TOÁN</h4>
-              <Form.Group controlId="formPaymentMethod">
-                <h5>• Thanh toán chuyển khoản</h5>
-                <div>
-                  <p>
-                    Quý khách vui lòng kiểm tra sự nguyên vẹn của gói hàng và
-                    tem niêm phong, trước khi thanh toán tiền mặt và nhận hàng.
-                    <br />
-                    + Tên tài khoản: Công ty Cổ phần 10TRACK
-                    <br />
-                    + Số tài khoản: 00000000000000000000
-                    <br />+ Ngân hàng: Vietcombank – Chi nhánh Tân Định, TPHCM
-                  </p>
-                </div>
-              </Form.Group>
+              
+
               <div className="checkout-note">
                 <h4>GHI CHÚ</h4>
                 <Form.Group

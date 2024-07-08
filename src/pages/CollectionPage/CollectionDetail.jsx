@@ -147,7 +147,6 @@ function CollectionDetail() {
             page={currentPage}
             onChange={handlePageChange}
             variant="outlined"
-            shape="rounded"
             classes={{
               root: 'pagination-root',
               ul: 'pagination-ul',
