@@ -195,7 +195,7 @@ export default function SearchProduct() {
       <Header />
       <Container className="search-product-container">
         <Row>
-          <Col md={4}>
+          <Col md={3}>
             <div className="filter-section">
               <div className="filter-section-header">
                 <h3>Bộ lọc</h3>
@@ -203,6 +203,7 @@ export default function SearchProduct() {
                   Lọc lại
                 </Button>
               </div>
+
               <div className="tag-container">
                 {Object.keys(filters).flatMap((key) =>
                   filters[key].map((value) => (
@@ -219,47 +220,48 @@ export default function SearchProduct() {
                   ))
                 )}
               </div>
+
               <div className="filter-main">
                 <div className="filter-part">
                   <Form.Group>
-                    <Form.Label>Giới Tính</Form.Label>
+                    <Form.Label className="filter-part-label">Giới Tính</Form.Label>
                     {Object.entries(filterMappings.gender).map(
                       ([displayText, dbValue]) => (
                         <Form.Check
                           key={dbValue}
                           type="checkbox"
-                          label={displayText}
+                          label={<span className="form-check-label">{displayText}</span>}
                           value={dbValue}
                           checked={filters.gender.includes(dbValue)}
                           onChange={(e) =>
-                            handleFilterChange("gender", e.target.value)
-                          }
+                            handleFilterChange("gender", e.target.value)}
                           className="form-check"
+
                         />
                       )
                     )}
                   </Form.Group>
                   <hr />
                   <Form.Group>
-                    <Form.Label>Chủng Loại</Form.Label>
+                    <Form.Label className="filter-part-label">Chủng Loại</Form.Label>
                     {Object.entries(filterMappings.category).map(
                       ([displayText, dbValue]) => (
                         <Form.Check
                           key={dbValue}
                           type="checkbox"
-                          label={displayText}
+                          label={<span className="form-check-label">{displayText}</span>}
                           value={dbValue}
                           checked={filters.category.includes(dbValue)}
                           onChange={(e) =>
-                            handleFilterChange("category", e.target.value)
-                          }
+                            handleFilterChange("category", e.target.value)}
                           className="form-check"
+
                         />
                       )
                     )}
                   </Form.Group>
                   {/* <Form.Group>
-                <Form.Label>Giá</Form.Label>
+                <Form.Label classname="filter-part-label">Giá</Form.Label>
                 {Object.entries(filterMappings.price).map(
                   ([displayText, dbValue]) => (
                     <Form.Check
@@ -278,19 +280,19 @@ export default function SearchProduct() {
               </Form.Group> */}
                   <hr />
                   <Form.Group>
-                    <Form.Label>Hình dạng</Form.Label>
+                    <Form.Label className="filter-part-label">Hình Dáng</Form.Label>
                     {Object.entries(filterMappings.shape).map(
                       ([displayText, dbValue]) => (
                         <Form.Check
                           key={dbValue}
                           type="checkbox"
-                          label={displayText}
+                          label={<span className="form-check-label">{displayText}</span>}
                           value={dbValue}
                           checked={filters.shape.includes(dbValue)}
                           onChange={(e) =>
-                            handleFilterChange("shape", e.target.value)
-                          }
+                            handleFilterChange("shape", e.target.value)}
                           className="form-check"
+
                         />
                       )
                     )}
@@ -298,57 +300,57 @@ export default function SearchProduct() {
                 </div>
                 <div className="filter-part">
                   <Form.Group>
-                    <Form.Label>Độ cắt</Form.Label>
+                    <Form.Label className="filter-part-label">Độ Cắt</Form.Label>
                     {Object.entries(filterMappings.cut).map(
                       ([displayText, dbValue]) => (
                         <Form.Check
                           key={dbValue}
                           type="checkbox"
-                          label={displayText}
+                          label={<span className="form-check-label">{displayText}</span>}
                           value={dbValue}
                           checked={filters.cut.includes(dbValue)}
                           onChange={(e) =>
-                            handleFilterChange("cut", e.target.value)
-                          }
+                            handleFilterChange("cut", e.target.value)}
                           className="form-check"
+
                         />
                       )
                     )}
                   </Form.Group>
                   <hr />
                   <Form.Group>
-                    <Form.Label>Độ tinh khiết</Form.Label>
+                    <Form.Label className="filter-part-label">Độ Tinh Khiết</Form.Label>
                     {Object.entries(filterMappings.clarity).map(
                       ([displayText, dbValue]) => (
                         <Form.Check
                           key={dbValue}
                           type="checkbox"
-                          label={displayText}
+                          label={<span className="form-check-label">{displayText}</span>}
                           value={dbValue}
                           checked={filters.clarity.includes(dbValue)}
                           onChange={(e) =>
-                            handleFilterChange("clarity", e.target.value)
-                          }
+                            handleFilterChange("clarity", e.target.value)}
                           className="form-check"
+
                         />
                       )
                     )}
                   </Form.Group>
                   <hr />
                   <Form.Group>
-                    <Form.Label>Nguồn gốc</Form.Label>
+                    <Form.Label className="filter-part-label">Nguồn Gốc</Form.Label>
                     {Object.entries(filterMappings.origin).map(
                       ([displayText, dbValue]) => (
                         <Form.Check
                           key={dbValue}
                           type="checkbox"
-                          label={displayText}
+                          label={<span className="form-check-label">{displayText}</span>}
                           value={dbValue}
                           checked={filters.origin.includes(dbValue)}
                           onChange={(e) =>
-                            handleFilterChange("origin", e.target.value)
-                          }
+                            handleFilterChange("origin", e.target.value)}
                           className="form-check"
+
                         />
                       )
                     )}
