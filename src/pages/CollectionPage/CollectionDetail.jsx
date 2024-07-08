@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Col, Container, Row, Form } from "react-bootstrap";
-import "./CollectionSet.css";
+import "./CollectionDetail.css";
 import ProductCard from "../../components/productCard/productCard";
 import api from "../../config/axios";
 import { Link, useParams } from "react-router-dom";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
+import BasicPagination from "../../components/BasicPagination/BasicPagination";
+
+// import Pagination from "@mui/material/Pagination";
+// import Stack from "@mui/material/Stack";
 
 function CollectionDetail() {
   const { id } = useParams();
@@ -81,11 +83,18 @@ function CollectionDetail() {
     )
   );
 
+  const filteredProducts = filterProducts(product).filter(
+    (product) => product.collection?.id === collection?.id
+  );
+
+  const sortedProducts = sortProducts(filteredProducts);
+
+
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = productByCollection.slice(indexOfFirstProduct, indexOfLastProduct);
 
-  const totalPages = Math.ceil(productByCollection.length / productsPerPage);
+  const totalPages = Math.ceil(sortedProducts.length / productsPerPage);
 
   const handlePageChange = (event, value) => setCurrentPage(value);
 
@@ -131,7 +140,7 @@ function CollectionDetail() {
             </Col>
           ))}
         </Row>
-        <Stack spacing={2} alignItems="center">
+        {/* <Stack spacing={2} alignItems="center">
           <Pagination
             className="custom-pagination"
             count={totalPages}
@@ -151,7 +160,20 @@ function CollectionDetail() {
               textSecondary: 'pagination-text-secondary',
             }}
           />
-        </Stack>
+        </Stack> */}
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "10px",
+        }}>
+          <BasicPagination
+            count={totalPages}
+            page={currentPage}
+            onChange={handlePageChange}
+          />
+        </div>
+
+
       </Container>
       <Footer />
     </div>
