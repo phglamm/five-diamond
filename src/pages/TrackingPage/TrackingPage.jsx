@@ -176,26 +176,12 @@ const TrackingPage = () => {
                     <div className="order-item-details">
                       <h6>{productLine?.name}</h6>
                       <p>Mã SP: {productLine?.id}</p>
-                      <p>Số lượng: {productLine?.quantity}</p>
                       <p>Giá: {orderItem.price.toLocaleString()} VNĐ</p>
                     </div>
                   </div>
                 );
               })}
 
-              <h5>
-                Tạm tính:{" "}
-                <span style={{ color: "red" }}>
-                  {orderDetail.totalAmount?.toLocaleString()}đ
-                </span>
-              </h5>
-              <Form.Group controlId="formVoucher">
-                <p>Mã giảm giá/Voucher</p>
-                <Form.Control type="text" readOnly />
-              </Form.Group>
-              <p>
-                Phí vận chuyển: <span>Freeship</span>
-              </p>
               <h5>
                 Tổng tiền:{" "}
                 <span style={{ color: "red" }}>
@@ -209,7 +195,7 @@ const TrackingPage = () => {
             <Card>
               <Card.Body className="order-tracking-content">
                 <span className="order-tracking-id">
-                  Mã ID: {orderDetail.id}
+                  Mã đơn hàng: {orderDetail.id}
                 </span>
                 <hr />
                 <span className="shipping-info">
