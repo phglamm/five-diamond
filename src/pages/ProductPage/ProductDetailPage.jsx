@@ -207,7 +207,7 @@ export default function ProductPage({ token }) {
         toast.success("Thêm Vào Giỏ Hàng");
       } catch (error) {
         console.log(error.response.data);
-        toast.error("Có lỗi trong lúc thêm sản phẩm");
+        toast.error("Sản phẩm đã hết hàng");
       }
     } else {
       return toast.error("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng");
@@ -218,17 +218,26 @@ export default function ProductPage({ token }) {
     if (!user) {
       toast.error("Vui lòng đăng nhập để mua sản phẩm");
       return;
-    }
-    handleClickAddToCart();
-    const cartItems = [{ productLine: product, quantity: 1 }];
-    const finalTotal = product.finalPrice;
-    try {
-      const response = await api.get("cart/check");
-      console.log(response);
-      navigate(routes.checkout, { state: { cartItems, finalTotal } });
-    } catch (error) {
-      toast.error(error.response.data);
-      console.log(error.response.data);
+    } else {
+      try {
+        console.log("Product added to cart", id);
+        const response = await api.post(`cart/${id}`);
+        console.log(response.data);
+        fetchCart();
+      } catch (error) {
+        console.log(error.response.data);
+        toast.error("Sản phẩm của bạn đã có trong giỏ hàng");
+      }
+      const cartItems = [{ productLine: product, quantity: 1 }];
+      const finalTotal = product.finalPrice;
+      try {
+        const response = await api.get("cart/check");
+        console.log(response);
+        navigate(routes.checkout, { state: { cartItems, finalTotal } });
+      } catch (error) {
+        toast.error(error.response.data);
+        console.log(error.response.data);
+      }
     }
   };
 
@@ -236,16 +245,13 @@ export default function ProductPage({ token }) {
     if (!user) {
       toast.error("Vui lòng đăng nhập để mua sản phẩm");
       return;
-    }
-    if (selectedSize) {
+    } else {
       navigate("/tien-hanh-thanh-toan", {
         state: {
           cartItems: [{ productLine: product, quantity: 1 }],
           finalTotal: product.finalPrice,
         },
       });
-    } else {
-      toast.error("Bạn Chưa Chọn Size cho sản phẩm");
     }
   };
 
@@ -407,7 +413,7 @@ export default function ProductPage({ token }) {
               <Button
                 type="primary"
                 icon={<ShoppingOutlined />}
-                onClick={handleClickBuyNow}
+                onClick={handleBuyNow}
                 className="button-buybuy"
                 style={{ fontWeight: "bold", width: "50%" }}
               >

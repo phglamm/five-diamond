@@ -7,9 +7,6 @@ export const routes = {
   faq: "/faq",
   size: "/huong-dan-do-ni",
   bst: "/bo-suu-tap",
-  bstset1: "/bo-suu-tap-set1",
-  bstset2: "/bo-suu-tap-set2",
-  bstset3: "/bo-suu-tap-set3",
   blog: "/kien-thuc",
   sale: "/chuong-trinh-khuyen-mai",
   profile: "/trang-ca-nhan",
@@ -29,6 +26,7 @@ export const routes = {
   adminUser: "/admin-nguoi-dung",
   adminbst: "/admin-bo-suu-tap",
   adminchart: "/admin-bieu-do",
+  adminstatistics: "/admin-thong-ke",
   adminsale: "/admin-su-kien-sale",
   adminDiamondPrice: "/admin-gia-kim-cuong",
 

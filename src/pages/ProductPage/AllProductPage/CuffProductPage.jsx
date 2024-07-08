@@ -8,7 +8,7 @@ import BasicPagination from "../../../components/BasicPagination/BasicPagination
 import Banner from "../../../components/Banner/banner";
 import api from "../../../config/axios";
 
-export default function RingProductPage() {
+export default function CuffProductPage() {
   const [product, setProduct] = useState([]);
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);

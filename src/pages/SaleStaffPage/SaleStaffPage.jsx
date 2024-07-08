@@ -272,6 +272,19 @@ function SaleStaffPage() {
               title: "Tình trạng",
               dataIndex: "orderStatus",
               key: "orderStatus",
+              render: (value) => {
+                if (value === "PENDING") {
+                  return "Đã đặt hàng";
+                } else if (value === "CONFIRMED") {
+                  return "Đã xác nhận"; // Example for completed status
+                } else if (value === "PROCESSING") {
+                  return "Đang xử lý"; // Example for canceled status
+                } else if (value === "SHIPPED") {
+                  return "Đang giao hàng"; // Example for canceled status
+                } else if (value === "DELIVERED") {
+                  return "Đã giao hàng"; // Example for canceled status
+                }
+              },
             },
             {
               title: "Xem đơn hàng",

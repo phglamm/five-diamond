@@ -31,9 +31,9 @@ import AdminUser from "../pages/AdminDashboard/AdminUser/AdminUser";
 import AdminOrder from "../pages/AdminDashboard/AdminManageOrder/AdmiManageOrder";
 import ChangePasswordPage from "../pages/ChangePassword/ChangePassword";
 import AdminCover from "../pages/AdminDashboard/AdminDiamond/AdminPageCover";
-import CollectionSet1 from "../pages/CollectionPage/CollectionDetail";
-import CollectionSet2 from "../pages/CollectionPage/CollectionSet2";
-import CollectionSet3 from "../pages/CollectionPage/CollectionSet3";
+// import CollectionDetail from "../pages/CollectionPage/CollectionDetail";
+// import CollectionSet2 from "../pages/CollectionPage/CollectionSet2";
+// import CollectionSet3 from "../pages/CollectionPage/CollectionSet3";
 import AdminCollection from "../pages/AdminDashboard/AdminCollection/AdminCollection";
 import ProductPage from "../pages/ProductPage/ProductDetailPage";
 import ProductRing from "../pages/ProductPage/AllProductPage/RingProductPage";
@@ -50,6 +50,7 @@ import AdminDiamondPrice from "../pages/AdminDashboard/AdminDiamondPrice/AdminDi
 import Dashboard from "../pages/Dashboard/Dashboard";
 import CollectionDetail from "../pages/CollectionPage/CollectionDetail";
 import SearchProduct from "../pages/ProductPage/AllProductPage/SearchProduct";
+import AdminChart from "../pages/AdminDashboard/AdminChart/AdminChart";
 
 // import Payment from "../pages/Payment/PaymentPage";
 
@@ -67,9 +68,9 @@ export default function AppRoute() {
       <Route path={routes.blog} element={<Blog />} />
       <Route path={routes.sale} element={<SaleEventPage />} />
       <Route path={routes.diamondprice} element={<DiamondPricePage />} />
-      <Route path={routes.bstset1} element={<CollectionSet1 />} />
+      {/* <Route path={routes.bstset1} element={<CollectionSet1 />} />
       <Route path={routes.bstset2} element={<CollectionSet2 />} />
-      <Route path={routes.bstset3} element={<CollectionSet3 />} />
+      <Route path={routes.bstset3} element={<CollectionSet3 />} /> */}
       <Route
         path={routes.profile}
         element={
@@ -101,6 +102,14 @@ export default function AppRoute() {
       />
       <Route
         path={routes.adminchart}
+        element={
+          <ProtectedRoute roles={["MANAGER", "ADMIN"]}>
+            <AdminChart />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routes.adminstatistics}
         element={
           <ProtectedRoute roles={["MANAGER", "ADMIN"]}>
             <AdminStatistics />

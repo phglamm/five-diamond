@@ -1,9 +1,10 @@
 import SideBar from "../../../components/SideBar/SideBar";
-import { Table } from "antd";
+import { Button, Table } from "antd";
 import { useEffect, useState } from "react";
 import "../../AdminDashboard/AdminPage.css";
 
 import api from "../../../config/axios";
+import { Link } from "react-router-dom";
 
 export default function AdminOrder() {
   const [order, setOrder] = useState([]);
@@ -43,7 +44,7 @@ export default function AdminOrder() {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      render: (text, record) => record.account?.email,
+      render: (text, record) => record.customer?.email,
     },
     {
       title: "Địa Chỉ",
@@ -57,12 +58,48 @@ export default function AdminOrder() {
       render: (value) => value.toLocaleString() + " đ",
     },
     {
-      title: "Trạng Thái",
+      title: "Tình trạng",
       dataIndex: "orderStatus",
       key: "orderStatus",
+      render: (value) => {
+        if (value === "PENDING") {
+          return "Đã đặt hàng";
+        } else if (value === "CONFIRMED") {
+          return "Đã xác nhận"; // Example for completed status
+        } else if (value === "PROCESSING") {
+          return "Đang chuẩn bị hàng"; // Example for canceled status
+        } else if (value === "SHIPPED") {
+          return "Đang vận chuyển"; // Example for canceled status
+        } else if (value === "DELIVERED") {
+          return "Đã giao hàng"; // Example for canceled status
+        }
+      },
+    },
+
+    {
+      title: "Xem đơn hàng",
+      key: "view-order",
+      render: (text, record) => (
+        <Link to={`/theo-doi-don-hang/${record?.id}`}>
+          <Button type="link">Xem chi tiết</Button>
+        </Link>
+      ),
     },
   ];
+  const [filterStatus, setFilterStatus] = useState(null);
+  const handleFilterChange = (status) => {
+    setFilterStatus(status);
+  };
+  const [searchTerm, setSearchTerm] = useState("");
 
+  const filteredOrders = order.filter((ord) => {
+    const matchesStatus =
+      filterStatus === null || ord.orderStatus === filterStatus;
+    const matchesSearchTerm = ord.id
+      .toString()
+      .includes(searchTerm.toLowerCase());
+    return matchesStatus && matchesSearchTerm;
+  });
   return (
     <div className="Admin">
       <SideBar></SideBar>
@@ -70,8 +107,47 @@ export default function AdminOrder() {
       <div className="admin-content">
         <div className="data-table">
           <h1>Quản Lý Đơn Hàng</h1>
+
+          <div className="delivery-staff-filter-buttons-admin">
+            <Button
+              type={filterStatus === null ? "primary" : ""}
+              onClick={() => handleFilterChange(null)}
+            >
+              Tất cả
+            </Button>
+            <Button
+              type={filterStatus === "PENDING" ? "primary" : ""}
+              onClick={() => handleFilterChange("PENDING")}
+            >
+              Đã đặt hàng
+            </Button>
+            <Button
+              type={filterStatus === "CONFIRMED" ? "primary" : ""}
+              onClick={() => handleFilterChange("CONFIRMED")}
+            >
+              Đã xác nhận
+            </Button>
+            <Button
+              type={filterStatus === "PROCESSING" ? "primary" : ""}
+              onClick={() => handleFilterChange("PROCESSING")}
+            >
+              Đang chuẩn bị hàng
+            </Button>
+            <Button
+              type={filterStatus === "SHIPPED" ? "primary" : ""}
+              onClick={() => handleFilterChange("SHIPPED")}
+            >
+              Đang vận chuyển
+            </Button>
+            <Button
+              type={filterStatus === "DELIVERED" ? "primary" : ""}
+              onClick={() => handleFilterChange("DELIVERED")}
+            >
+              Đã giao hàng
+            </Button>
+          </div>
           <Table
-            dataSource={order}
+            dataSource={filteredOrders}
             columns={columns}
             onChange={onChange}
             pagination={{ pageSize: 5 }}

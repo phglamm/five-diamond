@@ -6,8 +6,7 @@ import "./CollectionPage.css";
 import { routes } from "../../routes";
 import api from "../../config/axios";
 import { useEffect, useState } from "react";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
+import BasicPagination from '../../components/BasicPagination/BasicPagination'
 
 export default function CollectionPage() {
   const [collection, setCollection] = useState([]);
@@ -28,8 +27,18 @@ export default function CollectionPage() {
   };
 
   const offset = (currentPage - 1) * itemsPerPage;
-  const currentPageData = collection.slice(offset, offset + itemsPerPage);
-  const pageCount = Math.ceil(collection.length / itemsPerPage);
+  const collectionNotdelete = collection.filter(
+    (collection) => collection.deleted === false
+  );
+
+  const currentPageData = collectionNotdelete.slice(
+    offset,
+    offset + itemsPerPage
+  );
+
+  const pageCount = Math.ceil(collectionNotdelete.length / itemsPerPage);
+
+  // const pageCount = Math.ceil(collection.length / itemsPerPage);
 
   return (
     <div>
@@ -47,15 +56,19 @@ export default function CollectionPage() {
           />
         ))}
 
-        <Stack spacing={2} alignItems="center">
-          <Pagination
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "10px",
+        }}>
+
+          <BasicPagination
             count={pageCount}
             page={currentPage}
             onChange={handlePageChange}
-            variant="outlined"
-            className="custom-pagination"
           />
-        </Stack>
+        </div>
+
       </Container>
       <Footer />
     </div>

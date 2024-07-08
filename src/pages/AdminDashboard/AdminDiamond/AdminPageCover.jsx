@@ -79,6 +79,8 @@ export default function AdminCover() {
 
   const showModalUpdate = () => {
     fetchDiamondUpdate();
+    formUpdate.setFieldsValue(selectedProductLine)
+    console.log(selectedProductLine)
     console.log(
       shapeUpdate,
       caratUpdate,
@@ -164,13 +166,16 @@ export default function AdminCover() {
     setCollection(response.data);
   }
 
+  const collectionNotdelete = collection.filter(
+    (collection) => collection.deleted === false
+  );
   useEffect(() => {
     fetchProductLine();
     fetchDiamond();
     fetchCategory();
     fetchCollection();
   }, []);
-  useEffect(() => {}, []); // Only re-run this effect when diamond changes
+  useEffect(() => { }, []); // Only re-run this effect when diamond changes
 
   async function deleteProductLine(values) {
     console.log(values.id);
@@ -196,13 +201,19 @@ export default function AdminCover() {
 
   async function updateProductLine(values) {
     console.log(values);
+    const responseProduct = await api.get(`product-line/${values.id}`);
+    console.log(responseProduct.data);
     if (imgUpdate) {
       const imgURLUpdate = await uploadFile(imgUpdate);
       newData.imgURL = imgURLUpdate;
     } else {
       newData.imgURL = values.imgURL;
     }
-    newData.diamondID = checkedListUpdate;
+    if (checkedListUpdate) {
+      newData.diamondID = checkedListUpdate;
+    } else {
+      newData.diamondID = responseProduct.data.diamondID;
+    }
 
     const dataUpdate = {
       ...newData,
@@ -397,7 +408,7 @@ export default function AdminCover() {
               mask={false}
             >
               <Form
-                initialValues={selectedProductLine}
+                // initialValues={selectedProductLine}
                 onValuesChange={(changedValues, allValues) => {
                   setNewData(allValues);
                 }}
@@ -466,6 +477,7 @@ export default function AdminCover() {
                           setShapeUpdate(value);
                           console.log(shapeUpdate);
                         }}
+                        initialValue={values.shape}
                       >
                         <Select.Option value="ROUND">Round</Select.Option>
                         <Select.Option value="OVAL">Oval</Select.Option>
@@ -710,7 +722,7 @@ export default function AdminCover() {
                     </Form.Item>
                     <Form.Item
                       className="label-form"
-                      label="Nặng"
+                      label="Nặng (chỉ)"
                       name="weight"
                       rules={[
                         {
@@ -739,10 +751,13 @@ export default function AdminCover() {
                       className="label-form"
                       label="Danh Mục"
                       name="categoryID"
+                      initialValue={values.category}
                     >
                       <Select
                         className="select-input"
                         placeholder="chọn Danh Mục"
+                        defaultValue={values.category}
+
                       >
                         {category.map((item) => (
                           <Select.Option value={item.id}>
@@ -760,7 +775,7 @@ export default function AdminCover() {
                         className="select-input"
                         placeholder="chọn Bộ sưu tập"
                       >
-                        {collection.map((item) => (
+                        {collectionNotdelete.map((item) => (
                           <Select.Option value={item.id}>
                             {item.name}
                           </Select.Option>
@@ -1268,7 +1283,7 @@ export default function AdminCover() {
               </Form.Item>
               <Form.Item
                 className="label-form"
-                label="Nặng"
+                label="Nặng (chỉ)"
                 name="weight"
                 rules={[
                   {
@@ -1297,7 +1312,7 @@ export default function AdminCover() {
                 label="Danh mục"
                 name="categoryID"
               >
-                <Select className="select-input" placeholder="chọn Danh Mục">
+                <Select className="select-input" placeholder="chọn Danh Mục"  >
                   {category.map((item) => (
                     <Select.Option value={item.id}>{item.name}</Select.Option>
                   ))}
@@ -1310,7 +1325,7 @@ export default function AdminCover() {
                 name="collectionID"
               >
                 <Select className="select-input" placeholder="chọn Bộ sưu tập">
-                  {collection.map((item) => (
+                  {collectionNotdelete.map((item) => (
                     <Select.Option value={item.id}>{item.name}</Select.Option>
                   ))}
                 </Select>

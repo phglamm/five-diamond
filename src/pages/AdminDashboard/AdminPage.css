@@ -100,9 +100,7 @@
   width: 100% !important;
 }
 
-.small-button {
-  padding: 4px 10px; /* Adjust padding to make the button smaller */
-  font-size: 12px; /* Adjust font size */
-  margin: 4px 10px;
-  width: 20%;
+.delivery-staff-filter-buttons-admin {
+  margin-right: 43%;
+  margin-top: 5%;
 }

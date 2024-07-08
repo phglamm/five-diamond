@@ -68,7 +68,7 @@ export default function AdminCollection() {
     console.log(values.id);
     try {
       Modal.confirm({
-        title: "Bạn có chắc muốn xóa chứng chỉ này ?",
+        title: "Bạn có chắc muốn xóa BST này ?",
         onOk: () => {
           api.delete(`collection/${values.id}`);
           toast.success("Xóa thành công");
@@ -354,6 +354,10 @@ export default function AdminCollection() {
   //   console.log();
   //   setIsModalOpen(true);
   // };
+
+  const collectionNotdelete = collection.filter(
+    (collection) => collection.deleted === false
+  );
   return (
     <div className="Admin">
       <SideBar></SideBar>
@@ -459,7 +463,7 @@ export default function AdminCollection() {
         <div className="data-table">
           <h1>Quản Lý Bộ Sưu Tập</h1>
           <Table
-            dataSource={collection}
+            dataSource={collectionNotdelete}
             columns={columns}
             onChange={onChange}
             pagination={{ pageSize: 5 }}

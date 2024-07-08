@@ -57,38 +57,22 @@ export default function Header() {
                 </div>
               </Col>
             )}
-            {user.role === "MANAGER" && (
+            {user.role !== "SALES" && user.role !== "DELIVERY" && (
               <Col xs={4} className="Header-left">
                 <div className="Header-left-component">
-                  <Link to={routes.saleStaff} className="sale-staff">
-                    <p>Theo Dõi Đơn Hàng Cần Xử Lý</p>
-                  </Link>
+                  <i className="pi pi-phone"></i>
+                  <p>1800 1168</p>
                 </div>
                 <div className="Header-left-component">
-                  <Link to={routes.deliveryStaff} className="sale-staff">
-                    <p>Theo Dõi Đơn Hàng Cần Giao Đi</p>
-                  </Link>
+                  <i className="pi pi-building"></i>
+                  <p>HỆ THỐNG SHOWROOM</p>
+                </div>
+                <div className="Header-left-component">
+                  <i className="pi pi-map"></i>
+                  <p>HỆ THỐNG PHÂN PHỐI</p>
                 </div>
               </Col>
             )}
-            {user.role !== "SALES" &&
-              user.role !== "DELIVERY" &&
-              user.role !== "MANAGER" && (
-                <Col xs={4} className="Header-left">
-                  <div className="Header-left-component">
-                    <i className="pi pi-phone"></i>
-                    <p>1800 1168</p>
-                  </div>
-                  <div className="Header-left-component">
-                    <i className="pi pi-building"></i>
-                    <p>HỆ THỐNG SHOWROOM</p>
-                  </div>
-                  <div className="Header-left-component">
-                    <i className="pi pi-map"></i>
-                    <p>HỆ THỐNG PHÂN PHỐI</p>
-                  </div>
-                </Col>
-              )}
           </>
         ) : (
           <Col xs={4} className="Header-left">
