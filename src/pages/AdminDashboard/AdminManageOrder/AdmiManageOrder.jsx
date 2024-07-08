@@ -44,7 +44,7 @@ export default function AdminOrder() {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      render: (text, record) => record.account?.email,
+      render: (text, record) => record.customer?.email,
     },
     {
       title: "Địa Chỉ",

@@ -166,6 +166,9 @@ export default function AdminCover() {
     setCollection(response.data);
   }
 
+  const collectionNotdelete = collection.filter(
+    (collection) => collection.deleted === false
+  );
   useEffect(() => {
     fetchProductLine();
     fetchDiamond();
@@ -772,7 +775,7 @@ export default function AdminCover() {
                         className="select-input"
                         placeholder="chọn Bộ sưu tập"
                       >
-                        {collection.map((item) => (
+                        {collectionNotdelete.map((item) => (
                           <Select.Option value={item.id}>
                             {item.name}
                           </Select.Option>
@@ -1322,7 +1325,7 @@ export default function AdminCover() {
                 name="collectionID"
               >
                 <Select className="select-input" placeholder="chọn Bộ sưu tập">
-                  {collection.map((item) => (
+                  {collectionNotdelete.map((item) => (
                     <Select.Option value={item.id}>{item.name}</Select.Option>
                   ))}
                 </Select>

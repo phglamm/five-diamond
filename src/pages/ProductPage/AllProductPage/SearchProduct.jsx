@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Container, Col, Row, Form } from "react-bootstrap";
 import { Button } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Tag } from 'antd';
+import { Tag } from "antd";
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
 import ProductCard from "../../../components/productCard/productCard";
-import './SearchProduct.css';
+import "./SearchProduct.css";
 import BasicPagination from "../../../components/BasicPagination/BasicPagination";
 
 export default function SearchProduct() {
@@ -26,7 +26,6 @@ export default function SearchProduct() {
   const pageSize = 20;
   const navigate = useNavigate();
 
-
   useEffect(() => {
     if (location.state && location.state.SearchProduct) {
       setProduct(location.state.SearchProduct);
@@ -40,31 +39,42 @@ export default function SearchProduct() {
     });
   };
 
-  //SORTER
+  // Sorter
   const handleSortChange = (e) => {
     const order = e.target.value;
     setSortOrder(order);
-    sortProducts(order);
   };
 
-  const sortProducts = (order) => {
-    let sortedProducts = [...product];
+  const sortProducts = (products, order) => {
     if (order === "asc") {
-      sortedProducts.sort((a, b) => a.finalPrice - b.finalPrice);
+      return products.sort((a, b) => a.finalPrice - b.finalPrice);
     } else if (order === "desc") {
-      sortedProducts.sort((a, b) => b.finalPrice - a.finalPrice);
+      return products.sort((a, b) => b.finalPrice - a.finalPrice);
     }
-    setProduct(sortedProducts);
+    return products;
   };
 
-
-  //FILTER
+  // Filter
   const handleFilterChange = (type, value) => {
     setFilters((prevFilters) => {
       let updatedFilters = { ...prevFilters };
-      if (["gender", "category", "shape", "size", "cut", "clarity", "origin", "collection"].includes(type)) {
+      if (
+        [
+          "gender",
+          "category",
+          "shape",
+          "size",
+          "cut",
+          "clarity",
+          "origin",
+          "collection",
+          "price",
+        ].includes(type)
+      ) {
         if (updatedFilters[type].includes(value)) {
-          updatedFilters[type] = updatedFilters[type].filter((item) => item !== value);
+          updatedFilters[type] = updatedFilters[type].filter(
+            (item) => item !== value
+          );
         } else {
           updatedFilters[type].push(value);
         }
@@ -73,19 +83,19 @@ export default function SearchProduct() {
     });
   };
 
-
   const removeFilterTag = (type, value) => {
     setFilters((prevFilters) => {
       let updatedFilters = { ...prevFilters };
       if (Array.isArray(updatedFilters[type])) {
-        updatedFilters[type] = updatedFilters[type].filter((item) => item !== value);
+        updatedFilters[type] = updatedFilters[type].filter(
+          (item) => item !== value
+        );
       } else {
         updatedFilters[type] = "";
       }
       return updatedFilters;
     });
   };
-
 
   const clearAllFilters = () => {
     setFilters({
@@ -104,48 +114,77 @@ export default function SearchProduct() {
 
     // gender
     if (filters.gender.length > 0) {
-      filteredProducts = filteredProducts.filter((product) => filters.gender.includes(product.gender));
+      filteredProducts = filteredProducts.filter((product) =>
+        filters.gender.includes(product.gender)
+      );
     }
 
     // category
     if (filters.category.length > 0) {
-      filteredProducts = filteredProducts.filter((product) => filters.category.includes(product.category));
+      filteredProducts = filteredProducts.filter((product) =>
+        filters.category.includes(product.category)
+      );
     }
 
 
     // shape
     if (filters.shape.length > 0) {
-      filteredProducts = filteredProducts.filter((product) => filters.shape.includes(product.shape));
+      filteredProducts = filteredProducts.filter((product) =>
+        filters.shape.includes(product.shape)
+      );
     }
 
+    // size
+    if (filters.size.length > 0) {
+      filteredProducts = filteredProducts.filter((product) =>
+        filters.size.includes(product.size)
+      );
+    }
 
     // cut
     if (filters.cut.length > 0) {
-      filteredProducts = filteredProducts.filter((product) => filters.cut.includes(product.cut));
+      filteredProducts = filteredProducts.filter((product) =>
+        filters.cut.includes(product.cut)
+      );
     }
 
     // clarity
     if (filters.clarity.length > 0) {
-      filteredProducts = filteredProducts.filter((product) => filters.clarity.includes(product.clarity));
+      filteredProducts = filteredProducts.filter((product) =>
+        filters.clarity.includes(product.clarity)
+      );
     }
 
     // origin
     if (filters.origin.length > 0) {
-      filteredProducts = filteredProducts.filter((product) => filters.origin.includes(product.origin));
+      filteredProducts = filteredProducts.filter((product) =>
+        filters.origin.includes(product.origin)
+      );
     }
 
     // collection
     if (filters.collection.length > 0) {
-      filteredProducts = filteredProducts.filter((product) => filters.collection.includes(product.collection));
+      filteredProducts = filteredProducts.filter((product) =>
+        filters.collection.includes(product.collection)
+      );
     }
 
     return filteredProducts;
   };
 
+  // Apply filters and sorting
+  const filteredAndSortedProducts = sortProducts(
+    applyFilters(product),
+    sortOrder
+  );
+
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const paginatedProducts = product.slice(startIndex, endIndex);
-  const totalPage = Math.ceil(product.length / pageSize);
+  const paginatedProducts = filteredAndSortedProducts.slice(
+    startIndex,
+    endIndex
+  );
+  const totalPage = Math.ceil(filteredAndSortedProducts.length / pageSize);
 
   return (
     <div>
@@ -156,13 +195,8 @@ export default function SearchProduct() {
             <div className="filter-section">
               <div className="filter-section-header">
                 <h3>Bộ lọc</h3>
-
-                <Button
-                  onClick={clearAllFilters}
-                  className="clear-button"
-
-                >
-                  Xóa tất cả
+                <Button onClick={clearAllFilters} className="clear-button">
+                  Clear All
                 </Button>
               </div>
 
@@ -196,8 +230,6 @@ export default function SearchProduct() {
                 })}
               </div>
 
-              <hr />
-
               <Form.Group>
                 <Form.Label>Giới Tính</Form.Label>
                 {["Nữ", "Nam"].map((gender) => (
@@ -207,7 +239,9 @@ export default function SearchProduct() {
                     label={gender}
                     value={gender}
                     checked={filters.gender.includes(gender)}
-                    onChange={(e) => handleFilterChange("gender", e.target.value)}
+                    onChange={(e) =>
+                      handleFilterChange("gender", e.target.value)
+                    }
                     className="form-check"
                   />
                 ))}
@@ -215,29 +249,67 @@ export default function SearchProduct() {
               <hr />
               <Form.Group>
                 <Form.Label>Chủng Loại</Form.Label>
-                {["Nhẫn", "Vòng cổ", "Khuyên tay", "Vòng tay"].map((category) => (
+                {["Nhẫn", "Vòng cổ", "Khuyên tay", "Vòng tay"].map(
+                  (category) => (
+                    <Form.Check
+                      key={category}
+                      type="checkbox"
+                      label={category}
+                      value={category}
+                      checked={filters.category.includes(category)}
+                      onChange={(e) =>
+                        handleFilterChange("category", e.target.value)
+                      }
+                      className="form-check"
+                    />
+                  )
+                )}
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Giá</Form.Label>
+                {[
+                  { label: "Dưới 1tr", value: "under1m" },
+                  { label: "Từ 1tr đến 2tr", value: "1mto2m" },
+                  { label: "Từ 2tr đến 3tr", value: "2mto3m" },
+                  { label: "Từ 3tr đến 5tr", value: "3mto5m" },
+                  { label: "Trên 5tr", value: "above5m" },
+                ].map((price) => (
                   <Form.Check
-                    key={category}
+                    key={price.value}
                     type="checkbox"
-                    label={category}
-                    value={category}
-                    checked={filters.category.includes(category)}
-                    onChange={(e) => handleFilterChange("category", e.target.value)}
+                    label={price.label}
+                    value={price.value}
+                    checked={filters.price.includes(price.value)}
+                    onChange={(e) =>
+                      handleFilterChange("price", e.target.value)
+                    }
                     className="form-check"
                   />
                 ))}
               </Form.Group>
-              <hr />
               <Form.Group>
                 <Form.Label>Hình dạng</Form.Label>
-                {["Round", "Oval", "Cushion", "Pear", "Emerald", "Princess", "Radiant", "Heart", "Marquise", "Assher"].map((shape) => (
+                {[
+                  "Round",
+                  "Oval",
+                  "Cushion",
+                  "Pear",
+                  "Emerald",
+                  "Princess",
+                  "Radiant",
+                  "Heart",
+                  "Marquise",
+                  "Assher",
+                ].map((shape) => (
                   <Form.Check
                     key={shape}
                     type="checkbox"
                     label={shape}
                     value={shape}
                     checked={filters.shape.includes(shape)}
-                    onChange={(e) => handleFilterChange("shape", e.target.value)}
+                    onChange={(e) =>
+                      handleFilterChange("shape", e.target.value)
+                    }
                     className="form-check"
                   />
                 ))}
@@ -245,29 +317,45 @@ export default function SearchProduct() {
               <hr />
               <Form.Group>
                 <Form.Label>Độ cắt</Form.Label>
-                {["Excellent", "Very Good", "Good", "Fair", "Poor"].map((cut) => (
-                  <Form.Check
-                    key={cut}
-                    type="checkbox"
-                    label={cut}
-                    value={cut}
-                    checked={filters.cut.includes(cut)}
-                    onChange={(e) => handleFilterChange("cut", e.target.value)}
-                    className="form-check"
-                  />
-                ))}
+                {["Excellent", "Very Good", "Good", "Fair", "Poor"].map(
+                  (cut) => (
+                    <Form.Check
+                      key={cut}
+                      type="checkbox"
+                      label={cut}
+                      value={cut}
+                      checked={filters.cut.includes(cut)}
+                      onChange={(e) =>
+                        handleFilterChange("cut", e.target.value)
+                      }
+                      className="form-check"
+                    />
+                  )
+                )}
               </Form.Group>
               <hr />
               <Form.Group>
                 <Form.Label>Độ tinh khiết</Form.Label>
-                {["VVS1", "VVS2", "VS1", "VS2", "SI1", "SI2", "I1", "I2", "I3"].map((clarity) => (
+                {[
+                  "VVS1",
+                  "VVS2",
+                  "VS1",
+                  "VS2",
+                  "SI1",
+                  "SI2",
+                  "I1",
+                  "I2",
+                  "I3",
+                ].map((clarity) => (
                   <Form.Check
                     key={clarity}
                     type="checkbox"
                     label={clarity}
                     value={clarity}
                     checked={filters.clarity.includes(clarity)}
-                    onChange={(e) => handleFilterChange("clarity", e.target.value)}
+                    onChange={(e) =>
+                      handleFilterChange("clarity", e.target.value)
+                    }
                     className="form-check"
                   />
                 ))}
@@ -282,7 +370,9 @@ export default function SearchProduct() {
                     label={origin}
                     value={origin}
                     checked={filters.origin.includes(origin)}
-                    onChange={(e) => handleFilterChange("origin", e.target.value)}
+                    onChange={(e) =>
+                      handleFilterChange("origin", e.target.value)
+                    }
                     className="form-check"
                   />
                 ))}
