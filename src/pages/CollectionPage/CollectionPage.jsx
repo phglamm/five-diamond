@@ -28,7 +28,13 @@ export default function CollectionPage() {
   };
 
   const offset = (currentPage - 1) * itemsPerPage;
-  const currentPageData = collection.slice(offset, offset + itemsPerPage);
+  const collectionNotdelete = collection.filter(
+    (collection) => collection.deleted === false
+  );
+  const currentPageData = collectionNotdelete.slice(
+    offset,
+    offset + itemsPerPage
+  );
   const pageCount = Math.ceil(collection.length / itemsPerPage);
 
   return (

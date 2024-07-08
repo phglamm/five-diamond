@@ -20,6 +20,7 @@ export default function DropdownProfile() {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
+    localStorage.removeItem("token");
     dispatch(logout());
   };
 
