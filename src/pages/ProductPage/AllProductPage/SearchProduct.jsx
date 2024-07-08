@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import { Container, Col, Row, Form } from "react-bootstrap";
+import { Button } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Tag } from 'antd';
 import Header from "../../../components/Header/Header";
@@ -16,7 +17,6 @@ export default function SearchProduct() {
   const [filters, setFilters] = useState({
     gender: [],
     category: [],
-    price: [],
     shape: [],
     size: [],
     cut: [],
@@ -63,7 +63,7 @@ export default function SearchProduct() {
   const handleFilterChange = (type, value) => {
     setFilters((prevFilters) => {
       let updatedFilters = { ...prevFilters };
-      if (["gender", "category", "shape", "size", "cut", "clarity", "origin", "collection", "price"].includes(type)) {
+      if (["gender", "category", "shape", "size", "cut", "clarity", "origin", "collection"].includes(type)) {
         if (updatedFilters[type].includes(value)) {
           updatedFilters[type] = updatedFilters[type].filter((item) => item !== value);
         } else {
@@ -92,7 +92,6 @@ export default function SearchProduct() {
     setFilters({
       gender: [],
       category: [],
-      price: [],
       shape: [],
       size: [],
       cut: [],
@@ -115,28 +114,6 @@ export default function SearchProduct() {
       filteredProducts = filteredProducts.filter((product) => filters.category.includes(product.category));
     }
 
-    // price
-    if (filters.price.length > 0) {
-      filteredProducts = filteredProducts.filter((product) => {
-        const price = product.finalPrice;
-        return filters.price.some((priceFilter) => {
-          switch (priceFilter) {
-            case "under1m":
-              return price < 1000000;
-            case "1mto2m":
-              return price >= 1000000 && price < 2000000;
-            case "2mto3m":
-              return price >= 2000000 && price < 3000000;
-            case "3mto5m":
-              return price >= 3000000 && price < 5000000;
-            case "above5m":
-              return price >= 5000000;
-            default:
-              return true;
-          }
-        });
-      });
-    }
 
     // shape
     if (filters.shape.length > 0) {
@@ -189,7 +166,7 @@ export default function SearchProduct() {
                   onClick={clearAllFilters}
                   className="clear-button"
                 >
-                  Clear All
+                  Xóa tất cả
                 </Button>
               </div>
 
@@ -252,26 +229,7 @@ export default function SearchProduct() {
                   />
                 ))}
               </Form.Group>
-              <Form.Group>
-                <Form.Label>Giá</Form.Label>
-                {[
-                  { label: "Dưới 1tr", value: "under1m" },
-                  { label: "Từ 1tr đến 2tr", value: "1mto2m" },
-                  { label: "Từ 2tr đến 3tr", value: "2mto3m" },
-                  { label: "Từ 3tr đến 5tr", value: "3mto5m" },
-                  { label: "Trên 5tr", value: "above5m" },
-                ].map((price) => (
-                  <Form.Check
-                    key={price.value}
-                    type="checkbox"
-                    label={price.label}
-                    value={price.value}
-                    checked={filters.price.includes(price.value)}
-                    onChange={(e) => handleFilterChange("price", e.target.value)}
-                    className="form-check"
-                  />
-                ))}
-              </Form.Group>
+
               <Form.Group>
                 <Form.Label>Hình dạng</Form.Label>
                 {["Round", "Oval", "Cushion", "Pear", "Emerald", "Princess", "Radiant", "Heart", "Marquise", "Assher"].map((shape) => (
