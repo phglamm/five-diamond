@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Col, Row, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Header from "../../../components/Header/Header";
@@ -10,8 +10,8 @@ import api from "../../../config/axios";
 
 export default function PiercingProductPage() {
   const [product, setProduct] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 20;
 
@@ -23,14 +23,12 @@ export default function PiercingProductPage() {
   const handleFilterChange = (event) => {
     const value = event.target.value;
     setFilter(value);
-    // Apply filtering logic
   };
 
   // Handle sort change
   const handleSortChange = (event) => {
     const value = event.target.value;
     setSort(value);
-    // Apply sorting logic
   };
 
   const handleChangePage = (event, value) => {
@@ -38,30 +36,57 @@ export default function PiercingProductPage() {
     navigate(`?page=${value}`);
   };
 
-  useEffect(() => {
-    fetchProduct();
-  }, []);
-
   async function fetchProduct() {
-    const response = await api.get("product-line/available");
-    setProduct(response.data);
-    console.log(response.data);
+    try {
+      const response = await api.get("product-line/available");
+      setProduct(response.data);
+      setFilteredProducts(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
   }
+
   useEffect(() => {
     fetchProduct();
   }, []);
-  const filteredProducts = selectedCategory
-    ? product.filter((product) => product.category === selectedCategory)
-    : product;
 
-  // const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+  useEffect(() => {
+    let updatedProducts = [...product];
 
+    // Apply filter
+    if (filter) {
+      updatedProducts = updatedProducts.filter((item) =>
+        item.name.toLowerCase().includes(filter.toLowerCase())
+      );
+    }
+
+    // Apply sort
+    if (sort) {
+      if (sort === "price-asc") {
+        updatedProducts.sort((a, b) => a.finalPrice - b.finalPrice);
+      } else if (sort === "price-desc") {
+        updatedProducts.sort((a, b) => b.finalPrice - a.finalPrice);
+      } else if (sort === "name-asc") {
+        updatedProducts.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (sort === "name-desc") {
+        updatedProducts.sort((a, b) => b.name.localeCompare(a.name));
+      }
+    }
+
+    setFilteredProducts(updatedProducts);
+  }, [filter, sort, product]);
+
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
   const totalPage = Math.ceil(filteredProducts.length / pageSize);
 
-  // Lấy 5 sản phẩm đầu tiên
-  const firstFiveProducts = product.slice(0, 15);
-  const specialpro = firstFiveProducts.filter(
-    (itemSpecial) => itemSpecial.deleted === false
+  // Lấy 15 sản phẩm đầu tiên
+  const firstFifteenProducts = product.slice(0, 15);
+  const specialpro = firstFifteenProducts.filter(
+    (itemSpecial) => !itemSpecial.deleted
   );
 
   return (
@@ -101,7 +126,7 @@ export default function PiercingProductPage() {
         </div>
 
         <Row>
-          {specialpro.map((item, index) => (
+          {paginatedProducts.map((item, index) => (
             <Col key={index} className="product-card-item">
               <ProductCard
                 img={item.imgURL}

@@ -10,6 +10,7 @@ import api from "../../../config/axios";
 
 export default function CuffProductPage() {
   const [product, setProduct] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 20;
@@ -22,14 +23,12 @@ export default function CuffProductPage() {
   const handleFilterChange = (event) => {
     const value = event.target.value;
     setFilter(value);
-    // Apply filtering logic
   };
 
   // Handle sort change
   const handleSortChange = (event) => {
     const value = event.target.value;
     setSort(value);
-    // Apply sorting logic
   };
 
   const handleChangePage = (event, value) => {
@@ -40,8 +39,12 @@ export default function CuffProductPage() {
   async function fetchProduct() {
     try {
       const response = await api.get("product-line");
-      setProduct(response.data);
-      console.log(response.data);
+      const cuffProducts = response.data.filter(
+        (item) => item.category.name === "vòng tay"
+      );
+      setProduct(cuffProducts);
+      setFilteredProducts(cuffProducts);
+      console.log(cuffProducts);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -51,10 +54,31 @@ export default function CuffProductPage() {
     fetchProduct();
   }, []);
 
-  const filteredProducts = product.filter(
-    (product) => product.category.name === "vòng tay"
-    // Apply additional filters based on `filter` state
-  );
+  useEffect(() => {
+    let updatedProducts = [...product];
+
+    // Apply filter
+    if (filter) {
+      updatedProducts = updatedProducts.filter((item) =>
+        item.name.toLowerCase().includes(filter.toLowerCase())
+      );
+    }
+
+    // Apply sort
+    if (sort) {
+      if (sort === "price-asc") {
+        updatedProducts.sort((a, b) => a.finalPrice - b.finalPrice);
+      } else if (sort === "price-desc") {
+        updatedProducts.sort((a, b) => b.finalPrice - a.finalPrice);
+      } else if (sort === "name-asc") {
+        updatedProducts.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (sort === "name-desc") {
+        updatedProducts.sort((a, b) => b.name.localeCompare(a.name));
+      }
+    }
+
+    setFilteredProducts(updatedProducts);
+  }, [filter, sort, product]);
 
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
