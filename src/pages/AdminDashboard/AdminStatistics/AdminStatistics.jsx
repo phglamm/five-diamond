@@ -1,169 +1,53 @@
 import React, { useEffect, useState } from "react";
-import "chart.js/auto";
-import { Bar } from "react-chartjs-2";
-import SideBar from "../../../components/SideBar/SideBar";
 import "./AdminStatistics.css";
+import SideBar from "../../../components/SideBar/SideBar";
 import {
   DollarOutlined,
+  RiseOutlined,
+  TeamOutlined,
+  UserAddOutlined,
   UsergroupAddOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import moment from "moment";
+import "chart.js/auto";
+import { Pie } from "react-chartjs-2";
 import api from "../../../config/axios";
 
 export default function AdminStatistics() {
-  const [statistics, setStatistics] = useState([]);
-  const [accountCount, setAccountCount] = useState([]);
-  const [accountByMonth, setAccountByMonth] = useState([]);
+  const [totalAccount, setTotalAccount] = useState({
+    memberTotal: 0,
+    customerQuantity: 0,
+    salesQuantity: 0,
+    deliverQuantity: 0,
+    managerQuantity: 0,
+    adminQuantity: 0,
+  });
 
-  async function fetchSalesStatistic() {
-    const response = await api.get("dashboard/revenue");
-    setStatistics(response.data);
-  }
-
-  useEffect(() => {
-    fetchSalesStatistic();
-  }, []);
-
-  async function fetchAccountCount() {
-    const response = await api.get("dashboard/account");
-    setAccountCount(response.data.customerQuantity);
-  }
+  const [totalRevenue, setTotalRevenue] = useState(0);
+  const [totalProfit, setTotalProfit] = useState(0);
 
   useEffect(() => {
-    fetchAccountCount();
+    async function fetchYearlyStatistics() {
+      const revenueResponse = await api.get("dashboard/revenue");
+      const accountResponse = await api.get("dashboard/account");
+
+      let revenue = 0;
+      let profit = 0;
+
+      revenueResponse.data.forEach((item) => {
+        revenue += parseFloat(item.totalRevenue || 0);
+        profit += parseFloat(item.totalProfit || 0);
+      });
+
+      setTotalRevenue(revenue);
+      setTotalProfit(profit);
+      setTotalAccount({
+        ...accountResponse.data,
+      });
+    }
+
+    fetchYearlyStatistics();
   }, []);
-
-  async function fetchAccountByMonth() {
-    const response = await api.get("dashboard/account-by-month");
-    setAccountByMonth(response.data);
-  }
-
-  useEffect(() => {
-    fetchAccountByMonth();
-  }, []);
-
-  function getMonthlyData(statistics, accountByMonth) {
-    const revenueByMonth = {};
-    const ordersByMonth = {};
-    const profitByMonth = {};
-    const customerByMonth = {};
-
-    statistics.forEach((item) => {
-      const month = item.month;
-      const monthName = `Tháng ${month}`;
-
-      revenueByMonth[monthName] = parseFloat(item.totalRevenue || 0);
-      ordersByMonth[monthName] = item.list.length;
-      profitByMonth[monthName] = parseFloat(item.totalProfit || 0);
-    });
-
-    accountByMonth.forEach((item) => {
-      const month = item.month;
-      const monthName = `Tháng ${month}`;
-
-      customerByMonth[monthName] = item.customerQuantity || 0;
-    });
-
-    return { revenueByMonth, ordersByMonth, profitByMonth, customerByMonth };
-  }
-
-  const { revenueByMonth, ordersByMonth, profitByMonth, customerByMonth } =
-    getMonthlyData(statistics, accountByMonth);
-
-  const labels = [
-    "Tháng 1",
-    "Tháng 2",
-    "Tháng 3",
-    "Tháng 4",
-    "Tháng 5",
-    "Tháng 6",
-    "Tháng 7",
-    "Tháng 8",
-    "Tháng 9",
-    "Tháng 10",
-    "Tháng 11",
-    "Tháng 12",
-  ];
-
-  const data = {
-    labels: labels,
-    datasets: [
-      {
-        label: "Doanh thu của tháng",
-        data: labels.map((label) => revenueByMonth[label] || 0),
-        backgroundColor: "rgba(54, 162, 235, 0.2)",
-        borderColor: "rgb(54, 162, 235)",
-        borderWidth: 1,
-        yAxisID: "y",
-      },
-      {
-        label: "Tổng số đơn hàng",
-        data: labels.map((label) => ordersByMonth[label] || 0),
-        backgroundColor: "rgba(255, 99, 132, 0.2)",
-        borderColor: "rgb(255, 99, 132)",
-        borderWidth: 1,
-        yAxisID: "y1",
-      },
-    ],
-  };
-
-  const options = {
-    scales: {
-      y: {
-        beginAtZero: true,
-        position: "left",
-        title: {
-          display: true,
-          text: "Doanh thu (VND)",
-        },
-      },
-      y1: {
-        beginAtZero: true,
-        position: "right",
-        grid: {
-          drawOnChartArea: false,
-        },
-        title: {
-          display: true,
-          text: "Số đơn hàng",
-        },
-      },
-    },
-    plugins: {
-      tooltip: {
-        callbacks: {
-          label: function (context) {
-            const label = context.dataset.label || "";
-            let value = context.raw;
-            if (label.includes("Doanh thu")) {
-              value = value.toLocaleString() + "đ";
-            }
-            return `${label}: ${value}`;
-          },
-        },
-      },
-    },
-  };
-
-  function getTotalRevenue(revenueByMonth) {
-    return Object.values(revenueByMonth).reduce(
-      (total, revenue) => total + revenue,
-      0
-    );
-  }
-
-  function getTotalProfit(profitByMonth) {
-    return Object.values(profitByMonth).reduce(
-      (total, profit) => total + profit,
-      0
-    );
-  }
-
-  const totalRevenue = getTotalRevenue(revenueByMonth);
-  const totalProfit = getTotalProfit(profitByMonth);
-  const currentMonthName = `Tháng ${moment().month() + 1}`;
-  const currentMonthCustomerQuantity = customerByMonth[currentMonthName] || 0;
 
   return (
     <div className="admin">
@@ -174,33 +58,69 @@ export default function AdminStatistics() {
             <DollarOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
               <p>{totalRevenue.toLocaleString()}đ</p>
-              <span>Tổng doanh thu</span>
+              <span>Tổng doanh thu của năm</span>
             </div>
           </div>
           <div className="widget-table-item">
-            <DollarOutlined className="widget-table-item-icon" />
+            <RiseOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
               <p>{totalProfit.toLocaleString()}đ</p>
-              <span>Tổng lợi nhuận</span>
-            </div>
-          </div>
-          <div className="widget-table-item">
-            <UsergroupAddOutlined className="widget-table-item-icon" />
-            <div className="widget-table-item-text">
-              <p>{accountCount}</p>
-              <span>Tổng thành viên</span>
+              <span>Tổng lợi nhuận của năm</span>
             </div>
           </div>
           <div className="widget-table-item">
             <UserOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
-              <p>{currentMonthCustomerQuantity}</p>
-              <span>Lượt truy cập của tháng</span>
+              <p>{totalAccount.customerQuantity}</p>
+              <span>Tổng số khách hàng</span>
+            </div>
+          </div>
+          <div className="widget-table-item">
+            <TeamOutlined className="widget-table-item-icon" />
+            <div className="widget-table-item-text">
+              <p>{totalAccount.memberTotal}</p>
+              <span>Tổng số lượng tài khoản</span>
             </div>
           </div>
         </div>
-        <div className="chart-container">
-          <Bar data={data} options={options} />
+        <div className="pie-chart-container">
+          <Pie
+            data={{
+              labels: [
+                "Khách hàng",
+                "Nhân viên bán hàng",
+                "Nhân viên giao hàng",
+                "Quản lý",
+                "Quản trị viên",
+              ],
+              datasets: [
+                {
+                  label: "Số lượng",
+                  data: [
+                    totalAccount.customerQuantity,
+                    totalAccount.salesQuantity,
+                    totalAccount.deliverQuantity,
+                    totalAccount.managerQuantity,
+                    totalAccount.adminQuantity,
+                  ],
+                  backgroundColor: [
+                    "#FF6384",
+                    "#36A2EB",
+                    "#FFCE56",
+                    "#4BC0C0",
+                    "#9966FF",
+                  ],
+                  hoverBackgroundColor: [
+                    "#FF6384",
+                    "#36A2EB",
+                    "#FFCE56",
+                    "#4BC0C0",
+                    "#9966FF",
+                  ],
+                },
+              ],
+            }}
+          />
         </div>
       </div>
     </div>

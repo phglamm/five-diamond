@@ -61,10 +61,6 @@ export default function SideBar() {
             <PersonIcon color="info" fontSize="large" />
             <Link to={routes.adminUser}>Quản Lý Người Dùng</Link>
           </li>
-          <li>
-            <PersonIcon color="info" fontSize="large" />
-            <Link to={routes.home}>Quay về trang chủ</Link>
-          </li>
         </>
       ) : (
         <></>

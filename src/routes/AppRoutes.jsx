@@ -50,6 +50,7 @@ import AdminDiamondPrice from "../pages/AdminDashboard/AdminDiamondPrice/AdminDi
 import Dashboard from "../pages/Dashboard/Dashboard";
 import CollectionDetail from "../pages/CollectionPage/CollectionDetail";
 import SearchProduct from "../pages/ProductPage/AllProductPage/SearchProduct";
+import AdminChart from "../pages/AdminDashboard/AdminChart/AdminChart";
 
 // import Payment from "../pages/Payment/PaymentPage";
 
@@ -101,6 +102,14 @@ export default function AppRoute() {
       />
       <Route
         path={routes.adminchart}
+        element={
+          <ProtectedRoute roles={["MANAGER", "ADMIN"]}>
+            <AdminChart />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routes.adminstatistics}
         element={
           <ProtectedRoute roles={["MANAGER", "ADMIN"]}>
             <AdminStatistics />
