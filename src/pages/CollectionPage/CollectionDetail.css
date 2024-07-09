@@ -1,31 +1,30 @@
 .set-banner {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  }
-  
-  .set-banner > img {
-    width: 200%;
-  }
-  
-  .collection-set-header {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    font-weight: bold;
-  }
-  
-  .filter-sort-container {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px 0;
-  }
-  
-  .filter-sort-container input {
-    width: 40%;
-  }
-  
-  .filter-sort-container select {
-    width: 30%;
-  }
-  
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.collection-set-header {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.filter-sort-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.filter-sort-container input {
+  width: 40%;
+}
+
+.filter-sort-container select {
+  width: 30%;
+}
+
+.set-banner img {
+  width: 100%;
+}
