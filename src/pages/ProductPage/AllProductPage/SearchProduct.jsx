@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Col, Row, Form } from "react-bootstrap";
-import { Button, Tag } from "antd";
+import { Button, Tag, Select } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
@@ -12,7 +12,7 @@ export default function SearchProduct() {
   const location = useLocation();
   const [product, setProduct] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortOrder, setSortOrder] = useState("");
+  const [sortOrder, setSortOrder] = useState("none");
   const [filters, setFilters] = useState({
     gender: [],
     category: [],
@@ -39,8 +39,8 @@ export default function SearchProduct() {
     });
   };
 
-  const handleSortChange = (e) => {
-    setSortOrder(e.target.value);
+  const handleSortChange = (value) => {
+    setSortOrder(value);
   };
 
   const sortProducts = (products, order) => {
@@ -140,6 +140,8 @@ export default function SearchProduct() {
     endIndex
   );
   const totalPage = Math.ceil(filteredAndSortedProducts.length / pageSize);
+  const productCount = filteredAndSortedProducts.length;
+
 
   // Filter mappings
   const filterMappings = {
@@ -199,9 +201,9 @@ export default function SearchProduct() {
             <div className="filter-section">
               <div className="filter-section-header">
                 <h3>Bộ lọc</h3>
-                <Button onClick={clearAllFilters} className="clear-button">
+                <div onClick={clearAllFilters} className="clear-button">
                   Lọc lại
-                </Button>
+                </div>
               </div>
               <div className="tag-container">
                 {Object.keys(filters).flatMap((key) =>
@@ -219,47 +221,48 @@ export default function SearchProduct() {
                   ))
                 )}
               </div>
+
+              <hr />
               <div className="filter-main">
                 <div className="filter-part">
                   <Form.Group>
-                    <Form.Label>Giới Tính</Form.Label>
+                    <Form.Label className="filter-part-label">Giới Tính</Form.Label>
                     {Object.entries(filterMappings.gender).map(
                       ([displayText, dbValue]) => (
                         <Form.Check
                           key={dbValue}
                           type="checkbox"
-                          label={displayText}
+                          label={<span className="form-check-label">{displayText}</span>}
                           value={dbValue}
                           checked={filters.gender.includes(dbValue)}
                           onChange={(e) =>
-                            handleFilterChange("gender", e.target.value)
-                          }
+                            handleFilterChange("gender", e.target.value)}
                           className="form-check"
                         />
                       )
                     )}
                   </Form.Group>
-                  <hr />
+
                   <Form.Group>
-                    <Form.Label>Chủng Loại</Form.Label>
+                    <Form.Label className="filter-part-label">Chủng Loại</Form.Label>
                     {Object.entries(filterMappings.category).map(
                       ([displayText, dbValue]) => (
                         <Form.Check
                           key={dbValue}
                           type="checkbox"
-                          label={displayText}
+                          label={<span className="form-check-label">{displayText}</span>}
                           value={dbValue}
                           checked={filters.category.includes(dbValue)}
                           onChange={(e) =>
-                            handleFilterChange("category", e.target.value)
-                          }
+                            handleFilterChange("category", e.target.value)}
                           className="form-check"
+
                         />
                       )
                     )}
                   </Form.Group>
                   {/* <Form.Group>
-                <Form.Label>Giá</Form.Label>
+                <Form.Label classname="filter-part-label">Giá</Form.Label>
                 {Object.entries(filterMappings.price).map(
                   ([displayText, dbValue]) => (
                     <Form.Check
@@ -276,21 +279,21 @@ export default function SearchProduct() {
                   )
                 )}
               </Form.Group> */}
-                  <hr />
+
                   <Form.Group>
-                    <Form.Label>Hình dạng</Form.Label>
+                    <Form.Label className="filter-part-label">Hình Dáng</Form.Label>
                     {Object.entries(filterMappings.shape).map(
                       ([displayText, dbValue]) => (
                         <Form.Check
                           key={dbValue}
                           type="checkbox"
-                          label={displayText}
+                          label={<span className="form-check-label">{displayText}</span>}
                           value={dbValue}
                           checked={filters.shape.includes(dbValue)}
                           onChange={(e) =>
-                            handleFilterChange("shape", e.target.value)
-                          }
+                            handleFilterChange("shape", e.target.value)}
                           className="form-check"
+
                         />
                       )
                     )}
@@ -298,57 +301,57 @@ export default function SearchProduct() {
                 </div>
                 <div className="filter-part">
                   <Form.Group>
-                    <Form.Label>Độ cắt</Form.Label>
+                    <Form.Label className="filter-part-label">Độ Cắt</Form.Label>
                     {Object.entries(filterMappings.cut).map(
                       ([displayText, dbValue]) => (
                         <Form.Check
                           key={dbValue}
                           type="checkbox"
-                          label={displayText}
+                          label={<span className="form-check-label">{displayText}</span>}
                           value={dbValue}
                           checked={filters.cut.includes(dbValue)}
                           onChange={(e) =>
-                            handleFilterChange("cut", e.target.value)
-                          }
+                            handleFilterChange("cut", e.target.value)}
                           className="form-check"
+
                         />
                       )
                     )}
                   </Form.Group>
-                  <hr />
+
                   <Form.Group>
-                    <Form.Label>Độ tinh khiết</Form.Label>
+                    <Form.Label className="filter-part-label">Độ Tinh Khiết</Form.Label>
                     {Object.entries(filterMappings.clarity).map(
                       ([displayText, dbValue]) => (
                         <Form.Check
                           key={dbValue}
                           type="checkbox"
-                          label={displayText}
+                          label={<span className="form-check-label">{displayText}</span>}
                           value={dbValue}
                           checked={filters.clarity.includes(dbValue)}
                           onChange={(e) =>
-                            handleFilterChange("clarity", e.target.value)
-                          }
+                            handleFilterChange("clarity", e.target.value)}
                           className="form-check"
+
                         />
                       )
                     )}
                   </Form.Group>
-                  <hr />
+
                   <Form.Group>
-                    <Form.Label>Nguồn gốc</Form.Label>
+                    <Form.Label className="filter-part-label">Nguồn Gốc</Form.Label>
                     {Object.entries(filterMappings.origin).map(
                       ([displayText, dbValue]) => (
                         <Form.Check
                           key={dbValue}
                           type="checkbox"
-                          label={displayText}
+                          label={<span className="form-check-label">{displayText}</span>}
                           value={dbValue}
                           checked={filters.origin.includes(dbValue)}
                           onChange={(e) =>
-                            handleFilterChange("origin", e.target.value)
-                          }
+                            handleFilterChange("origin", e.target.value)}
                           className="form-check"
+
                         />
                       )
                     )}
@@ -357,34 +360,50 @@ export default function SearchProduct() {
               </div>
             </div>
           </Col>
+
           <Col md={8}>
             <div className="search-product-header">
               <h1 className="search-product-title">Kết quả tìm kiếm</h1>
-              <Col xs={3} className="search-product-sort">
-                <Form.Select
-                  aria-label="Sort by price"
+              <Col xs={4} className="search-product-actions">
+                <p className="search-product-count">{productCount} sản phẩm</p>
+
+                <Select
+                  defaultValue={sortOrder}
+                  style={{ width: '100%' }}
                   onChange={handleSortChange}
                   value={sortOrder}
                 >
-                  <option value="none">Lọc theo</option>
-                  <option value="asc">Giá: Thấp đến Cao</option>
-                  <option value="desc">Giá: Cao đến Thấp</option>
-                </Form.Select>
+                  <Option value="none">Sắp xếp</Option>
+                  <Option value="asc">Giá: Thấp đến Cao</Option>
+                  <Option value="desc">Giá: Cao đến Thấp</Option>
+                </Select>
               </Col>
             </div>
-            <Row>
-              {paginatedProducts.map((item, index) => (
-                <Col key={index} md={3} className="product-card-item">
-                  <ProductCard
-                    img={item.imgURL}
-                    text={item.name}
-                    price={`${item.finalPrice.toLocaleString()}đ`}
-                    pageType="guest-page"
-                    id={item.id}
-                  />
+
+            {paginatedProducts.length > 0 ? (
+              <Row>
+                {paginatedProducts.map((item, index) => (
+                  <Col key={index} md={3} className="product-card-item">
+                    <ProductCard
+                      img={item.imgURL}
+                      text={item.name}
+                      price={`${item.finalPrice.toLocaleString()}đ`}
+                      pageType="guest-page"
+                      id={item.id}
+                    />
+                  </Col>
+                ))}
+              </Row>
+            ) : (
+              <Row>
+                <Col>
+                  <p className="search-product-notfound">
+                    <h5>Rất tiếc!</h5>
+                    Chúng tôi không tìm thấy sản phẩm này
+                  </p>
                 </Col>
-              ))}
-            </Row>
+              </Row>
+            )}
             <div
               style={{
                 display: "flex",

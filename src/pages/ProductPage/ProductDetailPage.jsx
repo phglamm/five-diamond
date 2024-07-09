@@ -482,6 +482,8 @@ export default function ProductPage({ token }) {
                         placeholder="Hãy để lại đánh giá cho sản phẩm"
                         style={{ width: "400px", marginTop: "25px" }}
                         onChange={handleInputChange}
+                        onPressEnter={() => form.submit()} // Added onPressEnter event
+
                       />
                     </Form.Item>
                     <Form.Item name="accountId" hidden initialValue={user.id}>
@@ -501,8 +503,8 @@ export default function ProductPage({ token }) {
                         }}
                         disabled={!inputValue}
                       >
-                        <SendOutlined style={{ marginRight: "5px" }} />
                         Gửi
+                        <SendOutlined style={{ marginLeft: "5px" }} />
                       </Button>
                     </div>
                   </Form>
@@ -556,8 +558,15 @@ export default function ProductPage({ token }) {
                     ))}
                   </div>
                 ) : (
-                  <p>Chưa có bình luận về sản phẩm</p>
+                  <Col xs={5}>
+                    <p className="comment-notfound">
+                      <h5>Rất tiếc!</h5>
+                      Chưa có bình luận về sản phẩm này
+                    </p>
+                  </Col>
+
                 )}
+
                 <div className="pagination-container" style={{ textAlign: 'center' }}>
                   <Pagination
                     count={Math.ceil(comments.length / commentsPerPage)}

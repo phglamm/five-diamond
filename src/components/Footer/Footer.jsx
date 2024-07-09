@@ -129,7 +129,7 @@ export default function Footer() {
       <Row>
         <Col>
           <h3>
-            <hr className="solid"></hr>
+            <hr className="solid-1"></hr>
             <span className="connect">Kết nối với chúng tôi</span>
           </h3>
         </Col>
@@ -160,15 +160,15 @@ export default function Footer() {
       </Row>
       <Row>
         <Col>
-          <hr className="solid"></hr>
+          <hr className="solid-2"></hr>
         </Col>
       </Row>
 
       <Row>
-        <Col className="Footer-end">
+        <Col className="Footer-end-1">
           <p>Copypaste 2024 © Five Diamond Group</p>
         </Col>
-        <Col className="Footer-end">
+        <Col className="Footer-end-2">
           <span>Về đầu trang</span>
           <span>
             <button
