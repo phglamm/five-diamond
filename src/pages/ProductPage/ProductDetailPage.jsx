@@ -104,7 +104,6 @@ export default function ProductPage({ token }) {
     async function fetchProductLineById() {
       try {
         const response = await api.get(`product-line/${id}`);
-        console.log(response.data);
         setProduct(response.data);
 
         if (response.data && response.data.category) {

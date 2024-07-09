@@ -80,7 +80,11 @@ export default function GuestPage() {
             "https://drive.google.com/thumbnail?id=1-FggdgvD3FjG_XqeVj2WI2_gIvA9UBPa&sz=w1000"
           }
         />
-
+        <Row>
+          <Col>
+            <h4 className="Top-title">SẢN PHẨM NỔI BẬT</h4>
+          </Col>
+        </Row>
         <Row>
           {firstFiveProducts.map((item, index) => (
             <Col key={index} className="product-card-item">
@@ -94,10 +98,9 @@ export default function GuestPage() {
             </Col>
           ))}
         </Row>
-
         <Row>
           <Col>
-            <h4 className="Top-title">SẢN PHẨM NỔI BẬT</h4>
+            <h4 className="Top-title">BỘ SƯU TẬP</h4>
           </Col>
         </Row>
         {sliceCollection.map((collection, index) => (
