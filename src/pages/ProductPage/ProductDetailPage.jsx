@@ -191,7 +191,7 @@ export default function ProductPage({ token }) {
     if (!user) {
       toast.error("Vui lòng đăng nhập để mua sản phẩm");
       return;
-    } else {
+    } else if (user.role === "CUSTOMER") {
       try {
         console.log("Product added to cart", id);
         const response = await api.post(`cart/${id}`);
@@ -211,6 +211,8 @@ export default function ProductPage({ token }) {
         toast.error(error.response.data);
         console.log(error.response.data);
       }
+    } else {
+      return toast.error("Bạn không được mua sản phẩm");
     }
   };
 
