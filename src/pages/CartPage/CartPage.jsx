@@ -54,9 +54,36 @@ export default function CartPage() {
   }
 
   // Function to update the quantity of an item in the cart
-  const updateQuantity = async (id, amount) => {
+  const updatePlusQuantity = async (id, amount) => {
     try {
       const response = await api.put(`cart/add/${id}`);
+      setCartItems((prevItems) => {
+        return prevItems.reduce((acc, item) => {
+          if (item.id === id) {
+            const newQuantity = item.quantity + amount;
+            if (newQuantity > 0) {
+              // If the new quantity is greater than zero, update the quantity
+              acc.push({ ...item, quantity: newQuantity });
+            } else {
+              // If the new quantity is zero or less, remove the item from the cart
+              deleteCart(id);
+            }
+          } else {
+            acc.push(item);
+          }
+          return acc;
+        }, []);
+      });
+      fetchCart();
+    } catch (error) {
+      console.log(error.response.data);
+      toast.error("Không đủ sản phẩm trong kho");
+    }
+  };
+
+  const updateMinusQuantity = async (id, amount) => {
+    try {
+      const response = await api.put(`cart/remove/${id}`);
       setCartItems((prevItems) => {
         return prevItems.reduce((acc, item) => {
           if (item.id === id) {
@@ -166,7 +193,9 @@ export default function CartPage() {
                               <ButtonGroup>
                                 <Button
                                   variant="light"
-                                  onClick={() => updateQuantity(item.id, -1)}
+                                  onClick={() =>
+                                    updateMinusQuantity(item.id, -1)
+                                  }
                                 >
                                   -
                                 </Button>
@@ -175,7 +204,7 @@ export default function CartPage() {
                                 </div>
                                 <Button
                                   variant="light"
-                                  onClick={() => updateQuantity(item.id, 1)}
+                                  onClick={() => updatePlusQuantity(item.id, 1)}
                                 >
                                   +
                                 </Button>
@@ -247,7 +276,7 @@ export default function CartPage() {
                             <ButtonGroup>
                               <Button
                                 variant="light"
-                                onClick={() => updateQuantity(item.id, -1)}
+                                onClick={() => updateMinusQuantity(item.id, -1)}
                               >
                                 -
                               </Button>
@@ -256,7 +285,7 @@ export default function CartPage() {
                               </div>
                               <Button
                                 variant="light"
-                                onClick={() => updateQuantity(item.id, 1)}
+                                onClick={() => updatePlusQuantity(item.id, 1)}
                               >
                                 +
                               </Button>
