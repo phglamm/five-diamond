@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-key */
 import SideBar from "../../../components/SideBar/SideBar";
 import {
@@ -79,8 +80,8 @@ export default function AdminCover() {
 
   const showModalUpdate = () => {
     fetchDiamondUpdate();
-    formUpdate.setFieldsValue(selectedProductLine)
-    console.log(selectedProductLine)
+    formUpdate.setFieldsValue(selectedProductLine);
+    console.log(selectedProductLine);
     console.log(
       shapeUpdate,
       caratUpdate,
@@ -175,15 +176,14 @@ export default function AdminCover() {
     fetchCategory();
     fetchCollection();
   }, []);
-  useEffect(() => { }, []); // Only re-run this effect when diamond changes
 
   async function deleteProductLine(values) {
     console.log(values.id);
     try {
       Modal.confirm({
         title: "Bạn có chắc muốn xóa dòng sản phẩm này ?",
-        onOk: () => {
-          api.delete(`product-line/${values.id}`);
+        onOk: async () => {
+          await api.delete(`product-line/${values.id}`);
           toast.success("Xóa thành công");
           setProductLine(
             productLine.filter((proline) => {
@@ -757,7 +757,6 @@ export default function AdminCover() {
                         className="select-input"
                         placeholder="chọn Danh Mục"
                         defaultValue={values.category}
-
                       >
                         {category.map((item) => (
                           <Select.Option value={item.id}>
@@ -1312,7 +1311,7 @@ export default function AdminCover() {
                 label="Danh mục"
                 name="categoryID"
               >
-                <Select className="select-input" placeholder="chọn Danh Mục"  >
+                <Select className="select-input" placeholder="chọn Danh Mục">
                   {category.map((item) => (
                     <Select.Option value={item.id}>{item.name}</Select.Option>
                   ))}

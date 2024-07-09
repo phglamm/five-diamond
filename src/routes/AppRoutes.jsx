@@ -31,9 +31,6 @@ import AdminUser from "../pages/AdminDashboard/AdminUser/AdminUser";
 import AdminOrder from "../pages/AdminDashboard/AdminManageOrder/AdmiManageOrder";
 import ChangePasswordPage from "../pages/ChangePassword/ChangePassword";
 import AdminCover from "../pages/AdminDashboard/AdminDiamond/AdminPageCover";
-// import CollectionDetail from "../pages/CollectionPage/CollectionDetail";
-// import CollectionSet2 from "../pages/CollectionPage/CollectionSet2";
-// import CollectionSet3 from "../pages/CollectionPage/CollectionSet3";
 import AdminCollection from "../pages/AdminDashboard/AdminCollection/AdminCollection";
 import ProductPage from "../pages/ProductPage/ProductDetailPage";
 import ProductRing from "../pages/ProductPage/AllProductPage/RingProductPage";
@@ -41,13 +38,11 @@ import OrderHistoryUser from "../pages/OrderHistoryUser/OrderHistoryUser";
 import CuffProductPage from "../pages/ProductPage/AllProductPage/CuffProductPage";
 import NecklaceProductPage from "../pages/ProductPage/AllProductPage/NecklaceProductPage";
 import PaymentSuccess from "../pages/PaymentSuccessfulPage/PaymentSuccess";
-import OrderConfirmPage from "../pages/OrderConfirmPage/OrderConfirmPage";
 import PiercingProductPage from "../pages/ProductPage/AllProductPage/PiercingProductPage";
 import AdminStatistics from "../pages/AdminDashboard/AdminStatistics/AdminStatistics";
 import PaymentFail from "../pages/PaymentFail/PaymentFail";
 import AdminSaleEvent from "../pages/AdminDashboard/AdminSaleEvent/AdminSaleEvent";
 import AdminDiamondPrice from "../pages/AdminDashboard/AdminDiamondPrice/AdminDiamondPrice";
-import Dashboard from "../pages/Dashboard/Dashboard";
 import CollectionDetail from "../pages/CollectionPage/CollectionDetail";
 import SearchProduct from "../pages/ProductPage/AllProductPage/SearchProduct";
 import AdminChart from "../pages/AdminDashboard/AdminChart/AdminChart";
@@ -173,8 +168,22 @@ export default function AppRoute() {
         }
       />
       <Route path={routes.notfound} element={<ErrorPage />} />
-      <Route path={routes.cart} element={<CartPage />} />
-      <Route path={routes.checkout} element={<CheckOut />} />
+      <Route
+        path={routes.cart}
+        element={
+          <ProtectedRoute roles={["CUSTOMER"]}>
+            <CartPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routes.checkout}
+        element={
+          <ProtectedRoute roles={["CUSTOMER"]}>
+            <CheckOut />
+          </ProtectedRoute>
+        }
+      />
       <Route path={routes.productdetail} element={<ProductPage />} />
       <Route path={`${routes.productdetail}/:id`} element={<ProductPage />} />
 
@@ -185,21 +194,52 @@ export default function AppRoute() {
       <Route path={routes.nhan} element={<ProductRing />} />
       <Route path={routes.khuyentai} element={<PiercingProductPage />} />
 
-      <Route path={routes.tracking} element={<TrackingPage />} />
-      <Route path={routes.successpayment} element={<PaymentSuccess />} />
-      <Route path={routes.failpayment} element={<PaymentFail />} />
-
-      <Route path={`${routes.tracking}/:id`} element={<TrackingPage />} />
-      <Route path={routes.successorder} element={<OrderConfirmPage />} />
       <Route
-        path={`${routes.successorder}/:id`}
-        element={<OrderConfirmPage />}
+        path={routes.tracking}
+        element={
+          <ProtectedRoute
+            roles={["CUSTOMER", "MANAGER", "ADMIN", "SALES", "DELIVERY"]}
+          >
+            <TrackingPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routes.successpayment}
+        element={
+          <ProtectedRoute
+            roles={["CUSTOMER", "MANAGER", "ADMIN", "SALES", "DELIVERY"]}
+          >
+            <PaymentSuccess />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routes.failpayment}
+        element={
+          <ProtectedRoute
+            roles={["CUSTOMER", "MANAGER", "ADMIN", "SALES", "DELIVERY"]}
+          >
+            <PaymentFail />{" "}
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path={`${routes.tracking}/:id`}
+        element={
+          <ProtectedRoute
+            roles={["CUSTOMER", "MANAGER", "ADMIN", "SALES", "DELIVERY"]}
+          >
+            <TrackingPage />{" "}
+          </ProtectedRoute>
+        }
       />
 
       <Route
         path={routes.saleStaff}
         element={
-          <ProtectedRoute roles={["MANAGER", "SALES"]}>
+          <ProtectedRoute roles={["SALES"]}>
             <SaleStaffPage />
           </ProtectedRoute>
         }
@@ -208,14 +248,20 @@ export default function AppRoute() {
       <Route
         path={routes.deliveryStaff}
         element={
-          <ProtectedRoute roles={["MANAGER", "DELIVERY"]}>
+          <ProtectedRoute roles={["DELIVERY"]}>
             <DeliveryStaffPage />
           </ProtectedRoute>
         }
       />
 
-      <Route path={routes.orderhistory} element={<OrderHistoryUser />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route
+        path={routes.orderhistory}
+        element={
+          <ProtectedRoute roles={["CUSTOMER"]}>
+            <OrderHistoryUser />
+          </ProtectedRoute>
+        }
+      />
       <Route path={`${routes.bst}/:id`} element={<CollectionDetail />} />
       <Route path={routes.timkiemsanpham} element={<SearchProduct />} />
     </Routes>

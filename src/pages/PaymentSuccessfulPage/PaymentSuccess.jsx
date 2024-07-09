@@ -23,6 +23,7 @@ const PaymentSuccess = () => {
         console.log(response.data);
         setOrderfull(response.data);
         navigate(routes.successpayment);
+        toast.success("Đặt hàng thành công");
       } catch (error) {
         navigate(routes.failpayment);
         toast(error.response.data);
@@ -52,9 +53,8 @@ const PaymentSuccess = () => {
           <p className="payment-success-text">
             Cảm ơn bạn vì đã tin tưởng và ủng hộ.
           </p>
-          <p className="payment-success-text">Mã số đơn hàng của bạn là </p>
           <p className="payment-success-text">
-            Bạn có thể xem chi tiết trong{" "}
+            Bạn có thể xem chi tiết đơn hàng của mình trong
             <Link
               to={routes.orderhistory}
               className="payment-success-order-link"

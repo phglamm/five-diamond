@@ -66,24 +66,19 @@ export default function AdminCertificate() {
 
   async function deleteCertificate(values) {
     console.log(values.id);
-    try {
-      Modal.confirm({
-        title: "Bạn có chắc muốn xóa chứng chỉ này ?",
-        onOk: () => {
-          api.delete(`certificate/${values.id}`);
+    Modal.confirm({
+      title: "Bạn có chắc muốn xóa chứng chỉ này ?",
+      onOk: async () => {
+        try {
+          await api.delete(`certificate/${values.id}`);
           toast.success("Xóa thành công");
-          setCertificate(
-            certificate.filter((cer) => {
-              return cer.id !== values.id;
-            })
-          );
-        },
-      });
-      fetchCertificate();
-    } catch (error) {
-      toast.error("Đã có lỗi trong lúc Xóa");
-      console.log(error.response.data);
-    }
+          fetchCertificate();
+        } catch (error) {
+          toast.error("Đã có lỗi trong lúc Xóa");
+          console.log(error.response.data);
+        }
+      },
+    });
   }
 
   async function updateCertificate(values) {

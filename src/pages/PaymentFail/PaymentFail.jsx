@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import "./PaymentFail.css";
 
 const PaymentFail = () => {
+  const navigate = useNavigate();
   return (
     <div className="pay">
       <div className="payment-fail-page">
@@ -32,7 +34,7 @@ const PaymentFail = () => {
             className="payment-fail-continue-shopping-btn"
             onClick={() => navigate("/")}
           >
-            THỬ THANH TOÁN LẠI
+            Quay lại trang chủ
           </button>
         </div>
       </div>

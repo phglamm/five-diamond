@@ -76,7 +76,7 @@ function LoginPageCard() {
 
         if (response.data.role === "CUSTOMER") {
           if (response.data.address || response.data.phone === null) {
-            navigate(routes.profile);
+            navigate(routes.home);
           } else navigate(routes.home);
         }
 
