@@ -34,7 +34,7 @@
 }
 
 .mail-button {
-    background-color: #00c2d1;
+    background-color: #06b6d4;
     border: none;
     border-radius: 0px;
     padding: 5px 10px;
@@ -45,11 +45,19 @@
     justify-content: center;
 }
 
-.mail-button i {
-    color: white;
-    font-size: 14px;
+.mail-button:hover {
+    outline: none !important;
+    background-color: #20a1c5 !important;
+    box-shadow: none !important;
 }
 
-.mail-button:hover {
-    background-color: #00a9b6;
+.mail-button:focus,
+.mail-button:active {
+    background-color: #06b6d4 !important;
+    outline: none !important;
+}
+
+.mail-button i {
+    color: rgb(255, 255, 255);
+    font-size: 14px;
 }
