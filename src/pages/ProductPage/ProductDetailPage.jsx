@@ -114,7 +114,6 @@ export default function ProductPage({ token }) {
     async function fetchProductLineById() {
       try {
         const response = await api.get(`product-line/${id}`);
-        console.log(response.data);
         setProduct(response.data);
 
         if (response.data && response.data.category) {
@@ -241,19 +240,19 @@ export default function ProductPage({ token }) {
     }
   };
 
-  const handleClickBuyNow = () => {
-    if (!user) {
-      toast.error("Vui lòng đăng nhập để mua sản phẩm");
-      return;
-    } else {
-      navigate("/tien-hanh-thanh-toan", {
-        state: {
-          cartItems: [{ productLine: product, quantity: 1 }],
-          finalTotal: product.finalPrice,
-        },
-      });
-    }
-  };
+  // const handleClickBuyNow = () => {
+  //   if (!user) {
+  //     toast.error("Vui lòng đăng nhập để mua sản phẩm");
+  //     return;
+  //   } else {
+  //     navigate("/tien-hanh-thanh-toan", {
+  //       state: {
+  //         cartItems: [{ productLine: product, quantity: 1 }],
+  //         finalTotal: product.finalPrice,
+  //       },
+  //     });
+  //   }
+  // };
 
   const showModal = () => {
     setIsModalOpen(true);
