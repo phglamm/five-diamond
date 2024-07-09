@@ -59,7 +59,11 @@
   margin-top: 20px;
 }
 
-hr.solid {
+hr.solid-1 {
+  border-top: 3px solid #bbb;
+}
+
+hr.solid-2 {
   border-top: 3px solid #bbb;
 }
 
@@ -100,30 +104,13 @@ h3 {
   gap: 20px;
 }
 
-.Footer-end {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-
-.Footer-end button {
-  border-radius: 70rem;
-  color: #06b6d4;
-  background-color: white;
-  border: 2px solid #06b6d4;
-}
-
 .blue-hr {
   border-top: 2px solid #04a8c5;
   width: calc(100% - 100px);
   margin: 0;
   position: absolute;
-
   top: 25px;
   margin-top: 6px;
-
-
 }
 
 .Footer-content {
@@ -132,8 +119,6 @@ h3 {
 
 .Footer-center i {
   color: #06b6d4;
-
-
 }
 
 .Footer-head-hr {
@@ -141,5 +126,29 @@ h3 {
   color: #06b6d4;
   border-top: 4px solid #04a8c5;
 
+}
 
+.Footer-end-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding-top: 14px;
+}
+
+.Footer-end-2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.Footer-end-2 button {
+  margin-top: 5px;
+  align-items: center;
+  border-radius: 70rem;
+  color: #06b6d4;
+  background-color: white;
+
+  border: 1.5px solid #06b6d4;
 }

@@ -72,7 +72,7 @@ export default function AdminDiamond() {
       Modal.confirm({
         title: "Bạn có chắc muốn xóa kim cương này ?",
         onOk: async () => {
-          api.delete(`diamond/${values.id}`);
+          await api.delete(`diamond/${values.id}`);
           toast.success("Xóa thành công");
           setDiamond(
             diamond.filter((gem) => {

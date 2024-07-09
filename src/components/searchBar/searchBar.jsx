@@ -1,9 +1,9 @@
 import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { useNavigate } from "react-router-dom";
-import api from "../../config/axios"; // Ensure axios is configured properly
-import { routes } from "../../routes"; // Ensure the routes are correctly defined
-import "./searchBar.css"; // Your custom CSS
+import api from "../../config/axios";
+import { routes } from "../../routes";
+import "./searchBar.css";
 
 export default function SearchBar({ placeholder, icon }) {
   const [form] = useForm();

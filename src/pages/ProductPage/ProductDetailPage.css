@@ -181,34 +181,49 @@
 .comment-section .buttons {
   display: flex;
   align-items: center;
-  margin-left: 10px;
+  margin-left: 15px;
+  padding: 5px 5px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
 }
 
-.comment-section button {
-  padding: 5px 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  background-color: #4caf50;
-  color: white;
-  margin-left: 5px;
-}
+
 
 .comment-section button.submit {
   background-color: #717171;
   color: white;
 }
 
+.comment-section button.submit:hover {
+  background-color: #027be5;
+  color: white;
+}
+
 .comment-section button.submit.active {
-  background-color: #3ea6ff;
+  background-color: #027be5;
 }
 
 .comment-section button:disabled {
-  opacity: 0.6;
+  opacity: 0.7;
   cursor: not-allowed;
 }
 
-/* Styles for individual reviews */
+.comment-notfound {
+  text-align: center;
+  font-size: 16px;
+  color: #6c757d;
+}
+
+.comment-notfound h5 {
+  margin-top: 10px;
+  display: block;
+  font-size: 20px;
+  color: #1d3f6e;
+}
+
+/* individual reviews */
 .reviews {
   margin-top: 5px;
   background-color: #fff;
@@ -267,6 +282,7 @@
   align-items: center;
 }
 
-.custom-pagination{
+.custom-pagination {
   margin-left: 592px;
+
 }

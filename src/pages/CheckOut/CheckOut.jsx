@@ -271,7 +271,8 @@ export default function CheckOut() {
                         Số lượng: {item.quantity}
                       </div>
                       <div className="cart-item-price">
-                        Đơn giá: {item.productLine.price.toLocaleString()} đ
+                        Đơn giá: {item.productLine.finalPrice.toLocaleString()}{" "}
+                        đ
                       </div>
                     </div>
                   </div>

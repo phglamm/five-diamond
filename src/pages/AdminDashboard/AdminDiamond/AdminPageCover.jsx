@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-key */
 import SideBar from "../../../components/SideBar/SideBar";
 import {
@@ -175,7 +176,6 @@ export default function AdminCover() {
     fetchCategory();
     fetchCollection();
   }, []);
-  useEffect(() => {}, []); // Only re-run this effect when diamond changes
 
   async function deleteProductLine(values) {
     console.log(values.id);
@@ -183,7 +183,7 @@ export default function AdminCover() {
       Modal.confirm({
         title: "Bạn có chắc muốn xóa dòng sản phẩm này ?",
         onOk: async () => {
-          api.delete(`product-line/${values.id}`);
+          await api.delete(`product-line/${values.id}`);
           toast.success("Xóa thành công");
           setProductLine(
             productLine.filter((proline) => {
