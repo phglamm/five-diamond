@@ -82,6 +82,7 @@ export default function ProductPage({ token }) {
       fetchComments();
       form.resetFields();
       setInputValue("");
+      setCurrentPage(1); // Reset the current page to 1 after adding a comment
     } catch (error) {
       toast.error("Gửi đánh giá không thành công!", {
         hideProgressBar: true,
@@ -515,20 +516,17 @@ export default function ProductPage({ token }) {
                 ) : (
                   <Col xs={5}>
                     <p className="comment-notfound">
-                      <h5>Rất tiếc!</h5>
+
                       Chưa có bình luận về sản phẩm này
                     </p>
                   </Col>
                 )}
 
-                <div
-                  className="pagination-container"
-                  style={{ textAlign: "center" }}
-                >
+                <div className="pagination-container" style={{ textAlign: "center" }}>
                   <Pagination
                     count={Math.ceil(comments.length / commentsPerPage)}
                     page={currentPage}
-                    onChange={handlePageChange}
+                    onChange={(_, page) => handlePageChange(page)}
                     variant="outlined"
                     className="custom-pagination"
                   />
