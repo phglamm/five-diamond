@@ -52,7 +52,7 @@ export default function AdminCategory() {
       Modal.confirm({
         title: "Bạn có chắc muốn xóa danh mục này ?",
         onOk: async () => {
-          api.delete(`category/${values.id}`);
+          await api.delete(`category/${values.id}`);
           toast.success("Xóa thành công");
           setCategory(
             category.filter((cat) => {

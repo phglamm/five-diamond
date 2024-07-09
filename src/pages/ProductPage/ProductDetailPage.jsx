@@ -180,7 +180,7 @@ export default function ProductPage({ token }) {
           toast.error("Sản phẩm đã hết hàng");
         }
       } else {
-        return toast.error("Bạn Không được thêm sản phẩm vào giỏ hàng");
+        return toast.error("Bạn không được thêm sản phẩm vào giỏ hàng");
       }
     } else {
       return toast.error("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng");

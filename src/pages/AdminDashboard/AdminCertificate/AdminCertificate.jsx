@@ -70,8 +70,7 @@ export default function AdminCertificate() {
       title: "Bạn có chắc muốn xóa chứng chỉ này ?",
       onOk: async () => {
         try {
-          const response = api.delete(`certificate/${values.id}`);
-          console.log(response.data);
+          await api.delete(`certificate/${values.id}`);
           toast.success("Xóa thành công");
           fetchCertificate();
         } catch (error) {

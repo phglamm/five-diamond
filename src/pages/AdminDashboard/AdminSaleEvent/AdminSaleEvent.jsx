@@ -84,7 +84,7 @@ export default function AdminSaleEvent() {
       Modal.confirm({
         title: "Bạn có chắc muốn xóa mã giảm giá này ?",
         onOk: async () => {
-          api.delete(`promotion/${values.id}`);
+          await api.delete(`promotion/${values.id}`);
           toast.success("Xóa thành công");
           setPromotion(
             promotion.filter((code) => {
