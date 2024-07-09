@@ -31,26 +31,33 @@ export default function DropdownProfile() {
   return (
     <div className={`dropdownProfile ${dropdownOpen ? "open" : ""}`}>
       <Col xs={12} className="Header-profile">
-        <div className="profile-title-wrapper">
-          <Link to={routes.profile} className="profile-wrapper">
-            <UserSwitchOutlined className="profile-icon" />
-            <p>THÔNG TIN CÁ NHÂN</p>
-          </Link>
-        </div>
-        <div className="profile-title-wrapper">
-          <Link to={routes.cart} className="profile-wrapper">
-            <ShoppingCartOutlined className="profile-icon" />
-            <p>GIỎ HÀNG</p>
-          </Link>
-        </div>
-        <div className="profile-title-wrapper">
-          <Link to={routes.orderhistory} className="profile-wrapper">
-            <TruckOutlined className="profile-icon" />
-            <p>LỊCH SỬ MUA HÀNG</p>
-          </Link>
-        </div>
+        {user && user.role === "CUSTOMER" && (
+          <div className="profile-title-wrapper">
+            <Link to={routes.profile} className="profile-wrapper">
+              <UserSwitchOutlined className="profile-icon" />
+              <p>THÔNG TIN CÁ NHÂN</p>
+            </Link>
+          </div>
+        )}
 
-        {/* Conditional rendering based on user role */}
+        {user && user.role === "CUSTOMER" && (
+          <div className="profile-title-wrapper">
+            <Link to={routes.cart} className="profile-wrapper">
+              <ShoppingCartOutlined className="profile-icon" />
+              <p>GIỎ HÀNG</p>
+            </Link>
+          </div>
+        )}
+
+        {user && user.role === "CUSTOMER" && (
+          <div className="profile-title-wrapper">
+            <Link to={routes.orderhistory} className="profile-wrapper">
+              <TruckOutlined className="profile-icon" />
+              <p>LỊCH SỬ MUA HÀNG</p>
+            </Link>
+          </div>
+        )}
+
         {user && user.role === "ADMIN" && (
           <div className="profile-title-wrapper">
             <Link to={routes.adminchart} className="profile-wrapper">

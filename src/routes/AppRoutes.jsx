@@ -171,9 +171,7 @@ export default function AppRoute() {
       <Route
         path={routes.cart}
         element={
-          <ProtectedRoute
-            roles={["CUSTOMER", "MANAGER", "ADMIN", "SALES", "DELIVERY"]}
-          >
+          <ProtectedRoute roles={["CUSTOMER"]}>
             <CartPage />
           </ProtectedRoute>
         }
@@ -181,9 +179,7 @@ export default function AppRoute() {
       <Route
         path={routes.checkout}
         element={
-          <ProtectedRoute
-            roles={["CUSTOMER", "MANAGER", "ADMIN", "SALES", "DELIVERY"]}
-          >
+          <ProtectedRoute roles={["CUSTOMER"]}>
             <CheckOut />
           </ProtectedRoute>
         }
@@ -214,7 +210,7 @@ export default function AppRoute() {
           <ProtectedRoute
             roles={["CUSTOMER", "MANAGER", "ADMIN", "SALES", "DELIVERY"]}
           >
-            <PaymentSuccess />{" "}
+            <PaymentSuccess />
           </ProtectedRoute>
         }
       />
@@ -261,10 +257,7 @@ export default function AppRoute() {
       <Route
         path={routes.orderhistory}
         element={
-          <ProtectedRoute
-            roles={["CUSTOMER", "MANAGER", "ADMIN", "SALES", "DELIVERY"]}
-          >
-            {" "}
+          <ProtectedRoute roles={["CUSTOMER"]}>
             <OrderHistoryUser />
           </ProtectedRoute>
         }

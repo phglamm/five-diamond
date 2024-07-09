@@ -21,7 +21,6 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/features/counterSlice";
 
 export default function CartPage() {
-  const [cart, setCart] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [appliedDiscount, setAppliedDiscount] = useState(null);
   const navigate = useNavigate();

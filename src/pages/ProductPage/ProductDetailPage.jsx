@@ -3,15 +3,8 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Col, Container, Row } from "react-bootstrap";
 import "./ProductDetailPage.css";
-import {
-  Button,
-  Form,
-  Input,
-  Modal,
-  Select,
-  Popconfirm,
-} from "antd";
-import Pagination from '@mui/material/Pagination';
+import { Button, Form, Input, Modal, Popconfirm } from "antd";
+import Pagination from "@mui/material/Pagination";
 import { intlFormatDistance } from "date-fns";
 import {
   PushpinOutlined,
@@ -39,10 +32,7 @@ export default function ProductPage({ token }) {
   const [product, setProduct] = useState();
   const [cartItems, setCartItems] = useState([]);
   const [relevantProduct, setRelevantProduct] = useState([]);
-  const [appliedDiscount, setAppliedDiscount] = useState(null);
-  const [selectedSize, setSelectedSize] = useState(null);
   const { id } = useParams();
-  const ringsize = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
   //comment component hook
   const [comments, setComments] = useState([]);
@@ -157,27 +147,6 @@ export default function ProductPage({ token }) {
     fetchCart();
   }, []);
 
-  const total = cartItems.reduce(
-    (acc, item) => acc + item.productLine.finalPrice * item.quantity,
-    0
-  );
-  const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-  const shippingCost =
-    appliedDiscount && appliedDiscount.type === "shipping"
-      ? appliedDiscount.value
-      : 0;
-  const discountAmount = appliedDiscount
-    ? appliedDiscount.type === "percentage"
-      ? (total * appliedDiscount.value) / 100
-      : appliedDiscount.type === "fixed"
-        ? appliedDiscount.value
-        : 0
-    : 0;
-
-  const finalTotal = total - discountAmount + shippingCost;
-
-  const firstFiveProducts = relevantProduct.slice(0, 5);
-
   if (!product) {
     return (
       <div>
@@ -199,15 +168,19 @@ export default function ProductPage({ token }) {
 
   const handleClickAddToCart = async () => {
     if (user) {
-      try {
-        console.log("Product added to cart", id);
-        const response = await api.post(`cart/${id}`);
-        console.log(response.data);
-        fetchCart();
-        toast.success("Thêm Vào Giỏ Hàng");
-      } catch (error) {
-        console.log(error.response.data);
-        toast.error("Sản phẩm đã hết hàng");
+      if (user.role === "CUSTOMER") {
+        try {
+          console.log("Product added to cart", id);
+          const response = await api.post(`cart/${id}`);
+          console.log(response.data);
+          fetchCart();
+          toast.success("Thêm Vào Giỏ Hàng");
+        } catch (error) {
+          console.log(error.response.data);
+          toast.error("Sản phẩm đã hết hàng");
+        }
+      } else {
+        return toast.error("Bạn Không được thêm sản phẩm vào giỏ hàng");
       }
     } else {
       return toast.error("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng");
@@ -241,20 +214,6 @@ export default function ProductPage({ token }) {
     }
   };
 
-  const handleClickBuyNow = () => {
-    if (!user) {
-      toast.error("Vui lòng đăng nhập để mua sản phẩm");
-      return;
-    } else {
-      navigate("/tien-hanh-thanh-toan", {
-        state: {
-          cartItems: [{ productLine: product, quantity: 1 }],
-          finalTotal: product.finalPrice,
-        },
-      });
-    }
-  };
-
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -265,10 +224,6 @@ export default function ProductPage({ token }) {
 
   const handleCancel = () => {
     setIsModalOpen(false);
-  };
-
-  const handleSizeChange = (value) => {
-    setSelectedSize(value);
   };
 
   return (
@@ -558,7 +513,10 @@ export default function ProductPage({ token }) {
                 ) : (
                   <p>Chưa có bình luận về sản phẩm</p>
                 )}
-                <div className="pagination-container" style={{ textAlign: 'center' }}>
+                <div
+                  className="pagination-container"
+                  style={{ textAlign: "center" }}
+                >
                   <Pagination
                     count={Math.ceil(comments.length / commentsPerPage)}
                     page={currentPage}
@@ -567,7 +525,6 @@ export default function ProductPage({ token }) {
                     className="custom-pagination"
                   />
                 </div>
-
               </>
             ) : (
               <>
