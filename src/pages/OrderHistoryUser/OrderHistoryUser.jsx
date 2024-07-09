@@ -101,12 +101,12 @@ export default function OrderHistoryUser() {
         </div>
         <Table
           className="order-table"
-          dataSource={order}
+          dataSource={filteredOrders}
           columns={columns}
           pagination={{ pageSize: 5 }}
           scroll={{ x: "max-content" }}
           onChange={onChange}
-        />{" "}
+        />{" "} 
       </Container>
       <Footer></Footer>
     </div>
