@@ -79,8 +79,8 @@ export default function AdminCover() {
 
   const showModalUpdate = () => {
     fetchDiamondUpdate();
-    formUpdate.setFieldsValue(selectedProductLine)
-    console.log(selectedProductLine)
+    formUpdate.setFieldsValue(selectedProductLine);
+    console.log(selectedProductLine);
     console.log(
       shapeUpdate,
       caratUpdate,
@@ -175,14 +175,14 @@ export default function AdminCover() {
     fetchCategory();
     fetchCollection();
   }, []);
-  useEffect(() => { }, []); // Only re-run this effect when diamond changes
+  useEffect(() => {}, []); // Only re-run this effect when diamond changes
 
   async function deleteProductLine(values) {
     console.log(values.id);
     try {
       Modal.confirm({
         title: "Bạn có chắc muốn xóa dòng sản phẩm này ?",
-        onOk: () => {
+        onOk: async () => {
           api.delete(`product-line/${values.id}`);
           toast.success("Xóa thành công");
           setProductLine(
@@ -757,7 +757,6 @@ export default function AdminCover() {
                         className="select-input"
                         placeholder="chọn Danh Mục"
                         defaultValue={values.category}
-
                       >
                         {category.map((item) => (
                           <Select.Option value={item.id}>
@@ -1312,7 +1311,7 @@ export default function AdminCover() {
                 label="Danh mục"
                 name="categoryID"
               >
-                <Select className="select-input" placeholder="chọn Danh Mục"  >
+                <Select className="select-input" placeholder="chọn Danh Mục">
                   {category.map((item) => (
                     <Select.Option value={item.id}>{item.name}</Select.Option>
                   ))}

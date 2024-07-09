@@ -70,8 +70,8 @@ export default function AdminDiamond() {
     console.log(values.id);
     try {
       Modal.confirm({
-        title: "Bạn có chắc muốn xóa sản phẩm này ?",
-        onOk: () => {
+        title: "Bạn có chắc muốn xóa kim cương này ?",
+        onOk: async () => {
           api.delete(`diamond/${values.id}`);
           toast.success("Xóa thành công");
           setDiamond(
@@ -130,7 +130,7 @@ export default function AdminDiamond() {
       title: "ID",
       dataIndex: "id",
       key: "id",
-      fixed: 'left',
+      fixed: "left",
       sorter: (a, b) => a.id - b.id,
     },
     {
@@ -712,7 +712,10 @@ export default function AdminDiamond() {
             </div>
           </div>
 
-          <Button onClick={hanldeClickSubmit} className="form-button small-button">
+          <Button
+            onClick={hanldeClickSubmit}
+            className="form-button small-button"
+          >
             Thêm Viên Kim Cương
           </Button>
         </Form>

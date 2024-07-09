@@ -69,7 +69,7 @@ export default function AdminCollection() {
     try {
       Modal.confirm({
         title: "Bạn có chắc muốn xóa BST này ?",
-        onOk: () => {
+        onOk: async () => {
           api.delete(`collection/${values.id}`);
           toast.success("Xóa thành công");
           setCollection(

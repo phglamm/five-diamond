@@ -68,7 +68,7 @@ export default function AdminCertificate() {
     console.log(values.id);
     Modal.confirm({
       title: "Bạn có chắc muốn xóa chứng chỉ này ?",
-      onOk: () => {
+      onOk: async () => {
         try {
           const response = api.delete(`certificate/${values.id}`);
           console.log(response.data);
