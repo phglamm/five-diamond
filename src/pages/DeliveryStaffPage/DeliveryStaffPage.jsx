@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Container } from "react-bootstrap";
-import { Table, Input, Button } from "antd";
+import { Table, Input, Button, Upload } from "antd";
 import api from "../../config/axios";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -10,11 +10,14 @@ import moment from "moment";
 import "./DeliveryStaffPage.css";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/features/counterSlice";
+import { UploadOutlined } from "@ant-design/icons";
+import uploadFile from "../../utils/upload";
 
 function DeliveryStaffPage() {
   const [filterStatus, setFilterStatus] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [order, setOrder] = useState([]);
+  const [img, setImg] = useState(null);
   const user = useSelector(selectUser);
   console.log(user.id);
   useEffect(() => {
@@ -38,15 +41,25 @@ function DeliveryStaffPage() {
   }, []);
 
   const handleUpdate = async (orderId, newStatus) => {
+    let imgURL;
+    if (img) {
+      imgURL = await uploadFile(img);
+    } else {
+      imgURL = null;
+    }
+    console.log(imgURL);
     try {
       const response = await api.put(`/order/${orderId}&${user.id}`, {
         orderStatus: newStatus,
+        imgConfirmUrl: imgURL,
       });
       console.log(response.data);
       toast.success("Cập nhật thành công");
       setOrder((prevOrders) =>
         prevOrders.map((order) =>
-          order.id === orderId ? { ...order, orderStatus: newStatus } : order
+          order.id === orderId
+            ? { ...order, orderStatus: newStatus, imgConfirmUrl: imgURL }
+            : order
         )
       );
     } catch (error) {
@@ -59,12 +72,26 @@ function DeliveryStaffPage() {
     let newStatus = currentStatus;
     if (currentStatus === "PROCESSING") {
       newStatus = "SHIPPED";
+      handleUpdate(orderId, newStatus);
+    } else if (currentStatus === "SHIPPED") {
+      if (img) {
+        newStatus = "DELIVERED";
+        handleUpdate(orderId, newStatus);
+      } else {
+        toast.error("Bạn phải upload hình xác thực");
+      }
+    }
+  };
+
+  const uploadImg = (orderId, currentStatus) => {
+    let newStatus = currentStatus;
+    if (currentStatus === "PROCESSING") {
+      newStatus = "SHIPPED";
     } else if (currentStatus === "SHIPPED") {
       newStatus = "DELIVERED";
     }
     handleUpdate(orderId, newStatus);
   };
-
   const filteredOrders = order.filter((ord) => {
     const matchesStatus =
       filterStatus === null || ord.orderStatus === filterStatus;
@@ -177,13 +204,43 @@ function DeliveryStaffPage() {
               title: "Cập nhật đơn hàng",
               key: "update-order",
               render: (text, record) => (
-                <Button
-                  type="primary"
-                  onClick={() => handleEdit(record.id, record.orderStatus)}
-                >
-                  Chuyển trạng thái
-                </Button>
+                <>
+                  <Button
+                    type="primary"
+                    onClick={() => handleEdit(record.id, record.orderStatus)}
+                  >
+                    Chuyển trạng thái
+                  </Button>
+                </>
               ),
+            },
+            {
+              title: "Hình ảnh giao hàng",
+              key: "imgURL",
+              render: (text, record) => {
+                if (record.orderStatus === "SHIPPED") {
+                  return (
+                    <>
+                      <Upload
+                        className="admin-upload-button"
+                        fileList={img ? [img] : []}
+                        beforeUpload={(file) => {
+                          setImg(file);
+                          return false;
+                        }}
+                        onRemove={() => setImg(null)}
+                      >
+                        <Button
+                          icon={<UploadOutlined />}
+                          className="admin-upload-button"
+                        >
+                          Upload Hình Ảnh
+                        </Button>
+                      </Upload>
+                    </>
+                  );
+                }
+              },
             },
           ]}
         />
