@@ -212,7 +212,7 @@ export default function AdminCover() {
     if (checkedListUpdate) {
       newData.diamondID = checkedListUpdate;
     } else {
-      newData.diamondID = responseProduct.data.diamondID;
+      newData.diamondID = responseProduct.data.diamondIDs;
     }
 
     const dataUpdate = {
@@ -408,7 +408,7 @@ export default function AdminCover() {
               mask={false}
             >
               <Form
-                // initialValues={selectedProductLine}
+                initialValues={selectedProductLine}
                 onValuesChange={(changedValues, allValues) => {
                   setNewData(allValues);
                 }}
@@ -447,7 +447,6 @@ export default function AdminCover() {
                       className="label-form"
                       label="Tên Sản Phẩm"
                       name="name"
-                      initialValue={values.name}
                       required
                       rules={[
                         {
@@ -477,7 +476,6 @@ export default function AdminCover() {
                           setShapeUpdate(value);
                           console.log(shapeUpdate);
                         }}
-                        initialValue={values.shape}
                       >
                         <Select.Option value="ROUND">Round</Select.Option>
                         <Select.Option value="OVAL">Oval</Select.Option>
@@ -631,11 +629,7 @@ export default function AdminCover() {
                       </Select>
                     </Form.Item>
 
-                    <Form.Item
-                      className="label-form"
-                      label="Kim Cương Đã Chọn"
-                      initialValue={checkedListUpdate}
-                    >
+                    <Form.Item className="label-form" label="Kim Cương Đã Chọn">
                       <Input type="text" className="select-input" readOnly />
                     </Form.Item>
                   </div>
@@ -669,7 +663,6 @@ export default function AdminCover() {
                       <Input type="number" required></Input>
                     </Form.Item>
                     <Form.Item
-                      initialValue="GOLD"
                       className="label-form"
                       label="Kim Loại"
                       name="metal"
@@ -751,12 +744,10 @@ export default function AdminCover() {
                       className="label-form"
                       label="Danh Mục"
                       name="categoryID"
-                      initialValue={values.category}
                     >
                       <Select
                         className="select-input"
                         placeholder="chọn Danh Mục"
-                        defaultValue={values.category}
                       >
                         {category.map((item) => (
                           <Select.Option value={item.id}>
@@ -830,7 +821,6 @@ export default function AdminCover() {
                       label="Đặc Biệt"
                       name="special"
                       valuePropName="checked"
-                      initialValue={specialUpdate}
                     >
                       <Checkbox
                         checked={specialUpdate}

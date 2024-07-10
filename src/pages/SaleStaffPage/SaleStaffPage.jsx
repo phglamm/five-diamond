@@ -49,6 +49,25 @@ function SaleStaffPage() {
     }
   };
 
+  const handleCancelOrder = async (orderId) => {
+    console.log(orderId);
+    const cancleStatus = "CANCELED";
+    try {
+      const response = await api.put(`/order/${orderId}&${user.id}`, {
+        orderStatus: cancleStatus,
+      });
+      console.log(response);
+      toast.success("Cập nhật thành công");
+      setOrder((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === orderId ? { ...order, orderStatus: cancleStatus } : order
+        )
+      );
+    } catch (error) {
+      toast.error("Cập nhật thất bại");
+    }
+  };
+
   const handleEdit = (orderId, currentStatus) => {
     let newStatus = currentStatus;
     if (currentStatus === "PENDING") {
@@ -58,6 +77,7 @@ function SaleStaffPage() {
     }
     handleUpdate(orderId, newStatus);
   };
+
   const handleChooseShipper = () => {
     handleOK();
   };
@@ -230,6 +250,12 @@ function SaleStaffPage() {
           >
             Đang xử lý
           </Button>
+          <Button
+            type={filterStatus === "CANCEL" ? "primary" : ""}
+            onClick={() => handleFilterChange("CANCEL")}
+          >
+            Đã hủy
+          </Button>
         </div>
         <div className="sales-search-bar">
           <Input
@@ -322,12 +348,21 @@ function SaleStaffPage() {
                     </Modal>
                   </>
                 ) : (
-                  <Button
-                    type="primary"
-                    onClick={() => handleEdit(record.id, record.orderStatus)}
-                  >
-                    Cập nhật trạng thái
-                  </Button>
+                  <>
+                    <Button
+                      type="primary"
+                      onClick={() => handleEdit(record.id, record.orderStatus)}
+                    >
+                      Cập nhật trạng thái
+                    </Button>
+
+                    <Button
+                      type="primary"
+                      onClick={() => handleCancelOrder(record.id)}
+                    >
+                      Hủy Đơn
+                    </Button>
+                  </>
                 ),
             },
           ]}
