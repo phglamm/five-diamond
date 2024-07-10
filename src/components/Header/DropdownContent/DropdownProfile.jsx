@@ -7,6 +7,7 @@ import {
   LogoutOutlined,
   DashboardOutlined,
   TeamOutlined,
+  UnorderedListOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { routes } from "../../../routes";
@@ -52,8 +53,8 @@ export default function DropdownProfile() {
         {user && user.role === "CUSTOMER" && (
           <div className="profile-title-wrapper">
             <Link to={routes.orderhistory} className="profile-wrapper">
-              <TruckOutlined className="profile-icon" />
-              <p>LỊCH SỬ MUA HÀNG</p>
+              <UnorderedListOutlined className="profile-icon" />
+              <p>LỊCH SỬ ĐƠN HÀNG</p>
             </Link>
           </div>
         )}
@@ -71,6 +72,24 @@ export default function DropdownProfile() {
             <Link to={routes.adminchart} className="profile-wrapper">
               <TeamOutlined className="profile-icon" />
               <p>TRANG QUẢN LÝ</p>
+            </Link>
+          </div>
+        )}
+
+        {user && user.role === "SALES" && (
+          <div className="profile-title-wrapper">
+            <Link to={routes.saleStaff} className="profile-wrapper">
+              <UnorderedListOutlined className="profile-icon" />
+              <p>Đơn Hàng Cần Xử Lý</p>
+            </Link>
+          </div>
+        )}
+
+        {user && user.role === "DELIVERY" && (
+          <div className="profile-title-wrapper">
+            <Link to={routes.deliveryStaff} className="profile-wrapper">
+              <TruckOutlined className="profile-icon" />
+              <p>Đơn Hàng Cần Giao Đi</p>
             </Link>
           </div>
         )}

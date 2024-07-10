@@ -32,64 +32,24 @@ export default function Header() {
   };
 
   const user = useSelector(selectUser);
-  const dispatch = useDispatch();
 
   return (
     <Container fluid className="Header" id="header">
       <Row className="Top-header">
-        {user ? (
-          <>
-            {user.role === "SALES" && (
-              <Col xs={4} className="Header-left">
-                <div className="Header-left-component">
-                  <Link to={routes.saleStaff} className="sale-staff">
-                    <p>Theo Dõi Đơn Hàng Cần Xử Lý</p>
-                  </Link>
-                </div>
-              </Col>
-            )}
-            {user.role === "DELIVERY" && (
-              <Col xs={4} className="Header-left">
-                <div className="Header-left-component">
-                  <Link to={routes.deliveryStaff} className="sale-staff">
-                    <p>Theo Dõi Đơn Hàng Cần Giao Đi</p>
-                  </Link>
-                </div>
-              </Col>
-            )}
-            {user.role !== "SALES" && user.role !== "DELIVERY" && (
-              <Col xs={4} className="Header-left">
-                <div className="Header-left-component">
-                  <i className="pi pi-phone"></i>
-                  <p>1800 1168</p>
-                </div>
-                <div className="Header-left-component">
-                  <i className="pi pi-building"></i>
-                  <p>HỆ THỐNG SHOWROOM</p>
-                </div>
-                <div className="Header-left-component">
-                  <i className="pi pi-map"></i>
-                  <p>HỆ THỐNG PHÂN PHỐI</p>
-                </div>
-              </Col>
-            )}
-          </>
-        ) : (
-          <Col xs={4} className="Header-left">
-            <div className="Header-left-component">
-              <i className="pi pi-phone"></i>
-              <p>1800 1168</p>
-            </div>
-            <div className="Header-left-component">
-              <i className="pi pi-building"></i>
-              <p>HỆ THỐNG SHOWROOM</p>
-            </div>
-            <div className="Header-left-component">
-              <i className="pi pi-map"></i>
-              <p>HỆ THỐNG PHÂN PHỐI</p>
-            </div>
-          </Col>
-        )}
+        <Col xs={4} className="Header-left">
+          <div className="Header-left-component">
+            <i className="pi pi-phone"></i>
+            <p>1800 1168</p>
+          </div>
+          <div className="Header-left-component">
+            <i className="pi pi-building"></i>
+            <p>HỆ THỐNG SHOWROOM</p>
+          </div>
+          <div className="Header-left-component">
+            <i className="pi pi-map"></i>
+            <p>HỆ THỐNG PHÂN PHỐI</p>
+          </div>
+        </Col>
 
         <Col xs={3} className="Header-logo">
           <Link to={routes.home}>

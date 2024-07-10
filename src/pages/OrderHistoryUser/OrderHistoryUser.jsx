@@ -90,7 +90,7 @@ export default function OrderHistoryUser() {
     <div>
       <Header></Header>
       <Container>
-        <h3 className="order-history-title">ĐƠN HÀNG CỦA BẠN</h3>
+        <h3 className="order-history-title">Lịch Sử Đơn Hàng</h3>
         <div className="search-bar">
           <Input
             className="order-history-seach-bar"
@@ -106,7 +106,7 @@ export default function OrderHistoryUser() {
           pagination={{ pageSize: 5 }}
           scroll={{ x: "max-content" }}
           onChange={onChange}
-        />{" "} 
+        />{" "}
       </Container>
       <Footer></Footer>
     </div>
