@@ -2,6 +2,10 @@
   display: flex;
   margin-top: 50px;
 }
+.relevant-product-card-item{
+    width: calc(100% / 6);
+    margin-bottom: 20px; 
+}
 
 .product-detail-img {
   display: flex;
