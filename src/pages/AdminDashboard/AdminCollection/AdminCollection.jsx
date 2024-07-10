@@ -1,14 +1,5 @@
 import SideBar from "../../../components/SideBar/SideBar";
-import {
-  Button,
-  Checkbox,
-  Form,
-  Image,
-  Input,
-  Modal,
-  Table,
-  Upload,
-} from "antd";
+import { Button, Form, Image, Input, Modal, Table, Upload } from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import "../../AdminDashboard/AdminPage.css";
@@ -18,7 +9,6 @@ import api from "../../../config/axios";
 import { UploadOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import uploadFile from "../../../utils/upload";
-import { left } from "@popperjs/core";
 
 export default function AdminCollection() {
   const [form] = useForm();

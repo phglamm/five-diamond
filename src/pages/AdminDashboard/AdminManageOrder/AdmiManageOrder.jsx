@@ -1,5 +1,5 @@
 import SideBar from "../../../components/SideBar/SideBar";
-import { Button, Table } from "antd";
+import { Button, Image, Table } from "antd";
 import { useEffect, useState } from "react";
 import "../../AdminDashboard/AdminPage.css";
 
@@ -84,6 +84,28 @@ export default function AdminOrder() {
           <Button type="link">Xem chi tiết</Button>
         </Link>
       ),
+    },
+    {
+      title: "Hình ảnh giao hàng",
+      key: "imgURL",
+      render: (text, record) => {
+        if (record.orderStatus === "DELIVERED") {
+          return (
+            <>
+              <Image
+                src={record.imgConfirmUrl}
+                style={{ width: "150px" }}
+              ></Image>
+            </>
+          );
+        } else {
+          return (
+            <>
+              <p>Đơn hàng chưa được hoàn tất</p>
+            </>
+          );
+        }
+      },
     },
   ];
   const [filterStatus, setFilterStatus] = useState(null);

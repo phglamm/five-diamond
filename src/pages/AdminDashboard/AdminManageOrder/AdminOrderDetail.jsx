@@ -9,6 +9,7 @@ import { Link, useParams } from "react-router-dom";
 import { Card, Col, Container, Form, Row } from "react-bootstrap";
 import { routes } from "../../../routes";
 import { KeyboardReturn } from "@mui/icons-material";
+import { CloseCircleOutlined } from "@ant-design/icons";
 
 const customDot = (dot, { status, index }) => (
   <Popover
@@ -196,54 +197,91 @@ export default function AdminOrderDetail() {
                 </h5>
               </Col>
             </Row>
-            <div className="order-tracking">
-              <h3>THEO DÕI ĐƠN HÀNG</h3>
-              <Card>
-                <Card.Body className="order-tracking-content">
-                  <span className="order-tracking-id">
-                    Mã đơn hàng: {orderDetail.id}
-                  </span>
-                  <hr />
-                  <span className="shipping-info">
-                    Ngày đặt hàng: {formatDate(orderDetail.orderDate)}
-                    <span className="tracking-separator">
-                      Giao hàng bởi: 5Diamond Express
-                    </span>
-                    <span className="tracking-separator">
-                      Trạng thái: {getStatus(orderDetail.orderStatus)}
-                    </span>
-                  </span>
-                  <hr />
-
-                  <h5>Hành trình đơn hàng</h5>
-                  <Steps
-                    current={handleProgress()}
-                    progressDot={customDot}
-                    items={[
-                      {
-                        title: "Đặt hàng",
-                        description: "Hoàn tất đặt hàng",
-                      },
-                      {
-                        title: "Xác nhận đơn hàng",
-                        description: "Đơn hàng đã được xác nhận",
-                      },
-                      {
-                        title: "Đang xử lý",
-                        description: "Đơn hàng đang được xử lý",
-                      },
-                      {
-                        title: "Đang giao hàng",
-                        description: "Đơn hàng đang được giao",
-                      },
-                      {
-                        title: "Đã giao hàng",
-                        description: "Đơn hàng đã được giao",
-                      },
-                    ]}
-                  />
-                </Card.Body>
-              </Card>
+            <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
+              {orderDetail.orderStatus === "CANCELED" ? (
+                <div className="order-canceled-container">
+                  <div className="order-canceled-content">
+                    <div className="order-canceled-icon">
+                      <CloseCircleOutlined />
+                    </div>
+                    <h1 className="order-canceled-title">
+                      Đơn hàng này đã bị hủy
+                    </h1>
+                    <p className="order-canceled-message">
+                      Rất tiếc, đơn hàng của bạn đã bị hủy. Vui lòng liên hệ với
+                      chúng tôi nếu bạn có bất kỳ câu hỏi hoặc thắc mắc nào.
+                    </p>
+                    <div className="order-canceled-action">
+                      <Link
+                        href="#"
+                        className="order-canceled-link"
+                        prefetch={false}
+                      >
+                        Quay lại trang chủ
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="order-tracking">
+                  <h3>THEO DÕI ĐƠN HÀNG</h3>
+                  <Card
+                    className={
+                      orderDetail.orderStatus === "CANCELED"
+                        ? "order-canceled"
+                        : ""
+                    }
+                  >
+                    <Card.Body className="order-tracking-content">
+                      <span className="order-tracking-id">
+                        Mã đơn hàng: {orderDetail.id}
+                      </span>
+                      <hr />
+                      <span className="shipping-info">
+                        Ngày đặt hàng: {formatDate(orderDetail.orderDate)}
+                        <span className="tracking-separator">
+                          Giao hàng bởi: 5Diamond Express
+                        </span>
+                        <span className="tracking-separator">
+                          Trạng thái: {getStatus(orderDetail.orderStatus)}
+                        </span>
+                        <span className="tracking-separator">
+                          Nhận hàng vào ngày:{" "}
+                          {formatDate(orderDetail.shippingDate)}
+                        </span>
+                      </span>
+                      <hr />
+                      <h5>Hành trình đơn hàng</h5>
+                      <Steps
+                        current={handleProgress()}
+                        progressDot={customDot}
+                        items={[
+                          {
+                            title: "Đặt hàng",
+                            description: "Hoàn tất đặt hàng",
+                          },
+                          {
+                            title: "Xác nhận đơn hàng",
+                            description: "Đơn hàng đã được xác nhận",
+                          },
+                          {
+                            title: "Đang xử lý",
+                            description: "Đơn hàng đang được xử lý",
+                          },
+                          {
+                            title: "Đang giao hàng",
+                            description: "Đơn hàng đang được giao",
+                          },
+                          {
+                            title: "Đã giao hàng",
+                            description: "Đơn hàng đã được giao",
+                          },
+                        ]}
+                      />
+                    </Card.Body>
+                  </Card>
+                </div>
+              )}
             </div>
           </Container>
         </div>

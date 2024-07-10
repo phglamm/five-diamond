@@ -409,6 +409,7 @@ function SaleStaffPage() {
                       <Button
                         type="default"
                         onClick={() => showModal(record.id)}
+                        style={{ marginRight: "10px" }}
                       >
                         Chọn nhân viên giao hàng
                       </Button>

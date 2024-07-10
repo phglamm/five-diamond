@@ -4,13 +4,12 @@ import "primeicons/primeicons.css";
 import { routes } from "../../routes";
 import { Link } from "react-router-dom";
 import SearchBar from "../searchBar/searchBar";
-import { logout, selectUser } from "../../redux/features/counterSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "../../redux/features/counterSlice";
+import { useSelector } from "react-redux";
 import { useState } from "react";
 import DropdownContent from "./DropdownContent/DropdownContent";
 import { Button } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+
 import DropdownProfile from "./DropdownContent/DropdownProfile";
 
 export default function Header() {

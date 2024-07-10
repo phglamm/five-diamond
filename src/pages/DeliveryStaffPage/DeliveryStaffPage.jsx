@@ -228,6 +228,7 @@ function DeliveryStaffPage() {
         <Table
           className="order-table"
           dataSource={filteredOrders}
+          pagination={{ pageSize: 5 }}
           columns={[
             {
               title: "Mã đơn hàng",

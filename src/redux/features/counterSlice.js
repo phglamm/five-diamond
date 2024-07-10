@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 // Async thunk để fetch lại dữ liệu người dùng từ API
 // export const fetchUser = createAsyncThunk(
