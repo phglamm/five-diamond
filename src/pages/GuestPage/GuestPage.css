@@ -5,3 +5,8 @@
   margin-top: 5%;
   /* color: red; */
 }
+
+.product-card-item {
+  width: calc(100% / 6);
+  margin-bottom: 20px;
+}

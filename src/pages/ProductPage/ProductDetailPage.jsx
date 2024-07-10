@@ -554,7 +554,7 @@ export default function ProductPage({ token }) {
         {relevantProduct.length !== 0 ? (
           <Row>
             {relevantProduct.map((item, index) => (
-              <Col key={index} className="product-card-item">
+              <Col key={index} className="relevant-product-card-item">
                 <ProductCard
                   img={item.imgURL}
                   text={item.name}
