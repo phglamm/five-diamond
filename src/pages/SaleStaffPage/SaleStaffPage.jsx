@@ -32,6 +32,15 @@ function SaleStaffPage() {
     fetchOrder();
   }, []);
   const user = useSelector(selectUser);
+  const handleEdit = (orderId, currentStatus) => {
+    let newStatus = currentStatus;
+    if (currentStatus === "PENDING") {
+      newStatus = "CONFIRMED";
+    } else if (currentStatus === "CONFIRMED") {
+      newStatus = "PROCESSING";
+    }
+    handleUpdate(orderId, newStatus);
+  };
   const handleUpdate = async (orderId, newStatus) => {
     try {
       const response = await api.put(`/order/${orderId}&${user.id}`, {
@@ -52,30 +61,30 @@ function SaleStaffPage() {
   const handleCancelOrder = async (orderId) => {
     console.log(orderId);
     const cancleStatus = "CANCELED";
-    try {
-      const response = await api.put(`/order/${orderId}&${user.id}`, {
-        orderStatus: cancleStatus,
-      });
-      console.log(response);
-      toast.success("Cập nhật thành công");
-      setOrder((prevOrders) =>
-        prevOrders.map((order) =>
-          order.id === orderId ? { ...order, orderStatus: cancleStatus } : order
-        )
-      );
-    } catch (error) {
-      toast.error("Cập nhật thất bại");
-    }
-  };
-
-  const handleEdit = (orderId, currentStatus) => {
-    let newStatus = currentStatus;
-    if (currentStatus === "PENDING") {
-      newStatus = "CONFIRMED";
-    } else if (currentStatus === "CONFIRMED") {
-      newStatus = "PROCESSING";
-    }
-    handleUpdate(orderId, newStatus);
+    console.log(cancleStatus);
+    Modal.confirm({
+      title: "Bạn có chắc muốn hủy đơn hàng này ?",
+      okText: "Hủy đơn hàng",
+      cancelText: "Không",
+      onOk: async () => {
+        try {
+          const response = await api.put(`/order/${orderId}&${user.id}`, {
+            orderStatus: "CANCELED",
+          });
+          console.log(response);
+          toast.success("Cập nhật thành công");
+          setOrder((prevOrders) =>
+            prevOrders.map((order) =>
+              order.id === orderId
+                ? { ...order, orderStatus: cancleStatus }
+                : order
+            )
+          );
+        } catch (error) {
+          toast.error("Cập nhật thất bại");
+        }
+      },
+    });
   };
 
   const handleChooseShipper = () => {

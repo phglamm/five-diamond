@@ -204,32 +204,36 @@ const TrackingPage = () => {
                 <hr />
 
                 <h5>Hành trình đơn hàng</h5>
-                <Steps
-                  current={handleProgress()}
-                  progressDot={customDot}
-                  items={[
-                    {
-                      title: "Đặt hàng",
-                      description: "Hoàn tất đặt hàng",
-                    },
-                    {
-                      title: "Xác nhận đơn hàng",
-                      description: "Đơn hàng đã được xác nhận",
-                    },
-                    {
-                      title: "Đang xử lý",
-                      description: "Đơn hàng đang được xử lý",
-                    },
-                    {
-                      title: "Đang giao hàng",
-                      description: "Đơn hàng đang được giao",
-                    },
-                    {
-                      title: "Đã giao hàng",
-                      description: "Đơn hàng đã được giao",
-                    },
-                  ]}
-                />
+                {orderDetail.orderStatus === "CANCELED" ? (
+                  <>Đơn hàng này đã bị hủy</>
+                ) : (
+                  <Steps
+                    current={handleProgress()}
+                    progressDot={customDot}
+                    items={[
+                      {
+                        title: "Đặt hàng",
+                        description: "Hoàn tất đặt hàng",
+                      },
+                      {
+                        title: "Xác nhận đơn hàng",
+                        description: "Đơn hàng đã được xác nhận",
+                      },
+                      {
+                        title: "Đang xử lý",
+                        description: "Đơn hàng đang được xử lý",
+                      },
+                      {
+                        title: "Đang giao hàng",
+                        description: "Đơn hàng đang được giao",
+                      },
+                      {
+                        title: "Đã giao hàng",
+                        description: "Đơn hàng đã được giao",
+                      },
+                    ]}
+                  />
+                )}
               </Card.Body>
             </Card>
           </div>
