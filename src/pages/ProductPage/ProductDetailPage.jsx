@@ -106,7 +106,6 @@ export default function ProductPage({ token }) {
       try {
         const response = await api.get(`product-line/${id}`);
         setProduct(response.data);
-
         if (response.data && response.data.category) {
           fetchRelevantProducts(response.data.category.id, response.data.id);
         }
@@ -117,7 +116,7 @@ export default function ProductPage({ token }) {
 
     async function fetchRelevantProducts(categoryId, currentProductId) {
       try {
-        const response = await api.get(`product-line?category=${categoryId}`);
+        const response = await api.get("product-line/available");
         const filteredProducts = response.data.filter(
           (product) =>
             product.category.id === categoryId &&
@@ -416,6 +415,18 @@ export default function ProductPage({ token }) {
             <p style={{ fontWeight: "bold" }}>Màu:</p>
             <p>{product.color}</p>
           </div>
+          <div className="info-detail">
+            <p style={{ fontWeight: "bold" }}>Trọng lượng:</p>
+            <p>{product.weight}g</p>
+          </div>
+          <div className="info-detail">
+            <p style={{ fontWeight: "bold" }}>Số lượng đá phụ:</p>
+            <p>{product.quantityOfSub}</p>
+          </div>
+          <div className="info-detail">
+            <p style={{ fontWeight: "bold" }}>Nguồn gốc:</p>
+            {product.origin === 'NATURAL' ? "Tự nhiên" : "Nhân tạo" }
+          </div>
         </div>
 
         {/* <ProductReview productLineId={id} /> */}
@@ -516,13 +527,15 @@ export default function ProductPage({ token }) {
                 ) : (
                   <Col xs={5}>
                     <p className="comment-notfound">
-
                       Chưa có bình luận về sản phẩm này
                     </p>
                   </Col>
                 )}
 
-                <div className="pagination-container" style={{ textAlign: "center" }}>
+                <div
+                  className="pagination-container"
+                  style={{ textAlign: "center" }}
+                >
                   <Pagination
                     count={Math.ceil(comments.length / commentsPerPage)}
                     page={currentPage}
@@ -544,7 +557,7 @@ export default function ProductPage({ token }) {
         {relevantProduct.length !== 0 ? (
           <Row>
             {relevantProduct.map((item, index) => (
-              <Col key={index} className="product-card-item">
+              <Col key={index} className="relevant-product-card-item">
                 <ProductCard
                   img={item.imgURL}
                   text={item.name}
