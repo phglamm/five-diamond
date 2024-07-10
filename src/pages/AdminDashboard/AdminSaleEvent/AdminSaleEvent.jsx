@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from "react";
 import "./AdminSaleEvent.css";
 import SideBar from "../../../components/SideBar/SideBar";
 import { useForm } from "antd/es/form/Form";
@@ -142,7 +143,7 @@ export default function AdminSaleEvent() {
                 },
               ]}
             >
-              <Input required />
+              <Input required type="number" />
             </Form.Item>
             <Form.Item
               name="date"

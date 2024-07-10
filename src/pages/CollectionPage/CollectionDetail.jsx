@@ -89,10 +89,12 @@ function CollectionDetail() {
 
   const sortedProducts = sortProducts(filteredProducts);
 
-
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = productByCollection.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = productByCollection.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
 
   const totalPages = Math.ceil(sortedProducts.length / productsPerPage);
 
@@ -160,19 +162,19 @@ function CollectionDetail() {
             }}
           />
         </Stack> */}
-        <div style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "10px",
-        }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "10px",
+          }}
+        >
           <BasicPagination
             count={totalPages}
             page={currentPage}
             onChange={handlePageChange}
           />
         </div>
-
-
       </Container>
       <Footer />
     </div>

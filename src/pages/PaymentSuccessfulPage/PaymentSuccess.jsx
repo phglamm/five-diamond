@@ -54,7 +54,7 @@ const PaymentSuccess = () => {
             Cảm ơn bạn vì đã tin tưởng và ủng hộ.
           </p>
           <p className="payment-success-text">
-            Bạn có thể xem chi tiết đơn hàng của mình trong
+            Bạn có thể xem chi tiết đơn hàng của mình trong {""}
             <Link
               to={routes.orderhistory}
               className="payment-success-order-link"

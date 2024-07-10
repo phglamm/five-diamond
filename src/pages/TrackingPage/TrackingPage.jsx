@@ -156,7 +156,11 @@ const TrackingPage = () => {
               {orderDetail.orderItems.map((orderItem) => {
                 const productLine = orderItem.product.productLine;
                 return (
-                  <div key={productLine?.id} className="order-item">
+                  <div
+                    key={productLine?.id}
+                    className="order-item"
+                    style={{ marginTop: "5%" }}
+                  >
                     <img
                       src={productLine?.imgURL}
                       alt="Product Image"
@@ -165,13 +169,14 @@ const TrackingPage = () => {
                     <div className="order-item-details">
                       <h6>{productLine?.name}</h6>
                       <p>Mã SP: {productLine?.id}</p>
-                      <p>Giá: {orderItem.price.toLocaleString()} VNĐ</p>
+                      <p>Danh mục: {productLine?.category.name}</p>
+                      <p>Giá: {productLine?.finalPrice.toLocaleString()} VNĐ</p>
                     </div>
                   </div>
                 );
               })}
 
-              <h5>
+              <h5 style={{ marginTop: "5%" }}>
                 Tổng tiền:{" "}
                 <span style={{ color: "red" }}>
                   {orderDetail.totalAmount?.toLocaleString()}đ

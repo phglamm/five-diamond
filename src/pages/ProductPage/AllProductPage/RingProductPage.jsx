@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
 import { Col, Container, Row, Form } from "react-bootstrap";
@@ -30,10 +30,10 @@ export default function RingProductPage() {
       const ringProducts = response.data.filter(
         (item) => item.category.name === "Nhẫn" && item.deleted === false
       );
-      setProduct(ringProducts);
-      setFilteredProducts(ringProducts);
+      setProduct(RingProducts);
+      setFilteredProducts(RingProducts);
       setLoading(false);
-      console.log(ringProducts);
+      console.log(RingProducts);
     } catch (error) {
       setError("Failed to fetch products");
       setLoading(false);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Container, Col, Row, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Header from "../../../components/Header/Header";
@@ -40,7 +40,7 @@ export default function CuffProductPage() {
     try {
       const response = await api.get("product-line");
       const cuffProducts = response.data.filter(
-        (item) => item.category.name === "vòng tay"
+        (item) => item.category.name === "Vòng Tay" && item.deleted === false
       );
       setProduct(cuffProducts);
       setFilteredProducts(cuffProducts);
