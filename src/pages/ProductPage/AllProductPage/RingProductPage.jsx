@@ -28,7 +28,7 @@ export default function RingProductPage() {
     try {
       const response = await api.get("product-line");
       const ringProducts = response.data.filter(
-        (item) => item.category.id === 3
+        (item) => item.category.name === "Nhẫn" && item.deleted === false
       );
       setProduct(ringProducts);
       setFilteredProducts(ringProducts);
