@@ -78,6 +78,10 @@ function SaleStaffPage() {
       cancelText: "Không",
       onOk: async () => {
         try {
+          const responseStatus = await api.put(`/order/${orderId}&${user.id}`, {
+            orderStatus: cancleStatus,
+          });
+          console.log(responseStatus);
           const response = await api.put(`/order/cancel/${orderId}&${reason}`, {
             canceledNote: reason,
           });
@@ -364,6 +368,22 @@ function SaleStaffPage() {
               key: "update-order",
               render: (text, record) => (
                 <>
+                  <Modal
+                    className="modal-add-form"
+                    title="Chọn Nhân Viên để giao hàng"
+                    okText={"Chọn Shipper"}
+                    open={isModalOpen}
+                    onOk={handleChooseShipper}
+                    onCancel={handleCancel}
+                  >
+                    <Table
+                      dataSource={deliveryStaff}
+                      columns={columnOfStaff}
+                      pagination={{ pageSize: 5 }}
+                      scroll={{ x: "max-content" }}
+                      onChange={onChange}
+                    />
+                  </Modal>
                   {record.orderStatus !== "PROCESSING" && (
                     <>
                       <Button
@@ -392,22 +412,7 @@ function SaleStaffPage() {
                       >
                         Chọn nhân viên giao hàng
                       </Button>
-                      <Modal
-                        className="modal-add-form"
-                        title="Chọn Nhân Viên để giao hàng"
-                        okText={"Chọn Shipper"}
-                        open={isModalOpen}
-                        onOk={handleChooseShipper}
-                        onCancel={handleCancel}
-                      >
-                        <Table
-                          dataSource={deliveryStaff}
-                          columns={columnOfStaff}
-                          pagination={{ pageSize: 5 }}
-                          scroll={{ x: "max-content" }}
-                          onChange={onChange}
-                        />
-                      </Modal>
+
                       <Button
                         type="primary"
                         onClick={() => openCancelOrderModal(record.id)}

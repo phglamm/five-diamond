@@ -2,7 +2,16 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Container } from "react-bootstrap";
-import { Table, Input, Button, Upload, Image } from "antd";
+import {
+  Table,
+  Input,
+  Button,
+  Upload,
+  Image,
+  Modal,
+  Form,
+  Typography,
+} from "antd";
 import api from "../../config/axios";
 import { Await, Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -12,6 +21,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/features/counterSlice";
 import { UploadOutlined } from "@ant-design/icons";
 import uploadFile from "../../utils/upload";
+import { useForm } from "antd/es/form/Form";
 
 function DeliveryStaffPage() {
   const [filterStatus, setFilterStatus] = useState(null);
@@ -20,7 +30,11 @@ function DeliveryStaffPage() {
   const [images, setImages] = useState({});
   const user = useSelector(selectUser);
   console.log(user.id);
+  const [formCancleOrder] = useForm();
 
+  const handleClickCancleSubmit = () => {
+    formCancleOrder.submit();
+  };
   useEffect(() => {
     async function fetchOrder() {
       try {
@@ -124,6 +138,55 @@ function DeliveryStaffPage() {
     return matchesStatus && matchesSearchTerm;
   });
 
+  const [isModalCancleOrderOpen, setIsModalCancleOrderOpen] = useState(false);
+  const [currentOrderId, setCurrentOrderId] = useState(null);
+
+  const handleModalOkCancleOrder = () => {
+    handleClickCancleSubmit();
+    setIsModalCancleOrderOpen(false);
+  };
+
+  const handleModalCancelOrder = () => {
+    setIsModalCancleOrderOpen(false);
+  };
+
+  const openCancelOrderModal = (orderId) => {
+    formCancleOrder.resetFields();
+
+    setCurrentOrderId(orderId);
+    setIsModalCancleOrderOpen(true);
+  };
+
+  const handleCancelOrder = async (values) => {
+    const { orderId, reason } = values;
+    console.log(reason);
+    console.log(orderId);
+    const cancleStatus = "CANCELED";
+    console.log(cancleStatus);
+    Modal.confirm({
+      title: "Bạn có chắc muốn hủy đơn hàng này ?",
+      okText: "Hủy đơn hàng",
+      cancelText: "Không",
+      onOk: async () => {
+        try {
+          const response = await api.put(`/order/cancel/${orderId}&${reason}`, {
+            canceledNote: reason,
+          });
+          console.log(response);
+          toast.success("Cập nhật thành công");
+          setOrder((prevOrders) =>
+            prevOrders.map((order) =>
+              order.id === orderId
+                ? { ...order, orderStatus: cancleStatus }
+                : order
+            )
+          );
+        } catch (error) {
+          toast.error("Cập nhật thất bại");
+        }
+      },
+    });
+  };
   return (
     <div>
       <Header />
@@ -222,16 +285,35 @@ function DeliveryStaffPage() {
             {
               title: "Cập nhật đơn hàng",
               key: "update-order",
-              render: (text, record) => (
-                <>
-                  <Button
-                    type="primary"
-                    onClick={() => handleEdit(record.id, record.orderStatus)}
-                  >
-                    Chuyển trạng thái
-                  </Button>
-                </>
-              ),
+              render: (text, record) => {
+                if (record.orderStatus !== "DELIVERED") {
+                  return (
+                    <>
+                      <Button
+                        type="primary"
+                        onClick={() =>
+                          handleEdit(record.id, record.orderStatus)
+                        }
+                      >
+                        Chuyển trạng thái
+                      </Button>
+                      {/* <Button
+                        type="primary"
+                        onClick={() => openCancelOrderModal(record.id)}
+                        style={{ backgroundColor: "red" }}
+                      >
+                        Hủy Đơn
+                      </Button> */}
+                    </>
+                  );
+                } else {
+                  return (
+                    <>
+                      <Typography> Đơn Hàng Hoàn Tất</Typography>
+                    </>
+                  );
+                }
+              },
             },
             {
               title: "Hình ảnh giao hàng",
@@ -281,6 +363,36 @@ function DeliveryStaffPage() {
             },
           ]}
         />
+        <Modal
+          className="modal-updateCategory-form"
+          title="Lý Do Hủy Đơn"
+          okText={"Hủy Đơn"}
+          open={isModalCancleOrderOpen}
+          onOk={handleModalOkCancleOrder}
+          onCancel={handleModalCancelOrder}
+          mask={false}
+        >
+          <Form
+            form={formCancleOrder}
+            onFinish={(values) =>
+              handleCancelOrder({ ...values, orderId: currentOrderId })
+            }
+          >
+            <Form.Item
+              label="Lý Do"
+              name="reason"
+              className="label-form"
+              rules={[
+                {
+                  required: true,
+                  message: "Nhập Lý Do",
+                },
+              ]}
+            >
+              <Input type="text" required />
+            </Form.Item>
+          </Form>
+        </Modal>
       </Container>
       <Footer />
     </div>
