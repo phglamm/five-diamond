@@ -134,8 +134,11 @@ export default function AdminCover() {
       toast.success("Thêm sản phẩm thành công");
       console.log(response.data);
       fetchProductLine();
+      form.resetFields();
     } catch (error) {
+      toast.error(error.response);
       toast.error("Đã có lỗi trong lúc thêm sản phẩm");
+      form.resetFields();
     }
   }
   const [productLine, setProductLine] = useState([]);
@@ -227,9 +230,11 @@ export default function AdminCover() {
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công");
       fetchProductLine();
+      formUpdate.resetFields();
     } catch (error) {
       toast.error("chỉnh sửa thất bại, có lỗi");
       console.log(error.response.data);
+      formUpdate.resetFields();
     }
   }
 
