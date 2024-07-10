@@ -212,7 +212,7 @@ export default function AdminCertificate() {
                           setFileUpdate(null);
                         }}
                       >
-                        <Button icon={<UploadOutlined />}>Upload</Button>
+                        <Button icon={<UploadOutlined />}>Tải Chứng Chỉ</Button>
                       </Upload>
                     </Form.Item>
                     <Form.Item
@@ -290,7 +290,7 @@ export default function AdminCertificate() {
                     setFile(null);
                   }}
                 >
-                  <Button icon={<UploadOutlined />}>Upload</Button>
+                  <Button icon={<UploadOutlined />}>Tải Chứng Chỉ Lên </Button>
                 </Upload>
               </Form.Item>
               <Form.Item

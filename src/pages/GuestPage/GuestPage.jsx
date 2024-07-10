@@ -56,7 +56,7 @@ export default function GuestPage() {
   const sliceCollection = collectionNotdelete.slice(0, 3);
 
   // Lấy 5 sản phẩm đầu tiên
-  const firstFiveProducts = product.slice(0, 25);
+  const firstFiveProducts = product.slice(0, 5);
   const specialpro = firstFiveProducts.filter(
     (itemSpecial) => itemSpecial.special === true
   );

@@ -236,7 +236,7 @@ export default function ProductPage({ token }) {
             <img
               src={product.imgURL}
               alt="Product"
-              style={{ width: "400px" }}
+              style={{ width: "600px" }}
             />
           </div>
           <div>

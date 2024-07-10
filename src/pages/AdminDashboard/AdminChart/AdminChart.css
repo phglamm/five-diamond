@@ -1,63 +1,69 @@
 .chart-container {
-    display: flex;
-    justify-content: center;
-    width: 80%; 
-    height: 400px; 
-    margin-top: 20px;
-  }
+  display: flex;
+  justify-content: center;
+  width: 80%; 
+  height: 400px; 
+  margin-top: 20px;
+}
 
 .widget-table {
-    display: flex;
-    gap: 10px; 
-    margin-bottom: 20px ;
-  }
-  
-  .widget-table-item {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px; 
-    background-color: rgb(81, 210, 217); 
-    border-radius: 10px; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-    flex: 1;
-  }
-  
-  .widget-table-item-icon {
-    font-size: 24px;
-    margin-right: 10px; 
-  }
-  
-  .widget-table-item-text {
-    width: 200px;
-  }
-  
-  .widget-table-item-text p:first-child {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .widget-table-item-text p:last-child {
-    font-size: 14px;
-    color: #888; 
-  }
-  .month-selection {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .month-selection label {
-    margin-right: 10px;
-    font-weight: bold;
-  }
-  
-  .month-selection select {
-    padding: 5px 10px;
-    background-color: grey; 
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  
+  display: flex;
+  gap: 10px; 
+  margin-bottom: 20px;
+}
+
+.widget-table-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px; 
+  background-color: rgb(81, 210, 217); 
+  border-radius: 10px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  flex: 1;
+}
+
+.widget-table-item-icon {
+  font-size: 24px;
+  margin-right: 10px; 
+}
+
+.widget-table-item-text {
+  width: 200px;
+}
+
+.widget-table-item-text p:first-child {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.widget-table-item-text p:last-child {
+  font-size: 14px;
+  color: #888; 
+}
+
+.selection-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.month-selection, .quarter-selection {
+  display: flex;
+  align-items: center;
+}
+
+.month-selection label, .quarter-selection label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.month-selection select, .quarter-selection select {
+  padding: 5px 10px;
+  background-color: grey; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

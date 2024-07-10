@@ -303,7 +303,7 @@ export default function AdminCover() {
       key: "weight",
     },
     {
-      title: "quantityOfSub",
+      title: "Số lượng đá phụ",
       dataIndex: "quantityOfSub",
       key: "quantityOfSub",
     },
@@ -331,7 +331,7 @@ export default function AdminCover() {
       key: "shape",
     },
     {
-      title: "Size",
+      title: "Kích thước",
       dataIndex: "size",
       key: "size",
     },
@@ -346,7 +346,7 @@ export default function AdminCover() {
       key: "carat",
     },
     {
-      title: "Cut",
+      title: "Độ cắt",
       dataIndex: "cut",
       key: "cut",
     },
@@ -444,7 +444,7 @@ export default function AdminCover() {
                           icon={<UploadOutlined />}
                           className="admin-upload-button"
                         >
-                          Upload Hình Ảnh
+                          Tải Hình Ảnh
                         </Button>
                       </Upload>{" "}
                     </Form.Item>
@@ -991,7 +991,7 @@ export default function AdminCover() {
                     icon={<UploadOutlined />}
                     className="admin-upload-button"
                   >
-                    Upload Hình Ảnh
+                    Tải Hình Ảnh
                   </Button>
                 </Upload>{" "}
               </Form.Item>

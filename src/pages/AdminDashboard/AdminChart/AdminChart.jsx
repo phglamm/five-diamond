@@ -3,7 +3,7 @@ import "chart.js/auto";
 import { Bar } from "react-chartjs-2";
 import SideBar from "../../../components/SideBar/SideBar";
 import "./AdminChart.css";
-import { DollarOutlined, RiseOutlined, TruckOutlined, UserAddOutlined, UsergroupAddOutlined, UserOutlined } from "@ant-design/icons";
+import { DollarOutlined, RiseOutlined, TruckOutlined, UserAddOutlined } from "@ant-design/icons";
 import moment from "moment";
 import api from "../../../config/axios";
 
@@ -12,6 +12,8 @@ export default function AdminChart() {
   const [accountCount, setAccountCount] = useState(0);
   const [accountByMonth, setAccountByMonth] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState(moment().month() + 1);
+  const [selectedQuarter, setSelectedQuarter] = useState(Math.floor((moment().month() + 3) / 3));
+  const [mode, setMode] = useState('month'); // Thêm trạng thái để kiểm soát chế độ chọn
 
   useEffect(() => {
     async function fetchSalesStatistic() {
@@ -155,45 +157,101 @@ export default function AdminChart() {
   const currentMonthOrder= ordersByMonth[currentMonthName] || 0;
   const currentMonthCustomerQuantity = customerByMonth[currentMonthName] || 0;
 
+  const quarters = [
+    { label: "Quý 1", value: 1 },
+    { label: "Quý 2", value: 2 },
+    { label: "Quý 3", value: 3 },
+    { label: "Quý 4", value: 4 },
+  ];
+
+  function getQuarterlyData(quarter) {
+    const startMonth = (quarter - 1) * 3 + 1;
+    const endMonth = quarter * 3;
+
+    let totalRevenue = 0;
+    let totalProfit = 0;
+    let totalOrders = 0;
+    let totalCustomers = 0;
+
+    for (let month = startMonth; month <= endMonth; month++) {
+      const monthName = `Tháng ${month}`;
+      totalRevenue += revenueByMonth[monthName] || 0;
+      totalProfit += profitByMonth[monthName] || 0;
+      totalOrders += ordersByMonth[monthName] || 0;
+      totalCustomers += customerByMonth[monthName] || 0;
+    }
+
+    return { totalRevenue, totalProfit, totalOrders, totalCustomers };
+  }
+
+  const { totalRevenue, totalProfit, totalOrders, totalCustomers } = getQuarterlyData(selectedQuarter);
+
   return (
     <div className="admin">
       <SideBar />
       <div className="admin-content">
-        <div className="month-selection">
-          <label htmlFor="month">Chọn tháng:</label>
-          <select id="month" value={selectedMonth} onChange={(e) => setSelectedMonth(parseInt(e.target.value))}>
-            {labels.map((label, index) => (
-              <option key={index} value={index + 1}>{label}</option>
-            ))}
-          </select>
+        <div className="selection-container">
+          <div className="month-selection">
+            <label htmlFor="month">Chọn tháng:</label>
+            <select 
+              id="month" 
+              value={selectedMonth} 
+              onChange={(e) => {
+                setMode('month');
+                setSelectedMonth(parseInt(e.target.value));
+              }}
+              onClick={() => setMode('month')}
+            >
+              {labels.map((label, index) => (
+                <option key={index} value={index + 1}>{label}</option>
+              ))}
+            </select>
+          </div>
+          Hoặc
+          <div className="quarter-selection">
+            <label htmlFor="quarter">Chọn quý:</label>
+            <select 
+              id="quarter" 
+              value={selectedQuarter} 
+              onChange={(e) => {
+                setMode('quarter');
+                setSelectedQuarter(parseInt(e.target.value));
+              }}
+              onClick={() => setMode('quarter')}
+            >
+              {quarters.map((quarter) => (
+                <option key={quarter.value} value={quarter.value}>{quarter.label}</option>
+              ))}
+            </select>
+          </div>
         </div>
         <div className="widget-table">
           <div className="widget-table-item">
             <DollarOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
-              <p>{currentMonthRevenue.toLocaleString()}đ</p>
-              <span>Doanh thu của tháng</span>
+              <p>{mode === 'quarter' ? totalRevenue.toLocaleString() + "đ" : currentMonthRevenue.toLocaleString() + "đ"}</p>
+              <span>{mode === 'quarter' ? "Doanh thu của quý" : "Doanh thu của tháng"}</span>
             </div>
           </div>
           <div className="widget-table-item">
             <RiseOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
-              <p>{currentMonthProfit.toLocaleString()}đ</p>
-              <span>Lợi nhuận của tháng</span>
+              <p>{mode === 'quarter' ? totalProfit.toLocaleString() + "đ" : currentMonthProfit.toLocaleString() + "đ"}</p>
+              <span>{mode === 'quarter' ? "Lợi nhuận của quý" : "Lợi nhuận của tháng"}</span>
             </div>
           </div>
           <div className="widget-table-item">
             <TruckOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
-              <p>{currentMonthOrder}</p>
-              <span>Số đơn của tháng</span>
+              <p>{mode === 'quarter' ? totalOrders : currentMonthOrder}</p>
+              <span>{mode === 'quarter' ? "Số đơn của quý" : "Số đơn của tháng"}</span>
             </div>
           </div>
           <div className="widget-table-item">
-          <UserAddOutlined className="widget-table-item-icon" />
-          <div className="widget-table-item-text">
-              <p>{currentMonthCustomerQuantity}</p>
-              <span>Số khách hàng mới</span>
+            <UserAddOutlined className="widget-table-item-icon" />
+            <div className="widget-table-item-text">
+              <p>{mode === 'quarter' ? totalCustomers : currentMonthCustomerQuantity}</p>
+              <span>{mode === 'quarter' ? "Số khách hàng mới" : "Số khách hàng mới"}</span>
             </div>
           </div>
         </div>

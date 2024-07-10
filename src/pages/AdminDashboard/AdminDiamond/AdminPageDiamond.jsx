@@ -134,7 +134,7 @@ export default function AdminDiamond() {
       sorter: (a, b) => a.id - b.id,
     },
     {
-      title: "giaReportNumber",
+      title: "Mã Phiếu GIA",
       dataIndex: "giaReportNumber",
       // key: "giaReportNumber",
       render: (text, record) => record.certificate?.giaReportNumber || "N/A",
@@ -144,13 +144,13 @@ export default function AdminDiamond() {
       defaultSortOrder: "ascend",
     },
     {
-      title: "Image URL ",
+      title: "Hình Ảnh ",
       dataIndex: "imgURL",
       key: "imgURL",
       render: (value) => <Image src={value} style={{ width: 80 }} />,
     },
     {
-      title: "Shape",
+      title: "Hình Dáng",
       dataIndex: "shape",
       key: "shape",
       filters: [
@@ -195,18 +195,18 @@ export default function AdminDiamond() {
       onFilter: (value, record) => record.shape?.indexOf(value) === 0,
     },
     {
-      title: "Size",
+      title: "Kích Thước",
       dataIndex: "size",
       key: "size",
     },
     {
-      title: "Color",
+      title: "Màu sắc",
       dataIndex: "color",
       key: "color",
     },
 
     {
-      title: "Clarity",
+      title: "Độ Tinh Khiết",
       dataIndex: "clarity",
       key: "clarity",
     },
@@ -216,17 +216,17 @@ export default function AdminDiamond() {
       key: "carat",
     },
     {
-      title: "Cut",
+      title: "Độ Cắt",
       dataIndex: "cut",
       key: "cut",
     },
     {
-      title: "Origin",
+      title: "Nguồn Gốc",
       dataIndex: "origin",
       key: "origin",
     },
     {
-      title: "price",
+      title: "Giá",
       dataIndex: "price",
       key: "price",
     },
@@ -672,7 +672,7 @@ export default function AdminDiamond() {
 
               <Form.Item
                 className="label-form"
-                label="Image URL "
+                label="Hình Ảnh "
                 name="imgURL"
               >
                 <Upload
@@ -683,7 +683,7 @@ export default function AdminDiamond() {
                   }}
                   onRemove={() => setImg(null)}
                 >
-                  <Button icon={<UploadOutlined />}>Upload</Button>
+                  <Button icon={<UploadOutlined />}>Tải Hình Ảnh</Button>
                 </Upload>{" "}
                 {/* <Input type="text" required /> */}
               </Form.Item>

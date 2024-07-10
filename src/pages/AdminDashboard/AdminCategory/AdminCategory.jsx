@@ -104,12 +104,12 @@ export default function AdminCategory() {
       sorter: (a, b) => a.id - b.id,
     },
     {
-      title: "name",
+      title: "Tên Danh Mục",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "description",
+      title: "Mô tả",
       dataIndex: "description",
       key: "description",
     },
