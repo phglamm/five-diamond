@@ -80,7 +80,7 @@ export default function AdminOrder() {
       title: "Xem đơn hàng",
       key: "view-order",
       render: (text, record) => (
-        <Link to={`/theo-doi-don-hang/${record?.id}`}>
+        <Link to={`/adminOrderDetail/${record?.id}`}>
           <Button type="link">Xem chi tiết</Button>
         </Link>
       ),

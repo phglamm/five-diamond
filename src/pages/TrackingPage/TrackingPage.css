@@ -1,5 +1,5 @@
 .tracking-page h4 {
-  color: #38A9B8;
+  color: #38a9b8;
   margin-top: 20px;
   font-weight: bold;
   margin-bottom: 15px;
@@ -17,14 +17,12 @@ hr.solid {
 }
 
 .order-tracking h3 {
-  color: #38A9B8;
+  color: #38a9b8;
   margin: 20px 0 15px;
   font-weight: bold;
-
 }
 
 .order-tracking-content {
-
   border: 1px solid #bbb;
   border-radius: 0;
   background-color: #fff;
@@ -52,7 +50,6 @@ hr.solid {
   margin-bottom: 20px;
   /* border: 1px solid #ffffff; */
   border-radius: 0;
-
 }
 
 .card-body {

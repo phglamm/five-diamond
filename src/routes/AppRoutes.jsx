@@ -46,6 +46,7 @@ import AdminDiamondPrice from "../pages/AdminDashboard/AdminDiamondPrice/AdminDi
 import CollectionDetail from "../pages/CollectionPage/CollectionDetail";
 import SearchProduct from "../pages/ProductPage/AllProductPage/SearchProduct";
 import AdminChart from "../pages/AdminDashboard/AdminChart/AdminChart";
+import AdminOrderDetail from "../pages/AdminDashboard/AdminManageOrder/AdminOrderDetail";
 
 // import Payment from "../pages/Payment/PaymentPage";
 
@@ -264,6 +265,15 @@ export default function AppRoute() {
       />
       <Route path={`${routes.bst}/:id`} element={<CollectionDetail />} />
       <Route path={routes.timkiemsanpham} element={<SearchProduct />} />
+
+      <Route
+        path={`adminOrderDetail/:id`}
+        element={
+          <ProtectedRoute roles={["MANAGER", "ADMIN"]}>
+            <AdminOrderDetail />{" "}
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }

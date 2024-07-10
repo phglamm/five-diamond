@@ -102,5 +102,7 @@
 
 .delivery-staff-filter-buttons-admin {
   display: flex;
+  justify-content: flex-start;
+  align-items: center;
   margin-top: 5%;
 }
