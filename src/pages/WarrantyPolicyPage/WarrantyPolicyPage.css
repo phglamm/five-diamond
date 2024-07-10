@@ -14,6 +14,7 @@
 .table-container {
   margin: 20px;
   margin-top: 5%;
+  box-shadow: none;
 }
 
 .table-head-cell {

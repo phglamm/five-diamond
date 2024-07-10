@@ -44,6 +44,70 @@ hr.solid {
   text-align: left;
 }
 
+/*order-cancel*/
+
+.order-canceled-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-background);
+  padding: 3rem 1rem;
+}
+
+.order-canceled-content {
+  text-align: center;
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+.order-canceled-icon {
+  height: 80px;
+
+  width: 100%;
+
+  margin: 0 auto;
+  background-color: var(--color-primary);
+}
+
+.order-canceled-title {
+  margin-top: 1rem;
+  font-size: 1.875rem;
+  font-weight: bold;
+  color: black;
+}
+
+
+.order-canceled-message {
+  margin-top: 1rem;
+  color: var(--color-muted-foreground);
+}
+
+.order-canceled-action {
+  margin-top: 5px;
+}
+
+.order-canceled-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: medium;
+  color: var(--color-primary-foreground);
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.2s;
+}
+
+.order-canceled-link:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.order-canceled-link:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--color-primary-focus);
+}
+
+
 /*  */
 
 .card {
