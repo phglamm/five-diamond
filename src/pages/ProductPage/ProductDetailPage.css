@@ -2,9 +2,9 @@
   display: flex;
   margin-top: 50px;
 }
-.relevant-product-card-item{
-    width: calc(100% / 6);
-    margin-bottom: 20px; 
+.relevant-product-card-item {
+  width: calc(100% / 6);
+  margin-bottom: 20px;
 }
 
 .product-detail-img {
@@ -76,9 +76,6 @@
   font-weight: bold;
 }
 
-
-
-
 .relevant-product-list {
   display: flex;
   align-items: center;
@@ -96,7 +93,6 @@
   margin: 0 auto;
 }
 
-
 /*san pham tuong tu*/
 
 .header-relevant-product {
@@ -105,10 +101,10 @@
   /* border-bottom: 2px solid #38a9b8; */
   padding-bottom: 10px;
   padding-top: 30px;
-
 }
 
 .product-card-item {
+  width: 25% !important;
   flex: 1 0 20%;
   /* Ensure the column takes up 20% of the row */
   margin-bottom: 20px;
@@ -191,8 +187,6 @@
   color: white;
 }
 
-
-
 .comment-section button.submit {
   background-color: #717171;
   color: white;
@@ -218,8 +212,6 @@
   font-size: 16px;
   color: #6c757d;
 }
-
-
 
 /* individual reviews */
 .reviews {
@@ -282,5 +274,4 @@
 
 .custom-pagination {
   margin-left: 592px;
-
 }

@@ -38,7 +38,7 @@ export default function CuffProductPage() {
 
   async function fetchProduct() {
     try {
-      const response = await api.get("product-line");
+      const response = await api.get("product-line/available");
       const cuffProducts = response.data.filter(
         (item) => item.category.name === "Vòng Tay" && item.deleted === false
       );

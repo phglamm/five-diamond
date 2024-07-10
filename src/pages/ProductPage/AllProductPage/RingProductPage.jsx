@@ -26,10 +26,12 @@ export default function RingProductPage() {
 
   async function fetchProduct() {
     try {
-      const response = await api.get("product-line");
+      const response = await api.get("product-line/available");
+      console.log(response.data);
       const ringProducts = response.data.filter(
         (item) => item.category.name === "Nhẫn" && item.deleted === false
       );
+
       setProduct(ringProducts);
       setFilteredProducts(ringProducts);
       setLoading(false);

@@ -31,10 +31,11 @@ export default function AdminDiamond() {
 
   async function AddDiamond(value) {
     console.log(value);
-    const imgURL = await uploadFile(img);
-    value.imgURL = imgURL;
-    console.log(value);
+
     try {
+      const imgURL = await uploadFile(img);
+      value.imgURL = imgURL;
+      console.log(value);
       await api.post("diamond", value);
       setDiamond([...diamond, value]);
       toast.success("Thêm Kim Cương Thành Công");
@@ -670,11 +671,7 @@ export default function AdminDiamond() {
                 </Select>
               </Form.Item>
 
-              <Form.Item
-                className="label-form"
-                label="Hình Ảnh "
-                name="imgURL"
-              >
+              <Form.Item className="label-form" label="Hình Ảnh " name="imgURL">
                 <Upload
                   fileList={img ? [img] : []}
                   beforeUpload={(file) => {
