@@ -22,6 +22,7 @@ export default function AdminUser() {
       const response = await api.post("register", value);
       console.log(response);
       toast.success("Tài Khoản của bạn đã được tạo thành công");
+      fetchAccount();
     } catch (error) {
       toast.error("Đã có lỗi trong việc tạo tài khoản của bạn");
       console.log(error.response.data);
@@ -32,7 +33,7 @@ export default function AdminUser() {
     fetchAccount();
   }, []);
 
-  useEffect(() => { }, [account]);
+  useEffect(() => {}, [account]);
 
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
@@ -114,12 +115,18 @@ export default function AdminUser() {
           <Button type="primary" onClick={showModal}>
             Tạo tài khoản nhân viên/quản lý
           </Button>
-          <Modal title="Tạo tài khoản" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
+          <Modal
+            title="Tạo tài khoản"
+            open={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={null}
+          >
             <Form
               layout="horizontal"
               labelCol={{ span: 7 }}
               wrapperCol={{ span: 20 }}
-              style={{ width: '100%' }}
+              style={{ width: "100%" }}
               form={form}
               onFinish={RegisterAccount}
               id="form"
@@ -154,9 +161,7 @@ export default function AdminUser() {
               <Form.Item
                 name="dob"
                 label="Ngày Sinh"
-                rules={[
-                  { required: true, message: "Chọn ngày sinh của bạn" },
-                ]}
+                rules={[{ required: true, message: "Chọn ngày sinh của bạn" }]}
               >
                 <DatePicker
                   placeholder="Ngày Sinh"
@@ -195,9 +200,7 @@ export default function AdminUser() {
                 required
                 label="Giới Tính"
                 name="gender"
-                rules={[
-                  { required: true, message: "Chọn Giới Tính của bạn" },
-                ]}
+                rules={[{ required: true, message: "Chọn Giới Tính của bạn" }]}
               >
                 <Select placeholder="Chọn Giới Tính của bạn">
                   <Option value="MALE">Nam</Option>
@@ -234,8 +237,7 @@ export default function AdminUser() {
                   {
                     pattern: /^([a-z]|[A-Z]|[0-9])*$/,
 
-                    message:
-                      "Mật khẩu của bạn phải không có ký tự đặc biệt",
+                    message: "Mật khẩu của bạn phải không có ký tự đặc biệt",
                   },
                   {
                     required: true,
@@ -274,9 +276,7 @@ export default function AdminUser() {
                 required
                 label="Vai trò"
                 name="role"
-                rules={[
-                  { required: true, message: "Chọn Vai Trò" },
-                ]}
+                rules={[{ required: true, message: "Chọn Vai Trò" }]}
               >
                 <Select placeholder="Chọn Vai Trò">
                   <Option value="SALES">Nhân viên SALES</Option>

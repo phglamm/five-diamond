@@ -1,0 +1,9 @@
+.checkout-image-admin {
+  width: 30%;
+  margin-right: 5%;
+}
+
+.return-order {
+  display: flex;
+  align-items: center;
+}
