@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Container, Col, Row, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Header from "../../../components/Header/Header";
@@ -39,9 +39,12 @@ export default function NecklaceProductPage() {
   async function fetchProduct() {
     try {
       const response = await api.get("product-line/available");
-      setProduct(response.data);
-      setFilteredProducts(response.data);
-      console.log(response.data);
+      const NecklaceProducts = response.data.filter(
+        (item) => item.category.name === "Dây Chuyền" && item.deleted === false
+      );
+      setProduct(NecklaceProducts);
+      setFilteredProducts(NecklaceProducts);
+      console.log(NecklaceProducts);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -82,12 +85,6 @@ export default function NecklaceProductPage() {
 
   const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
   const totalPage = Math.ceil(filteredProducts.length / pageSize);
-
-  // Lấy 15 sản phẩm đầu tiên
-  const firstFifteenProducts = product.slice(0, 15);
-  const specialpro = firstFifteenProducts.filter(
-    (itemSpecial) => !itemSpecial.deleted
-  );
 
   return (
     <div>

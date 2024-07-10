@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
 import { Col, Container, Row, Form } from "react-bootstrap";
@@ -27,13 +27,13 @@ export default function RingProductPage() {
   async function fetchProduct() {
     try {
       const response = await api.get("product-line");
-      const ringProducts = response.data.filter(
-        (item) => item.category.id === 3
+      const RingProducts = response.data.filter(
+        (item) => item.category.name === "Nhẫn" && item.deleted === false
       );
-      setProduct(ringProducts);
-      setFilteredProducts(ringProducts);
+      setProduct(RingProducts);
+      setFilteredProducts(RingProducts);
       setLoading(false);
-      console.log(ringProducts);
+      console.log(RingProducts);
     } catch (error) {
       setError("Failed to fetch products");
       setLoading(false);

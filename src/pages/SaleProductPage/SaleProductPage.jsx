@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { Dropdown, Menu } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import "./SaleProductPage.css";
-import { saleProducts } from "./ListOfSaleProducts";
 import Banner from "../../components/Banner/banner";
 
 import ProductCard from "../../components/productCard/productCard";
@@ -14,6 +13,7 @@ import BasicPagination from "../../components/BasicPagination/BasicPagination"; 
 const SaleProductPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [product, setProduct] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 20; // Number of items per page
@@ -31,8 +31,8 @@ const SaleProductPage = () => {
 
   // Filter products by category
   const filteredProducts = selectedCategory
-    ? saleProducts.filter((product) => product.category === selectedCategory)
-    : saleProducts;
+    ? product.filter((product) => product.category === selectedCategory)
+    : product;
 
   // Calculate the index range for the current page
   const startIndex = (currentPage - 1) * pageSize;
