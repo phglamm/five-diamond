@@ -117,7 +117,7 @@ export default function ProductPage({ token }) {
 
     async function fetchRelevantProducts(categoryId, currentProductId) {
       try {
-        const response = await api.get(`product-line?category=${categoryId}`);
+        const response = await api.get("product-line/available");
         const filteredProducts = response.data.filter(
           (product) =>
             product.category.id === categoryId &&
@@ -516,13 +516,15 @@ export default function ProductPage({ token }) {
                 ) : (
                   <Col xs={5}>
                     <p className="comment-notfound">
-
                       Chưa có bình luận về sản phẩm này
                     </p>
                   </Col>
                 )}
 
-                <div className="pagination-container" style={{ textAlign: "center" }}>
+                <div
+                  className="pagination-container"
+                  style={{ textAlign: "center" }}
+                >
                   <Pagination
                     count={Math.ceil(comments.length / commentsPerPage)}
                     page={currentPage}
