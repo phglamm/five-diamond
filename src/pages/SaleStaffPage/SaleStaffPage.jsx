@@ -352,6 +352,7 @@ function SaleStaffPage() {
                     <Button
                       type="primary"
                       onClick={() => handleEdit(record.id, record.orderStatus)}
+                      style={{marginRight:'10px'}}
                     >
                       Cập nhật trạng thái
                     </Button>
@@ -359,6 +360,7 @@ function SaleStaffPage() {
                     <Button
                       type="primary"
                       onClick={() => handleCancelOrder(record.id)}
+                      style={{backgroundColor:'red'}}
                     >
                       Hủy Đơn
                     </Button>
