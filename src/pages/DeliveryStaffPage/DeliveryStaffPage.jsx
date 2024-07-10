@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Container } from "react-bootstrap";
-import { Table, Input, Button, Upload } from "antd";
+import { Table, Input, Button, Upload, Image } from "antd";
 import api from "../../config/axios";
-import { Link } from "react-router-dom";
+import { Await, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import moment from "moment";
 import "./DeliveryStaffPage.css";
@@ -17,9 +17,10 @@ function DeliveryStaffPage() {
   const [filterStatus, setFilterStatus] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [order, setOrder] = useState([]);
-  const [img, setImg] = useState(null);
+  const [images, setImages] = useState({});
   const user = useSelector(selectUser);
   console.log(user.id);
+
   useEffect(() => {
     async function fetchOrder() {
       try {
@@ -38,19 +39,41 @@ function DeliveryStaffPage() {
       }
     }
     fetchOrder();
-  }, []);
+  }, [user.id]);
 
   const handleUpdate = async (orderId, newStatus) => {
+    try {
+      const response = await api.put(`/order/${orderId}&${user.id}`, {
+        orderStatus: newStatus,
+      });
+      console.log(response.data);
+      toast.success("Cập nhật thành công");
+      setOrder((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === orderId ? { ...order, orderStatus: newStatus } : order
+        )
+      );
+    } catch (error) {
+      console.log(error.response.data);
+      toast.error("Cập nhật thất bại");
+    }
+  };
+
+  const handleConfirmWithImage = async (orderId, newStatus) => {
     let imgURL;
-    if (img) {
-      imgURL = await uploadFile(img);
+    if (images[orderId]) {
+      imgURL = await uploadFile(images[orderId]);
     } else {
       imgURL = null;
     }
     console.log(imgURL);
+    console.log(newStatus);
     try {
-      const response = await api.put(`/order/${orderId}&${user.id}`, {
+      const responseStatus = await api.put(`/order/${orderId}&${user.id}`, {
         orderStatus: newStatus,
+      });
+      console.log(responseStatus.data);
+      const response = await api.put(`/order/confirm/${orderId}`, {
         imgConfirmUrl: imgURL,
       });
       console.log(response.data);
@@ -62,6 +85,11 @@ function DeliveryStaffPage() {
             : order
         )
       );
+      setImages((prevImages) => {
+        const newImages = { ...prevImages };
+        delete newImages[orderId];
+        return newImages;
+      });
     } catch (error) {
       console.log(error.response.data);
       toast.error("Cập nhật thất bại");
@@ -74,24 +102,19 @@ function DeliveryStaffPage() {
       newStatus = "SHIPPED";
       handleUpdate(orderId, newStatus);
     } else if (currentStatus === "SHIPPED") {
-      if (img) {
-        newStatus = "DELIVERED";
-        handleUpdate(orderId, newStatus);
+      newStatus = "DELIVERED";
+      if (images[orderId]) {
+        handleConfirmWithImage(orderId, newStatus);
       } else {
         toast.error("Bạn phải upload hình xác thực");
       }
     }
   };
 
-  const uploadImg = (orderId, currentStatus) => {
-    let newStatus = currentStatus;
-    if (currentStatus === "PROCESSING") {
-      newStatus = "SHIPPED";
-    } else if (currentStatus === "SHIPPED") {
-      newStatus = "DELIVERED";
-    }
-    handleUpdate(orderId, newStatus);
+  const handleFilterChange = (status) => {
+    setFilterStatus(status);
   };
+
   const filteredOrders = order.filter((ord) => {
     const matchesStatus =
       filterStatus === null || ord.orderStatus === filterStatus;
@@ -100,10 +123,6 @@ function DeliveryStaffPage() {
       .includes(searchTerm.toLowerCase());
     return matchesStatus && matchesSearchTerm;
   });
-
-  const handleFilterChange = (status) => {
-    setFilterStatus(status);
-  };
 
   return (
     <div>
@@ -121,7 +140,7 @@ function DeliveryStaffPage() {
             type={filterStatus === "PROCESSING" ? "primary" : ""}
             onClick={() => handleFilterChange("PROCESSING")}
           >
-            Đang xử lý
+            Chờ Xác Nhận
           </Button>
           <Button
             type={filterStatus === "SHIPPED" ? "primary" : ""}
@@ -161,7 +180,7 @@ function DeliveryStaffPage() {
               title: "Ngày đặt hàng",
               dataIndex: "orderDate",
               key: "orderDate",
-              render: (text) => moment(text).format("DD-MM-YYYY"), // Format date
+              render: (text) => moment(text).format("DD-MM-YYYY"),
             },
             {
               title: "Số điện thoại",
@@ -181,13 +200,13 @@ function DeliveryStaffPage() {
                 if (value === "PENDING") {
                   return "Đặt Hàng";
                 } else if (value === "CONFIRMED") {
-                  return "Xác nhận đơn hàng"; // Example for completed status
+                  return "Xác nhận đơn hàng";
                 } else if (value === "PROCESSING") {
-                  return "Đang xử lý"; // Example for canceled status
+                  return "Chờ Xác Nhận";
                 } else if (value === "SHIPPED") {
-                  return "Đang giao hàng"; // Example for canceled status
+                  return "Đang giao hàng";
                 } else if (value === "DELIVERED") {
-                  return "Đã giao hàng"; // Example for canceled status
+                  return "Đã giao hàng";
                 }
               },
             },
@@ -223,12 +242,21 @@ function DeliveryStaffPage() {
                     <>
                       <Upload
                         className="admin-upload-button"
-                        fileList={img ? [img] : []}
+                        fileList={images[record.id] ? [images[record.id]] : []}
                         beforeUpload={(file) => {
-                          setImg(file);
+                          setImages((prevImages) => ({
+                            ...prevImages,
+                            [record.id]: file,
+                          }));
                           return false;
                         }}
-                        onRemove={() => setImg(null)}
+                        onRemove={() => {
+                          setImages((prevImages) => {
+                            const newImages = { ...prevImages };
+                            delete newImages[record.id];
+                            return newImages;
+                          });
+                        }}
                       >
                         <Button
                           icon={<UploadOutlined />}
@@ -237,6 +265,15 @@ function DeliveryStaffPage() {
                           Upload Hình Ảnh
                         </Button>
                       </Upload>
+                    </>
+                  );
+                } else if (record.orderStatus === "DELIVERED") {
+                  return (
+                    <>
+                      <Image
+                        src={record.imgConfirmUrl}
+                        style={{ width: "150px" }}
+                      ></Image>
                     </>
                   );
                 }

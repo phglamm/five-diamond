@@ -69,7 +69,7 @@ function SaleStaffPage() {
       onOk: async () => {
         try {
           const response = await api.put(`/order/${orderId}&${user.id}`, {
-            orderStatus: "CANCELED",
+            orderStatus: cancleStatus,
           });
           console.log(response);
           toast.success("Cập nhật thành công");
@@ -228,6 +228,14 @@ function SaleStaffPage() {
     },
   ];
 
+  const [isModalCancleOrderOpen, setIsModalCancleOrderOpen] = useState(false);
+
+  const handleModalOkCancleOrder = () => {
+    setIsModalCancleOrderOpen(false);
+  };
+  const handleModalCancelOrder = () => {
+    setIsModalCancleOrderOpen(false);
+  };
   return (
     <div>
       <Header />
@@ -260,8 +268,8 @@ function SaleStaffPage() {
             Đang xử lý
           </Button>
           <Button
-            type={filterStatus === "CANCEL" ? "primary" : ""}
-            onClick={() => handleFilterChange("CANCEL")}
+            type={filterStatus === "CANCELED" ? "primary" : ""}
+            onClick={() => handleFilterChange("CANCELED")}
           >
             Đã hủy
           </Button>
@@ -361,18 +369,32 @@ function SaleStaffPage() {
                     <Button
                       type="primary"
                       onClick={() => handleEdit(record.id, record.orderStatus)}
-                      style={{marginRight:'10px'}}
+                      style={{ marginRight: "10px" }}
                     >
                       Cập nhật trạng thái
                     </Button>
 
                     <Button
                       type="primary"
-                      onClick={() => handleCancelOrder(record.id)}
-                      style={{backgroundColor:'red'}}
+                      // onClick={() => handleCancelOrder(record.id)}
+                      onClick={() => {
+                        setIsModalCancleOrderOpen(true);
+                      }}
+                      style={{ backgroundColor: "red" }}
                     >
                       Hủy Đơn
                     </Button>
+
+                    <Modal
+                      className="modal-updateCategory-form"
+                      footer={false}
+                      title="Hủy Đơn"
+                      okText={"Hủy Đơn"}
+                      open={isModalCancleOrderOpen}
+                      onOk={handleModalOkCancleOrder}
+                      onCancel={handleModalCancelOrder}
+                      mask={false}
+                    ></Modal>
                   </>
                 ),
             },
