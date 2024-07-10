@@ -93,8 +93,6 @@
 }
 
 
-
-
 /*san pham tuong tu*/
 
 .header-relevant-product {
@@ -211,17 +209,13 @@
 }
 
 .comment-notfound {
+  margin-top: 15px;
   text-align: center;
   font-size: 16px;
   color: #6c757d;
 }
 
-.comment-notfound h5 {
-  margin-top: 10px;
-  display: block;
-  font-size: 20px;
-  color: #1d3f6e;
-}
+
 
 /* individual reviews */
 .reviews {
