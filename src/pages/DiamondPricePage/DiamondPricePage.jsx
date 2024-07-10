@@ -54,7 +54,7 @@ export default function DiamondPricePage() {
                         <Table bordered className='price-table'>
                             <thead>
                                 <tr className='price-table-header-row'> {/* Add this class */}
-                                    <th className='price-table-header'>3.6MM</th>
+                                    <th className='price-table-header'>Color / Clarity</th>
                                     {columnHeaders.map((header, index) => (
                                         <th key={index}>{header}</th>
                                     ))}
@@ -70,7 +70,7 @@ export default function DiamondPricePage() {
                         <Table bordered className='price-table'>
                             <thead>
                                 <tr className='price-table-header-row'> {/* Add this class */}
-                                    <th className='price-table-header'>4.1MM</th>
+                                    <th className='price-table-header'>Color / Clarity</th>
                                     {columnHeaders.map((header, index) => (
                                         <th key={index}>{header}</th>
                                     ))}
@@ -86,7 +86,7 @@ export default function DiamondPricePage() {
                         <Table bordered className='price-table'>
                             <thead>
                                 <tr className='price-table-header-row'> {/* Add this class */}
-                                    <th className='price-table-header'>4.5MM</th>
+                                    <th className='price-table-header'>Color / Clarity</th>
                                     {columnHeaders.map((header, index) => (
                                         <th key={index}>{header}</th>
                                     ))}
@@ -102,7 +102,7 @@ export default function DiamondPricePage() {
                         <Table bordered className='price-table'>
                             <thead>
                                 <tr className='price-table-header-row'> {/* Add this class */}
-                                    <th className='price-table-header'>5.4MM</th>
+                                    <th className='price-table-header'>Color / Clarity</th>
                                     {columnHeaders.map((header, index) => (
                                         <th key={index}>{header}</th>
                                     ))}
