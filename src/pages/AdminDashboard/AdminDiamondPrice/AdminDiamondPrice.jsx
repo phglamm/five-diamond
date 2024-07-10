@@ -66,7 +66,7 @@ export default function AdminDiamondPrice() {
       ),
     },
     {
-      title: "Độ Cắt",
+      title: "Độ Tinh Khiết",
       dataIndex: "cut",
       key: "cut",
     },

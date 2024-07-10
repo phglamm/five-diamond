@@ -18,6 +18,7 @@ import api from "../../../config/axios";
 import { UploadOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import uploadFile from "../../../utils/upload";
+import { left } from "@popperjs/core";
 
 export default function AdminCollection() {
   const [form] = useForm();
@@ -127,12 +128,14 @@ export default function AdminCollection() {
       title: "ID",
       dataIndex: "id",
       key: "id",
+      fixed: "left",
       sorter: (a, b) => a.id - b.id,
     },
     {
       title: "Tên BST",
       dataIndex: "name",
       key: "name",
+      fixed: "left",
     },
 
     {
@@ -141,7 +144,7 @@ export default function AdminCollection() {
       key: "description",
     },
     {
-      title: "Image",
+      title: "Hình Ảnh",
       dataIndex: "imgURL",
       key: "imgURL",
       render: (value) => (
