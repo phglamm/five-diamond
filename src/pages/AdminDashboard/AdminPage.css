@@ -101,6 +101,6 @@
 }
 
 .delivery-staff-filter-buttons-admin {
-  margin-right: 43%;
+  display: flex;
   margin-top: 5%;
 }

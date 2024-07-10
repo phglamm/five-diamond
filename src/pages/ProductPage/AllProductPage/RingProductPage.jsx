@@ -20,7 +20,7 @@ export default function RingProductPage() {
   const pageSize = 20;
 
   const handleChangePage = (event, value) => {
-    setCurrentPage(value)
+    setCurrentPage(value);
     navigate(`?page=${value}`);
   };
 
