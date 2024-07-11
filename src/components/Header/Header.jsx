@@ -112,18 +112,20 @@ export default function Header() {
           <Link to={routes.bst}>Bộ Sưu Tập</Link>
         </Col>
         <Col
-          className="Header-navigation dropdownContainer"
-          onMouseOver={handleMouseOverProduct}
+          className="Header-navigation" // <--- Changed to div and added class
+          onMouseLeave={handleMouseLeaveProduct} // <--- Added onMouseLeave to parent container
         >
-          <Link to="">Sản Phẩm Về Kim Cương</Link>
-          {isProductDropdownOpen && (
-            <div
-              className="dropdownWrapper"
-              onMouseLeave={handleMouseLeaveProduct}
-            >
-              <DropdownContent />
-            </div>
-          )}
+          <div
+            className="dropdownContainer"
+            onMouseOver={handleMouseOverProduct}
+          >
+            <Link to="">Sản Phẩm Về Kim Cương</Link>
+            {isProductDropdownOpen && (
+              <div className="dropdownWrapper">
+                <DropdownContent />
+              </div>
+            )}
+          </div>
         </Col>
         <Col className="Header-navigation">
           <Link to={routes.size}>Hướng Dẫn Đo Ni</Link>

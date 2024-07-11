@@ -7,7 +7,7 @@ export default function DropdownContent() {
     <Row className="dropdown">
       <Col xs={4} md={3} className="dropdownItem">
         <div className="dropdownLink">
-          <h3>Trang Sức Kim Cương</h3>
+          <h3 className="dropdownLink-tilte">Trang Sức Kim Cương</h3>
           <Link to={routes.nhan}>Nhẫn Kim Cương</Link>
           <Link to={routes.vongco}>Vòng cổ Kim Cương</Link>
           <Link to={routes.khuyentai}>Khuyên tai kim cương</Link>

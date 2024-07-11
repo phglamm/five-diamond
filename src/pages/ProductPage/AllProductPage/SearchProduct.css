@@ -38,23 +38,26 @@
   color: rgb(0, 0, 0);
 }
 
-/*CHECK-BOX*/
-.form-check-input[type=checkbox] {
-  border-radius: .25rem;
-  background-color: #ffffff;
-  border: .125rem solid rgba(39, 39, 39, 0.25);
-  appearance: none;
+.filter-section .form-check {
+  margin-bottom: 20px;
 }
 
+/*CHECK-BOX*/
+
 .form-check-input[type=checkbox]:hover {
-  border-color: #a7a7a7;
+  border-color: #949494;
   background-color: transparent;
 
 }
 
-.filter-section .form-check {
-  margin-bottom: 10px;
+.form-check-input[type=checkbox]:focus {
+  border-color: #a7a7a7;
+  overflow: hidden;
 }
+
+
+
+
 
 /*tag*/
 .filter-section .tag-container {
