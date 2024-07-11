@@ -18,8 +18,9 @@
     }
 
     .about-banner-info-big {
+        color: black;
         background-color: #aebaba;
-        font-size: 16px;
+        font-size: 14px;
         padding: 25px;
         display: block;
         justify-content: center;
@@ -27,6 +28,8 @@
         margin-top: 0;
 
     }
+
+
 
     .about-banner-info {
         padding: 20px;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Col, Row, Form } from "react-bootstrap";
-import { Button, Tag, Select } from "antd";
+import { Tag, Select } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
@@ -295,8 +295,7 @@ export default function SearchProduct() {
                           className="form-check"
 
                         />
-                      )
-                    )}
+                      ))}
                   </Form.Group>
                 </div>
                 <div className="filter-part">
