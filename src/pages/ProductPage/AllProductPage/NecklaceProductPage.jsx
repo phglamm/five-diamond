@@ -124,7 +124,7 @@ export default function NecklaceProductPage() {
 
         <Row>
           {paginatedProducts.map((item, index) => (
-            <Col key={index} className="product-card-item">
+            <Col key={index} xs={12} sm={6} md={4} lg={3} className="product-card-item">
               <ProductCard
                 img={item.imgURL}
                 text={item.name}
