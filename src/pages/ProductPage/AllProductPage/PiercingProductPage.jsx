@@ -13,7 +13,7 @@ export default function PiercingProductPage() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 20;
+  const pageSize = 8;
 
   // Placeholder for filter and sort state
   const [filter, setFilter] = useState("");
@@ -124,7 +124,7 @@ export default function PiercingProductPage() {
 
         <Row>
           {paginatedProducts.map((item, index) => (
-            <Col key={index} className="product-card-item">
+            <Col key={index} xs={12} sm={6} md={4} lg={3} className="product-card-item">
               <ProductCard
                 img={item.imgURL}
                 text={item.name}

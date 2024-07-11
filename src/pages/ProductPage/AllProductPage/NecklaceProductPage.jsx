@@ -13,7 +13,7 @@ export default function NecklaceProductPage() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 20;
+  const pageSize = 8;
 
   // Placeholder for filter and sort state
   const [filter, setFilter] = useState("");
