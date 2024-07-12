@@ -9,7 +9,7 @@ export default function DropdownContent() {
         <div className="dropdownLink">
           <h3 className="dropdownLink-tilte">Trang Sức Kim Cương</h3>
           <Link to={routes.nhan}>Nhẫn Kim Cương</Link>
-          <Link to={routes.vongco}>Vòng cổ Kim Cương</Link>
+          <Link to={routes.vongco}>Dây Chuyền Kim Cương</Link>
           <Link to={routes.khuyentai}>Khuyên tai kim cương</Link>
           <Link to={routes.vongtay}>Lắc Tay, Vòng Tay Kim Cương</Link>
         </div>
