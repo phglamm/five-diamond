@@ -128,9 +128,9 @@ export default function RingProductPage() {
                   key={index}
                   xs={12}
                   sm={6}
-                  md={4}
-                  lg={3}
-                  className="d-flex justify-content-center mb-4 product-card-item-ring"
+                  md={2}
+                  lg={2}
+                  className="product-card-item-ring"
                 >
                   <ProductCard
                     img={item.imgURL}

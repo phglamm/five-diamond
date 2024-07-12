@@ -96,7 +96,7 @@ export default function GuestPage() {
         </Row>
         <Row>
           {firstFiveProducts.map((item, index) => (
-            <Col key={index} className="product-card-item">
+            <Col key={index} className="guest-product-card-item" md={2}>
               <ProductCard
                 img={item.imgURL}
                 text={item.name}
