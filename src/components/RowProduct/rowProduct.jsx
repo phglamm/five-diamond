@@ -4,7 +4,6 @@ import ProductCard from "../productCard/productCard";
 import "./rowProduct.css";
 import { useEffect, useState } from "react";
 import api from "../../config/axios";
-import { Key } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { routes } from "../../routes";
 

@@ -6,17 +6,10 @@ import Footer from "../../components/Footer/Footer";
 import Banner from "../../components/Banner/banner";
 import RowProduct from "../../components/RowProduct/rowProduct";
 import "./GuestPage.css";
-import { useNavigate } from "react-router-dom";
-import { routes } from "../../routes";
 import api from "../../config/axios";
 
 export default function GuestPage() {
   const [product, setProduct] = useState([]);
-  const navigate = useNavigate();
-
-  const handleCollectionClick = () => {
-    navigate(routes.bstset1);
-  };
 
   async function fetchProduct() {
     try {
