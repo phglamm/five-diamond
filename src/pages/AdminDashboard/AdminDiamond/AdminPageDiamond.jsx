@@ -1,6 +1,17 @@
 /* eslint-disable no-unused-vars */
 import SideBar from "../../../components/SideBar/SideBar";
-import { Button, Form, Image, Input, Modal, Select, Table, Upload } from "antd";
+import {
+  Button,
+  Checkbox,
+  Form,
+  Image,
+  Input,
+  Modal,
+  Radio,
+  Select,
+  Table,
+  Upload,
+} from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import "../../AdminDashboard/AdminPage.css";
@@ -20,7 +31,12 @@ export default function AdminDiamond() {
   const [selectedDiamond, setSelectedDiamond] = useState(null);
   const [img, setImg] = useState(null);
   const [imgUpdate, setImgUpdate] = useState(null);
+  const [selectedCertificateId, setSelectedCertificateId] = useState(null);
 
+  const handleRadioChange = (e) => {
+    const { value } = e.target;
+    setSelectedCertificateId(value);
+  };
   function hanldeClickSubmit() {
     form.submit();
   }
@@ -33,6 +49,8 @@ export default function AdminDiamond() {
     console.log(value);
 
     try {
+      // value.certificateID = checkedList[0];
+      value.certificateID = selectedCertificateId;
       const imgURL = await uploadFile(img);
       value.imgURL = imgURL;
       console.log(value);
@@ -504,6 +522,16 @@ export default function AdminDiamond() {
       dataIndex: "dateOfIssues",
       key: "dateOfIssues",
     },
+    {
+      title: "Select",
+      render: (text, record) => (
+        <Radio
+          checked={selectedCertificateId === record.id}
+          value={record.id}
+          onChange={handleRadioChange}
+        />
+      ),
+    },
   ];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -682,21 +710,19 @@ export default function AdminDiamond() {
                 >
                   <Button icon={<UploadOutlined />}>Tải Hình Ảnh</Button>
                 </Upload>{" "}
-                {/* <Input type="text" required /> */}
               </Form.Item>
               <div className="certificate-form">
                 <Form.Item
                   className="label-form"
                   label="Số Chứng Chỉ"
                   name="certificateID"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Nhập số Chứng Chỉ ",
-                    },
-                  ]}
                 >
-                  <Input type="number" required />
+                  <Input
+                    type="text"
+                    className="select-input"
+                    readOnly
+                    value={selectedCertificateId}
+                  />{" "}
                 </Form.Item>
                 <Button
                   icon={<UploadOutlined />}

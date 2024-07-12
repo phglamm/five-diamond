@@ -29,15 +29,35 @@ export default function AdminCollection() {
   const [img, setImg] = useState(null);
   const [imgUpdate, setImgUpdate] = useState(null);
 
-  function hanldeUpdateClickSubmit() {
-    formUpdate.submit();
-  }
+  const [checkedList, setCheckedList] = useState([]);
+  const [productLine, setProductLine] = useState([]);
+  const [selectedProductIds, setSelectedProductIds] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
 
-  function hanldeClickSubmit() {
+  const fetchProductLine = async () => {
+    const resposne = await api.get("product-line");
+    setProductLine(resposne.data);
+  };
+
+  const fetchCollection = async () => {
+    const response = await api.get("collection");
+    setCollection(response.data);
+  };
+
+  useEffect(() => {
+    fetchCollection();
+  }, []);
+
+  const hanldeClickSubmit = () => {
     form.submit();
-  }
+  };
 
-  async function AddCollection(value) {
+  const hanldeUpdateClickSubmit = () => {
+    formUpdate.submit();
+  };
+
+  const AddCollection = async (value) => {
     console.log(value);
     try {
       value.productLineIds = checkedList;
@@ -53,20 +73,9 @@ export default function AdminCollection() {
       toast.error("Đã có lỗi trong lúc thêm Bộ Sưu Tập");
       console.log(error.response.data);
     }
-  }
+  };
 
-  async function fetchCollection() {
-    const response = await api.get("collection");
-    setCollection(response.data);
-  }
-
-  useEffect(() => {
-    fetchCollection();
-  }, []);
-
-  useEffect(() => {}, [collection]);
-
-  async function deleteCollection(values) {
+  const deleteCollection = async (values) => {
     console.log(values.id);
     try {
       Modal.confirm({
@@ -86,9 +95,9 @@ export default function AdminCollection() {
       toast.error("Đã có lỗi trong lúc Xóa");
       console.log(error.response.data);
     }
-  }
+  };
 
-  async function updateCollection(values) {
+  const updateCollection = async (values) => {
     console.log(values);
 
     try {
@@ -111,15 +120,12 @@ export default function AdminCollection() {
       toast.error("chỉnh sửa thất bại, có lỗi");
       console.log(error.response.data);
     }
-  }
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
   };
-  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
 
   const handleUpdateOk = () => {
     setIsModalUpdateOpen(false);
   };
+
   const handleUpdateCancel = () => {
     setIsModalUpdateOpen(false);
   };
@@ -139,7 +145,6 @@ export default function AdminCollection() {
       fixed: "left",
       width: "10%",
     },
-
     {
       title: "Mô tả",
       dataIndex: "description",
@@ -154,7 +159,6 @@ export default function AdminCollection() {
         <Image src={value} alt="value" style={{ width: 100 }} />
       ),
     },
-
     {
       title: "",
       render: (values) => {
@@ -274,15 +278,17 @@ export default function AdminCollection() {
       },
     },
   ];
-  const [checkedList, setCheckedList] = useState([]);
-  const onChangeChecked = (e) => {
-    console.log(e.target.value);
-    if (e.target.checked) {
-      setCheckedList([...checkedList, e.target.value]);
-    } else {
-      setCheckedList(checkedList.filter((item) => item != e.target.value));
-    }
+
+  const handleCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    setCheckedList((prev) =>
+      checked ? [...prev, value] : prev.filter((id) => id !== value)
+    );
+    setSelectedProductIds((prev) =>
+      checked ? [...prev, value] : prev.filter((id) => id !== value)
+    );
   };
+
   const columnOfProduct = [
     {
       title: "ID",
@@ -290,7 +296,6 @@ export default function AdminCollection() {
       key: "id",
       sorter: (a, b) => a.id - b.id,
     },
-
     {
       title: "Tên Sản Phẩm",
       dataIndex: "name",
@@ -306,7 +311,6 @@ export default function AdminCollection() {
       dataIndex: "priceRate",
       key: "priceRate",
     },
-
     {
       title: "Shape",
       dataIndex: "shape",
@@ -335,35 +339,33 @@ export default function AdminCollection() {
     {
       title: "Select",
       render: (value) => (
-        <Checkbox type="checkbox" onChange={onChangeChecked} value={value.id} />
+        <Checkbox
+          type="checkbox"
+          onChange={handleCheckboxChange}
+          value={value.id}
+          checked={checkedList.includes(value.id)}
+        />
       ),
     },
   ];
 
-  const [productLine, setProductLine] = useState([]);
-  const fetchProductLine = async () => {
-    const resposne = await api.get("product-line");
-    setProductLine(resposne.data);
-  };
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const handleOk = () => {
     setIsModalOpen(false);
   };
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
 
   const showModal = () => {
     fetchProductLine();
-    console.log();
     setIsModalOpen(true);
   };
 
   const collectionNotdelete = collection.filter(
     (collection) => collection.deleted === false
   );
+
   return (
     <div className="Admin">
       <SideBar></SideBar>
@@ -431,7 +433,7 @@ export default function AdminCollection() {
                   type="text"
                   className="select-input"
                   readOnly
-                  value={checkedList}
+                  value={checkedList.join(", ")}
                 />
               </Form.Item>
               <Button
@@ -460,7 +462,6 @@ export default function AdminCollection() {
                   columns={columnOfProduct}
                   pagination={{ pageSize: 5 }}
                   scroll={{ x: "max-content" }}
-                  onChange={onChange}
                 />
               </Modal>{" "}
             </div>
@@ -479,7 +480,6 @@ export default function AdminCollection() {
           <Table
             dataSource={collectionNotdelete}
             columns={columns}
-            onChange={onChange}
             pagination={{ pageSize: 5 }}
             scroll={{ x: "max-content" }}
           />
