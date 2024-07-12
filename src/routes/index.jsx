@@ -53,4 +53,5 @@ export const routes = {
   khuyentai: "/san-pham-khuyen-tai",
   timkiemsanpham: "/san-pham",
   // payment: "/thanh-toan",
+  saleStaffCancleOrder: "/nhan-vien-sale-huy-don",
 };

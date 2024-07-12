@@ -47,6 +47,7 @@ import CollectionDetail from "../pages/CollectionPage/CollectionDetail";
 import SearchProduct from "../pages/ProductPage/AllProductPage/SearchProduct";
 import AdminChart from "../pages/AdminDashboard/AdminChart/AdminChart";
 import AdminOrderDetail from "../pages/AdminDashboard/AdminManageOrder/AdminOrderDetail";
+import SaleStaffCancleOrderPage from "../pages/SaleStaffPage/SaleStaffCancleOrder";
 
 export default function AppRoute() {
   return (
@@ -236,6 +237,14 @@ export default function AppRoute() {
         element={
           <ProtectedRoute roles={["SALES"]}>
             <SaleStaffPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routes.saleStaffCancleOrder}
+        element={
+          <ProtectedRoute roles={["SALES"]}>
+            <SaleStaffCancleOrderPage />
           </ProtectedRoute>
         }
       />

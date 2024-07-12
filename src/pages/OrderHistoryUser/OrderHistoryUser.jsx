@@ -70,6 +70,8 @@ export default function OrderHistoryUser() {
           return "Đang giao hàng"; // Example for canceled status
         } else if (value === "DELIVERED") {
           return "Đã giao hàng"; // Example for canceled status
+        } else if (value === "CANCELED") {
+          return "Đã bị hủy"; // Example for canceled status
         }
       },
     },

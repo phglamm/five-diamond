@@ -7,6 +7,9 @@ import { CloseCircleOutlined } from "@ant-design/icons";
 import { Link, useParams } from "react-router-dom";
 import "./TrackingPage.css";
 import api from "../../config/axios";
+import { routes } from "../../routes";
+import { selectUser } from "../../redux/features/counterSlice";
+import { useSelector } from "react-redux";
 
 const customDot = (dot, { status, index }) => (
   <Popover
@@ -23,6 +26,7 @@ const customDot = (dot, { status, index }) => (
 const TrackingPage = () => {
   const { id } = useParams();
   const [orderDetail, setOrderDetail] = useState(null);
+  const user = useSelector(selectUser);
 
   useEffect(() => {
     async function fetchOrderDetail() {
@@ -49,6 +53,19 @@ const TrackingPage = () => {
     return <></>;
   }
 
+  const getLinkRoute = () => {
+    if (user !== null) {
+      if (user.role === "DELIVERY") {
+        return routes.deliveryStaff;
+      } else if (user.role === "SALES") {
+        return routes.saleStaff;
+      } else {
+        return routes.home;
+      }
+    } else {
+      return routes.home;
+    }
+  };
   function handleProgress() {
     if (orderDetail.orderStatus === "PENDING") {
       return 0;
@@ -202,7 +219,7 @@ const TrackingPage = () => {
                   </p>
                   <div className="order-canceled-action">
                     <Link
-                      href="#"
+                      to={getLinkRoute()}
                       className="order-canceled-link"
                       prefetch={false}
                     >

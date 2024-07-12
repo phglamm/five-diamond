@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./SaleStaffPage.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Container } from "react-bootstrap";
 import { Table, Input, Button, Modal, Radio, Form } from "antd";
 import api from "../../config/axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/features/counterSlice";
 import { useForm } from "antd/es/form/Form";
+import { routes } from "../../routes";
 
 function SaleStaffPage() {
   const [filterStatus, setFilterStatus] = useState(null);
@@ -29,9 +30,12 @@ function SaleStaffPage() {
       try {
         const response = await api.get(`order/all`);
         const filteredOrders = response.data.filter((order) =>
-          ["PENDING", "CONFIRMED", "PROCESSING"].includes(order.orderStatus)
+          ["PENDING", "CONFIRMED", "PROCESSING", "CANCELED"].includes(
+            order.orderStatus
+          )
         );
         setOrder(filteredOrders);
+        console.log(response.data);
       } catch (error) {
         console.log(error.response.data);
       }
@@ -82,7 +86,7 @@ function SaleStaffPage() {
             orderStatus: cancleStatus,
           });
           console.log(responseStatus);
-          const response = await api.put(`/order/cancel/${orderId}&${reason}`, {
+          const response = await api.put(`/order/cancel/${orderId}`, {
             canceledNote: reason,
           });
           console.log(response);
@@ -292,12 +296,9 @@ function SaleStaffPage() {
           >
             Đang xử lý
           </Button>
-          <Button
-            type={filterStatus === "CANCELED" ? "primary" : ""}
-            onClick={() => handleFilterChange("CANCELED")}
-          >
-            Đã hủy
-          </Button>
+          <Link to={routes.saleStaffCancleOrder}>
+            <Button>Đã hủy</Button>{" "}
+          </Link>
         </div>
         <div className="sales-search-bar">
           <Input
@@ -351,6 +352,8 @@ function SaleStaffPage() {
                   return "Đang giao hàng";
                 } else if (value === "DELIVERED") {
                   return "Đã giao hàng";
+                } else if (value === "CANCELED") {
+                  return "Đã bị hủy";
                 }
               },
             },
@@ -366,65 +369,72 @@ function SaleStaffPage() {
             {
               title: "Thao tác",
               key: "update-order",
-              render: (text, record) => (
-                <>
-                  <Modal
-                    className="modal-add-form"
-                    title="Chọn Nhân Viên để giao hàng"
-                    okText={"Chọn Shipper"}
-                    open={isModalOpen}
-                    onOk={handleChooseShipper}
-                    onCancel={handleCancel}
-                  >
-                    <Table
-                      dataSource={deliveryStaff}
-                      columns={columnOfStaff}
-                      pagination={{ pageSize: 5 }}
-                      scroll={{ x: "max-content" }}
-                      onChange={onChange}
-                    />
-                  </Modal>
-                  {record.orderStatus !== "PROCESSING" && (
-                    <>
-                      <Button
-                        type="primary"
-                        onClick={() =>
-                          handleEdit(record.id, record.orderStatus)
-                        }
-                        style={{ marginRight: "10px" }}
-                      >
-                        Cập nhật trạng thái
-                      </Button>
-                      <Button
-                        type="primary"
-                        onClick={() => openCancelOrderModal(record.id)}
-                        style={{ backgroundColor: "red" }}
-                      >
-                        Hủy Đơn
-                      </Button>
-                    </>
-                  )}
-                  {record.orderStatus === "PROCESSING" && (
-                    <>
-                      <Button
-                        type="default"
-                        onClick={() => showModal(record.id)}
-                        style={{ marginRight: "10px" }}
-                      >
-                        Chọn nhân viên giao hàng
-                      </Button>
+              render: (text, record) => {
+                if (record.orderStatus === "CANCELED") {
+                  return <>Đơn hàng đã bị hủy</>;
+                }
 
-                      <Button
-                        type="primary"
-                        onClick={() => openCancelOrderModal(record.id)}
-                        style={{ backgroundColor: "red" }}
-                      >
-                        Hủy Đơn
-                      </Button>
-                    </>
-                  )}
-                </>
-              ),
+                return (
+                  <>
+                    <Modal
+                      className="modal-add-form"
+                      title="Chọn Nhân Viên để giao hàng"
+                      okText={"Chọn Shipper"}
+                      open={isModalOpen}
+                      onOk={handleChooseShipper}
+                      onCancel={handleCancel}
+                    >
+                      <Table
+                        dataSource={deliveryStaff}
+                        columns={columnOfStaff}
+                        pagination={{ pageSize: 5 }}
+                        scroll={{ x: "max-content" }}
+                        onChange={onChange}
+                      />
+                    </Modal>
+                    {record.orderStatus !== "PROCESSING" && (
+                      <>
+                        <Button
+                          type="primary"
+                          onClick={() =>
+                            handleEdit(record.id, record.orderStatus)
+                          }
+                          style={{ marginRight: "10px" }}
+                        >
+                          Cập nhật trạng thái
+                        </Button>
+                        <Button
+                          type="primary"
+                          onClick={() => openCancelOrderModal(record.id)}
+                          style={{ backgroundColor: "red" }}
+                        >
+                          Hủy Đơn
+                        </Button>
+                      </>
+                    )}
+
+                    {record.orderStatus === "PROCESSING" && (
+                      <>
+                        <Button
+                          type="default"
+                          onClick={() => showModal(record.id)}
+                          style={{ marginRight: "10px" }}
+                        >
+                          Chọn nhân viên giao hàng
+                        </Button>
+
+                        <Button
+                          type="primary"
+                          onClick={() => openCancelOrderModal(record.id)}
+                          style={{ backgroundColor: "red" }}
+                        >
+                          Hủy Đơn
+                        </Button>
+                      </>
+                    )}
+                  </>
+                );
+              },
             },
           ]}
         />

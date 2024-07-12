@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Col, Container, Row, Form } from "react-bootstrap";
@@ -24,6 +24,7 @@ function CollectionDetail() {
     try {
       const response = await api.get(`collection/${id}`);
       setCollection(response.data);
+      setProduct(response.data.productLinesList);
     } catch (error) {
       console.log(error.response.data);
     }
@@ -31,19 +32,6 @@ function CollectionDetail() {
 
   useEffect(() => {
     fetchCollectionById();
-  }, [id]);
-
-  async function fetchProductByCollection() {
-    try {
-      const response = await api.get("product-line");
-      setProduct(response.data);
-    } catch (error) {
-      console.log(error.response.data);
-    }
-  }
-
-  useEffect(() => {
-    fetchProductByCollection();
   }, [id]);
 
   const handleFilterChange = (e) => {
@@ -77,15 +65,9 @@ function CollectionDetail() {
     return products;
   };
 
-  const productByCollection = sortProducts(
-    filterProducts(
-      product.filter((product) => product.collection?.id === collection?.id)
-    )
-  );
+  const productByCollection = sortProducts(filterProducts(product));
 
-  const filteredProducts = filterProducts(product).filter(
-    (product) => product.collection?.id === collection?.id
-  );
+  const filteredProducts = filterProducts(product);
 
   const sortedProducts = sortProducts(filteredProducts);
 
@@ -128,7 +110,7 @@ function CollectionDetail() {
           </Form.Select>
         </div>
         <Row>
-          {collection.productLines.map((product) => (
+          {productByCollection.map((product) => (
             <Col key={product.id} sm={6} md={3}>
               <Link to={`/chi-tiet-san-pham/${product.id}`}>
                 <ProductCard
