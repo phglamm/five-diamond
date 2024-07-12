@@ -107,7 +107,7 @@ export default function AdminSaleEvent() {
     <div className="admin">
       <SideBar />
       <div className="admin-content">
-        <h1 style={{ fontWeight: "bold" }}>QUẢN LÝ SỰ KIỆN SALES</h1>
+        <h1 style={{ fontWeight: "bold" }}>QUẢN LÝ SỰ KIỆN GIẢM GIÁ</h1>
         <div className="promotion-form">
           <Form
             layout="horizontal"
@@ -134,7 +134,7 @@ export default function AdminSaleEvent() {
             </Form.Item>
             <Form.Item
               required
-              label="Giảm giá(%)"
+              label="Giảm giá (%)"
               name="discountPercentage"
               rules={[
                 {

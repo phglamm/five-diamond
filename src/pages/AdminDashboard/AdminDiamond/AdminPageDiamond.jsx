@@ -74,7 +74,7 @@ export default function AdminDiamond() {
     fetchDiamond();
   }, []);
 
-  useEffect(() => {}, [diamond]); // Only re-run this effect when diamond changes
+  useEffect(() => { }, [diamond]); // Only re-run this effect when diamond changes
 
   async function fetchCertificate() {
     const certificate = await api.get("certificate/available");

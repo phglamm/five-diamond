@@ -408,7 +408,7 @@ export default function AdminCollection() {
               </Form.Item>
               <Form.Item
                 className="label-form"
-                label="Image URL "
+                label="Hình ảnh"
                 name="imgURL"
               >
                 <Upload
@@ -446,7 +446,7 @@ export default function AdminCollection() {
                   display: "flex",
                 }}
               >
-                Chọn Sản Phẩm trong BST
+                Chọn Sản Phẩm cho BST
               </Button>
               <Modal
                 className="modal-add-form"

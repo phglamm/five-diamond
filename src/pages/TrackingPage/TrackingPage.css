@@ -16,6 +16,10 @@ hr.solid {
   margin-top: 40px;
 }
 
+.order-tracking .card {
+  box-shadow: none !important;
+}
+
 .order-tracking h3 {
   color: #38a9b8;
   margin: 20px 0 15px;
@@ -23,10 +27,9 @@ hr.solid {
 }
 
 .order-tracking-content {
-  border: 1px solid #bbb;
+  border: 1px solid #d1d1d1;
   border-radius: 0;
-  background-color: #fff;
-  /* Remove border-radius to make the border rectangular */
+
 }
 
 .shipping-info {
@@ -62,12 +65,8 @@ hr.solid {
 }
 
 .order-canceled-icon {
-  height: 80px;
-
-  width: 100%;
-
-  margin: 0 auto;
-  background-color: var(--color-primary);
+  font-size: 40px;
+  color: red;
 }
 
 .order-canceled-title {

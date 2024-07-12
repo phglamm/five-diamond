@@ -19,6 +19,15 @@
     border-radius: 0 !important;
 }
 
+.sale-staff-filter-buttons>a>.ant-btn {
+    border-radius: 0 !important;
+}
+
+.sale-staff-filter-buttons>a>.ant-btn:hover {
+    color: red !important;
+    border-color: red !important;
+}
+
 .contact-text {
     display: flex;
     justify-content: center;

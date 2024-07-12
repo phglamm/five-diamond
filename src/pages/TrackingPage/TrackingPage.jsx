@@ -207,8 +207,8 @@ const TrackingPage = () => {
             {orderDetail.orderStatus === "CANCELED" ? (
               <div className="order-canceled-container">
                 <div className="order-canceled-content">
-                  <div className="order-canceled-icon">
-                    <CloseCircleOutlined />
+                  <div >
+                    <CloseCircleOutlined className="order-canceled-icon" />
                   </div>
                   <h1 className="order-canceled-title">
                     Đơn hàng này đã bị hủy

@@ -34,8 +34,10 @@
 .order-item-details {
   flex: 1;
 }
+
 .order-item {
   margin-right: 0%;
+  margin-bottom: 20px;
 }
 
 .quantity-control {
@@ -55,25 +57,35 @@
 
 .quantity-div {
   background-color: #ffffffd5;
-  border-left: 1px solid rgb(129, 129, 129); /* Add black border on the left */
+  border-left: 1px solid rgb(129, 129, 129);
+  /* Add black border on the left */
   border-right: 3px solid rgb(129, 129, 129);
-  display: flex; /* Ensure contents are aligned horizontally */
-  align-items: center; /* Center align items vertically */
-  justify-content: center; /* Center align items horizontally */
+  display: flex;
+  /* Ensure contents are aligned horizontally */
+  align-items: center;
+  /* Center align items vertically */
+  justify-content: center;
+  /* Center align items horizontally */
 }
 
 /* Custom styles for quantity buttons */
 .quantity-button {
-  background-color: #f8d7da; /* Light red background */
-  border-color: #f5c6cb; /* Light red border */
-  color: #721c24; /* Dark red text color */
+  background-color: #f8d7da;
+  /* Light red background */
+  border-color: #f5c6cb;
+  /* Light red border */
+  color: #721c24;
+  /* Dark red text color */
 }
 
 .quantity-button:hover,
 .quantity-button:focus {
-  background-color: #f5c6cb; /* Slightly darker red on hover */
-  border-color: #f1b0b7; /* Slightly darker red border on hover */
-  color: #721c24; /* Dark red text color */
+  background-color: #f5c6cb;
+  /* Slightly darker red on hover */
+  border-color: #f1b0b7;
+  /* Slightly darker red border on hover */
+  color: #721c24;
+  /* Dark red text color */
 }
 
 /* Button styles - no specific color */

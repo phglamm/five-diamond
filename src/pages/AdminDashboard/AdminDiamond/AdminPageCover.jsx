@@ -959,7 +959,7 @@ export default function AdminCover() {
             <div className="form-content">
               <Form.Item
                 className="label-form"
-                label="Image URL "
+                label="Hình ảnh"
                 name="imgURL"
               >
                 <Upload
