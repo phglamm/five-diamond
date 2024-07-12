@@ -763,22 +763,6 @@ export default function AdminCover() {
                     </Form.Item>
                     <Form.Item
                       className="label-form"
-                      label="Bộ Sưu Tập"
-                      name="collectionID"
-                    >
-                      <Select
-                        className="select-input"
-                        placeholder="chọn Bộ sưu tập"
-                      >
-                        {collectionNotdelete.map((item) => (
-                          <Select.Option value={item.id}>
-                            {item.name}
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    </Form.Item>
-                    <Form.Item
-                      className="label-form"
                       label="Dành Cho"
                       name="gender"
                       rules={[
@@ -1313,17 +1297,6 @@ export default function AdminCover() {
                 </Select>
               </Form.Item>
 
-              <Form.Item
-                className="label-form"
-                label="Bộ Sưu Tập"
-                name="collectionID"
-              >
-                <Select className="select-input" placeholder="chọn Bộ sưu tập">
-                  {collectionNotdelete.map((item) => (
-                    <Select.Option value={item.id}>{item.name}</Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
               <Form.Item
                 className="label-form"
                 label="Dành Cho"

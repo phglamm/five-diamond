@@ -31,21 +31,30 @@ export default function GuestPage() {
   const [collection, setCollection] = useState([]);
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const [bannersResponse, productsResponse] = await Promise.all([
-          api.get("collection"),
-          api.get("product-line"),
-        ]);
+    // async function fetchData() {
+    //   try {
+    //     const [bannersResponse, productsResponse] = await Promise.all([
+    //       api.get("collection"),
+    //       api.get("product-line"),
+    //     ]);
+    //     setCollection(bannersResponse.data);
+    //     setProducts(productsResponse.data);
+    //   } catch (error) {
+    //     console.error("Error fetching data:", error);
+    //   }
+    // }
+    // fetchData();
 
-        setCollection(bannersResponse.data);
-        setProducts(productsResponse.data);
+    async function fetchCollection() {
+      try {
+        const response = await api.get("collection/available");
+        setCollection(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     }
 
-    fetchData();
+    fetchCollection();
   }, []);
 
   console.log(collection);
@@ -103,13 +112,18 @@ export default function GuestPage() {
             <h4 className="Top-title">BỘ SƯU TẬP</h4>
           </Col>
         </Row>
-        {sliceCollection.map((collection, index) => (
+        {/* {sliceCollection.map((collection, index) => (
           <RowProduct
             key={index}
             banner={collection.imgURL}
             products={products}
           />
-        ))}
+        ))} */}
+
+        {/* {collection.map((index) => {
+          <RowProduct key={index} />;
+        })} */}
+        <RowProduct></RowProduct>
       </Container>
       <Footer />
     </div>
