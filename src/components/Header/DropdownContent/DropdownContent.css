@@ -1,9 +1,9 @@
 .dropdown {
   position: fixed;
-  top: -15px;
+  top: 0px;
   /* left: 0; */
   align-self: center;
-  width: 85.5% !important;
+  width: 100% !important;
 
   background-color: #ffffff;
   padding: 1% 0;
