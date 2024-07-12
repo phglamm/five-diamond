@@ -83,7 +83,7 @@ function CollectionDetail() {
   const handlePageChange = (event, value) => setCurrentPage(value);
 
   if (!collection) {
-    return <div>Không có bộ sưu tập này</div>;
+    return <></>;
   }
 
   return (

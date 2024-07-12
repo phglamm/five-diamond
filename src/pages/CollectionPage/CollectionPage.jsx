@@ -6,7 +6,7 @@ import "./CollectionPage.css";
 import { routes } from "../../routes";
 import api from "../../config/axios";
 import { useEffect, useState } from "react";
-import BasicPagination from '../../components/BasicPagination/BasicPagination'
+import BasicPagination from "../../components/BasicPagination/BasicPagination";
 
 export default function CollectionPage() {
   const [collection, setCollection] = useState([]);
@@ -15,7 +15,8 @@ export default function CollectionPage() {
 
   async function fetchCollection() {
     const response = await api.get("collection");
-    setCollection(response.data);
+    const sortedCollection = response.data.sort((a, b) => b.id - a.id);
+    setCollection(sortedCollection);
   }
 
   useEffect(() => {
@@ -56,19 +57,19 @@ export default function CollectionPage() {
           />
         ))}
 
-        <div style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "10px",
-        }}>
-
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "10px",
+          }}
+        >
           <BasicPagination
             count={pageCount}
             page={currentPage}
             onChange={handlePageChange}
           />
         </div>
-
       </Container>
       <Footer />
     </div>

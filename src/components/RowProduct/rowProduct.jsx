@@ -5,6 +5,8 @@ import "./rowProduct.css";
 import { useEffect, useState } from "react";
 import api from "../../config/axios";
 import { Key } from "@mui/icons-material";
+import { Link } from "react-router-dom";
+import { routes } from "../../routes";
 
 export default function RowProduct({ banner, products }) {
   // Filter products based on the collection's imgURL
@@ -33,7 +35,9 @@ export default function RowProduct({ banner, products }) {
     async function fetchCollection() {
       try {
         const response = await api.get("collection/available");
-        setCollection(response.data);
+        const sortedCollection = response.data.sort((a, b) => b.id - a.id);
+
+        setCollection(sortedCollection);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -62,9 +66,11 @@ export default function RowProduct({ banner, products }) {
       {collection.slice(0, 3).map((collection) => (
         <>
           <Col xs={6} key={collection.id}>
-            <div className="rowBanner">
-              <img src={collection.imgURL} alt="Collection Banner" />
-            </div>
+            <Link to={`${routes.bst}/${collection.id}`}>
+              <div className="rowBanner">
+                <img src={collection.imgURL} alt="Collection Banner" />
+              </div>
+            </Link>
           </Col>
           {collection.productLines.slice(0, 3).map((product, index) => (
             <Col key={index} xs={2}>
