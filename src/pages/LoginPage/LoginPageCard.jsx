@@ -48,9 +48,9 @@ function LoginPageCard() {
         } else if (userApi.data.role === "MANAGER") {
           navigate(routes.adminDiamond);
         } else if (userApi.data.role === "SALES") {
-          navigate(routes.home);
+          navigate(routes.saleStaff);
         } else if (userApi.data.role === "DELIVERY") {
-          navigate(routes.home);
+          navigate(routes.deliveryStaff);
         }
         toast.success("Đăng Nhập Thành Công");
         dispatch(login(userApi.data));

@@ -48,8 +48,6 @@ import SearchProduct from "../pages/ProductPage/AllProductPage/SearchProduct";
 import AdminChart from "../pages/AdminDashboard/AdminChart/AdminChart";
 import AdminOrderDetail from "../pages/AdminDashboard/AdminManageOrder/AdminOrderDetail";
 
-// import Payment from "../pages/Payment/PaymentPage";
-
 export default function AppRoute() {
   return (
     <Routes>
@@ -208,9 +206,7 @@ export default function AppRoute() {
       <Route
         path={routes.successpayment}
         element={
-          <ProtectedRoute
-            roles={["CUSTOMER", "MANAGER", "ADMIN", "SALES", "DELIVERY"]}
-          >
+          <ProtectedRoute roles={["CUSTOMER"]}>
             <PaymentSuccess />
           </ProtectedRoute>
         }
@@ -218,9 +214,7 @@ export default function AppRoute() {
       <Route
         path={routes.failpayment}
         element={
-          <ProtectedRoute
-            roles={["CUSTOMER", "MANAGER", "ADMIN", "SALES", "DELIVERY"]}
-          >
+          <ProtectedRoute roles={["CUSTOMER"]}>
             <PaymentFail />{" "}
           </ProtectedRoute>
         }
@@ -232,7 +226,7 @@ export default function AppRoute() {
           <ProtectedRoute
             roles={["CUSTOMER", "MANAGER", "ADMIN", "SALES", "DELIVERY"]}
           >
-            <TrackingPage />{" "}
+            <TrackingPage />
           </ProtectedRoute>
         }
       />

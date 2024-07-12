@@ -17,7 +17,7 @@ export default function RingProductPage() {
   const [sort, setSort] = useState("");
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 20;
+  const pageSize = 8; // Set pageSize to 8
 
   const handleChangePage = (event, value) => {
     setCurrentPage(value);

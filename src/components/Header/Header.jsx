@@ -31,7 +31,20 @@ export default function Header() {
   };
 
   const user = useSelector(selectUser);
-
+  console.log(user);
+  const getLinkRoute = () => {
+    if (user !== null) {
+      if (user.role === "DELIVERY") {
+        return routes.deliveryStaff;
+      } else if (user.role === "SALES") {
+        return routes.salesStaff;
+      } else {
+        return routes.home;
+      }
+    } else {
+      return routes.home;
+    }
+  };
   return (
     <Container fluid className="Header" id="header">
       <Row className="Top-header">
@@ -51,7 +64,7 @@ export default function Header() {
         </Col>
 
         <Col xs={3} className="Header-logo">
-          <Link to={routes.home}>
+          <Link to={getLinkRoute()}>
             <img
               src={
                 "https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"
@@ -60,12 +73,30 @@ export default function Header() {
             />
           </Link>
         </Col>
-        <Col xs={2} className="Header-search">
-          <SearchBar
-            placeholder={"Tìm kiếm sản phẩm ..."}
-            icon={"pi pi-search"}
-          />
-        </Col>
+        {user ? (
+          <>
+            {" "}
+            {user.role === "SALES" || user.role === "DELIVERY" ? (
+              <Col xs={2} className="Header-search"></Col>
+            ) : (
+              <Col xs={2} className="Header-search">
+                <SearchBar
+                  placeholder={"Tìm kiếm sản phẩm ..."}
+                  icon={"pi pi-search"}
+                />
+              </Col>
+            )}
+          </>
+        ) : (
+          <>
+            <Col xs={2} className="Header-search">
+              <SearchBar
+                placeholder={"Tìm kiếm sản phẩm ..."}
+                icon={"pi pi-search"}
+              />
+            </Col>
+          </>
+        )}
 
         {user ? (
           <Col
@@ -104,42 +135,85 @@ export default function Header() {
         )}
       </Row>
 
-      <Col className="Bottom-header">
-        <Col className="Header-navigation">
-          <Link to={routes.about}>Giới Thiệu</Link>
-        </Col>
-        <Col className="Header-navigation">
-          <Link to={routes.bst}>Bộ Sưu Tập</Link>
-        </Col>
-        <Col
-          className="Header-navigation" // <--- Changed to div and added class
-          onMouseLeave={handleMouseLeaveProduct} // <--- Added onMouseLeave to parent container
-        >
-          <div
-            className="dropdownContainer"
-            onMouseOver={handleMouseOverProduct}
-          >
-            <Link to="">Sản Phẩm Về Kim Cương</Link>
-            {isProductDropdownOpen && (
-              <div className="dropdownWrapper">
-                <DropdownContent />
-              </div>
-            )}
-          </div>
-        </Col>
-        <Col className="Header-navigation">
-          <Link to={routes.size}>Hướng Dẫn Đo Ni</Link>
-        </Col>
-        <Col className="Header-navigation">
-          <Link to={routes.blog}>Kiến Thức</Link>
-        </Col>
-        <Col className="Header-navigation">
-          <Link to={routes.diamondprice}>Bảng Giá Kim Cương</Link>
-        </Col>
-        <Col className="Header-navigation">
-          <Link to={routes.faq}>Câu Hỏi Thường Gặp</Link>
-        </Col>
-      </Col>
+      {user ? (
+        <>
+          {user.role === "SALES" || user.role === "DELIVERY" ? (
+            <></>
+          ) : (
+            <Col className="Bottom-header">
+              <Col className="Header-navigation">
+                <Link to={routes.about}>Giới Thiệu</Link>
+              </Col>
+              <Col className="Header-navigation">
+                <Link to={routes.bst}>Bộ Sưu Tập</Link>
+              </Col>
+              <Col
+                className="Header-navigation dropdownContainer"
+                onMouseOver={handleMouseOverProduct}
+              >
+                <Link to="">Sản Phẩm Về Kim Cương</Link>
+                {isProductDropdownOpen && (
+                  <div
+                    className="dropdownWrapper"
+                    onMouseLeave={handleMouseLeaveProduct}
+                  >
+                    <DropdownContent />
+                  </div>
+                )}
+              </Col>
+              <Col className="Header-navigation">
+                <Link to={routes.size}>Hướng Dẫn Đo Ni</Link>
+              </Col>
+              <Col className="Header-navigation">
+                <Link to={routes.blog}>Kiến Thức</Link>
+              </Col>
+              <Col className="Header-navigation">
+                <Link to={routes.diamondprice}>Bảng Giá Kim Cương</Link>
+              </Col>
+              <Col className="Header-navigation">
+                <Link to={routes.faq}>Câu Hỏi Thường Gặp</Link>
+              </Col>
+            </Col>
+          )}
+        </>
+      ) : (
+        <>
+          <Col className="Bottom-header">
+            <Col className="Header-navigation">
+              <Link to={routes.about}>Giới Thiệu</Link>
+            </Col>
+            <Col className="Header-navigation">
+              <Link to={routes.bst}>Bộ Sưu Tập</Link>
+            </Col>
+            <Col
+              className="Header-navigation dropdownContainer"
+              onMouseOver={handleMouseOverProduct}
+            >
+              <Link to="">Sản Phẩm Về Kim Cương</Link>
+              {isProductDropdownOpen && (
+                <div
+                  className="dropdownWrapper"
+                  onMouseLeave={handleMouseLeaveProduct}
+                >
+                  <DropdownContent />
+                </div>
+              )}
+            </Col>
+            <Col className="Header-navigation">
+              <Link to={routes.size}>Hướng Dẫn Đo Ni</Link>
+            </Col>
+            <Col className="Header-navigation">
+              <Link to={routes.blog}>Kiến Thức</Link>
+            </Col>
+            <Col className="Header-navigation">
+              <Link to={routes.diamondprice}>Bảng Giá Kim Cương</Link>
+            </Col>
+            <Col className="Header-navigation">
+              <Link to={routes.faq}>Câu Hỏi Thường Gặp</Link>
+            </Col>
+          </Col>
+        </>
+      )}
     </Container>
   );
 }
