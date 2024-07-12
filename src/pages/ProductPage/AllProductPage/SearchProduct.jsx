@@ -147,7 +147,7 @@ export default function SearchProduct() {
     gender: { Nữ: "FEMALE", Nam: "MALE" },
     category: {
       Nhẫn: "Nhẫn",
-      "Vòng Cổ": "Dây Chuyền",
+      "Dây Chuyền": "Dây Chuyền",
       "Khuyên Tai": "Khuyên Tai",
       "Vòng Tay": "Vòng Tay",
     },
@@ -250,9 +250,7 @@ export default function SearchProduct() {
                   </Form.Group>
 
                   <Form.Group>
-                    <Form.Label className="filter-part-label">
-                      Chủng Loại
-                    </Form.Label>
+                    <Form.Label className="filter-part-label">Loại</Form.Label>
                     {Object.entries(filterMappings.category).map(
                       ([displayText, dbValue]) => (
                         <Form.Check
