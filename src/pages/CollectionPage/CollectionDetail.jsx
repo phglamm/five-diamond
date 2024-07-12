@@ -128,13 +128,13 @@ function CollectionDetail() {
           </Form.Select>
         </div>
         <Row>
-          {currentProducts.map((product) => (
+          {collection.productLines.map((product) => (
             <Col key={product.id} sm={6} md={3}>
               <Link to={`/chi-tiet-san-pham/${product.id}`}>
                 <ProductCard
                   img={product.imgURL}
                   text={product.name}
-                  price={product.finalPrice}
+                  price={`${product.finalPrice.toLocaleString()}đ`}
                   pageType="guest-page"
                   id={product.id}
                 />
