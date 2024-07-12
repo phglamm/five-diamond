@@ -35,11 +35,9 @@ function SaleEventPage() {
         <div>
           <h3 className="content-header">ƯU ĐÃI ĐỘC QUYỀN ONLINE</h3>
           <div className="sale-content">
-            <p onClick={() => handleFilter("ring")}>NHẪN ƯU ĐÃI ĐẾN 20%</p>
-            <p onClick={() => handleFilter("necklace")}>
-              VÒNG CỔ ƯU ĐÃI ĐẾN 40%
-            </p>
-            <p onClick={() => handleFilter("diamond")}>KIM CƯƠNG ƯU ĐÃI 2%</p>
+            <p onClick={""}>NHẪN ƯU ĐÃI ĐẾN 20%</p>
+            <p onClick={""}>VÒNG CỔ ƯU ĐÃI ĐẾN 40%</p>
+            <p onClick={""}>KIM CƯƠNG ƯU ĐÃI 2%</p>
           </div>
           <div className="sale-content-img">
             <img
@@ -68,9 +66,9 @@ function SaleEventPage() {
             {/* earring */}
           </div>
           <div className="button" id="outlined">
-            <Link to={routes.saleProduct}>
+            {/* <Link to={routes.saleProduct}>
               <OutlinedButtons text={"Xem tất cả"} />
-            </Link>
+            </Link> */}
           </div>
         </div>
         <div className="button" id="filled">
