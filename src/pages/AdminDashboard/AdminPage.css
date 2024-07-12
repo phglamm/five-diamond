@@ -106,3 +106,7 @@
   align-items: center;
   margin-top: 5%;
 }
+
+.small-button{
+  width: 20%;
+}

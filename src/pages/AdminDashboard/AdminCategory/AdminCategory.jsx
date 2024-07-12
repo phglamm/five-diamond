@@ -252,7 +252,7 @@ export default function AdminCategory() {
             </div>
           </div>
 
-          <Button onClick={hanldeClickSubmit} className="form-button">
+          <Button onClick={hanldeClickSubmit} className="form-button small-button">
             Thêm Danh Mục
           </Button>
         </Form>

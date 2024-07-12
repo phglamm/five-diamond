@@ -463,7 +463,7 @@ export default function AdminCollection() {
             </div>
           </div>
 
-          <Button onClick={hanldeClickSubmit} className="form-button">
+          <Button onClick={hanldeClickSubmit} className="form-button small-button">
             Thêm Bộ Sưu Tập
           </Button>
         </Form>
