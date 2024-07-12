@@ -7,7 +7,7 @@ export default function RowProduct({ banner, products }) {
   // Filter products based on the collection's imgURL
   const filteredProducts = products.filter(
     (product) =>
-      product.collection !== null && product.collection.imgURL === banner
+      product.collection !== null && product.collection === banner
   );
 
   return (
