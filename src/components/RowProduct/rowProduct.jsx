@@ -74,12 +74,14 @@ export default function RowProduct({ banner, products }) {
           </Col>
           {collection.productLines.slice(0, 3).map((product, index) => (
             <Col key={index} xs={2}>
-              <ProductCard
-                id={product.id}
-                img={product.imgURL} // Assuming imgURL is part of product data
-                text={product.name} // Assuming name is part of product data
-                price={`${product.finalPrice.toLocaleString()}đ`} // Assuming finalPrice is part of product data
-              />
+              <div className="rowProduct-product-card-collection">
+                <ProductCard
+                  id={product.id}
+                  img={product.imgURL} // Assuming imgURL is part of product data
+                  text={product.name} // Assuming name is part of product data
+                  price={`${product.finalPrice.toLocaleString()}đ`} // Assuming finalPrice is part of product data
+                />
+              </div>
             </Col>
           ))}
         </>
