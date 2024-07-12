@@ -45,7 +45,7 @@ export default function AdminCategory() {
     fetchCategory();
   }, []);
 
-  useEffect(() => {}, [category]); // Only re-run this effect when diamond changes
+  useEffect(() => { }, [category]); // Only re-run this effect when diamond changes
 
   async function deleteCategory(values) {
     console.log(values.id);
