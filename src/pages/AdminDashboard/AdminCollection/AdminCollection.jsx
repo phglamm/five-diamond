@@ -48,6 +48,7 @@ export default function AdminCollection() {
       console.log(response.data);
       toast.success("Thêm Bộ Sưu Tập thành công");
       fetchCollection();
+      form.resetFields();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc thêm Bộ Sưu Tập");
       console.log(error.response.data);
@@ -136,12 +137,14 @@ export default function AdminCollection() {
       dataIndex: "name",
       key: "name",
       fixed: "left",
+      width: "10%",
     },
 
     {
       title: "Mô tả",
       dataIndex: "description",
       key: "description",
+      width: "30%",
     },
     {
       title: "Hình Ảnh",
@@ -463,7 +466,10 @@ export default function AdminCollection() {
             </div>
           </div>
 
-          <Button onClick={hanldeClickSubmit} className="form-button small-button">
+          <Button
+            onClick={hanldeClickSubmit}
+            className="form-button small-button"
+          >
             Thêm Bộ Sưu Tập
           </Button>
         </Form>

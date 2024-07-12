@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import Header from "../../components/Header/Header";
 import ProductCard from "../../components/productCard/productCard";
@@ -19,55 +19,24 @@ export default function GuestPage() {
   };
 
   async function fetchProduct() {
-    const response = await api.get("product-line/available");
-    setProduct(response.data);
-    console.log(response.data);
+    try {
+      const response = await api.get("product-line/available");
+      // Sort products by some criteria like ID or date to get the latest ones first
+      const sortedProducts = response.data.sort((a, b) => b.id - a.id);
+      setProduct(sortedProducts);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
   }
 
   useEffect(() => {
     fetchProduct();
   }, []);
 
-  const [collection, setCollection] = useState([]);
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    // async function fetchData() {
-    //   try {
-    //     const [bannersResponse, productsResponse] = await Promise.all([
-    //       api.get("collection"),
-    //       api.get("product-line"),
-    //     ]);
-    //     setCollection(bannersResponse.data);
-    //     setProducts(productsResponse.data);
-    //   } catch (error) {
-    //     console.error("Error fetching data:", error);
-    //   }
-    // }
-    // fetchData();
-
-    async function fetchCollection() {
-      try {
-        const response = await api.get("collection/available");
-        setCollection(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-
-    fetchCollection();
-  }, []);
-
-  console.log(collection);
-
-  const collectionNotdelete = collection.filter(
-    (collection) => collection.deleted === false
-  );
-  const sliceCollection = collectionNotdelete.slice(0, 3);
-
-  // Lấy 5 sản phẩm đầu tiên
-  const firstFiveProducts = product.slice(0, 5);
-  const specialpro = firstFiveProducts.filter(
-    (itemSpecial) => itemSpecial.special === true
+  // Get the latest 5 products
+  const latestFiveProducts = product.slice(0, 5);
+  const specialpro = latestFiveProducts.filter(
+    (itemSpecial) => itemSpecial.deleted === false
   );
 
   return (
@@ -91,12 +60,12 @@ export default function GuestPage() {
         />
         <Row>
           <Col>
-            <h4 className="Top-title">SẢN PHẨM NỔI BẬT</h4>
+            <h4 className="Top-title">SẢN PHẨM MỚI NHẤT</h4>
           </Col>
         </Row>
         <Row>
-          {firstFiveProducts.map((item, index) => (
-            <Col key={index} className="guest-product-card-item" md={2}>
+          {specialpro.map((item, index) => (
+            <Col key={index} className="guest-product-card-item">
               <ProductCard
                 img={item.imgURL}
                 text={item.name}
@@ -116,13 +85,9 @@ export default function GuestPage() {
           <RowProduct
             key={index}
             banner={collection.imgURL}
-            products={products}
+            products={products} // Pass products data here if needed
           />
         ))} */}
-
-        {/* {collection.map((index) => {
-          <RowProduct key={index} />;
-        })} */}
         <RowProduct></RowProduct>
       </Container>
       <Footer />

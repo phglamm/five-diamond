@@ -147,7 +147,7 @@ export default function SearchProduct() {
     gender: { Nữ: "FEMALE", Nam: "MALE" },
     category: {
       Nhẫn: "Nhẫn",
-      "Vòng Cổ": "Vòng Cổ",
+      "Vòng Cổ": "Dây Chuyền",
       "Khuyên Tai": "Khuyên Tai",
       "Vòng Tay": "Vòng Tay",
     },

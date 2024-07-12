@@ -77,7 +77,7 @@ function SaleStaffCancleOrderPage() {
               title: "Ngày đặt hàng",
               dataIndex: "orderDate",
               key: "orderDate",
-              render: (text, record) => record.order?.orderDate,
+              render: (text, record) => moment(text).format("DD-MM-YYYY"),
             },
             {
               title: "Số điện thoại",
@@ -117,7 +117,7 @@ function SaleStaffCancleOrderPage() {
               key: "cancelOrderStatus",
               render: (value) => {
                 if (value === "PENDING") {
-                  return <>Đang Hoàn tiền</>;
+                  return <>Đang Hoàn Tiền</>;
                 } else {
                   return <>Đã Hoàn Tiền</>;
                 }
@@ -149,7 +149,7 @@ function SaleStaffCancleOrderPage() {
                         onClick={() => handleEdit(record.id)}
                         style={{ marginRight: "10px" }}
                       >
-                        Cập nhật trạng thái
+                        Cập Nhật Hoàn Tiền
                       </Button>
                     </>
                   );

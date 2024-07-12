@@ -16,7 +16,7 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import ProductCard from "../../components/productCard/productCard";
 // import ProductReview from "../../components/ProductReview/ProductReview"; //(nam)
 
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
 import { useForm } from "antd/es/form/Form";
@@ -32,6 +32,9 @@ export default function ProductPage({ token }) {
   const [product, setProduct] = useState();
   const [cartItems, setCartItems] = useState([]);
   const [relevantProduct, setRelevantProduct] = useState([]);
+  const [diamondCertificate, setDiamondCertificate] = useState([]);
+  const [certificate, setCertificate] = useState([]);
+
   const { id } = useParams();
 
   //comment component hook
@@ -94,7 +97,6 @@ export default function ProductPage({ token }) {
   useEffect(() => {
     fetchComments();
   }, []);
-
   const handleDeleteComment = async (id) => {
     await api.delete(`comment/${id}`);
     console.log("Xóa thành công");
@@ -106,6 +108,7 @@ export default function ProductPage({ token }) {
       try {
         const response = await api.get(`product-line/${id}`);
         setProduct(response.data);
+        console.log(response.data);
         if (response.data && response.data.category) {
           fetchRelevantProducts(response.data.category.id, response.data.id);
         }
@@ -131,6 +134,24 @@ export default function ProductPage({ token }) {
     fetchProductLineById();
     fetchComments();
   }, [id]);
+
+  useEffect(() => {
+    async function fetchDiamond() {
+      if (product && product.diamondIds && product.diamondIds.length > 0) {
+        try {
+          const response = await api.get("diamond");
+          const diamondFilter = response.data.filter(
+            (diamond) => diamond.id === product.diamondIds[0]
+          );
+          console.log(diamondFilter[0]?.certificate.fileURL);
+          setDiamondCertificate(diamondFilter[0]?.certificate.fileURL);
+        } catch (error) {
+          console.log(error.response.data);
+        }
+      }
+    }
+    fetchDiamond();
+  });
 
   async function fetchCart() {
     try {
@@ -226,6 +247,8 @@ export default function ProductPage({ token }) {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  console.log(diamondCertificate);
 
   return (
     <div>
@@ -416,7 +439,7 @@ export default function ProductPage({ token }) {
             <p>{product.color}</p>
           </div>
           <div className="info-detail">
-            <p style={{ fontWeight: "bold" }}>Trọng lượng:</p>
+            <p style={{ fontWeight: "bold" }}>Số chỉ vàng:</p>
             <p>{product.weight}g</p>
           </div>
           <div className="info-detail">
@@ -425,8 +448,13 @@ export default function ProductPage({ token }) {
           </div>
           <div className="info-detail">
             <p style={{ fontWeight: "bold" }}>Nguồn gốc:</p>
-            {product.origin === 'NATURAL' ? "Tự nhiên" : "Nhân tạo" }
+            {product.origin === "NATURAL" ? "Tự nhiên" : "Nhân tạo"}
           </div>
+          {/* <div className="info-detail">
+            <a href={diamondCertificate} target="_blank">
+              <p style={{ fontWeight: "bold" }}>Chứng Chỉ GIA</p>
+            </a>
+          </div> */}
         </div>
 
         {/* <ProductReview productLineId={id} /> */}
@@ -557,7 +585,7 @@ export default function ProductPage({ token }) {
         {relevantProduct.length !== 0 ? (
           <Row>
             {relevantProduct.map((item, index) => (
-              <Col key={index} className="relevant-product-card-item">
+              <Col key={index} className="relevant-product-card-item" md={3}>
                 <ProductCard
                   img={item.imgURL}
                   text={item.name}
