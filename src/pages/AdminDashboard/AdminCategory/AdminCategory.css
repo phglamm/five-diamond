@@ -3,7 +3,8 @@
 }
 
 .SideBar {
-  flex: 0 0 250px; /* Adjust the width as necessary */
+  flex: 0 0 250px;
+  /* Adjust the width as necessary */
 }
 
 .content {
@@ -12,6 +13,7 @@
   padding: 20px;
   overflow: auto;
 }
+
 .content {
   margin-left: 20%;
 }
