@@ -14,15 +14,18 @@ import { routes } from "../../../routes";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser, logout } from "../../../redux/features/counterSlice";
 import "./DropdownProfile.css";
+import { clearOrder, selectOrder } from "../../../redux/features/orderSlice";
 
 export default function DropdownProfile() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const user = useSelector(selectUser);
+  const order = useSelector(selectOrder);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     dispatch(logout());
+    dispatch(clearOrder());
   };
 
   const toggleDropdown = () => {

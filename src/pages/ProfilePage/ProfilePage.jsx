@@ -70,6 +70,7 @@ function ProfilePage() {
       console.log(response.data);
       dispatch(login(response.data));
       setVisible(false);
+      form.resetFields();
     } catch (error) {
       console.error("Error updating user:", error);
     }
@@ -92,7 +93,6 @@ function ProfilePage() {
   }
 
   const fullName = [user.firstname, user.lastname].filter(Boolean).join(" ");
-
 
   return (
     <div>
@@ -130,12 +130,10 @@ function ProfilePage() {
             <LockOutlined className="icon" />
             Đổi mật khẩu
           </Link>
-
         </div>
 
         <div className="container">
           <div className="profile-info">
-
             <div className="col-md-6 info">
               <div className="info-text">
                 <h3>Thông tin cá nhân</h3>
@@ -152,7 +150,11 @@ function ProfilePage() {
                 <div className="info-box">
                   <p>Giới tính</p>
                   <div className="info-value">
-                    {user.gender === "MALE" ? "Nam" : user.gender === "FEMALE" ? "Nữ" : "Khác"}
+                    {user.gender === "MALE"
+                      ? "Nam"
+                      : user.gender === "FEMALE"
+                      ? "Nữ"
+                      : "Khác"}
                   </div>
                 </div>
                 <div className="info-box">
@@ -186,8 +188,6 @@ function ProfilePage() {
             </div>
           </div>
         </div>
-
-
 
         <Modal
           title="Chỉnh sửa thông tin cá nhân"
@@ -274,9 +274,7 @@ function ProfilePage() {
             </Form>
           </div>
         </Modal>
-
       </Container>
-
 
       <Footer />
     </div>
