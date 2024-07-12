@@ -10,7 +10,9 @@ export default function AdminDiamondPrice() {
   const [newPrice, setNewPrice] = useState("");
 
   async function fetchPrice() {
-    const response = await axios.get("https://6684dca756e7503d1ae169ba.mockapi.io/api/v1/DiamondPrice");
+    const response = await axios.get(
+      "https://6684dca756e7503d1ae169ba.mockapi.io/api/v1/DiamondPrice"
+    );
     setPrice(response.data);
     console.log(response.data);
   }
@@ -21,10 +23,13 @@ export default function AdminDiamondPrice() {
 
   const updatePrice = async (values) => {
     try {
-      const response = await axios.put(`https://6684dca756e7503d1ae169ba.mockapi.io/api/v1/DiamondPrice/${values.DPId}`, {
-        ...values,
-        price: newPrice,
-      });
+      const response = await axios.put(
+        `https://6684dca756e7503d1ae169ba.mockapi.io/api/v1/DiamondPrice/${values.DPId}`,
+        {
+          ...values,
+          price: newPrice,
+        }
+      );
       console.log(response.data);
       fetchPrice();
       setEditingItem(null);
@@ -54,7 +59,7 @@ export default function AdminDiamondPrice() {
       title: "Giá",
       dataIndex: "price",
       key: "price",
-      render: (text, record) => (
+      render: (text, record) =>
         editingItem === record.DPId ? (
           <Input
             value={newPrice}
@@ -62,8 +67,7 @@ export default function AdminDiamondPrice() {
           />
         ) : (
           parseFloat(text).toLocaleString()
-        )
-      ),
+        ),
     },
     {
       title: "Độ Tinh Khiết",
@@ -76,22 +80,21 @@ export default function AdminDiamondPrice() {
       key: "color",
     },
     {
-      title: 'Hành động',
-      key: 'action',
-      render: (values) => (
+      title: "Hành động",
+      key: "action",
+      render: (values) =>
         editingItem === values.DPId ? (
-          <Button onClick={() => updatePrice(values)}>
-            Lưu
-          </Button>
+          <Button onClick={() => updatePrice(values)}>Lưu</Button>
         ) : (
-          <Button onClick={() => {
-            setEditingItem(values.DPId);
-            setNewPrice(values.price);
-          }}>
+          <Button
+            onClick={() => {
+              setEditingItem(values.DPId);
+              setNewPrice(values.price);
+            }}
+          >
             Cập nhật giá
           </Button>
-        )
-      ),
+        ),
     },
   ];
 

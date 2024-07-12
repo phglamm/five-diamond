@@ -46,6 +46,7 @@ export default function AdminCertificate() {
 
       toast.success("Thêm Chứng Chỉ thành công");
       fetchCertificate();
+      form.resetFields();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc thêm chứng chỉ");
       console.log(error.response.data);
@@ -83,19 +84,27 @@ export default function AdminCertificate() {
 
   async function updateCertificate(values) {
     console.log(values);
-    const dataUpdate = {
-      ...newData,
-    };
 
     try {
+      if (fileUpdate) {
+        const fileURLUpdate = await uploadFile(fileUpdate);
+        newData.fileURL = fileURLUpdate;
+      } else {
+        newData.fileURL = values.fileURL;
+      }
+
+      const dataUpdate = {
+        ...newData,
+      };
+      console.log(dataUpdate);
       const response = await api.put(`certificate/${values.id}`, dataUpdate);
       console.log(response);
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công");
       fetchCertificate();
+      formUpdate.resetFields();
     } catch (error) {
       toast.error("chỉnh sửa thất bại, có lỗi");
-      console.log(dataUpdate);
       console.log(error.response.data);
     }
   }
@@ -197,7 +206,7 @@ export default function AdminCertificate() {
                     </Form.Item>
                     <Form.Item
                       className="label-form"
-                      label="fileURL"
+                      label="Đường dẫn GIA"
                       name="fileURL"
                     >
                       <Upload
@@ -214,13 +223,6 @@ export default function AdminCertificate() {
                       >
                         <Button icon={<UploadOutlined />}>Tải Chứng Chỉ</Button>
                       </Upload>
-                    </Form.Item>
-                    <Form.Item
-                      className="label-form"
-                      label="Date of Issues"
-                      name="dateOfIssues"
-                    >
-                      <Input type="text" required></Input>
                     </Form.Item>
                   </div>
                 </div>
@@ -269,7 +271,7 @@ export default function AdminCertificate() {
               </Form.Item>
               <Form.Item
                 className="label-form"
-                label="fileURL"
+                label="Đường dẫn GIA"
                 name="fileURL"
                 rules={[
                   {
@@ -295,7 +297,7 @@ export default function AdminCertificate() {
               </Form.Item>
               <Form.Item
                 className="label-form"
-                label="Date of Issues"
+                label="Ngày Cấp"
                 name="dateOfIssues"
               >
                 <DatePicker
@@ -307,7 +309,10 @@ export default function AdminCertificate() {
             </div>
           </div>
 
-          <Button onClick={hanldeClickSubmit} className="form-button small-button">
+          <Button
+            onClick={hanldeClickSubmit}
+            className="form-button small-button"
+          >
             Thêm Chứng Chỉ
           </Button>
         </Form>

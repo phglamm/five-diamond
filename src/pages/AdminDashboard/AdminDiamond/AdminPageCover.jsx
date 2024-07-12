@@ -844,44 +844,43 @@ export default function AdminCover() {
       key: "id",
       sorter: (a, b) => a.id - b.id,
     },
-
     {
-      title: "Size",
-      dataIndex: "size",
-      key: "size",
-    },
-    {
-      title: "Carat",
-      dataIndex: "carat",
-      key: "carat",
-    },
-    {
-      title: "Shape",
+      title: "Hình Dáng",
       dataIndex: "shape",
       key: "shape",
     },
     {
-      title: "Color",
+      title: "Kích Thước",
+      dataIndex: "size",
+      key: "size",
+    },
+    {
+      title: "Màu Sắc",
       dataIndex: "color",
       key: "color",
     },
     {
-      title: "Clarity",
+      title: "Độ Tinh Khiết",
       dataIndex: "clarity",
       key: "clarity",
     },
     {
-      title: "Cut",
+      title: "carat",
+      dataIndex: "carat",
+      key: "carat",
+    },
+    {
+      title: "Độ Cắt",
       dataIndex: "cut",
       key: "cut",
     },
     {
-      title: "Origin",
+      title: "Nguồn Gốc",
       dataIndex: "origin",
       key: "origin",
     },
     {
-      title: "Select",
+      title: "Chọn",
       render: (value) => (
         <Checkbox type="checkbox" onChange={onChangeChecked} value={value.id} />
       ),
@@ -895,39 +894,38 @@ export default function AdminCover() {
       key: "id",
       sorter: (a, b) => a.id - b.id,
     },
-
     {
-      title: "Size",
-      dataIndex: "size",
-      key: "size",
-    },
-    {
-      title: "Carat",
-      dataIndex: "carat",
-      key: "carat",
-    },
-    {
-      title: "Shape",
+      title: "Hình Dáng",
       dataIndex: "shape",
       key: "shape",
     },
     {
-      title: "Color",
+      title: "Kích Thước",
+      dataIndex: "size",
+      key: "size",
+    },
+    {
+      title: "Màu Sắc",
       dataIndex: "color",
       key: "color",
     },
     {
-      title: "Clarity",
+      title: "Độ Tinh Khiết",
       dataIndex: "clarity",
       key: "clarity",
     },
     {
-      title: "Cut",
+      title: "carat",
+      dataIndex: "carat",
+      key: "carat",
+    },
+    {
+      title: "Độ Cắt",
       dataIndex: "cut",
       key: "cut",
     },
     {
-      title: "Origin",
+      title: "Nguồn Gốc",
       dataIndex: "origin",
       key: "origin",
     },
@@ -957,11 +955,7 @@ export default function AdminCover() {
         >
           <div className="form-content-main">
             <div className="form-content">
-              <Form.Item
-                className="label-form"
-                label="Hình ảnh"
-                name="imgURL"
-              >
+              <Form.Item className="label-form" label="Hình ảnh" name="imgURL">
                 <Upload
                   className="admin-upload-button"
                   fileList={img ? [img] : []}

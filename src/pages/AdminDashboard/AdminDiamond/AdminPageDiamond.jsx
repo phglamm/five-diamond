@@ -59,6 +59,7 @@ export default function AdminDiamond() {
       toast.success("Thêm Kim Cương Thành Công");
       fetchDiamond();
       fetchCertificate();
+      form.resetFields();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc thêm kim cương");
       console.log(error.response.data);
@@ -74,7 +75,7 @@ export default function AdminDiamond() {
     fetchDiamond();
   }, []);
 
-  useEffect(() => { }, [diamond]); // Only re-run this effect when diamond changes
+  useEffect(() => {}, [diamond]); // Only re-run this effect when diamond changes
 
   async function fetchCertificate() {
     const certificate = await api.get("certificate/available");
@@ -128,6 +129,7 @@ export default function AdminDiamond() {
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công ");
       fetchDiamond();
+      formUpdate.resetFields();
     } catch (error) {
       toast.error("Chỉnh sửa thất bại, có lỗi");
       console.error(error.response.data);
@@ -330,12 +332,12 @@ export default function AdminDiamond() {
 
                     <Form.Item
                       className="label-form"
-                      label="Size"
+                      label="Kích Thước"
                       name="size"
                       rules={[
                         {
                           required: true,
-                          message: "Nhập size",
+                          message: "Nhập Kích Thước",
                         },
                       ]}
                     >
@@ -460,7 +462,7 @@ export default function AdminDiamond() {
 
                     <Form.Item
                       className="label-form"
-                      label="Image URL "
+                      label="Hình Ảnh"
                       name="imgURL"
                     >
                       <Upload

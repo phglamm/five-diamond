@@ -72,6 +72,8 @@ export default function AdminOrder() {
           return "Đang giao hàng"; // Example for canceled status
         } else if (value === "DELIVERED") {
           return "Đã giao hàng"; // Example for canceled status
+        } else if (value === "CANCELED") {
+          return "Đã bị hủy"; // Example for canceled status
         }
       },
     },
@@ -166,6 +168,12 @@ export default function AdminOrder() {
               onClick={() => handleFilterChange("DELIVERED")}
             >
               Đã giao hàng
+            </Button>
+            <Button
+              type={filterStatus === "CANCELED" ? "primary" : ""}
+              onClick={() => handleFilterChange("CANCELED")}
+            >
+              Đã bị hủy
             </Button>
           </div>
           <Table

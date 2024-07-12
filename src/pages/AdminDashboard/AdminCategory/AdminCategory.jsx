@@ -30,6 +30,7 @@ export default function AdminCategory() {
       setCategory([...category, value]);
       toast.success("Thêm Danh Mục thành công");
       fetchCategory();
+      form.resetFields();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc thêm danh mục");
       console.log(error.response.data);
@@ -45,7 +46,7 @@ export default function AdminCategory() {
     fetchCategory();
   }, []);
 
-  useEffect(() => { }, [category]); // Only re-run this effect when diamond changes
+  useEffect(() => {}, [category]); // Only re-run this effect when diamond changes
 
   async function deleteCategory(values) {
     console.log(values.id);
@@ -79,6 +80,7 @@ export default function AdminCategory() {
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công");
       fetchCategory();
+      formUpdate.resetFields();
     } catch (error) {
       toast.error("chỉnh sửa thất bại, có lỗi");
       console.log(error.response.data);
@@ -252,7 +254,10 @@ export default function AdminCategory() {
             </div>
           </div>
 
-          <Button onClick={hanldeClickSubmit} className="form-button small-button">
+          <Button
+            onClick={hanldeClickSubmit}
+            className="form-button small-button"
+          >
             Thêm Danh Mục
           </Button>
         </Form>

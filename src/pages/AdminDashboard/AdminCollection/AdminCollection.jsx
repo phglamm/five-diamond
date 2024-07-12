@@ -116,6 +116,7 @@ export default function AdminCollection() {
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công");
       fetchCollection();
+      formUpdate.resetFields();
     } catch (error) {
       toast.error("chỉnh sửa thất bại, có lỗi");
       console.log(error.response.data);
@@ -241,12 +242,12 @@ export default function AdminCollection() {
 
                     <Form.Item
                       className="label-form"
-                      label="imgURL"
+                      label="Hình Ảnh"
                       name="imgURL"
                       rules={[
                         {
                           required: true,
-                          message: "Nhập fireURL",
+                          message: "Nhập Hình Ảnh",
                         },
                       ]}
                     >
@@ -406,11 +407,7 @@ export default function AdminCollection() {
               >
                 <Input type="text" required />
               </Form.Item>
-              <Form.Item
-                className="label-form"
-                label="Hình ảnh"
-                name="imgURL"
-              >
+              <Form.Item className="label-form" label="Hình ảnh" name="imgURL">
                 <Upload
                   className="admin-upload-button"
                   fileList={img ? [img] : []}
