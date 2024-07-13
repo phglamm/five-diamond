@@ -14,6 +14,7 @@ export default function SearchProduct() {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOrder, setSortOrder] = useState("none");
   const [filters, setFilters] = useState({
+    karat: [],
     gender: [],
     category: [],
     shape: [],
@@ -80,6 +81,7 @@ export default function SearchProduct() {
 
   const clearAllFilters = () => {
     setFilters({
+      karat: [],
       gender: [],
       category: [],
       shape: [],
@@ -94,6 +96,7 @@ export default function SearchProduct() {
   const applyFilters = (products) => {
     return products.filter((product) => {
       return (
+        (filters.karat.length === 0 || filters.karat.includes(product.karat)) &&
         (filters.gender.length === 0 ||
           filters.gender.includes(product.gender)) &&
         (filters.category.length === 0 ||
@@ -144,7 +147,9 @@ export default function SearchProduct() {
 
   // Filter mappings
   const filterMappings = {
+    karat: { "Vàng 24K": "24K", "Vàng 18K": "18K" },
     gender: { Nữ: "FEMALE", Nam: "MALE" },
+
     category: {
       Nhẫn: "Nhẫn",
       "Dây Chuyền": "Dây Chuyền",
@@ -384,6 +389,30 @@ export default function SearchProduct() {
                           checked={filters.origin.includes(dbValue)}
                           onChange={(e) =>
                             handleFilterChange("origin", e.target.value)
+                          }
+                          className="form-check"
+                        />
+                      )
+                    )}
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label className="filter-part-label">
+                      Chất Liệu
+                    </Form.Label>
+                    {Object.entries(filterMappings.karat).map(
+                      ([displayText, dbValue]) => (
+                        <Form.Check
+                          key={dbValue}
+                          type="checkbox"
+                          label={
+                            <span className="form-check-label">
+                              {displayText}
+                            </span>
+                          }
+                          value={dbValue}
+                          checked={filters.karat.includes(dbValue)}
+                          onChange={(e) =>
+                            handleFilterChange("karat", e.target.value)
                           }
                           className="form-check"
                         />
