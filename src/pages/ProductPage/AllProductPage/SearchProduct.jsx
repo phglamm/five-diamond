@@ -319,7 +319,32 @@ export default function SearchProduct() {
                       )
                     )}
                   </Form.Group>
+                  <Form.Group>
+                    <Form.Label className="filter-part-label">
+                      Chất Liệu
+                    </Form.Label>
+                    {Object.entries(filterMappings.karat).map(
+                      ([displayText, dbValue]) => (
+                        <Form.Check
+                          key={dbValue}
+                          type="checkbox"
+                          label={
+                            <span className="form-check-label">
+                              {displayText}
+                            </span>
+                          }
+                          value={dbValue}
+                          checked={filters.karat.includes(dbValue)}
+                          onChange={(e) =>
+                            handleFilterChange("karat", e.target.value)
+                          }
+                          className="form-check"
+                        />
+                      )
+                    )}
+                  </Form.Group>
                 </div>
+
                 <div className="filter-part">
                   <Form.Group>
                     <Form.Label className="filter-part-label">
@@ -389,30 +414,6 @@ export default function SearchProduct() {
                           checked={filters.origin.includes(dbValue)}
                           onChange={(e) =>
                             handleFilterChange("origin", e.target.value)
-                          }
-                          className="form-check"
-                        />
-                      )
-                    )}
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label className="filter-part-label">
-                      Chất Liệu
-                    </Form.Label>
-                    {Object.entries(filterMappings.karat).map(
-                      ([displayText, dbValue]) => (
-                        <Form.Check
-                          key={dbValue}
-                          type="checkbox"
-                          label={
-                            <span className="form-check-label">
-                              {displayText}
-                            </span>
-                          }
-                          value={dbValue}
-                          checked={filters.karat.includes(dbValue)}
-                          onChange={(e) =>
-                            handleFilterChange("karat", e.target.value)
                           }
                           className="form-check"
                         />

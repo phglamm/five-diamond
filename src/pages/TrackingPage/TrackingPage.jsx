@@ -173,6 +173,7 @@ const TrackingPage = () => {
               <h4>THÔNG TIN ĐƠN HÀNG</h4>
               {orderDetail.orderItems.map((orderItem) => {
                 const productLine = orderItem.product.productLine;
+                const diamond = orderItem.product.diamond;
                 return (
                   <div
                     key={productLine?.id}
@@ -187,8 +188,11 @@ const TrackingPage = () => {
                     <div className="order-item-details">
                       <h6>{productLine?.name}</h6>
                       <p>Mã SP: {productLine?.id}</p>
-                      <p>Danh mục: {productLine?.category.name}</p>
+                      <p>Danh mục: {productLine?.category?.name}</p>
                       <p>Giá: {productLine?.finalPrice.toLocaleString()} VNĐ</p>
+                      <a href={diamond?.certificate?.fileURL} target="_blank">
+                        Chứng Chỉ GIA
+                      </a>
                     </div>
                   </div>
                 );
@@ -207,7 +211,7 @@ const TrackingPage = () => {
             {orderDetail.orderStatus === "CANCELED" ? (
               <div className="order-canceled-container">
                 <div className="order-canceled-content">
-                  <div >
+                  <div>
                     <CloseCircleOutlined className="order-canceled-icon" />
                   </div>
                   <h1 className="order-canceled-title">

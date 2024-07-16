@@ -100,26 +100,39 @@ export default function AdminCover() {
     setIsModalOpenUpdate(false);
   };
 
+  // const onChangeChecked = (e) => {
+  //   console.log(e.target.value);
+  //   if (e.target.checked) {
+  //     setCheckedList([...checkedList, e.target.value]);
+  //   } else {
+  //     setCheckedList(checkedList.filter((item) => item != e.target.value));
+  //   }
+  // };
+
   const onChangeChecked = (e) => {
-    console.log(e.target.value);
-    if (e.target.checked) {
-      setCheckedList([...checkedList, e.target.value]);
-    } else {
-      setCheckedList(checkedList.filter((item) => item != e.target.value));
-    }
+    const { value, checked } = e.target;
+    setCheckedList((prev) =>
+      checked ? [...prev, value] : prev.filter((id) => id !== value)
+    );
   };
+
+  // const onChangeCheckedUpdate = (e) => {
+  //   console.log(e.target.value);
+  //   if (e.target.checked) {
+  //     setCheckedListUpdate([...checkedListUpdate, e.target.value]);
+  //   } else {
+  //     setCheckedListUpdate(
+  //       checkedListUpdate.filter((item) => item != e.target.value)
+  //     );
+  //   }
+  // };
 
   const onChangeCheckedUpdate = (e) => {
-    console.log(e.target.value);
-    if (e.target.checked) {
-      setCheckedListUpdate([...checkedListUpdate, e.target.value]);
-    } else {
-      setCheckedListUpdate(
-        checkedListUpdate.filter((item) => item != e.target.value)
-      );
-    }
+    const { value, checked } = e.target;
+    setCheckedListUpdate((prev) =>
+      checked ? [...prev, value] : prev.filter((id) => id !== value)
+    );
   };
-
   async function AddProductLine(value) {
     console.log(value);
 
@@ -135,6 +148,7 @@ export default function AdminCover() {
       console.log(response.data);
       fetchProductLine();
       form.resetFields();
+      setCheckedList([]);
     } catch (error) {
       toast.error(error.response);
       toast.error("Đã có lỗi trong lúc thêm sản phẩm");
@@ -231,6 +245,7 @@ export default function AdminCover() {
       toast.success("Chỉnh sửa thành công");
       fetchProductLine();
       formUpdate.resetFields();
+      setCheckedListUpdate([]);
     } catch (error) {
       toast.error("chỉnh sửa thất bại, có lỗi");
       console.log(error.response.data);
@@ -635,7 +650,12 @@ export default function AdminCover() {
                     </Form.Item>
 
                     <Form.Item className="label-form" label="Kim Cương Đã Chọn">
-                      <Input type="text" className="select-input" readOnly />
+                      <Input
+                        type="text"
+                        className="select-input"
+                        readOnly
+                        value={checkedListUpdate?.join(", ")}
+                      />{" "}
                     </Form.Item>
                   </div>
                   <div className="form-content">
@@ -882,7 +902,12 @@ export default function AdminCover() {
     {
       title: "Chọn",
       render: (value) => (
-        <Checkbox type="checkbox" onChange={onChangeChecked} value={value.id} />
+        <Checkbox
+          type="checkbox"
+          onChange={onChangeChecked}
+          value={value.id}
+          checked={checkedList?.includes(value.id)}
+        />
       ),
     },
   ];
@@ -930,12 +955,13 @@ export default function AdminCover() {
       key: "origin",
     },
     {
-      title: "Select",
+      title: "Chọn",
       render: (value) => (
         <Checkbox
           type="checkbox"
-          onChange={onChangeCheckedUpdate}
+          onChange={onChangeChecked}
           value={value.id}
+          checked={checkedListUpdate?.includes(value.id)}
         />
       ),
     },
@@ -1158,7 +1184,7 @@ export default function AdminCover() {
                   type="text"
                   className="select-input"
                   readOnly
-                  value={checkedList}
+                  value={checkedList?.join(", ")}
                 />
               </Form.Item>
               <Form.Item

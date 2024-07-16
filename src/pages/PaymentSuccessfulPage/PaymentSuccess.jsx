@@ -26,11 +26,12 @@ const PaymentSuccess = () => {
         toast.success("Đặt hàng thành công");
       } catch (error) {
         navigate(routes.failpayment);
-        toast(error.response.data);
+        toast("Đặt hàng thất bại");
         console.log(error.response.data);
       }
     } else {
-      toast.error("thanh toán thất bại");
+      navigate(routes.failpayment);
+      toast.error("Thanh Toán với VNPAY thất bại");
     }
   }
 

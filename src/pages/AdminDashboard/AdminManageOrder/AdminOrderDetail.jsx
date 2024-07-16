@@ -166,6 +166,8 @@ export default function AdminOrderDetail() {
                 <h4>THÔNG TIN ĐƠN HÀNG</h4>
                 {orderDetail.orderItems.map((orderItem) => {
                   const productLine = orderItem.product.productLine;
+                  const diamond = orderItem.product.diamond;
+
                   return (
                     <div
                       key={productLine?.id}
@@ -184,6 +186,9 @@ export default function AdminOrderDetail() {
                         <p>
                           Giá: {productLine?.finalPrice.toLocaleString()} VNĐ
                         </p>
+                        <a href={diamond?.certificate?.fileURL} target="_blank">
+                          Chứng Chỉ GIA
+                        </a>
                       </div>
                     </div>
                   );

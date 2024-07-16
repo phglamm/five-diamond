@@ -18,6 +18,7 @@ const handleError = (error) => {
   console.log(error);
   return;
 };
+
 api.interceptors.request.use(handleBefore, handleError);
 // api.interceptors.response.use(null, handleError);
 
