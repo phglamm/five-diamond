@@ -131,7 +131,10 @@ hr.solid {
   text-align: center;
 }
 
-.warrantyTable th,
-td {
+.warrantyTable th {
+  border: 1px solid black !important;
+}
+
+.warrantyTable td {
   border: 1px solid black !important;
 }
