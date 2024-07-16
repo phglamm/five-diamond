@@ -11,6 +11,8 @@ import {
   ShoppingCartOutlined,
   ShoppingOutlined,
   SendOutlined,
+  LeftOutlined,
+  RightOutlined
 } from "@ant-design/icons";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import ProductCard from "../../components/productCard/productCard";
@@ -33,6 +35,7 @@ export default function ProductPage() {
   const [relevantProduct, setRelevantProduct] = useState([]);
   // const [diamondCertificate, setDiamondCertificate] = useState([]);
 
+
   const { id } = useParams();
 
   //comment component hook
@@ -40,6 +43,10 @@ export default function ProductPage() {
   const [inputValue, setInputValue] = useState(""); // Added state to manage input value
   const [currentPage, setCurrentPage] = useState(1); // Added state for current page
   const user = useSelector(selectUser);
+
+  //relevant page
+  const [relevantCurrentPage, setRelevantCurrentPage] = useState(1);
+  const relevantItemsPerPage = 4;
 
   //comment function
   const handleInputChange = ({ target: { value } }) => {
@@ -54,6 +61,16 @@ export default function ProductPage() {
   const currentComments = comments.slice(
     (currentPage - 1) * commentsPerPage,
     currentPage * commentsPerPage
+  );
+
+  //relevant page
+  const handleRelevantPageChange = (newPage) => {
+    setRelevantCurrentPage(newPage);
+  };
+
+  const relevantProductsToDisplay = relevantProduct.slice(
+    (relevantCurrentPage - 1) * relevantItemsPerPage,
+    relevantCurrentPage * relevantItemsPerPage
   );
 
   //comment api
@@ -562,19 +579,36 @@ export default function ProductPage() {
 
         <h5 className="header-relevant-product">CÁC SẢN PHẨM TƯƠNG TỰ</h5>
         {relevantProduct.length !== 0 ? (
-          <Row>
-            {relevantProduct.map((item, index) => (
-              <Col key={index} className="relevant-product-card-item" md={3}>
-                <ProductCard
-                  img={item.imgURL}
-                  text={item.name}
-                  price={item.finalPrice.toLocaleString() + "đ"}
-                  pageType="guest-page"
-                  id={item.id}
-                />
-              </Col>
-            ))}
-          </Row>
+          <div className="relevant-products-container">
+            <Button
+              icon={<LeftOutlined />}
+              disabled={relevantCurrentPage === 1}
+              onClick={() => handleRelevantPageChange(relevantCurrentPage - 1)}
+              className="relevant-pagination-button left"
+            />
+            <Row className="relevant-products-row">
+              {relevantProductsToDisplay.map((item, index) => (
+                <Col key={index} className="relevant-product-card-item" md={3}>
+                  <ProductCard
+                    img={item.imgURL}
+                    text={item.name}
+                    price={item.finalPrice.toLocaleString() + "đ"}
+                    pageType="guest-page"
+                    id={item.id}
+                  />
+                </Col>
+              ))}
+            </Row>
+            <Button
+              icon={<RightOutlined />}
+              disabled={
+                relevantCurrentPage ===
+                Math.ceil(relevantProduct.length / relevantItemsPerPage)
+              }
+              onClick={() => handleRelevantPageChange(relevantCurrentPage + 1)}
+              className="relevant-pagination-button right"
+            />
+          </div>
         ) : (
           <p style={{ fontWeight: "bold" }}>Không có sản phẩm tương tự.</p>
         )}
