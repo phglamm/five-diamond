@@ -29,7 +29,6 @@ hr.solid {
 .order-tracking-content {
   border: 1px solid #d1d1d1;
   border-radius: 0;
-
 }
 
 .shipping-info {
@@ -76,7 +75,6 @@ hr.solid {
   color: black;
 }
 
-
 .order-canceled-message {
   margin-top: 1rem;
   color: var(--color-muted-foreground);
@@ -106,7 +104,6 @@ hr.solid {
   box-shadow: 0 0 0 4px var(--color-primary-focus);
 }
 
-
 /*  */
 
 .card {
@@ -117,4 +114,24 @@ hr.solid {
 
 .card-body {
   padding: 20px;
+}
+
+.warranty-information {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.warrantyModal {
+  width: 50% !important;
+}
+
+.warrantyTable {
+  width: 100% !important;
+  text-align: center;
+}
+
+.warrantyTable th,
+td {
+  border: 1px solid black !important;
 }
