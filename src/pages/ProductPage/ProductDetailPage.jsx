@@ -16,7 +16,7 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import ProductCard from "../../components/productCard/productCard";
 // import ProductReview from "../../components/ProductReview/ProductReview"; //(nam)
 
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
 import { useForm } from "antd/es/form/Form";
@@ -24,16 +24,14 @@ import { routes } from "../../routes";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/features/counterSlice";
 
-export default function ProductPage({ token }) {
+export default function ProductPage() {
   const [form] = useForm();
 
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [product, setProduct] = useState();
-  const [cartItems, setCartItems] = useState([]);
   const [relevantProduct, setRelevantProduct] = useState([]);
-  const [diamondCertificate, setDiamondCertificate] = useState([]);
-  const [certificate, setCertificate] = useState([]);
+  // const [diamondCertificate, setDiamondCertificate] = useState([]);
 
   const { id } = useParams();
 
@@ -135,37 +133,23 @@ export default function ProductPage({ token }) {
     fetchComments();
   }, [id]);
 
-  useEffect(() => {
-    async function fetchDiamond() {
-      if (product && product.diamondIds && product.diamondIds.length > 0) {
-        try {
-          const response = await api.get("diamond");
-          const diamondFilter = response.data.filter(
-            (diamond) => diamond.id === product.diamondIds[0]
-          );
-          console.log(diamondFilter[0]?.certificate.fileURL);
-          setDiamondCertificate(diamondFilter[0]?.certificate.fileURL);
-        } catch (error) {
-          console.log(error.response.data);
-        }
-      }
-    }
-    fetchDiamond();
-  });
-
-  async function fetchCart() {
-    try {
-      const response = await api.get("cart");
-      console.log(response.data);
-      setCartItems(response.data.cartItems);
-    } catch (error) {
-      console.log(error.response.data);
-    }
-  }
-
-  useEffect(() => {
-    fetchCart();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchDiamond() {
+  //     if (product && product.diamondIds && product.diamondIds.length > 0) {
+  //       try {
+  //         const response = await api.get("diamond");
+  //         const diamondFilter = response.data.filter(
+  //           (diamond) => diamond.id === product.diamondIds[0]
+  //         );
+  //         console.log(diamondFilter[0]?.certificate?.fileURL);
+  //         setDiamondCertificate(diamondFilter[0]?.certificate?.fileURL);
+  //       } catch (error) {
+  //         console.log(error.response.data);
+  //       }
+  //     }
+  //   }
+  //   fetchDiamond();
+  // });
 
   if (!product) {
     return (
@@ -193,7 +177,6 @@ export default function ProductPage({ token }) {
           console.log("Product added to cart", id);
           const response = await api.post(`cart/${id}`);
           console.log(response.data);
-          fetchCart();
           toast.success("Thêm Vào Giỏ Hàng");
         } catch (error) {
           console.log(error.response.data);
@@ -216,7 +199,6 @@ export default function ProductPage({ token }) {
         console.log("Product added to cart", id);
         const response = await api.post(`cart/${id}`);
         console.log(response.data);
-        fetchCart();
       } catch (error) {
         console.log(error.response.data);
         toast.error("Sản phẩm của bạn đã có trong giỏ hàng");
@@ -247,8 +229,6 @@ export default function ProductPage({ token }) {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
-  console.log(diamondCertificate);
 
   return (
     <div>
@@ -457,7 +437,6 @@ export default function ProductPage({ token }) {
           </div> */}
         </div>
 
-        {/* <ProductReview productLineId={id} /> */}
         <div className="product-reviews">
           <h5 className="header-review">ĐÁNH GIÁ SẢN PHẨM</h5>
           <div className="comment-all">

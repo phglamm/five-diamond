@@ -110,7 +110,7 @@ function CollectionDetail() {
           </Form.Select>
         </div>
         <Row>
-          {productByCollection.map((product) => (
+          {currentProducts.map((product) => (
             <Col key={product.id} sm={6} md={3}>
               <Link to={`/chi-tiet-san-pham/${product.id}`}>
                 <ProductCard

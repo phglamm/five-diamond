@@ -60,6 +60,7 @@ export default function AdminDiamond() {
       fetchDiamond();
       fetchCertificate();
       form.resetFields();
+      setSelectedCertificateId(null);
     } catch (error) {
       toast.error("Đã có lỗi trong lúc thêm kim cương");
       console.log(error.response.data);
