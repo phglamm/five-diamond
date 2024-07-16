@@ -117,7 +117,7 @@ hr.solid {
 }
 
 .warrantyModal {
-  width: 50% !important;
+  width: 65% !important;
 }
 
 /* Center and enlarge modal title */
@@ -173,11 +173,10 @@ hr.solid {
   content: "Thời hạn bảo hành:";
 }
 
-.warranty-logo{
+.warranty-logo {
   width: 28%;
 }
 
-.warranty-logo img{
+.warranty-logo img {
   width: 100%;
 }
-
