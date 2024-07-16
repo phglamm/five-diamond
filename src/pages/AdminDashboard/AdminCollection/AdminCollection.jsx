@@ -69,6 +69,7 @@ export default function AdminCollection() {
       toast.success("Thêm Bộ Sưu Tập thành công");
       fetchCollection();
       form.resetFields();
+      setCheckedList([]);
     } catch (error) {
       toast.error("Đã có lỗi trong lúc thêm Bộ Sưu Tập");
       console.log(error.response.data);
@@ -116,6 +117,7 @@ export default function AdminCollection() {
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công");
       fetchCollection();
+
       formUpdate.resetFields();
     } catch (error) {
       toast.error("chỉnh sửa thất bại, có lỗi");
@@ -279,17 +281,6 @@ export default function AdminCollection() {
       },
     },
   ];
-
-  const handleCheckboxChange = (e) => {
-    const { value, checked } = e.target;
-    setCheckedList((prev) =>
-      checked ? [...prev, value] : prev.filter((id) => id !== value)
-    );
-    setSelectedProductIds((prev) =>
-      checked ? [...prev, value] : prev.filter((id) => id !== value)
-    );
-  };
-
   const columnOfProduct = [
     {
       title: "ID",
@@ -344,11 +335,20 @@ export default function AdminCollection() {
           type="checkbox"
           onChange={handleCheckboxChange}
           value={value.id}
-          checked={checkedList.includes(value.id)}
+          checked={checkedList?.includes(value.id)}
         />
       ),
     },
   ];
+  const handleCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    setCheckedList((prev) =>
+      checked ? [...prev, value] : prev.filter((id) => id !== value)
+    );
+    setSelectedProductIds((prev) =>
+      checked ? [...prev, value] : prev.filter((id) => id !== value)
+    );
+  };
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -430,7 +430,7 @@ export default function AdminCollection() {
                   type="text"
                   className="select-input"
                   readOnly
-                  value={checkedList.join(", ")}
+                  value={checkedList?.join(", ")}
                 />
               </Form.Item>
               <Button

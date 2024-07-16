@@ -18,17 +18,9 @@ const PaymentFail = () => {
           <p className="payment-fail-text">
             Quý khách không thể hoàn tất thanh toán
           </p>
-          {/* <p className="payment-fail-text">
-            Mã số đơn hàng của bạn là{" "}
-            <span className="payment-fail-order-id">{orderId}</span>.
-          </p> */}
+
           <p className="payment-fail-text">
-            Mời quý khách thử lại, xin cảm ơn.
-            {/* Bạn có thể xem chi tiết trong{" "}
-            <a href="/theo-doi-don-hang" className="payment-fail-order-link">
-              đơn hàng của tôi
-            </a>
-            . */}
+            Mời quý khách vui lòng đặt hàng thử lại, xin cảm ơn.
           </p>
           <button
             className="payment-fail-continue-shopping-btn"
