@@ -19,6 +19,7 @@ export default function CheckOut() {
   const [discount, setDiscount] = useState(0);
   const [showDiscountModal, setShowDiscountModal] = useState(false);
   const [availableDiscounts, setAvailableDiscounts] = useState([]);
+  const [copiedCode, setCopiedCode] = useState("");
   const user = useSelector(selectUser);
 
   let { cartItems, finalTotal } = location.state || {
@@ -157,6 +158,17 @@ export default function CheckOut() {
     setDiscountCode(code);
     setDiscount(discountPercentage);
     setShowDiscountModal(false);
+  };
+
+  const copyToClipboard = (code) => {
+    navigator.clipboard.writeText(code)
+      .then(() => {
+        setCopiedCode(code);
+        toast.success("Mã giảm giá đã được sao chép!");
+      })
+      .catch((error) => {
+        toast.error("Sao chép mã giảm giá thất bại.");
+      });
   };
 
   return (
@@ -386,24 +398,27 @@ export default function CheckOut() {
 
                 <div class="voucher-container">
                   <div class="voucher-card">
-                    <div class="main">
+                    <div class="main-voucher">
                       <div class="co-img">
                         <img
-                          src="https://i.pinimg.com/originals/c7/84/67/c78467db9ff497393cb548a48f02d451.png"
+                          src="https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"
                           alt="Coupon Image"
                         />
                       </div>
                       <div class="vertical"></div>
                       <div class="content">
                         <h2>FiveDiamond</h2>
-                        <h1>Giảm{discount.discountPercentage}%</h1>
+                        <h1>{discount.discountPercentage}% Coupon</h1>
                         <p> HSD: {new Date(discount.endDate).toLocaleDateString()}</p>
                       </div>
                     </div>
-                    {/* <div class="copy-button">
-                      <input id="copyvalue" type="text" readonly value="GOFREE" />
-                      <button onclick="copyIt()" class="copybtn">COPY</button>
-                    </div> */}
+                    <div class="copy-button">
+                      <input id="copyvalue" type="text" readonly value={discount.code} />
+                      {/* <button onclick="copyIt()" class="copybtn">COPY</button> */}
+                      <button onClick={() => copyToClipboard(discount.code)} className="copybtn">
+                        {copiedCode === discount.code ? "COPIED" : "COPY"}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </ListGroup.Item>
