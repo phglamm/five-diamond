@@ -245,7 +245,7 @@ const TrackingPage = () => {
                     </p>
                     <p> {warranty?.account?.phone} </p>
                     <p> {warranty?.account?.email} </p>
-                    <p> {formatDate(warranty?.orderDate)} đến {formatDate(warranty?.orderDate)}</p>
+                    <p> {formatDate(warranty?.orderDate)} đến {formatDate(warranty?.expiredDate)}</p>
                   </div>
                   <div className="warranty-logo">
                     <img src="https://drive.google.com/thumbnail?id=12VOLpkMHkRGT2KYwpINIizy9sT8O3ilL&sz=w1000" alt="quality-guarantee-logo" />
