@@ -3,12 +3,12 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import "./SaleEventPage.css";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6"; // Import icons
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import MyBreadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import { routes } from "../../routes";
 import { Link } from "react-router-dom";
 import api from "../../config/axios"
-import { Row } from "react-bootstrap";
+
 import PromotionCard from "../../components/PromotionCard/PromotionCard";
 
 function SaleEventPage() {
@@ -18,8 +18,11 @@ function SaleEventPage() {
 
   // Fetch promotions
   async function fetchPromotion() {
+    const currentDate = Date.now();
     const response = await api.get("promotion");
-    const filter = response.data.filter((item) => item.deleted === false);
+    const filter = response.data.filter(
+      (item) => item.deleted === false && new Date(item.endDate) >= currentDate
+    );
     setPromotion(filter);
     console.log(response.data);
   }
@@ -68,11 +71,13 @@ function SaleEventPage() {
           title3="THÔNG TIN KHUYẾN MÃI"
           link3={routes.sale}
         />
+
+
         <div className="sale-banner">
           <img
             className="top-banner"
             src={
-              "https://drive.google.com/thumbnail?id=1-FggdgvD3FjG_XqeVj2WI2_gIvA9UBPa&sz=w1000"
+              "https://drive.google.com/thumbnail?id=1B_sz8jii8kb_y2Tnmdx5u2djdkMKmcwN&sz=w1000"
             }
             alt="Top Banner"
           />
@@ -81,30 +86,30 @@ function SaleEventPage() {
           <h3 className="content-header">ƯU ĐÃI ĐỘC QUYỀN ONLINE</h3>
 
           <div className="sale-content-img">
-            <img
-              src={
-                "https://drive.google.com/thumbnail?id=1vbIO90dmDa8B2ZB_1s-mBwBjTSyxSilx&sz=w1000"
-              }
-            />{" "}
-            {/* ring */}
-            <img
-              src={
-                "https://drive.google.com/thumbnail?id=1dKqFivVaUujuOJWGAebYB4bg3490mU9v&sz=w1000"
-              }
-            />{" "}
-            {/* bracelet */}
-            <img
-              src={
-                "https://drive.google.com/thumbnail?id=1JjCe0RqJsSG1IvAuxPsuUp79EZzH2Qin&sz=w1000"
-              }
-            />{" "}
-            {/* necklace */}
-            <img
-              src={
-                "https://drive.google.com/thumbnail?id=10BpnBo91lyNTmnwWsCmoaCxagXnsnU6l&sz=w1000"
-              }
-            />{" "}
-            {/* earring */}
+            <Link to={routes.nhan}>
+              <img
+                src="https://drive.google.com/thumbnail?id=1vbIO90dmDa8B2ZB_1s-mBwBjTSyxSilx&sz=w1000"
+                alt="Ring"
+              />
+            </Link>
+            <Link to={routes.vongtay}>
+              <img
+                src="https://drive.google.com/thumbnail?id=1dKqFivVaUujuOJWGAebYB4bg3490mU9v&sz=w1000"
+                alt="Bracelet"
+              />
+            </Link>
+            <Link to={routes.vongco}>
+              <img
+                src="https://drive.google.com/thumbnail?id=1JjCe0RqJsSG1IvAuxPsuUp79EZzH2Qin&sz=w1000"
+                alt="Necklace"
+              />
+            </Link>
+            <Link to={routes.khuyentai}>
+              <img
+                src="https://drive.google.com/thumbnail?id=10BpnBo91lyNTmnwWsCmoaCxagXnsnU6l&sz=w1000"
+                alt="Earring"
+              />
+            </Link>
           </div>
           {/* <div className="button" id="outlined">
             <Link to={routes.saleProduct}>
