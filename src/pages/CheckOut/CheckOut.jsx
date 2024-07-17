@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Alert, Modal, ListGroup } from "react-bootstrap";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -11,11 +11,14 @@ import { order } from "../../redux/features/orderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { selectUser } from "../../redux/features/counterSlice";
+import { BiSolidDiscount } from "react-icons/bi";
 
 export default function CheckOut() {
   const location = useLocation();
   const [discountCode, setDiscountCode] = useState("");
   const [discount, setDiscount] = useState(0);
+  const [showDiscountModal, setShowDiscountModal] = useState(false);
+  const [availableDiscounts, setAvailableDiscounts] = useState([]);
   const user = useSelector(selectUser);
 
   let { cartItems, finalTotal } = location.state || {
@@ -39,6 +42,20 @@ export default function CheckOut() {
   useEffect(() => {
     console.log("Form data updated:", formData);
   }, [formData]);
+
+  useEffect(() => {
+    // Fetch available discounts
+    const fetchDiscounts = async () => {
+      try {
+        const response = await api.get("promotion");
+        setAvailableDiscounts(response.data);
+      } catch (error) {
+        console.error('Failed to fetch discounts:', error);
+      }
+    };
+
+    fetchDiscounts();
+  }, []);
 
   // Validate form data
   const validateForm = () => {
@@ -134,6 +151,12 @@ export default function CheckOut() {
       (total, item) => total + item.price * item.quantity,
       0
     );
+  };
+
+  const handleSelectDiscount = (code, discountPercentage) => {
+    setDiscountCode(code);
+    setDiscount(discountPercentage);
+    setShowDiscountModal(false);
   };
 
   return (
@@ -279,6 +302,14 @@ export default function CheckOut() {
                 ))
               )}
               <div className="d-flex">
+                <h5><BiSolidDiscount /> 5Diamond Voucher</h5>
+                <span
+                  style={{ cursor: "pointer", color: "#2691fe", marginLeft: "8px" }} onClick={() => setShowDiscountModal(true)}
+                >
+                  Chọn mã giảm giá
+                </span>
+              </div>
+              <div className="d-flex">
                 <input
                   type="text"
                   className="form-control mr-2"
@@ -334,6 +365,32 @@ export default function CheckOut() {
         </Form>
       </Container>
       <Footer />
+
+      {/* Discount Code Modal */}
+      <Modal show={showDiscountModal} onHide={() => setShowDiscountModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Chọn mã giảm giá</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <ListGroup>
+            {availableDiscounts.map((discount) => (
+              <ListGroup.Item
+                key={discount.code}
+                action
+                onClick={() => handleSelectDiscount(discount.code, discount.discountPercentage)}
+              >
+                {discount.code} - Giảm {discount.discountPercentage}%
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDiscountModal(false)}>
+            Đóng
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
     </div>
   );
 }
