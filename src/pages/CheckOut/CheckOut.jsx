@@ -252,7 +252,6 @@ export default function CheckOut() {
 
             <Col md={4}>
               <h4>THÔNG TIN ĐƠN HÀNG</h4>
-
               {cartItems.length === 0 ? (
                 <Alert variant="info">Giỏ hàng trống.</Alert>
               ) : (
@@ -271,8 +270,7 @@ export default function CheckOut() {
                         Số lượng: {item.quantity}
                       </div>
                       <div className="cart-item-price">
-                        Đơn giá: {item.productLine.finalPrice.toLocaleString()}{" "}
-                        đ
+                        Giá: {item.productLine.finalPrice.toLocaleString()}{" "} VNĐ
                       </div>
                     </div>
                   </div>
@@ -294,7 +292,7 @@ export default function CheckOut() {
                   Áp dụng
                 </Button>
               </div>
-              <div style={{ marginLeft: "8px", marginTop: "12px" }}>
+              <div style={{ marginLeft: "4px", marginTop: "12px" }}>
                 <h6>
                   Tạm tính:{" "}
                   <span style={{ color: "red" }}>
@@ -307,17 +305,18 @@ export default function CheckOut() {
                     {((finalTotal * discount) / 100).toLocaleString()} VNĐ
                   </span>
                 </h6>
+                <h6>
+                  Thành tiền:{" "}
+                  <span style={{ color: "red" }}>
+                    {(
+                      finalTotal -
+                      (finalTotal * discount) / 100
+                    ).toLocaleString()}{" "}
+                    VNĐ
+                  </span>
+                </h6>
               </div>
-              <h5>
-                Thành tiền:{" "}
-                <span style={{ color: "red" }}>
-                  {(
-                    finalTotal -
-                    (finalTotal * discount) / 100
-                  ).toLocaleString()}{" "}
-                  VNĐ
-                </span>
-              </h5>
+
             </Col>
           </Row>
           <div className="button-confirmback">

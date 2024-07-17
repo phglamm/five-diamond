@@ -44,6 +44,7 @@
 .cart-item-name {
   font-weight: bold;
 }
+
 .product-details {
   flex-grow: 1;
   display: flex;
@@ -134,7 +135,7 @@ h4 {
   white-space: nowrap;
 }
 
-.box > div {
+.box>div {
   display: flex;
   align-items: center;
 }
@@ -190,6 +191,7 @@ hr.solid {
   margin-top: 0px;
   border-top: 3px solid #bbb;
 }
+
 .d-flex {
   margin-top: 10px;
 }
