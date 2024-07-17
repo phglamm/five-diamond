@@ -10,8 +10,6 @@ hr.solid {
   border-top: 3px solid #bbb;
 }
 
-/*theo doi don hang*/
-
 .order-tracking {
   margin-top: 40px;
 }
@@ -45,8 +43,6 @@ hr.solid {
 .order-tracking-content .order-tracking-id {
   text-align: left;
 }
-
-/*order-cancel*/
 
 .order-canceled-container {
   display: flex;
@@ -104,11 +100,8 @@ hr.solid {
   box-shadow: 0 0 0 4px var(--color-primary-focus);
 }
 
-/*  */
-
 .card {
   margin-bottom: 20px;
-  /* border: 1px solid #ffffff; */
   border-radius: 0;
 }
 
@@ -116,6 +109,7 @@ hr.solid {
   padding: 20px;
 }
 
+/* Warranty Modal */
 .warranty-information {
   display: flex;
   justify-content: space-evenly;
@@ -123,18 +117,66 @@ hr.solid {
 }
 
 .warrantyModal {
-  width: 50% !important;
+  width: 65% !important;
 }
 
+/* Center and enlarge modal title */
+.warrantyModal .ant-modal-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Warranty Table */
 .warrantyTable {
   width: 100% !important;
   text-align: center;
+  border-collapse: collapse;
+}
+
+.warrantyTable th,
+.warrantyTable td {
+  border: 1px solid #d1bfa7 !important;
+  padding: 8px;
 }
 
 .warrantyTable th {
-  border: 1px solid black !important;
+  background-color: #f7f3e9;
 }
 
 .warrantyTable td {
-  border: 1px solid black !important;
+  background-color: #fff;
+}
+
+/* Bold Labels */
+.warranty-customer p {
+  margin: 0.5em 0;
+}
+
+.warranty-customer p::before {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.warranty-customer p:nth-child(1)::before {
+  content: "Tên Khách Hàng:";
+}
+
+.warranty-customer p:nth-child(2)::before {
+  content: "Số điện thoại:";
+}
+
+.warranty-customer p:nth-child(3)::before {
+  content: "Email:";
+}
+.warranty-customer p:nth-child(4)::before {
+  content: "Thời hạn bảo hành:";
+}
+
+.warranty-logo {
+  width: 28%;
+}
+
+.warranty-logo img {
+  width: 100%;
 }
