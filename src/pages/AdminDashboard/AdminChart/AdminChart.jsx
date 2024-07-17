@@ -8,7 +8,9 @@ import {
   RiseOutlined,
   TruckOutlined,
   UserAddOutlined,
+  MinusCircleOutlined
 } from "@ant-design/icons";
+import { DatePicker } from 'antd';
 import moment from "moment";
 import api from "../../../config/axios";
 
@@ -16,35 +18,130 @@ export default function AdminChart() {
   const [statistics, setStatistics] = useState([]);
   const [accountCount, setAccountCount] = useState(0);
   const [accountByMonth, setAccountByMonth] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [filteredOrders, setFilteredOrders] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState(moment().month() + 1);
   const [selectedQuarter, setSelectedQuarter] = useState(
     Math.floor((moment().month() + 3) / 3)
   );
-  const [mode, setMode] = useState("month"); // Thêm trạng thái để kiểm soát chế độ chọn
+  const [selectedRange, setSelectedRange] = useState([null, null]);
+  const [mode, setMode] = useState("month");
+  const { RangePicker } = DatePicker;
 
   useEffect(() => {
     async function fetchSalesStatistic() {
-      const response = await api.get("dashboard/revenue");
-      setStatistics(response.data);
+      try {
+        const dasboardResponse = await api.get("dashboard/revenue");
+        setStatistics(dasboardResponse.data);
+      } catch (error) {
+        console.error("Error fetching sales statistics:", error);
+      }
     }
     fetchSalesStatistic();
   }, []);
 
   useEffect(() => {
     async function fetchAccountCount() {
-      const response = await api.get("dashboard/account");
-      setAccountCount(response.data.customerQuantity);
+      try {
+        const response = await api.get("dashboard/account");
+        setAccountCount(response.data.customerQuantity);
+      } catch (error) {
+        console.error("Error fetching account count:", error);
+      }
     }
     fetchAccountCount();
   }, []);
 
   useEffect(() => {
     async function fetchAccountByMonth() {
-      const response = await api.get("dashboard/account-by-month");
-      setAccountByMonth(response.data);
+      try {
+        const response = await api.get("dashboard/account-by-month");
+        setAccountByMonth(response.data);
+      } catch (error) {
+        console.error("Error fetching account by month:", error);
+      }
     }
     fetchAccountByMonth();
   }, []);
+
+  useEffect(() => {
+    async function fetchOrders() {
+      try {
+        const orderResponse = await api.get("order/all");
+        setOrders(orderResponse.data);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    }
+    fetchOrders();
+  }, []);
+
+  async function filterOrdersByRange(orders, selectedRange) {
+    try {
+      if (selectedRange && selectedRange.length === 2 && selectedRange[0] && selectedRange[1]) {
+        const startDate = moment(selectedRange[0].$d);
+        const endDate = moment(selectedRange[1].$d);
+
+        const filteredOrders = await Promise.all(orders.map(async (order) => {
+          const orderDate = moment(order.orderDate);
+          if (orderDate.isBetween(startDate, endDate, null, '[]')) {
+            const response = await api.get(`order/${order.id}`);
+            const totalAmount = response.data.totalAmount;
+            return { ...order, totalAmount };
+          }
+          return null;
+        }));
+
+        const validOrders = filteredOrders.filter(order => order !== null);
+        return validOrders;
+      }
+
+      return [];
+    } catch (error) {
+      console.error("Error filtering orders by range:", error);
+      return [];
+    }
+  }
+
+  useEffect(() => {
+    async function updateFilteredOrders() {
+      const validOrders = await filterOrdersByRange(orders, selectedRange);
+      setFilteredOrders(validOrders);
+    }
+    updateFilteredOrders();
+  }, [orders, selectedRange]);
+
+  function calculateTotalRevenue(filteredOrders) {
+    try {
+      return filteredOrders.reduce((total, order) => total + order.totalAmount, 0);
+    } catch (error) {
+      console.error("Error calculating total revenue:", error);
+      return 0;
+    }
+  }
+
+  function calculateTotalProfit(filteredOrders) {
+    try {
+      return filteredOrders.reduce((total, order) => {
+        const productLineTotal = order.orderItems.reduce(
+          (sum, item) => sum + item.product.productLine.price, 0
+        );
+        return total + (order.totalAmount - productLineTotal);
+      }, 0);
+    } catch (error) {
+      console.error("Error calculating total profit:", error);
+      return 0;
+    }
+  }
+
+  function calculateTotalCanceledOrders(orders) {
+    return orders.filter(order => order.orderStatus === "CANCELED").length;
+  }
+
+  const totalCanceledOrders = calculateTotalCanceledOrders(orders);
+
+  const totalRevenue = calculateTotalRevenue(filteredOrders);
+  const totalProfitValue = calculateTotalProfit(filteredOrders);
 
   function getMonthlyData(statistics, accountByMonth) {
     const revenueByMonth = {};
@@ -176,23 +273,23 @@ export default function AdminChart() {
     const startMonth = (quarter - 1) * 3 + 1;
     const endMonth = quarter * 3;
 
-    let totalRevenue = 0;
-    let totalProfit = 0;
-    let totalOrders = 0;
-    let totalCustomers = 0;
+    let totalQuarterlyRevenue = 0;
+    let totalQuarterlyProfit = 0;
+    let totalQuarterlyOrders = 0;
+    let totalQuarterlyCustomers = 0;
 
     for (let month = startMonth; month <= endMonth; month++) {
       const monthName = `Tháng ${month}`;
-      totalRevenue += revenueByMonth[monthName] || 0;
-      totalProfit += profitByMonth[monthName] || 0;
-      totalOrders += ordersByMonth[monthName] || 0;
-      totalCustomers += customerByMonth[monthName] || 0;
+      totalQuarterlyRevenue += revenueByMonth[monthName] || 0;
+      totalQuarterlyProfit += profitByMonth[monthName] || 0;
+      totalQuarterlyOrders += ordersByMonth[monthName] || 0;
+      totalQuarterlyCustomers += customerByMonth[monthName] || 0;
     }
 
-    return { totalRevenue, totalProfit, totalOrders, totalCustomers };
+    return { totalQuarterlyRevenue, totalQuarterlyProfit, totalQuarterlyOrders, totalQuarterlyCustomers };
   }
 
-  const { totalRevenue, totalProfit, totalOrders, totalCustomers } =
+  const { totalQuarterlyRevenue, totalQuarterlyProfit, totalQuarterlyOrders, totalQuarterlyCustomers } =
     getQuarterlyData(selectedQuarter);
 
   return (
@@ -200,6 +297,20 @@ export default function AdminChart() {
       <SideBar />
       <div className="admin-content">
         <div className="selection-container">
+          <div className="month-selection" style={{ gap: '10px' }}>
+            <p>Chọn khoảng thời gian:</p>
+            <RangePicker
+              onChange={(dates) => {
+                if (dates) {
+                  setSelectedRange(dates);
+                  setMode("range");
+                } else {
+                  setSelectedRange([null, null]);
+                  setMode("month");
+                }
+              }}
+            />
+          </div>
           <div className="month-selection">
             <label htmlFor="month">Chọn tháng:</label>
             <select
@@ -244,13 +355,17 @@ export default function AdminChart() {
             <div className="widget-table-item-text">
               <p>
                 {mode === "quarter"
-                  ? totalRevenue.toLocaleString() + "đ"
-                  : currentMonthRevenue.toLocaleString() + "đ"}
+                  ? totalQuarterlyRevenue.toLocaleString() + "đ"
+                  : mode === "range"
+                    ? totalRevenue.toLocaleString() + "đ"
+                    : currentMonthRevenue.toLocaleString() + "đ"}
               </p>
               <span>
                 {mode === "quarter"
                   ? "Doanh thu của quý"
-                  : "Doanh thu của tháng"}
+                  : mode === "range"
+                    ? "Doanh thu"
+                    : "Doanh thu của tháng"}
               </span>
             </div>
           </div>
@@ -259,22 +374,36 @@ export default function AdminChart() {
             <div className="widget-table-item-text">
               <p>
                 {mode === "quarter"
-                  ? totalProfit.toLocaleString() + "đ"
-                  : currentMonthProfit.toLocaleString() + "đ"}
+                  ? totalQuarterlyProfit.toLocaleString() + "đ"
+                  : mode === "range"
+                    ? totalProfitValue.toLocaleString() + "đ"
+                    : currentMonthProfit.toLocaleString() + "đ"}
               </p>
               <span>
                 {mode === "quarter"
                   ? "Lợi nhuận của quý"
-                  : "Lợi nhuận của tháng"}
+                  : mode === "range"
+                    ? "Lợi nhuận"
+                    : "Lợi nhuận của tháng"}
               </span>
             </div>
           </div>
           <div className="widget-table-item">
             <TruckOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
-              <p>{mode === "quarter" ? totalOrders : currentMonthOrder}</p>
+              <p>
+                {mode === "quarter"
+                  ? `${totalQuarterlyOrders} (${totalCanceledOrders} đơn đã hủy)`
+                  : mode === "range"
+                    ? `${filteredOrders.length} (${totalCanceledOrders} đơn đã hủy)`
+                    : `${currentMonthOrder} (${totalCanceledOrders} đơn đã hủy)`}
+              </p>
               <span>
-                {mode === "quarter" ? "Số đơn của quý" : "Số đơn của tháng"}
+                {mode === "quarter"
+                  ? "Tổng đơn hàng của quý"
+                  : mode === "range"
+                    ? "Tổng đơn hàng"
+                    : "Tổng đơn hàng của tháng"}
               </span>
             </div>
           </div>
@@ -283,11 +412,13 @@ export default function AdminChart() {
             <div className="widget-table-item-text">
               <p>
                 {mode === "quarter"
-                  ? totalCustomers
-                  : currentMonthCustomerQuantity}
+                  ? totalQuarterlyCustomers
+                  : mode === "range"
+                    ? filteredOrders.length
+                    : currentMonthCustomerQuantity}
               </p>
               <span>
-                {mode === "quarter" ? "Số khách hàng mới" : "Số khách hàng mới"}
+                Số khách hàng mới
               </span>
             </div>
           </div>
