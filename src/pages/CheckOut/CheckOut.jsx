@@ -369,7 +369,7 @@ export default function CheckOut() {
       {/* Discount Code Modal */}
       <Modal show={showDiscountModal} onHide={() => setShowDiscountModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Chọn mã giảm giá</Modal.Title>
+          <Modal.Title>5Diamond Voucher <BiSolidDiscount /></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <ListGroup>
@@ -378,8 +378,34 @@ export default function CheckOut() {
                 key={discount.code}
                 action
                 onClick={() => handleSelectDiscount(discount.code, discount.discountPercentage)}
+                className="custom-listgroup-item"
               >
-                {discount.code} - Giảm {discount.discountPercentage}%
+                {/* {discount.code} - Giảm {discount.discountPercentage}%
+               
+                  HSD: {new Date(discount.endDate).toLocaleDateString()} */}
+
+                <div class="voucher-container">
+                  <div class="voucher-card">
+                    <div class="main">
+                      <div class="co-img">
+                        <img
+                          src="https://i.pinimg.com/originals/c7/84/67/c78467db9ff497393cb548a48f02d451.png"
+                          alt="Coupon Image"
+                        />
+                      </div>
+                      <div class="vertical"></div>
+                      <div class="content">
+                        <h2>FiveDiamond</h2>
+                        <h1>Giảm{discount.discountPercentage}%</h1>
+                        <p> HSD: {new Date(discount.endDate).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                    {/* <div class="copy-button">
+                      <input id="copyvalue" type="text" readonly value="GOFREE" />
+                      <button onclick="copyIt()" class="copybtn">COPY</button>
+                    </div> */}
+                  </div>
+                </div>
               </ListGroup.Item>
             ))}
           </ListGroup>
