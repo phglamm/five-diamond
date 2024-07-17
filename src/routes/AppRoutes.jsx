@@ -48,6 +48,8 @@ import SearchProduct from "../pages/ProductPage/AllProductPage/SearchProduct";
 import AdminChart from "../pages/AdminDashboard/AdminChart/AdminChart";
 import AdminOrderDetail from "../pages/AdminDashboard/AdminManageOrder/AdminOrderDetail";
 import SaleStaffCancleOrderPage from "../pages/SaleStaffPage/SaleStaffCancleOrder";
+import AdminGoldPrice from "../pages/AdminDashboard/AdminGoldPrice/AdminGoldPrice";
+import AdminSubPrice from "../pages/AdminDashboard/AdminSubPrice/AdminSubPrice";
 
 export default function AppRoute() {
   return (
@@ -164,6 +166,22 @@ export default function AppRoute() {
         element={
           <ProtectedRoute roles={["MANAGER"]}>
             <AdminCollection />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routes.goldprice}
+        element={
+          <ProtectedRoute roles={["MANAGER"]}>
+            <AdminGoldPrice />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routes.subprice}
+        element={
+          <ProtectedRoute roles={["MANAGER"]}>
+            <AdminSubPrice />
           </ProtectedRoute>
         }
       />
