@@ -959,7 +959,7 @@ export default function AdminCover() {
       render: (value) => (
         <Checkbox
           type="checkbox"
-          onChange={onChangeChecked}
+          onChange={onChangeCheckedUpdate}
           value={value.id}
           checked={checkedListUpdate?.includes(value.id)}
         />
