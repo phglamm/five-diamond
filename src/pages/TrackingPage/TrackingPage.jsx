@@ -240,15 +240,22 @@ const TrackingPage = () => {
                 <div className="warranty-information">
                   <div className="warranty-customer">
                     <p>
-                       {warranty?.account?.lastname}{" "}
+                      {warranty?.account?.lastname}{" "}
                       {warranty?.account?.firstname}
                     </p>
                     <p> {warranty?.account?.phone} </p>
                     <p> {warranty?.account?.email} </p>
-                    <p> {formatDate(warranty?.orderDate)} đến {formatDate(warranty?.expiredDate)}</p>
+                    <p>
+                      {" "}
+                      {formatDate(warranty?.orderDate)} đến{" "}
+                      {formatDate(warranty?.expiredDate)}
+                    </p>
                   </div>
                   <div className="warranty-logo">
-                    <img src="https://drive.google.com/thumbnail?id=12VOLpkMHkRGT2KYwpINIizy9sT8O3ilL&sz=w1000" alt="quality-guarantee-logo" />
+                    <img
+                      src="https://drive.google.com/thumbnail?id=12VOLpkMHkRGT2KYwpINIizy9sT8O3ilL&sz=w1000"
+                      alt="quality-guarantee-logo"
+                    />
                   </div>
                 </div>
                 <table className="warrantyTable">

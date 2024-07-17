@@ -1,43 +1,44 @@
 .order-table {
-    margin-top: 20px;
+  margin-top: 20px;
+  width: 100% !important;
 }
 
 .sale-staff-title {
-    padding: 20px 0 20px;
-    color: #38a9b8;
-    text-align: center;
-    font-size: 2.5em;
-    text-transform: uppercase;
-    font-weight: 600;
+  padding: 20px 0 20px;
+  color: #38a9b8;
+  text-align: center;
+  font-size: 2.5em;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
 .sale-staff-filter-buttons {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
-.sale-staff-filter-buttons>button {
-    border-radius: 0 !important;
+.sale-staff-filter-buttons > button {
+  border-radius: 0 !important;
 }
 
-.sale-staff-filter-buttons>a>.ant-btn {
-    border-radius: 0 !important;
+.sale-staff-filter-buttons > a > .ant-btn {
+  border-radius: 0 !important;
 }
 
-.sale-staff-filter-buttons>a>.ant-btn:hover {
-    color: red !important;
-    border-color: red !important;
+.sale-staff-filter-buttons > a > .ant-btn:hover {
+  color: red !important;
+  border-color: red !important;
 }
 
 .contact-text {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 button.btn-success {
-    font-size: 12px !important;
+  font-size: 12px !important;
 }
 
 .sales-search-bar {
-    margin-top: 10px;
+  margin-top: 10px;
 }
