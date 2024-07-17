@@ -1,0 +1,47 @@
+.promotion-card {
+    display: flex;
+    align-items: center;
+    padding: 1px;
+    border-radius: 0;
+    border: 1px solid #e8e8e8;
+
+}
+
+.promotion-card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+
+}
+
+/*copy-button*/
+.copy-button {
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: auto;
+}
+
+/* .copy-button:hover {
+    background-color: #45a049;
+} */
+
+.icon {
+    margin-right: 10px;
+    color: #ff4d4f;
+}
+
+.promotion-card-details {
+    flex-grow: 1;
+    display: flex;
+    gap: 30px;
+}
+
+.code {
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.discount,
+.date {
+    margin: 5px 0;
+}

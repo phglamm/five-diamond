@@ -1,15 +1,60 @@
-import React, { useState } from "react"; // Import useState
+import React, { useState, useEffect } from "react"; // Import useState
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import "./SaleEventPage.css";
-import OutlinedButtons from "../../components/Button/OutlineButton";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa6"; // Import icons
 import { Container } from "react-bootstrap";
 import MyBreadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import { routes } from "../../routes";
 import { Link } from "react-router-dom";
-import { Button } from "antd";
+import api from "../../config/axios"
+import { Row } from "react-bootstrap";
+import PromotionCard from "../../components/PromotionCard/PromotionCard";
 
 function SaleEventPage() {
+  const [promotion, setPromotion] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+
+  // Fetch promotions
+  async function fetchPromotion() {
+    const response = await api.get("promotion");
+    const filter = response.data.filter((item) => item.deleted === false);
+    setPromotion(filter);
+    console.log(response.data);
+  }
+
+  // Use effect to fetch promotions on mount
+  useEffect(() => {
+    fetchPromotion();
+  }, []);
+
+  //pagination voucher
+  const nextPromotion = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === promotion.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevPromotion = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? promotion.length - 1 : prevIndex - 1
+    );
+  };
+
+  const getVisiblePromotions = () => {
+    if (promotion.length <= 3) {
+      return promotion;
+    }
+    if (currentIndex + 3 <= promotion.length) {
+      return promotion.slice(currentIndex, currentIndex + 3);
+    }
+    return [
+      ...promotion.slice(currentIndex),
+      ...promotion.slice(0, (currentIndex + 3) % promotion.length),
+    ];
+  };
+
   return (
     <div>
       <Header />
@@ -34,11 +79,7 @@ function SaleEventPage() {
         </div>
         <div>
           <h3 className="content-header">ƯU ĐÃI ĐỘC QUYỀN ONLINE</h3>
-          <div className="sale-content">
-            <p onClick={""}>NHẪN ƯU ĐÃI ĐẾN 20%</p>
-            <p onClick={""}>VÒNG CỔ ƯU ĐÃI ĐẾN 40%</p>
-            <p onClick={""}>KIM CƯƠNG ƯU ĐÃI 2%</p>
-          </div>
+
           <div className="sale-content-img">
             <img
               src={
@@ -65,15 +106,33 @@ function SaleEventPage() {
             />{" "}
             {/* earring */}
           </div>
-          <div className="button" id="outlined">
-            {/* <Link to={routes.saleProduct}>
+          {/* <div className="button" id="outlined">
+            <Link to={routes.saleProduct}>
               <OutlinedButtons text={"Xem tất cả"} />
-            </Link> */}
+            </Link>
+          </div> */}
+        </div>
+
+        <Row>
+          <div className="promotion-carousel" >
+            <FaAngleLeft onClick={prevPromotion} className="carousel-arrow" />
+            <div className="sale-content">
+              {getVisiblePromotions().map((promo) => (
+                <PromotionCard
+                  key={promo.id}
+                  code={promo.code}
+                  discountPercentage={promo.discountPercentage}
+                  endDate={new Date(promo.endDate).toLocaleDateString()}
+                />
+              ))}
+            </div>
+            <FaAngleRight onClick={nextPromotion} className="carousel-arrow" />
           </div>
-        </div>
-        <div className="button" id="filled">
-          <Button>Ưu Đãi Khác</Button>
-        </div>
+        </Row>
+
+
+
+        {/* 
         <div className="sale-banner">
           <img
             className="bot-banner"
@@ -82,7 +141,7 @@ function SaleEventPage() {
             }
             alt="Bottom Banner"
           />
-        </div>
+        </div> */}
       </Container>
       <Footer />
     </div>
