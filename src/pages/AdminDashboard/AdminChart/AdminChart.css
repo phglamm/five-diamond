@@ -52,6 +52,7 @@
 .month-selection, .quarter-selection {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .month-selection label, .quarter-selection label {
