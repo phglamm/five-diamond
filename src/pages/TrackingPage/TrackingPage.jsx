@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Card } from "react-bootstrap";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import { Popover, Steps } from "antd";
+import { Button, Modal, Popover, Steps, Table } from "antd";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import { Link, useParams } from "react-router-dom";
 import "./TrackingPage.css";
@@ -10,6 +10,7 @@ import api from "../../config/axios";
 import { routes } from "../../routes";
 import { selectUser } from "../../redux/features/counterSlice";
 import { useSelector } from "react-redux";
+import moment from "moment";
 
 const customDot = (dot, { status, index }) => (
   <Popover
@@ -26,7 +27,9 @@ const customDot = (dot, { status, index }) => (
 const TrackingPage = () => {
   const { id } = useParams();
   const [orderDetail, setOrderDetail] = useState(null);
+  const [warranty, setWarranty] = useState(null);
   const user = useSelector(selectUser);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     async function fetchOrderDetail() {
@@ -40,6 +43,16 @@ const TrackingPage = () => {
     }
     fetchOrderDetail();
   }, []);
+
+  async function fetchProductWarranty(productID) {
+    try {
+      const response = await api.get(`warranty/productId=${productID}`);
+      setWarranty(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  }
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -95,6 +108,19 @@ const TrackingPage = () => {
       default:
         return "Chờ xử lý";
     }
+  };
+
+  const showModal = (productID) => {
+    setIsModalOpen(true);
+    fetchProductWarranty(productID);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
   };
   return (
     <>
@@ -193,10 +219,85 @@ const TrackingPage = () => {
                       <a href={diamond?.certificate?.fileURL} target="_blank">
                         Chứng Chỉ GIA
                       </a>
+                      <Button
+                        onClick={() => showModal(orderItem.product?.id)}
+                        key={orderItem.product?.id}
+                      >
+                        Giấy Bảo Hành
+                      </Button>
                     </div>
                   </div>
                 );
               })}
+              <Modal
+                title="Giấy Bảo Hành"
+                open={isModalOpen}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                className="size-guide-modal warrantyModal"
+                footer={null}
+              >
+                <div className="warranty-information">
+                  <div className="warranty-customer">
+                    <p>
+                      {warranty?.account?.lastname}{" "}
+                      {warranty?.account?.firstname}
+                    </p>
+                    <p> {warranty?.account?.phone} </p>
+                    <p> {warranty?.account?.email} </p>
+                    <p>
+                      {" "}
+                      {formatDate(warranty?.orderDate)} đến{" "}
+                      {formatDate(warranty?.expiredDate)}
+                    </p>
+                  </div>
+                  <div className="warranty-logo">
+                    <img
+                      src="https://drive.google.com/thumbnail?id=12VOLpkMHkRGT2KYwpINIizy9sT8O3ilL&sz=w1000"
+                      alt="quality-guarantee-logo"
+                    />
+                  </div>
+                </div>
+                <table className="warrantyTable">
+                  <tr>
+                    <th>Mã Sản Phẩm</th>
+                    <th>Mã Dòng Sản Phẩm</th>
+                    <th>Tên Dòng Sản Phẩm</th>
+                    <th>Danh Mục</th>
+                    <th>Chất Liệu</th>
+                    <th>Kim Cương Chính</th>
+                    <th>Nguồn Gốc</th>
+                    <th>Mã Số GIA</th>
+                    <th>Giấy Chứng Chỉ</th>
+                  </tr>
+                  <tr>
+                    <td>{warranty?.product?.id}</td>
+                    <td>{warranty?.product?.productLine?.id}</td>
+                    <td>{warranty?.product?.productLine?.name}</td>
+                    <td>{warranty?.product?.productLine?.category?.name}</td>
+                    <td>Vàng {warranty?.product?.productLine?.karat}</td>
+                    <td>{warranty?.product?.diamond?.shape}</td>
+                    <td>
+                      {warranty?.product?.diamond?.origin === "NATURAL" ? (
+                        <>Tự Nhiên</>
+                      ) : (
+                        <>Nhân Tạo</>
+                      )}
+                    </td>
+                    <td>
+                      {warranty?.product?.diamond?.certificate?.giaReportNumber}
+                    </td>
+                    <td>
+                      <a
+                        href={warranty?.product?.diamond?.certificate?.fileURL}
+                        target="_blank"
+                      >
+                        Chứng Chỉ GIA
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </Modal>
 
               <h5 style={{ marginTop: "5%" }}>
                 Tổng tiền:{" "}
@@ -234,7 +335,7 @@ const TrackingPage = () => {
               </div>
             ) : (
               <div className="order-tracking">
-                <h3>THEO DÕI ĐƠN HÀNG</h3>
+                <h4>THEO DÕI ĐƠN HÀNG</h4>
                 <Card
                   className={
                     orderDetail.orderStatus === "CANCELED"

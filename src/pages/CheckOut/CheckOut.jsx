@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Alert, Modal, ListGroup } from "react-bootstrap";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -11,11 +11,15 @@ import { order } from "../../redux/features/orderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { selectUser } from "../../redux/features/counterSlice";
+import { BiSolidDiscount } from "react-icons/bi";
 
 export default function CheckOut() {
   const location = useLocation();
   const [discountCode, setDiscountCode] = useState("");
   const [discount, setDiscount] = useState(0);
+  const [showDiscountModal, setShowDiscountModal] = useState(false);
+  const [availableDiscounts, setAvailableDiscounts] = useState([]);
+  const [copiedCode, setCopiedCode] = useState("");
   const user = useSelector(selectUser);
 
   let { cartItems, finalTotal } = location.state || {
@@ -39,6 +43,20 @@ export default function CheckOut() {
   useEffect(() => {
     console.log("Form data updated:", formData);
   }, [formData]);
+
+  useEffect(() => {
+    // Fetch available discounts
+    const fetchDiscounts = async () => {
+      try {
+        const response = await api.get("promotion");
+        setAvailableDiscounts(response.data);
+      } catch (error) {
+        console.error('Failed to fetch discounts:', error);
+      }
+    };
+
+    fetchDiscounts();
+  }, []);
 
   // Validate form data
   const validateForm = () => {
@@ -105,7 +123,7 @@ export default function CheckOut() {
 
     if (validateForm()) {
       try {
-        const amount = String(finalTotal - (finalTotal * discount) / 100);
+        const amount = String(Math.ceil(finalTotal - finalTotal * discount));
         console.log(amount);
         const data = {
           fullname: formData.name,
@@ -134,6 +152,23 @@ export default function CheckOut() {
       (total, item) => total + item.price * item.quantity,
       0
     );
+  };
+
+  const handleSelectDiscount = (code, discountPercentage) => {
+    setDiscountCode(code);
+    setDiscount(discountPercentage);
+    setShowDiscountModal(false);
+  };
+
+  const copyToClipboard = (code) => {
+    navigator.clipboard.writeText(code)
+      .then(() => {
+        setCopiedCode(code);
+        toast.success("Mã giảm giá đã được sao chép!");
+      })
+      .catch((error) => {
+        toast.error("Sao chép mã giảm giá thất bại.");
+      });
   };
 
   return (
@@ -252,7 +287,6 @@ export default function CheckOut() {
 
             <Col md={4}>
               <h4>THÔNG TIN ĐƠN HÀNG</h4>
-
               {cartItems.length === 0 ? (
                 <Alert variant="info">Giỏ hàng trống.</Alert>
               ) : (
@@ -271,13 +305,20 @@ export default function CheckOut() {
                         Số lượng: {item.quantity}
                       </div>
                       <div className="cart-item-price">
-                        Đơn giá: {item.productLine.finalPrice.toLocaleString()}{" "}
-                        đ
+                        Giá: {item.productLine.finalPrice.toLocaleString()}{" "} VNĐ
                       </div>
                     </div>
                   </div>
                 ))
               )}
+              <div className="d-flex">
+                <h5><BiSolidDiscount /> 5Diamond Voucher</h5>
+                <span
+                  style={{ cursor: "pointer", color: "#2691fe", marginLeft: "8px" }} onClick={() => setShowDiscountModal(true)}
+                >
+                  Chọn mã giảm giá
+                </span>
+              </div>
               <div className="d-flex">
                 <input
                   type="text"
@@ -294,7 +335,7 @@ export default function CheckOut() {
                   Áp dụng
                 </Button>
               </div>
-              <div style={{ marginLeft: "8px", marginTop: "12px" }}>
+              <div style={{ marginLeft: "4px", marginTop: "12px" }}>
                 <h6>
                   Tạm tính:{" "}
                   <span style={{ color: "red" }}>
@@ -307,17 +348,18 @@ export default function CheckOut() {
                     {((finalTotal * discount) / 100).toLocaleString()} VNĐ
                   </span>
                 </h6>
+                <h6>
+                  Thành tiền:{" "}
+                  <span style={{ color: "red" }}>
+                    {(
+                      finalTotal -
+                      (finalTotal * discount) / 100
+                    ).toLocaleString()}{" "}
+                    VNĐ
+                  </span>
+                </h6>
               </div>
-              <h5>
-                Thành tiền:{" "}
-                <span style={{ color: "red" }}>
-                  {(
-                    finalTotal -
-                    (finalTotal * discount) / 100
-                  ).toLocaleString()}{" "}
-                  VNĐ
-                </span>
-              </h5>
+
             </Col>
           </Row>
           <div className="button-confirmback">
@@ -334,6 +376,61 @@ export default function CheckOut() {
         </Form>
       </Container>
       <Footer />
+
+      {/* Discount Code Modal */}
+      <Modal show={showDiscountModal} onHide={() => setShowDiscountModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>5Diamond Voucher <BiSolidDiscount /></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <ListGroup>
+            {availableDiscounts.map((discount) => (
+              <ListGroup.Item
+                key={discount.code}
+                action
+                onClick={() => handleSelectDiscount(discount.code, discount.discountPercentage)}
+                className="custom-listgroup-item"
+              >
+                {/* {discount.code} - Giảm {discount.discountPercentage}%
+               
+                  HSD: {new Date(discount.endDate).toLocaleDateString()} */}
+
+                <div class="voucher-container">
+                  <div class="voucher-card">
+                    <div class="main-voucher">
+                      <div class="co-img">
+                        <img
+                          src="https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"
+                          alt="Coupon Image"
+                        />
+                      </div>
+                      <div class="vertical"></div>
+                      <div class="content">
+                        <h2>FiveDiamond</h2>
+                        <h1>{discount.discountPercentage}% Coupon</h1>
+                        <p> HSD: {new Date(discount.endDate).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                    <div class="copy-button">
+                      <input id="copyvalue" type="text" readonly value={discount.code} />
+                      {/* <button onclick="copyIt()" class="copybtn">COPY</button> */}
+                      <button onClick={() => copyToClipboard(discount.code)} className="copybtn">
+                        {copiedCode === discount.code ? "COPIED" : "COPY"}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDiscountModal(false)}>
+            Đóng
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
     </div>
   );
 }

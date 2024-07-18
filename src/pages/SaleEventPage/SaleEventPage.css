@@ -3,53 +3,78 @@
   justify-content: center;
   width: 100%;
   margin-top: 0;
-  margin-bottom: 1%;
+  margin-bottom: 2%;
 }
-.sale-banner > .top-banner {
+
+.sale-banner>.top-banner {
   width: 100%;
 }
-.sale-banner > .bot-banner {
+
+.sale-banner>.bot-banner {
   margin-top: 2%;
   width: 60%;
 }
+
 .content-header {
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: bold;
   color: #38a9b8;
+  margin-bottom: 1%;
 }
+
+
+/*content-voucher*/
 .sale-content {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 55px;
+
 }
-.sale-content p {
-  margin: 0 10px;
-  position: relative;
-  font-weight: bold;
-  color: #38a9b8;
+
+/*carousel*/
+.promotion-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.sale-content p:not(:last-child)::after {
-  content: "|";
-  position: absolute;
-  right: -10px;
-  top: 50%;
-  transform: translateY(-50%);
+
+.carousel-arrow {
+  align-items: center;
+  cursor: pointer;
+  font-size: 2.2em;
+  color: #a8a8a8;
+  margin: 0 30px;
 }
+
+
 .sale-content-img {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
 }
-.sale-content-img > img {
-  width: 10%;
+
+.sale-content-img>a {
+  width: 13%;
   margin: 1%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #ebebeb;
   border-radius: 50%;
   padding: 1%;
+  text-decoration: none;
 }
+
+.sale-content-img>a>img {
+  font-size: 50px;
+  width: 100%;
+  border-radius: 50%;
+}
+
 .button {
   display: flex;
   justify-content: center;
@@ -57,6 +82,7 @@
   width: 100%;
   padding-right: 2%;
 }
+
 .MuiButton-colorPrimary {
   background-color: #ffff !important;
   border-radius: 25rem !important;

@@ -54,4 +54,6 @@ export const routes = {
   timkiemsanpham: "/san-pham",
   // payment: "/thanh-toan",
   saleStaffCancleOrder: "/nhan-vien-sale-huy-don",
+  goldprice: "/admin-gia-vang",
+  subprice: "/admin-gia-vien-phu",
 };

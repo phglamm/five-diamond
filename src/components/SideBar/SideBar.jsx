@@ -114,7 +114,17 @@ export default function SideBar() {
           </li>
           <li>
             <MonetizationOnIcon color="info" fontSize="large" />
-            <Link to={routes.adminDiamondPrice}>Quản Lý Giá Kim Cương</Link>
+            <Link to={routes.adminDiamondPrice}>
+              Quản Lý Bảng Giá Kim Cương
+            </Link>
+          </li>
+          <li>
+            <MonetizationOnIcon color="info" fontSize="large" />
+            <Link to={routes.goldprice}>Quản Lý Giá Vàng</Link>
+          </li>
+          <li>
+            <MonetizationOnIcon color="info" fontSize="large" />
+            <Link to={routes.subprice}>Quản Lý Giá Viên Phụ</Link>
           </li>
           <li>
             <KeyboardReturn color="info" fontSize="large" />

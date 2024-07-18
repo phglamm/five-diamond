@@ -44,6 +44,7 @@
 .cart-item-name {
   font-weight: bold;
 }
+
 .product-details {
   flex-grow: 1;
   display: flex;
@@ -190,6 +191,159 @@ hr.solid {
   margin-top: 0px;
   border-top: 3px solid #bbb;
 }
+
 .d-flex {
   margin-top: 10px;
+}
+
+.custom-listgroup-item {
+  border-radius: 10px;
+  background-color: #38a9b8;
+  margin-bottom: 10px;
+  border: none;
+}
+
+Button.custom-listgroup-item {
+  border-radius: 10px;
+  background-color: #38a9b8;
+  margin-bottom: 10px;
+  border: none;
+}
+
+Button.custom-listgroup-item:hover {
+  background-color: #38a9b8;
+  /* Maintain same background color on hover */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.voucher-container {
+  width: 100%;
+  height: 28vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #38a9b8;
+  border-radius: 10px;
+}
+
+.voucher-card {
+  width: 400px;
+  height: 180px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  padding: 10px 10px;
+  position: relative;
+}
+
+.main-voucher,
+.copy-button {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  margin-top: -15px;
+  align-items: center;
+}
+
+.voucher-card::after {
+  position: absolute;
+  content: "";
+  height: 40px;
+  right: -20px;
+  border-radius: 40px;
+  z-index: 1;
+  top: 70px;
+  background-color: #38a9b8;
+  width: 40px;
+}
+
+.voucher-card::before {
+  position: absolute;
+  content: "";
+  height: 40px;
+  left: -20px;
+  border-radius: 40px;
+  z-index: 1;
+  top: 70px;
+  background-color: #38a9b8;
+  width: 40px;
+}
+
+.co-img img {
+  width: 100px;
+  height: 100px;
+}
+
+.vertical {
+  border-left: 6px dotted black;
+  height: 110px;
+  position: absolute;
+  left: 39%;
+  margin-left: -23px;
+  padding: auto;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.content h1 {
+  font-size: 35px;
+  margin-top: -5px;
+
+  color: #565656;
+}
+
+.content h1 span {
+  font-size: 18px;
+}
+
+.content h2 {
+  font-size: 18px;
+  margin-left: -35%;
+  margin-top: 5px;
+  color: #565656;
+  text-transform: uppercase;
+}
+
+.content p {
+  font-size: 16px;
+  margin-left: -40%;
+  margin-top: -5px;
+  color: #696969;
+}
+
+.copy-button {
+  margin: -18px 8px 0px 8px;
+  height: 38px;
+  border-radius: 4px;
+  padding: 0 5px;
+  border: 1px solid #e1e1e1;
+}
+
+.copy-button input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  font-size: 15px;
+}
+
+.copy-button button {
+  padding: 0 20px;
+  border-radius: 4px;
+  background-color: #38a9b8;
+  color: #fff;
+  border: 1px solid transparent;
+  cursor: pointer;
 }
