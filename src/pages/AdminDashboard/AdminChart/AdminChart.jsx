@@ -19,6 +19,7 @@ export default function AdminChart() {
   const [accountCount, setAccountCount] = useState(0);
   const [accountByMonth, setAccountByMonth] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [canceledOrders, setCanceledOrders] = useState([]);
   const [allOrders, setAllOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState(moment().month() + 1);
@@ -70,8 +71,11 @@ export default function AdminChart() {
       try {
         const orderResponse = await api.get("order/all");
         const filterOrder = orderResponse.data.filter((item) => item.orderStatus != "CANCELED");
+        const filterCanceledOrder = orderResponse.data.filter((item) => item.orderStatus === "CANCELED");
+
         setAllOrders(orderResponse.data);
         setOrders(filterOrder);
+        setCanceledOrders(filterCanceledOrder);
         console.log(filterOrder);
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -80,12 +84,12 @@ export default function AdminChart() {
     fetchOrders();
   }, []);
 
-  async function filterOrdersByRange(orders, selectedRange) {
+  async function filterOrdersByRange(orders, canceledOrders, selectedRange) {
     try {
       if (selectedRange && selectedRange.length === 2 && selectedRange[0] && selectedRange[1]) {
         const startDate = moment(selectedRange[0].$d);
         const endDate = moment(selectedRange[1].$d);
-
+  
         const filteredOrders = await Promise.all(orders.map(async (order) => {
           const orderDate = moment(order.orderDate);
           if (orderDate.isBetween(startDate, endDate, null, '[]')) {
@@ -95,29 +99,49 @@ export default function AdminChart() {
           }
           return null;
         }));
-
+  
+        const filteredCanceledOrders = await Promise.all(canceledOrders.map(async (order) => {
+          const orderDate = moment(order.orderDate);
+          if (orderDate.isBetween(startDate, endDate, null, '[]') && order.orderStatus === "CANCELED") {
+            return { ...order, canceledCount: 1 }; // Assuming each order is counted once
+          }
+          return null;
+        }));
+  
         const validOrders = filteredOrders.filter(order => order !== null);
-        return validOrders;
+        const validCanceledOrders = filteredCanceledOrders.filter(order => order !== null);
+  
+        return {
+          validOrders,
+          validCanceledOrders
+        };
       }
-
-      return [];
+  
+      return {
+        validOrders: [],
+        validCanceledOrders: []
+      };
     } catch (error) {
       console.error("Error filtering orders by range:", error);
-      return [];
+      return {
+        validOrders: [],
+        validCanceledOrders: []
+      };
     }
   }
 
   useEffect(() => {
     async function updateFilteredOrders() {
-      const validOrders = await filterOrdersByRange(orders, selectedRange);
+      const validOrders = await filterOrdersByRange(orders, canceledOrders, selectedRange);
       setFilteredOrders(validOrders);
     }
     updateFilteredOrders();
   }, [orders, selectedRange]);
 
+
   function calculateTotalRevenue(filteredOrders) {
     try {
-      return filteredOrders.reduce((total, order) => total + order.totalAmount, 0);
+      return filteredOrders.validOrders.reduce((total, order) => total + order.totalAmount, 0);
     } catch (error) {
       console.error("Error calculating total revenue:", error);
       return 0;
@@ -126,7 +150,7 @@ export default function AdminChart() {
 
   function calculateTotalProfit(filteredOrders) {
     try {
-      return filteredOrders.reduce((total, order) => {
+      return filteredOrders.validOrders.reduce((total, order) => {
         const productLineTotal = order.orderItems.reduce(
           (sum, item) => sum + item.product.productLine.price, 0
         );
@@ -412,7 +436,7 @@ export default function AdminChart() {
                 {mode === "quarter"
                   ? `${totalQuarterlyOrders} (${totalQuarterlyCanceledOrders} đơn đã hủy)`
                   : mode === "range"
-                    ? `${filteredOrders.length}`
+                    ? `${filteredOrders.validOrders.length} (${filteredOrders.validCanceledOrders.length} đơn đã hủy)`
                     : `${currentMonthOrder} (${currentMonthCanceledOrder} đơn đã hủy)`}
               </p>
               <span>
