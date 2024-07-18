@@ -19,6 +19,7 @@ export default function AdminChart() {
   const [accountCount, setAccountCount] = useState(0);
   const [accountByMonth, setAccountByMonth] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [allOrders, setAllOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState(moment().month() + 1);
   const [selectedQuarter, setSelectedQuarter] = useState(
@@ -68,7 +69,10 @@ export default function AdminChart() {
     async function fetchOrders() {
       try {
         const orderResponse = await api.get("order/all");
-        setOrders(orderResponse.data);
+        const filterOrder = orderResponse.data.filter((item) => item.orderStatus != "CANCELED");
+        setAllOrders(orderResponse.data);
+        setOrders(filterOrder);
+        console.log(filterOrder);
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
@@ -86,7 +90,7 @@ export default function AdminChart() {
           const orderDate = moment(order.orderDate);
           if (orderDate.isBetween(startDate, endDate, null, '[]')) {
             const response = await api.get(`order/${order.id}`);
-            const totalAmount = response.data.totalAmount;
+            const totalAmount = response.data.totalAmount;  
             return { ...order, totalAmount };
           }
           return null;
@@ -134,11 +138,7 @@ export default function AdminChart() {
     }
   }
 
-  function calculateTotalCanceledOrders(orders) {
-    return orders.filter(order => order.orderStatus === "CANCELED").length;
-  }
-
-  const totalCanceledOrders = calculateTotalCanceledOrders(orders);
+  
 
   const totalRevenue = calculateTotalRevenue(filteredOrders);
   const totalProfitValue = calculateTotalProfit(filteredOrders);
@@ -148,6 +148,7 @@ export default function AdminChart() {
     const ordersByMonth = {};
     const profitByMonth = {};
     const customerByMonth = {};
+    const canceledOrderByMonth = {};
 
     statistics.forEach((item) => {
       const month = item.month;
@@ -156,6 +157,7 @@ export default function AdminChart() {
       revenueByMonth[monthName] = parseFloat(item.totalRevenue || 0);
       ordersByMonth[monthName] = item.list.length;
       profitByMonth[monthName] = parseFloat(item.totalProfit || 0);
+      canceledOrderByMonth[monthName] = item.list.filter((item) => item.orderStatus === "CANCELED").length;
     });
 
     accountByMonth.forEach((item) => {
@@ -165,10 +167,10 @@ export default function AdminChart() {
       customerByMonth[monthName] = item.customerQuantity || 0;
     });
 
-    return { revenueByMonth, ordersByMonth, profitByMonth, customerByMonth };
+    return { revenueByMonth, ordersByMonth, profitByMonth, customerByMonth, canceledOrderByMonth };
   }
 
-  const { revenueByMonth, ordersByMonth, profitByMonth, customerByMonth } =
+  const { revenueByMonth, ordersByMonth, profitByMonth, customerByMonth, canceledOrderByMonth } =
     getMonthlyData(statistics, accountByMonth);
 
   const labels = [
@@ -261,6 +263,7 @@ export default function AdminChart() {
   const currentMonthProfit = profitByMonth[currentMonthName] || 0;
   const currentMonthOrder = ordersByMonth[currentMonthName] || 0;
   const currentMonthCustomerQuantity = customerByMonth[currentMonthName] || 0;
+  const currentMonthCanceledOrder = canceledOrderByMonth[currentMonthName] || 0;
 
   const quarters = [
     { label: "Quý 1", value: 1 },
@@ -276,6 +279,7 @@ export default function AdminChart() {
     let totalQuarterlyRevenue = 0;
     let totalQuarterlyProfit = 0;
     let totalQuarterlyOrders = 0;
+    let totalQuarterlyCanceledOrders = 0;
     let totalQuarterlyCustomers = 0;
 
     for (let month = startMonth; month <= endMonth; month++) {
@@ -283,14 +287,27 @@ export default function AdminChart() {
       totalQuarterlyRevenue += revenueByMonth[monthName] || 0;
       totalQuarterlyProfit += profitByMonth[monthName] || 0;
       totalQuarterlyOrders += ordersByMonth[monthName] || 0;
+      totalQuarterlyCanceledOrders += canceledOrderByMonth[monthName] || 0;
       totalQuarterlyCustomers += customerByMonth[monthName] || 0;
     }
 
-    return { totalQuarterlyRevenue, totalQuarterlyProfit, totalQuarterlyOrders, totalQuarterlyCustomers };
+    return { totalQuarterlyRevenue, totalQuarterlyProfit, totalQuarterlyOrders, totalQuarterlyCustomers, totalQuarterlyCanceledOrders };
   }
 
-  const { totalQuarterlyRevenue, totalQuarterlyProfit, totalQuarterlyOrders, totalQuarterlyCustomers } =
+  const { totalQuarterlyRevenue, totalQuarterlyProfit, totalQuarterlyOrders, totalQuarterlyCustomers, totalQuarterlyCanceledOrders } =
     getQuarterlyData(selectedQuarter);
+
+  function checkRange(orderDate, selectedRange){
+    if (selectedRange && selectedRange.length === 2 && selectedRange[0] && selectedRange[1]) {
+      const startDate = moment(selectedRange[0].$d);
+      const endDate = moment(selectedRange[1].$d);
+      if (orderDate.isBetween(startDate, endDate, null, '[]')){
+        return true;
+      }
+      
+  
+    }
+  }
 
   return (
     <div className="admin">
@@ -393,15 +410,15 @@ export default function AdminChart() {
             <div className="widget-table-item-text">
               <p>
                 {mode === "quarter"
-                  ? `${totalQuarterlyOrders} (${totalCanceledOrders} đơn đã hủy)`
+                  ? `${totalQuarterlyOrders} (${totalQuarterlyCanceledOrders} đơn đã hủy)`
                   : mode === "range"
-                    ? `${filteredOrders.length} (${totalCanceledOrders} đơn đã hủy)`
-                    : `${currentMonthOrder} (${totalCanceledOrders} đơn đã hủy)`}
+                    ? `${filteredOrders.length}`
+                    : `${currentMonthOrder} (${currentMonthCanceledOrder} đơn đã hủy)`}
               </p>
               <span>
                 {mode === "quarter"
                   ? "Tổng đơn hàng của quý"
-                  : mode === "range"
+                  : mode === "range"  
                     ? "Tổng đơn hàng"
                     : "Tổng đơn hàng của tháng"}
               </span>
@@ -417,7 +434,7 @@ export default function AdminChart() {
                     ? filteredOrders.length
                     : currentMonthCustomerQuantity}
               </p>
-              <span>
+              <span>  
                 Số khách hàng mới
               </span>
             </div>
