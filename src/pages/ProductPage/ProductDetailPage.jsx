@@ -508,20 +508,19 @@ export default function ProductPage() {
                 </div>
                 {comments.length ? (
                   <div className="reviews">
-                    {currentComments.map((comment) => (
+                  {currentComments.map((comment) => {
+                    const createdAtDate = new Date(comment.createAt);
+                    const isValidDate = !isNaN(createdAtDate);
+                    
+                    return (
                       <div className="review" key={comment.id}>
                         <div className="customer">
                           <IoPersonCircleOutline className="icon" />
                           <span style={{ fontSize: "16px" }}>
-                            {comment.account.firstname}{" "}
-                            {comment.account.lastname}{" "}
+                            {comment.account.firstname} {comment.account.lastname}
                           </span>
-                          <div
-                            className="review-meta"
-                            style={{ marginLeft: "10px" }}
-                          >
-                            {comment.createAt &&
-                              intlFormatDistance(comment.createAt, new Date())}
+                          <div className="review-meta" style={{ marginLeft: "10px" }}>
+                            {isValidDate ? intlFormatDistance(createdAtDate, new Date()) : "Ngày không hợp lệ"}
                           </div>
                           {comment.account.id === user.id && (
                             <Popconfirm
@@ -545,16 +544,15 @@ export default function ProductPage() {
                             </Popconfirm>
                           )}
                         </div>
-
-                        <div
-                          className="comment-content"
-                          style={{ marginLeft: "42px" }}
-                        >
+                
+                        <div className="comment-content" style={{ marginLeft: "42px" }}>
                           <p style={{ fontSize: "16px" }}>{comment.content}</p>
                         </div>
                       </div>
-                    ))}
-                  </div>
+                    );
+                  })}
+                </div>
+                
                 ) : (
                   <Col xs={5}>
                     <p className="comment-notfound">
