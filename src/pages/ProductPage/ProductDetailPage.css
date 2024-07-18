@@ -2,6 +2,7 @@
   display: flex;
   margin-top: 50px;
 }
+
 .relevant-product-card-item {
   width: calc(100% / 6);
   margin-bottom: 20px;
@@ -274,4 +275,41 @@
 
 .custom-pagination {
   margin-left: 592px;
+}
+
+/*relevant product pagination*/
+.relevant-products-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: none;
+}
+
+.relevant-products-row {
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  justify-content: center;
+  margin: 0 10px;
+}
+
+.relevant-pagination-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.relevant-pagination-button.left {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  margin-right: 10px;
+}
+
+.relevant-pagination-button.right {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  margin-left: 10px;
 }
