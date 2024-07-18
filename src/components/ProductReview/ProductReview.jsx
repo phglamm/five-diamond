@@ -10,6 +10,7 @@ import { useSelector } from "react-redux"; //
 import { useForm } from "antd/es/form/Form"; //
 import { Form, Popconfirm, Pagination } from "antd"; //
 import { intlFormatDistance } from "date-fns"; //
+import useRealtime from "../../assets/useRealtime";
 
 const ProductReview = ({ productLineId }) => {
   const [comments, setComments] = useState([]);
@@ -17,6 +18,12 @@ const ProductReview = ({ productLineId }) => {
   const [currentPage, setCurrentPage] = useState(1); // Added state for current page
   const user = useSelector(selectUser);
   const [form] = useForm();
+
+  useRealtime(async (body) => {
+    if (body.body === "comment") {
+      await fetchComments();
+    }
+  });
 
   const handleInputChange = ({ target: { value } }) => {
     setInputValue(value);

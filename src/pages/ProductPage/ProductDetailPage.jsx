@@ -25,8 +25,14 @@ import { useForm } from "antd/es/form/Form";
 import { routes } from "../../routes";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/features/counterSlice";
+import useRealtime from "../../assets/useRealtime";
 
 export default function ProductPage() {
+  useRealtime(async (body) => {
+    if (body.body === "comment") {
+      await fetchComments();
+    }
+  });
   const [form] = useForm();
 
   const navigate = useNavigate();
@@ -514,7 +520,8 @@ export default function ProductPage() {
                             className="review-meta"
                             style={{ marginLeft: "10px" }}
                           >
-                            {intlFormatDistance(comment.createAt, new Date())}
+                            {comment.createAt &&
+                              intlFormatDistance(comment.createAt, new Date())}
                           </div>
                           {comment.account.id === user.id && (
                             <Popconfirm
