@@ -90,7 +90,7 @@ export default function AdminChart() {
           const orderDate = moment(order.orderDate);
           if (orderDate.isBetween(startDate, endDate, null, '[]')) {
             const response = await api.get(`order/${order.id}`);
-            const totalAmount = response.data.totalAmount;  
+            const totalAmount = response.data.totalAmount;
             return { ...order, totalAmount };
           }
           return null;
@@ -138,7 +138,7 @@ export default function AdminChart() {
     }
   }
 
-  
+
 
   const totalRevenue = calculateTotalRevenue(filteredOrders);
   const totalProfitValue = calculateTotalProfit(filteredOrders);
@@ -297,15 +297,15 @@ export default function AdminChart() {
   const { totalQuarterlyRevenue, totalQuarterlyProfit, totalQuarterlyOrders, totalQuarterlyCustomers, totalQuarterlyCanceledOrders } =
     getQuarterlyData(selectedQuarter);
 
-  function checkRange(orderDate, selectedRange){
+  function checkRange(orderDate, selectedRange) {
     if (selectedRange && selectedRange.length === 2 && selectedRange[0] && selectedRange[1]) {
       const startDate = moment(selectedRange[0].$d);
       const endDate = moment(selectedRange[1].$d);
-      if (orderDate.isBetween(startDate, endDate, null, '[]')){
+      if (orderDate.isBetween(startDate, endDate, null, '[]')) {
         return true;
       }
-      
-  
+
+
     }
   }
 
@@ -418,27 +418,30 @@ export default function AdminChart() {
               <span>
                 {mode === "quarter"
                   ? "Tổng đơn hàng của quý"
-                  : mode === "range"  
+                  : mode === "range"
                     ? "Tổng đơn hàng"
                     : "Tổng đơn hàng của tháng"}
               </span>
             </div>
           </div>
-          <div className="widget-table-item">
-            <UserAddOutlined className="widget-table-item-icon" />
-            <div className="widget-table-item-text">
-              <p>
-                {mode === "quarter"
-                  ? totalQuarterlyCustomers
-                  : mode === "range"
-                    ? filteredOrders.length
-                    : currentMonthCustomerQuantity}
-              </p>
-              <span>  
-                Số khách hàng mới
-              </span>
-            </div>
-          </div>
+          <span>
+            {mode === "range"
+              ? ""
+              : <div className="widget-table-item">
+                <UserAddOutlined className="widget-table-item-icon" />
+                <div className="widget-table-item-text">
+                  <p>
+                    {mode === "quarter"
+                      ? totalQuarterlyCustomers
+                      : currentMonthCustomerQuantity}
+                  </p>
+                  <span>
+                    Số khách hàng mới
+                  </span>
+                </div>
+              </div>}
+          </span>
+
         </div>
         <div className="chart-container">
           <Bar data={data} options={options} />
