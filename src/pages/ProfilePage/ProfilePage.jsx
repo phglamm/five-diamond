@@ -115,9 +115,9 @@ function ProfilePage() {
                 />
               )}
 
-              <button className="update-img-btn" onClick={handleUpdateClick}>
+              {/* <button className="update-img-btn" onClick={handleUpdateClick}>
                 <EditOutlined />
-              </button>
+              </button> */}
             </div>
           </div>
 
@@ -153,8 +153,8 @@ function ProfilePage() {
                     {user.gender === "MALE"
                       ? "Nam"
                       : user.gender === "FEMALE"
-                      ? "Nữ"
-                      : "Khác"}
+                        ? "Nữ"
+                        : "Khác"}
                   </div>
                 </div>
                 <div className="info-box">
