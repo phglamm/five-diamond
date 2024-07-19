@@ -89,7 +89,7 @@ export default function AdminChart() {
       if (selectedRange && selectedRange.length === 2 && selectedRange[0] && selectedRange[1]) {
         const startDate = moment(selectedRange[0].$d);
         const endDate = moment(selectedRange[1].$d);
-  
+
         const filteredOrders = await Promise.all(orders.map(async (order) => {
           const orderDate = moment(order.orderDate);
           if (orderDate.isBetween(startDate, endDate, null, '[]')) {
@@ -99,7 +99,7 @@ export default function AdminChart() {
           }
           return null;
         }));
-  
+
         const filteredCanceledOrders = await Promise.all(canceledOrders.map(async (order) => {
           const orderDate = moment(order.orderDate);
           if (orderDate.isBetween(startDate, endDate, null, '[]') && order.orderStatus === "CANCELED") {
@@ -107,16 +107,16 @@ export default function AdminChart() {
           }
           return null;
         }));
-  
+
         const validOrders = filteredOrders.filter(order => order !== null);
         const validCanceledOrders = filteredCanceledOrders.filter(order => order !== null);
-  
+
         return {
           validOrders,
           validCanceledOrders
         };
       }
-  
+
       return {
         validOrders: [],
         validCanceledOrders: []
@@ -338,9 +338,9 @@ export default function AdminChart() {
       <SideBar />
       <div className="admin-content">
         <div className="selection-container">
-          <div className="month-selection" style={{ gap: '10px' }}>
-            <p>Chọn khoảng thời gian:</p>
-            <RangePicker
+          <div className="time-selection" >
+            <label htmlFor="time">Chọn khoảng thời gian:</label>
+            <RangePicker className="time-range-picker"
               onChange={(dates) => {
                 if (dates) {
                   setSelectedRange(dates);
@@ -352,6 +352,7 @@ export default function AdminChart() {
               }}
             />
           </div>
+
           <div className="month-selection">
             <label htmlFor="month">Chọn tháng:</label>
             <select
@@ -370,7 +371,7 @@ export default function AdminChart() {
               ))}
             </select>
           </div>
-          Hoặc
+
           <div className="quarter-selection">
             <label htmlFor="quarter">Chọn quý:</label>
             <select
@@ -390,16 +391,17 @@ export default function AdminChart() {
             </select>
           </div>
         </div>
+
         <div className="widget-table">
           <div className="widget-table-item">
             <DollarOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
               <p>
                 {mode === "quarter"
-                  ? totalQuarterlyRevenue.toLocaleString() + "đ"
+                  ? totalQuarterlyRevenue.toLocaleString() + " VND"
                   : mode === "range"
-                    ? totalRevenue.toLocaleString() + "đ"
-                    : currentMonthRevenue.toLocaleString() + "đ"}
+                    ? totalRevenue.toLocaleString() + " VND"
+                    : currentMonthRevenue.toLocaleString() + " VND"}
               </p>
               <span>
                 {mode === "quarter"
@@ -415,10 +417,10 @@ export default function AdminChart() {
             <div className="widget-table-item-text">
               <p>
                 {mode === "quarter"
-                  ? totalQuarterlyProfit.toLocaleString() + "đ"
+                  ? totalQuarterlyProfit.toLocaleString() + " VND"
                   : mode === "range"
-                    ? totalProfitValue.toLocaleString() + "đ"
-                    : currentMonthProfit.toLocaleString() + "đ"}
+                    ? totalProfitValue.toLocaleString() + " VND"
+                    : currentMonthProfit.toLocaleString() + " VND"}
               </p>
               <span>
                 {mode === "quarter"
