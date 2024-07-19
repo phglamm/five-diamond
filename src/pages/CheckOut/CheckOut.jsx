@@ -378,7 +378,12 @@ export default function CheckOut() {
       <Footer />
 
       {/* Discount Code Modal */}
-      <Modal show={showDiscountModal} onHide={() => setShowDiscountModal(false)}>
+      <Modal
+        show={showDiscountModal}
+        onHide={() => setShowDiscountModal(false)}
+        backdrop="static"
+        keyboard={false}
+      >
         <Modal.Header closeButton>
           <Modal.Title>5Diamond Voucher <BiSolidDiscount /></Modal.Title>
         </Modal.Header>
@@ -391,10 +396,6 @@ export default function CheckOut() {
                 onClick={() => handleSelectDiscount(discount.code, discount.discountPercentage)}
                 className="custom-listgroup-item"
               >
-                {/* {discount.code} - Giảm {discount.discountPercentage}%
-               
-                  HSD: {new Date(discount.endDate).toLocaleDateString()} */}
-
                 <div class="voucher-container">
                   <div class="voucher-card">
                     <div class="main-voucher">
@@ -406,12 +407,12 @@ export default function CheckOut() {
                       </div>
                       <div class="vertical"></div>
                       <div class="content">
-                        <h2>FiveDiamond</h2>
-                        <h1>{discount.discountPercentage}% Coupon</h1>
+                        <h2>5Diamond</h2>
+                        <h1>{discount.discountPercentage}%<span>Coupon</span></h1>
                         <p> HSD: {new Date(discount.endDate).toLocaleDateString()}</p>
                       </div>
                     </div>
-                    <div class="copy-button">
+                    <div class="copy-button" onClick={(e) => e.stopPropagation()}>
                       <input id="copyvalue" type="text" readonly value={discount.code} />
                       {/* <button onclick="copyIt()" class="copybtn">COPY</button> */}
                       <button onClick={() => copyToClipboard(discount.code)} className="copybtn">
