@@ -153,8 +153,8 @@ function ProfilePage() {
                     {user.gender === "MALE"
                       ? "Nam"
                       : user.gender === "FEMALE"
-                        ? "Nữ"
-                        : "Khác"}
+                      ? "Nữ"
+                      : "Khác"}
                   </div>
                 </div>
                 <div className="info-box">
@@ -182,7 +182,9 @@ function ProfilePage() {
 
                 <div className="info-box">
                   <p>Reward point</p>
-                  <div className="info-value">{user.rewardPoint}</div>
+                  <div className="info-value">
+                    {user.rewardPoint.toLocaleString()}
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,5 +1,14 @@
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Form, Button, Alert, Modal, ListGroup } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Alert,
+  Modal,
+  ListGroup,
+} from "react-bootstrap";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -51,7 +60,7 @@ export default function CheckOut() {
         const response = await api.get("promotion");
         setAvailableDiscounts(response.data);
       } catch (error) {
-        console.error('Failed to fetch discounts:', error);
+        console.error("Failed to fetch discounts:", error);
       }
     };
 
@@ -105,12 +114,41 @@ export default function CheckOut() {
     return Object.keys(formErrors).length === 0;
   };
 
+  useEffect(() => {
+    function handleRankingDiscount() {
+      if (user) {
+        if (user.rankingMember === "BRONZE") {
+          setDiscount(0);
+        } else if (user.rankingMember === "SILVER") {
+          setDiscount(5);
+        } else if (user.rankingMember === "GOLD") {
+          setDiscount(8);
+        } else if (user.rankingMember === "PLATINUM") {
+          setDiscount(10);
+        }
+      } else {
+        toast.error("Bạn phải đăng nhập vào mới có thể mua hàng");
+      }
+    }
+    handleRankingDiscount();
+  }, []);
+
   // Apply discount code
   const handleApplyDiscount = async () => {
     try {
       const response = await api.get(`promotion/code/${discountCode}`);
       console.log(response.data);
-      setDiscount(response.data.discountPercentage);
+      if (user) {
+        if (user.rankingMember === "BRONZE") {
+          setDiscount(0 + response.data.discountPercentage);
+        } else if (user.rankingMember === "SILVER") {
+          setDiscount(5 + response.data.discountPercentage);
+        } else if (user.rankingMember === "GOLD") {
+          setDiscount(8 + response.data.discountPercentage);
+        } else if (user.rankingMember === "PLATINUM") {
+          setDiscount(10 + response.data.discountPercentage);
+        } else setDiscount(response.data.discountPercentage);
+      }
     } catch (error) {
       toast.error("Mã giảm giá không tồn tại hoặc không thể sử dụng được nữa");
     }
@@ -161,7 +199,8 @@ export default function CheckOut() {
   };
 
   const copyToClipboard = (code) => {
-    navigator.clipboard.writeText(code)
+    navigator.clipboard
+      .writeText(code)
       .then(() => {
         setCopiedCode(code);
         toast.success("Mã giảm giá đã được sao chép!");
@@ -305,16 +344,23 @@ export default function CheckOut() {
                         Số lượng: {item.quantity}
                       </div>
                       <div className="cart-item-price">
-                        Giá: {item.productLine.finalPrice.toLocaleString()}{" "} VNĐ
+                        Giá: {item.productLine.finalPrice.toLocaleString()} VNĐ
                       </div>
                     </div>
                   </div>
                 ))
               )}
               <div className="d-flex">
-                <h5><BiSolidDiscount /> 5Diamond Voucher</h5>
+                <h5>
+                  <BiSolidDiscount /> 5Diamond Voucher
+                </h5>
                 <span
-                  style={{ cursor: "pointer", color: "#2691fe", marginLeft: "8px" }} onClick={() => setShowDiscountModal(true)}
+                  style={{
+                    cursor: "pointer",
+                    color: "#2691fe",
+                    marginLeft: "8px",
+                  }}
+                  onClick={() => setShowDiscountModal(true)}
                 >
                   Chọn mã giảm giá
                 </span>
@@ -347,6 +393,24 @@ export default function CheckOut() {
                   <span style={{ color: "red" }}>
                     {((finalTotal * discount) / 100).toLocaleString()} VNĐ
                   </span>
+                  {user.rankingMember === "SILVER" && (
+                    <p>
+                      Bạn là thành viên bậc {user.rankingMember} nên được giảm
+                      giá 5%
+                    </p>
+                  )}
+                  {user.rankingMember === "GOLD" && (
+                    <p>
+                      Bạn là thành viên bậc {user.rankingMember} nên được giảm
+                      giá 8%
+                    </p>
+                  )}
+                  {user.rankingMember === "PLATINUM" && (
+                    <p>
+                      Bạn là thành viên bậc {user.rankingMember} nên được giảm
+                      giá 10%
+                    </p>
+                  )}
                 </h6>
                 <h6>
                   Thành tiền:{" "}
@@ -359,7 +423,6 @@ export default function CheckOut() {
                   </span>
                 </h6>
               </div>
-
             </Col>
           </Row>
           <div className="button-confirmback">
@@ -385,7 +448,9 @@ export default function CheckOut() {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>5Diamond Voucher <BiSolidDiscount /></Modal.Title>
+          <Modal.Title>
+            5Diamond Voucher <BiSolidDiscount />
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <ListGroup>
@@ -393,29 +458,50 @@ export default function CheckOut() {
               <ListGroup.Item
                 key={discount.code}
                 action
-                onClick={() => handleSelectDiscount(discount.code, discount.discountPercentage)}
+                onClick={() =>
+                  handleSelectDiscount(
+                    discount.code,
+                    discount.discountPercentage
+                  )
+                }
                 className="custom-listgroup-item"
               >
-                <div class="voucher-container">
-                  <div class="voucher-card">
-                    <div class="main-voucher">
-                      <div class="co-img">
+                <div className="voucher-container">
+                  <div className="voucher-card">
+                    <div className="main-voucher">
+                      <div className="co-img">
                         <img
                           src="https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"
                           alt="Coupon Image"
                         />
                       </div>
-                      <div class="vertical"></div>
-                      <div class="content">
+                      <div className="vertical"></div>
+                      <div className="content">
                         <h2>5Diamond</h2>
-                        <h1>{discount.discountPercentage}%<span>Coupon</span></h1>
-                        <p> HSD: {new Date(discount.endDate).toLocaleDateString()}</p>
+                        <h1>
+                          {discount.discountPercentage}%<span>Coupon</span>
+                        </h1>
+                        <p>
+                          {" "}
+                          HSD: {new Date(discount.endDate).toLocaleDateString()}
+                        </p>
                       </div>
                     </div>
-                    <div class="copy-button" onClick={(e) => e.stopPropagation()}>
-                      <input id="copyvalue" type="text" readonly value={discount.code} />
+                    <div
+                      className="copy-button"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <input
+                        id="copyvalue"
+                        type="text"
+                        readOnly
+                        value={discount.code}
+                      />
                       {/* <button onclick="copyIt()" class="copybtn">COPY</button> */}
-                      <button onClick={() => copyToClipboard(discount.code)} className="copybtn">
+                      <button
+                        onClick={() => copyToClipboard(discount.code)}
+                        className="copybtn"
+                      >
                         {copiedCode === discount.code ? "COPIED" : "COPY"}
                       </button>
                     </div>
@@ -426,12 +512,14 @@ export default function CheckOut() {
           </ListGroup>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDiscountModal(false)}>
+          <Button
+            variant="secondary"
+            onClick={() => setShowDiscountModal(false)}
+          >
             Đóng
           </Button>
         </Modal.Footer>
       </Modal>
-
     </div>
   );
 }
