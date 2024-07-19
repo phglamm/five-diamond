@@ -576,40 +576,28 @@ export default function ProductPage() {
               </>
             ) : (
               <>
-                {comments.length ? (
-                  <div className="reviews">
-                    {currentComments.map((comment) => (
-                      <div className="review" key={comment.id}>
-                        <div className="customer">
-                          <IoPersonCircleOutline className="icon" />
-                          <span style={{ fontSize: "16px" }}>
-                            {comment.account.firstname}{" "}
-                            {comment.account.lastname}{" "}
-                          </span>
-                          <div
-                            className="review-meta"
-                            style={{ marginLeft: "10px" }}
-                          >
-                            {intlFormatDistance(comment.createAt, new Date())}
+                {currentComments.map((comment) => {
+                      const createdAtDate = new Date(comment.createAt);
+                      const isValidDate = (date) => !isNaN(new Date(date).getTime());
+
+                      return (
+                        <div className="review" key={comment.id}>
+                          <div className="customer">
+                            <IoPersonCircleOutline className="icon" />
+                            <span style={{ fontSize: "16px" }}>
+                              {comment.account.firstname} {comment.account.lastname}
+                            </span>
+                            <div className="review-meta" style={{ marginLeft: "10px" }}>
+                              {isValidDate(createdAtDate) ? intlFormatDistance(createdAtDate, new Date()) : "Ngày không hợp lệ"}
+                            </div>
+                          </div>
+
+                          <div className="comment-content" style={{ marginLeft: "42px" }}>
+                            <p style={{ fontSize: "16px" }}>{comment.content}</p>
                           </div>
                         </div>
-
-                        <div
-                          className="comment-content"
-                          style={{ marginLeft: "42px" }}
-                        >
-                          <p style={{ fontSize: "16px" }}>{comment.content}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <Col xs={5}>
-                    <p className="comment-notfound">
-                      Chưa có bình luận về sản phẩm này
-                    </p>
-                  </Col>
-                )}
+                      );
+                    })}
               </>
             )}
           </div>
