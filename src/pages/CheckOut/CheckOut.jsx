@@ -161,7 +161,7 @@ export default function CheckOut() {
 
     if (validateForm()) {
       try {
-        const amount = String(Math.ceil(finalTotal - finalTotal * discount));
+        const amount = String(Math.ceil(finalTotal - (finalTotal * discount)/100));
         console.log(amount);
         const data = {
           fullname: formData.name,
