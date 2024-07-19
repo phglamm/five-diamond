@@ -227,7 +227,6 @@ button.btn-secondary:hover {
   background-color: #38a9b8; /* Slightly darker blue for hover state */
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -318,6 +317,7 @@ button.btn-secondary:hover {
 .content p {
   font-size: 18px;
   margin-top: 5px;
+  font-family: system-ui;
   color: #565656;
   text-transform: uppercase;
   width: 100%;
