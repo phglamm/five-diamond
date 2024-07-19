@@ -408,7 +408,7 @@ export default function CheckOut() {
                       </div>
                       <div class="vertical"></div>
                       <div class="content">
-                        <h2>FiveDiamond</h2>
+                        <h2>5Diamond</h2>
                         <h1>{discount.discountPercentage}%<span>Coupon</span></h1>
                         <p> HSD: {new Date(discount.endDate).toLocaleDateString()}</p>
                       </div>
