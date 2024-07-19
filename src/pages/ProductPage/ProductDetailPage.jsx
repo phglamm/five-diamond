@@ -508,51 +508,51 @@ export default function ProductPage() {
                 </div>
                 {comments.length ? (
                   <div className="reviews">
-                  {currentComments.map((comment) => {
-                    const createdAtDate = new Date(comment.createAt);
-                    const isValidDate = !isNaN(createdAtDate);
-                    
-                    return (
-                      <div className="review" key={comment.id}>
-                        <div className="customer">
-                          <IoPersonCircleOutline className="icon" />
-                          <span style={{ fontSize: "16px" }}>
-                            {comment.account.firstname} {comment.account.lastname}
-                          </span>
-                          <div className="review-meta" style={{ marginLeft: "10px" }}>
-                            {isValidDate ? intlFormatDistance(createdAtDate, new Date()) : "Ngày không hợp lệ"}
-                          </div>
-                          {comment.account.id === user.id && (
-                            <Popconfirm
-                              title="Xóa bình luận"
-                              description="Bạn có muốn xóa bình luận không?"
-                              onConfirm={() => handleDeleteComment(comment.id)}
-                              okText="Có"
-                              cancelText="Không"
-                            >
-                              <p
-                                className="delete-comment-button"
-                                style={{
-                                  marginLeft: "10px",
-                                  fontSize: "12px",
-                                  color: "red",
-                                  width: "28px",
-                                }}
+                    {currentComments.map((comment) => {
+                      const createdAtDate = new Date(comment.createAt);
+                      const isValidDate = (date) => !isNaN(new Date(date).getTime());
+
+                      return (
+                        <div className="review" key={comment.id}>
+                          <div className="customer">
+                            <IoPersonCircleOutline className="icon" />
+                            <span style={{ fontSize: "16px" }}>
+                              {comment.account.firstname} {comment.account.lastname}
+                            </span>
+                            <div className="review-meta" style={{ marginLeft: "10px" }}>
+                              {isValidDate(createdAtDate) ? intlFormatDistance(createdAtDate, new Date()) : "Ngày không hợp lệ"}
+                            </div>
+                            {comment.account.id === user.id && (
+                              <Popconfirm
+                                title="Xóa bình luận"
+                                description="Bạn có muốn xóa bình luận không?"
+                                onConfirm={() => handleDeleteComment(comment.id)}
+                                okText="Có"
+                                cancelText="Không"
                               >
-                                Xóa
-                              </p>
-                            </Popconfirm>
-                          )}
+                                <p
+                                  className="delete-comment-button"
+                                  style={{
+                                    marginLeft: "10px",
+                                    fontSize: "12px",
+                                    color: "red",
+                                    width: "28px",
+                                  }}
+                                >
+                                  Xóa
+                                </p>
+                              </Popconfirm>
+                            )}
+                          </div>
+
+                          <div className="comment-content" style={{ marginLeft: "42px" }}>
+                            <p style={{ fontSize: "16px" }}>{comment.content}</p>
+                          </div>
                         </div>
-                
-                        <div className="comment-content" style={{ marginLeft: "42px" }}>
-                          <p style={{ fontSize: "16px" }}>{comment.content}</p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-                
+                      );
+                    })}
+                  </div>
+
                 ) : (
                   <Col xs={5}>
                     <p className="comment-notfound">
