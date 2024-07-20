@@ -134,6 +134,7 @@ export default function CheckOut() {
   }, []);
 
   // Apply discount code
+  const [applyDiscount, setApplyDiscount] = useState(null);
   const handleApplyDiscount = async () => {
     try {
       const response = await api.get(`promotion/code/${discountCode}`);
@@ -141,13 +142,20 @@ export default function CheckOut() {
       if (user) {
         if (user.rankingMember === "BRONZE") {
           setDiscount(0 + response.data.discountPercentage);
+          setApplyDiscount(response.data.discountPercentage);
         } else if (user.rankingMember === "SILVER") {
           setDiscount(5 + response.data.discountPercentage);
+          setApplyDiscount(response.data.discountPercentage);
         } else if (user.rankingMember === "GOLD") {
           setDiscount(8 + response.data.discountPercentage);
+          setApplyDiscount(response.data.discountPercentage);
         } else if (user.rankingMember === "PLATINUM") {
           setDiscount(10 + response.data.discountPercentage);
-        } else setDiscount(response.data.discountPercentage);
+          setApplyDiscount(response.data.discountPercentage);
+        } else {
+          setDiscount(response.data.discountPercentage);
+          setApplyDiscount(response.data.discountPercentage);
+        }
       }
     } catch (error) {
       toast.error("Mã giảm giá không tồn tại hoặc không thể sử dụng được nữa");
@@ -161,7 +169,9 @@ export default function CheckOut() {
 
     if (validateForm()) {
       try {
-        const amount = String(Math.ceil(finalTotal - (finalTotal * discount)/100));
+        const amount = String(
+          Math.ceil(finalTotal - (finalTotal * discount) / 100)
+        );
         console.log(amount);
         const data = {
           fullname: formData.name,
@@ -388,29 +398,22 @@ export default function CheckOut() {
                     {finalTotal.toLocaleString()} VNĐ
                   </span>
                 </h6>
+                {user.rankingMember === "SILVER" && (
+                  <h6>Giảm giá thành viên: 5% bậc {user.rankingMember} </h6>
+                )}
+                {user.rankingMember === "GOLD" && (
+                  <h6>Giảm giá thành viên: 8% bậc {user.rankingMember} </h6>
+                )}
+                {user.rankingMember === "PLATINUM" && (
+                  <h6>Giảm giá thành viên: 10% bậc {user.rankingMember} </h6>
+                )}
+                {applyDiscount && <h6>Giảm giá Voucher: {applyDiscount}% </h6>}
+
                 <h6>
                   Số tiền đã giảm:{" "}
                   <span style={{ color: "red" }}>
                     {((finalTotal * discount) / 100).toLocaleString()} VNĐ
                   </span>
-                  {user.rankingMember === "SILVER" && (
-                    <p>
-                      Bạn là thành viên bậc {user.rankingMember} nên được giảm
-                      giá 5%
-                    </p>
-                  )}
-                  {user.rankingMember === "GOLD" && (
-                    <p>
-                      Bạn là thành viên bậc {user.rankingMember} nên được giảm
-                      giá 8%
-                    </p>
-                  )}
-                  {user.rankingMember === "PLATINUM" && (
-                    <p>
-                      Bạn là thành viên bậc {user.rankingMember} nên được giảm
-                      giá 10%
-                    </p>
-                  )}
                 </h6>
                 <h6>
                   Thành tiền:{" "}
