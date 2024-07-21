@@ -162,7 +162,7 @@ export default function AdminChart() {
 
   function calculateTotalRevenue(filteredOrders) {
     try {
-      return filteredOrders.validOrders.reduce(
+      return filteredOrders.validOrders?.reduce(
         (total, order) => total + order.totalAmount,
         0
       );
@@ -174,8 +174,8 @@ export default function AdminChart() {
 
   function calculateTotalProfit(filteredOrders) {
     try {
-      return filteredOrders.validOrders.reduce((total, order) => {
-        const productLineTotal = order.orderItems.reduce(
+      return filteredOrders.validOrders?.reduce((total, order) => {
+        const productLineTotal = order.orderItems?.reduce(
           (sum, item) => sum + item.product.productLine.price,
           0
         );

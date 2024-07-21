@@ -1,14 +1,11 @@
 import SideBar from "../../../components/SideBar/SideBar";
-import { Button, Table, Input, Modal } from "antd";
+import { Table } from "antd";
 import { useEffect, useState } from "react";
 import "../../AdminDashboard/AdminPage.css";
-import axios from "axios";
 import api from "../../../config/axios";
 
 export default function AdminDiamondPrice() {
   const [price, setPrice] = useState([]);
-  const [editingItem, setEditingItem] = useState(null);
-  const [newPrice, setNewPrice] = useState("");
 
   async function fetchPrice() {
     const response = await api.get("diamond-price");
