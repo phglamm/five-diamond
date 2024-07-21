@@ -27,10 +27,10 @@ export default function CartPage() {
   async function fetchCart() {
     try {
       const response = await api.get("cart");
-      console.log(response.data);
+      // console.log(response.data);
       setCartItems(response.data.cartItems);
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
 
@@ -45,7 +45,7 @@ export default function CartPage() {
       setCartItems(cartItems.filter((item) => item.id !== id));
       toast.success("xóa khỏi giỏ hàng thành công");
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
       toast.error("Không thể xóa khỏi giỏ hàng");
     }
   }
@@ -73,7 +73,7 @@ export default function CartPage() {
       });
       fetchCart();
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
       toast.error("Không đủ sản phẩm trong kho");
     }
   };
@@ -99,7 +99,7 @@ export default function CartPage() {
         }, []);
       });
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
       toast.error("Không đủ sản phẩm trong kho");
     }
   };
@@ -128,11 +128,11 @@ export default function CartPage() {
   const handleProceedToCheckout = async () => {
     try {
       const response = await api.get("cart/check");
-      console.log(response);
+      // console.log(response);
       navigate(routes.checkout, { state: { cartItems, finalTotal } }); // <-- Navigate to CheckOut with cartItems
     } catch (error) {
       toast.error(error.response.data);
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   };
 

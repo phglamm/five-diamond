@@ -23,14 +23,14 @@ function ForgotPasswordPage() {
   }
 
   async function ForgotPassword(value) {
-    console.log(value);
+    // console.log(value);
     try {
       const response = await api.post("forgot-password", value);
-      console.log(response);
+      // console.log(response);
       toast.success("Đã gửi yêu cầu đến Email của bạn");
     } catch (error) {
       toast.error("Có sự cố khi gửi yêu cầu đến Email của bạn");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
   return (
@@ -39,7 +39,9 @@ function ForgotPasswordPage() {
         <MDBRow className="g-0">
           <MDBCol md="6">
             <MDBCardImage
-              src={"https://drive.google.com/thumbnail?id=18Hcw8NVoxtHI0xR1uanZse_ip6F6bGJ6&sz=w1000"}
+              src={
+                "https://drive.google.com/thumbnail?id=18Hcw8NVoxtHI0xR1uanZse_ip6F6bGJ6&sz=w1000"
+              }
               alt="login form"
               className="rounded-start w-100"
             />
@@ -55,7 +57,13 @@ function ForgotPasswordPage() {
                 <span className="">Quay Lại Trang Chủ</span>
               </Link>
               <div className="d-flex flex-row mt-2 form-header">
-                <img src={"https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"} alt="" className="form-logo" />
+                <img
+                  src={
+                    "https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"
+                  }
+                  alt=""
+                  className="form-logo"
+                />
                 <span className="h1 fw-bold mb-0">Five Diamond</span>
               </div>
 

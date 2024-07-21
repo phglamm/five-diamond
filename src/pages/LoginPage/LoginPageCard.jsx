@@ -34,11 +34,11 @@ function LoginPageCard() {
   }
 
   async function handleSubmit(value) {
-    console.log(value);
+    // console.log(value);
     try {
       await api.post("login", value).then((userApi) => {
-        console.log(userApi);
-        console.log(userApi.data);
+        // console.log(userApi);
+        // console.log(userApi.data);
         localStorage.setItem("token", userApi.data.token);
 
         if (userApi.data.role === "CUSTOMER") {
@@ -57,7 +57,7 @@ function LoginPageCard() {
       });
     } catch (error) {
       toast.error("Tài khoản hoặc mật khẩu của bạn không đúng");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
 
@@ -67,9 +67,9 @@ function LoginPageCard() {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = result.user.accessToken;
-        console.log(token);
+        // console.log(token);
         const response = await api.post("login-google", { token: token });
-        console.log(response.data);
+        // console.log(response.data);
         // IdP data available using getAdditionalUserInfo(result)
         // ...
         localStorage.setItem("token", response.data.token);
@@ -84,7 +84,7 @@ function LoginPageCard() {
         dispatch(login(response.data));
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   };
 

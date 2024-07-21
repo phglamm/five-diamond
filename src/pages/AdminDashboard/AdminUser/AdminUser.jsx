@@ -17,15 +17,15 @@ export default function AdminUser() {
     setAccount(response.data);
   }
   async function RegisterAccount(value) {
-    console.log(value);
+    // console.log(value);
     try {
       const response = await api.post("register", value);
-      console.log(response);
+      // console.log(response);
       toast.success("Tài Khoản của bạn đã được tạo thành công");
       fetchAccount();
     } catch (error) {
       toast.error("Đã có lỗi trong việc tạo tài khoản của bạn");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
 
@@ -36,7 +36,7 @@ export default function AdminUser() {
   useEffect(() => {}, [account]);
 
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
   const showModal = () => {
     setIsModalOpen(true);

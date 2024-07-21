@@ -64,10 +64,10 @@ function ProfilePage() {
   }
 
   const handleUpdateProfile = async (value) => {
-    console.log(value);
+    // console.log(value);
     try {
       const response = await api.put(`/user/${user.id}`, value);
-      console.log(response.data);
+      // console.log(response.data);
       dispatch(login(response.data));
       setVisible(false);
       form.resetFields();
@@ -76,7 +76,7 @@ function ProfilePage() {
     }
   };
   const dateOnChange = (date, dateString) => {
-    console.log(date, dateString);
+    // console.log(date, dateString);
   };
 
   function formatDate(dateString) {

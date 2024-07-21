@@ -46,14 +46,14 @@ export default function AdminDiamond() {
   }
 
   async function AddDiamond(value) {
-    console.log(value);
+    // console.log(value);
 
     try {
       // value.certificateID = checkedList[0];
       value.certificateID = selectedCertificateId;
       const imgURL = await uploadFile(img);
       value.imgURL = imgURL;
-      console.log(value);
+      // console.log(value);
       await api.post("diamond", value);
       setDiamond([...diamond, value]);
       toast.success("Thêm Kim Cương Thành Công");
@@ -63,7 +63,7 @@ export default function AdminDiamond() {
       setSelectedCertificateId(null);
     } catch (error) {
       toast.error("Đã có lỗi trong lúc thêm kim cương");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
 
@@ -88,7 +88,7 @@ export default function AdminDiamond() {
   }, []);
 
   async function deleteDiamond(values) {
-    console.log(values.id);
+    // console.log(values.id);
     try {
       Modal.confirm({
         title: "Bạn có chắc muốn xóa kim cương này ?",
@@ -106,12 +106,12 @@ export default function AdminDiamond() {
       fetchCertificate();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc Xóa");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
 
   async function updateDiamond(values) {
-    console.log(values);
+    // console.log(values);
 
     try {
       if (imgUpdate) {
@@ -125,7 +125,7 @@ export default function AdminDiamond() {
         ...newData,
         giaReportNumber: values.certificate?.giaReportNumber,
       };
-      console.log(dataUpdate);
+      // console.log(dataUpdate);
       await api.put(`diamond/${values.id}`, dataUpdate);
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công ");
@@ -137,7 +137,7 @@ export default function AdminDiamond() {
     }
   }
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
   const handleUpdateOk = () => {

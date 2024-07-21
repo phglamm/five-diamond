@@ -11,9 +11,9 @@ function useRealtime(callback) {
   //   const accountID = localStorage.getItem("accountId");
   useEffect(() => {
     const onConnected = () => {
-      console.log("WebSocket connected");
+      // console.log("WebSocket connected");
       stomp.subscribe(`/topic/comment`, (message) => {
-        console.log(message);
+        // console.log(message);
         callback && callback(message);
       });
     };

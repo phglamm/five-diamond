@@ -27,7 +27,7 @@ export default function RingProductPage() {
   async function fetchProduct() {
     try {
       const response = await api.get("product-line/available");
-      console.log(response.data);
+      // console.log(response.data);
       const ringProducts = response.data.filter(
         (item) => item.category.name === "Nhẫn" && item.deleted === false
       );
@@ -35,7 +35,7 @@ export default function RingProductPage() {
       setProduct(ringProducts);
       setFilteredProducts(ringProducts);
       setLoading(false);
-      console.log(ringProducts);
+      // console.log(ringProducts);
     } catch (error) {
       setError("Failed to fetch products");
       setLoading(false);

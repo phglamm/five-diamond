@@ -36,9 +36,9 @@ const TrackingPage = () => {
       try {
         const response = await api.get(`order/${id}`);
         setOrderDetail(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       } catch (error) {
-        console.log(error.response.data);
+        // console.log(error.response.data);
       }
     }
     fetchOrderDetail();
@@ -48,9 +48,9 @@ const TrackingPage = () => {
     try {
       const response = await api.get(`warranty/productId=${productID}`);
       setWarranty(response.data);
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
 

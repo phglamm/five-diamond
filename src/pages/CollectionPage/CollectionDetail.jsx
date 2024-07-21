@@ -26,7 +26,7 @@ function CollectionDetail() {
       setCollection(response.data);
       setProduct(response.data.productLinesList);
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
 

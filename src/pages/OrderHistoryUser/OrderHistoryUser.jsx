@@ -16,17 +16,17 @@ export default function OrderHistoryUser() {
     async function fetchOrderUser() {
       try {
         const response = await api.get("order");
-        console.log(response.data);
+        // console.log(response.data);
         setOrder(response.data);
       } catch (error) {
-        console.log(error.response.data);
+        // console.log(error.response.data);
       }
     }
     fetchOrderUser();
   }, []);
 
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
 
   const filteredOrders = order.filter((ord) => {

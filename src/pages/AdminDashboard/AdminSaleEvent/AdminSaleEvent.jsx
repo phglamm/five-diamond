@@ -20,7 +20,7 @@ export default function AdminSaleEvent() {
     const response = await api.get("promotion");
     const filter = response.data.filter((item) => item.deleted == false);
     setPromotion(filter);
-    console.log(response.data);
+    // console.log(response.data);
   }
 
   useEffect(() => {
@@ -31,18 +31,18 @@ export default function AdminSaleEvent() {
     value.startDate = moment(value.date[0].$d).format("YYYY-MM-DD");
     value.endDate = moment(value.date[1].$d).format("YYYY-MM-DD");
     const { date, ...newData } = value;
-    console.log(newData);
+    // console.log(newData);
     try {
       const response = await api.post("promotion", newData);
       setPromotion([...promotion, newData]);
 
-      console.log(response.data);
+      // console.log(response.data);
       toast.success("Thêm mã giảm giá Thành Công");
       fetchPromotion();
       form.resetFields();
     } catch (error) {
       toast.error("Mã giảm giá đã tồn tại");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
   const columns = [
@@ -80,7 +80,7 @@ export default function AdminSaleEvent() {
   ];
 
   async function deletePromotion(values) {
-    console.log(values.id);
+    // console.log(values.id);
     try {
       Modal.confirm({
         title: "Bạn có chắc muốn xóa mã giảm giá này ?",
