@@ -271,10 +271,6 @@ export default function ProductPage() {
               {product == undefined ? "" : product.finalPrice.toLocaleString()}đ
             </p>
             <p>Mô tả: {product.description}</p>
-            <p>
-              *Giá có thể thay đổi tùy thuộc vào kích thước và trọng lượng thực
-              tế của sản phẩm.
-            </p>
             <p>CÒN {product.quantity} SẢN PHẨM</p>
             <h5>TÙY CHỈNH SẢN PHẨM</h5>
             <div className="select-material"></div>
@@ -282,37 +278,6 @@ export default function ProductPage() {
             mong muốn vào phần ghi chú hoặc liên hệ 0123456789 nếu quý khách có
             thắc mắc
             <div className="select-size">
-              {/* <p>Kích Thước</p>
-              <Select
-                showSearch
-                style={{ width: 200 }}
-                placeholder="Search to Select"
-                optionFilterProp="children"
-                onChange={handleSizeChange}
-                filterOption={(input, option) =>
-                  (option?.label ?? "").includes(input)
-                }
-                filterSort={(optionA, optionB) =>
-                  (optionA?.label ?? "")
-                    .toLowerCase()
-                    .localeCompare((optionB?.label ?? "").toLowerCase())
-                }
-              options={product.size.map((size) => ({
-                value: size,
-                label: size,
-              }))}
-              >
-                {product.map((item) => (
-                  <Select.Option key={item.id} value={item.size}>
-                    {item.size}
-                  </Select.Option>
-                ))}
-                {ringSizes.map((size) => (
-                  <Select.Option key={size} value={size}>
-                    {size}
-                  </Select.Option>
-                ))}
-              </Select> */}
               <Button
                 onClick={showModal}
                 style={{
