@@ -12,6 +12,7 @@
   font-weight: bold;
   margin-bottom: 2%;
 }
+
 .admin-content label {
   width: 200px;
 }
@@ -40,6 +41,7 @@
   width: 90%;
   text-align: center;
 }
+
 .form-main {
   display: flex;
   flex-direction: column;
@@ -100,13 +102,29 @@
   width: 100% !important;
 }
 
-.delivery-staff-filter-buttons-admin {
+/*admin-filter-button*/
+.admin-filter-buttons {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   margin-top: 5%;
 }
 
-.small-button{
+.admin-filter-buttons {
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.admin-filter-buttons>button {
+  border-radius: 0 !important;
+}
+
+.admin-filter-buttons>a>.ant-btn {
+  border-radius: 0 !important;
+}
+
+
+
+.small-button {
   width: 20%;
 }

@@ -115,9 +115,9 @@ function ProfilePage() {
                 />
               )}
 
-              <button className="update-img-btn" onClick={handleUpdateClick}>
+              {/* <button className="update-img-btn" onClick={handleUpdateClick}>
                 <EditOutlined />
-              </button>
+              </button> */}
             </div>
           </div>
 
@@ -182,7 +182,9 @@ function ProfilePage() {
 
                 <div className="info-box">
                   <p>Reward point</p>
-                  <div className="info-value">{user.rewardPoint}</div>
+                  <div className="info-value">
+                    {user.rewardPoint.toLocaleString()}
+                  </div>
                 </div>
               </div>
             </div>

@@ -132,7 +132,7 @@ export default function AdminOrder() {
         <div className="data-table">
           <h1>Quản Lý Đơn Hàng</h1>
 
-          <div className="delivery-staff-filter-buttons-admin">
+          <div className="admin-filter-buttons ">
             <Button
               type={filterStatus === null ? "primary" : ""}
               onClick={() => handleFilterChange(null)}
