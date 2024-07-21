@@ -105,7 +105,7 @@
 }
 
 .product-card-item {
-  width: 25% !important;
+  /* width: 25% !important; */
   flex: 1 0 20%;
   /* Ensure the column takes up 20% of the row */
   margin-bottom: 20px;
