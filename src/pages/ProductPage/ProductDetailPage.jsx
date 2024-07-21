@@ -12,7 +12,7 @@ import {
   ShoppingOutlined,
   SendOutlined,
   LeftOutlined,
-  RightOutlined
+  RightOutlined,
 } from "@ant-design/icons";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import ProductCard from "../../components/productCard/productCard";
@@ -40,7 +40,6 @@ export default function ProductPage() {
   const [product, setProduct] = useState();
   const [relevantProduct, setRelevantProduct] = useState([]);
   // const [diamondCertificate, setDiamondCertificate] = useState([]);
-
 
   const { id } = useParams();
 
@@ -83,13 +82,13 @@ export default function ProductPage() {
   async function fetchComments() {
     try {
       const response = await api.get(`comment/${id}`);
-      console.log(response.data);
+      // console.log(response.data);
       const sortedComments = response.data.sort(
         (a, b) => new Date(b.createAt) - new Date(a.createAt)
       );
       setComments(sortedComments);
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
 
@@ -111,7 +110,7 @@ export default function ProductPage() {
       toast.error("Gửi đánh giá không thành công!", {
         hideProgressBar: true,
       });
-      console.log({ error });
+      // console.log({ error });
     }
   };
 
@@ -120,7 +119,7 @@ export default function ProductPage() {
   }, []);
   const handleDeleteComment = async (id) => {
     await api.delete(`comment/${id}`);
-    console.log("Xóa thành công");
+    // console.log("Xóa thành công");
     fetchComments();
   };
 
@@ -129,12 +128,12 @@ export default function ProductPage() {
       try {
         const response = await api.get(`product-line/${id}`);
         setProduct(response.data);
-        console.log(response.data);
+        // console.log(response.data);
         if (response.data && response.data.category) {
           fetchRelevantProducts(response.data.category.id, response.data.id);
         }
       } catch (error) {
-        console.log(error.response.data);
+        // console.log(error.response.data);
       }
     }
 
@@ -148,7 +147,7 @@ export default function ProductPage() {
         );
         setRelevantProduct(filteredProducts.slice(0, 5)); // Chỉ lấy 5 sản phẩm đầu tiên
       } catch (error) {
-        console.log(error.response.data);
+        // console.log(error.response.data);
       }
     }
 
@@ -164,10 +163,10 @@ export default function ProductPage() {
   //         const diamondFilter = response.data.filter(
   //           (diamond) => diamond.id === product.diamondIds[0]
   //         );
-  //         console.log(diamondFilter[0]?.certificate?.fileURL);
+  // console.log(diamondFilter[0]?.certificate?.fileURL);
   //         setDiamondCertificate(diamondFilter[0]?.certificate?.fileURL);
   //       } catch (error) {
-  //         console.log(error.response.data);
+  // console.log(error.response.data);
   //       }
   //     }
   //   }
@@ -197,12 +196,12 @@ export default function ProductPage() {
     if (user) {
       if (user.role === "CUSTOMER") {
         try {
-          console.log("Product added to cart", id);
+          // console.log("Product added to cart", id);
           const response = await api.post(`cart/${id}`);
-          console.log(response.data);
+          // console.log(response.data);
           toast.success("Thêm Vào Giỏ Hàng");
         } catch (error) {
-          console.log(error.response.data);
+          // console.log(error.response.data);
           toast.error("Sản phẩm đã hết hàng");
         }
       } else {
@@ -219,22 +218,22 @@ export default function ProductPage() {
       return;
     } else if (user.role === "CUSTOMER") {
       try {
-        console.log("Product added to cart", id);
+        // console.log("Product added to cart", id);
         const response = await api.post(`cart/${id}`);
-        console.log(response.data);
+        // console.log(response.data);
       } catch (error) {
-        console.log(error.response.data);
+        // console.log(error.response.data);
         toast.error("Sản phẩm của bạn đã có trong giỏ hàng");
       }
       const cartItems = [{ productLine: product, quantity: 1 }];
       const finalTotal = product.finalPrice;
       try {
         const response = await api.get("cart/check");
-        console.log(response);
+        // console.log(response);
         navigate(routes.checkout, { state: { cartItems, finalTotal } });
       } catch (error) {
         toast.error(error.response.data);
-        console.log(error.response.data);
+        // console.log(error.response.data);
       }
     } else {
       return toast.error("Bạn không được mua sản phẩm");
@@ -510,23 +509,32 @@ export default function ProductPage() {
                   <div className="reviews">
                     {currentComments.map((comment) => {
                       const createdAtDate = new Date(comment.createAt);
-                      const isValidDate = (date) => !isNaN(new Date(date).getTime());
+                      const isValidDate = (date) =>
+                        !isNaN(new Date(date).getTime());
 
                       return (
                         <div className="review" key={comment.id}>
                           <div className="customer">
                             <IoPersonCircleOutline className="icon" />
                             <span style={{ fontSize: "16px" }}>
-                              {comment.account.firstname} {comment.account.lastname}
+                              {comment.account.firstname}{" "}
+                              {comment.account.lastname}
                             </span>
-                            <div className="review-meta" style={{ marginLeft: "10px" }}>
-                              {isValidDate(createdAtDate) ? intlFormatDistance(createdAtDate, new Date()) : "Ngày không hợp lệ"}
+                            <div
+                              className="review-meta"
+                              style={{ marginLeft: "10px" }}
+                            >
+                              {isValidDate(createdAtDate)
+                                ? intlFormatDistance(createdAtDate, new Date())
+                                : "Ngày không hợp lệ"}
                             </div>
                             {comment.account.id === user.id && (
                               <Popconfirm
                                 title="Xóa bình luận"
                                 description="Bạn có muốn xóa bình luận không?"
-                                onConfirm={() => handleDeleteComment(comment.id)}
+                                onConfirm={() =>
+                                  handleDeleteComment(comment.id)
+                                }
                                 okText="Có"
                                 cancelText="Không"
                               >
@@ -545,14 +553,18 @@ export default function ProductPage() {
                             )}
                           </div>
 
-                          <div className="comment-content" style={{ marginLeft: "42px" }}>
-                            <p style={{ fontSize: "16px" }}>{comment.content}</p>
+                          <div
+                            className="comment-content"
+                            style={{ marginLeft: "42px" }}
+                          >
+                            <p style={{ fontSize: "16px" }}>
+                              {comment.content}
+                            </p>
                           </div>
                         </div>
                       );
                     })}
                   </div>
-
                 ) : (
                   <Col xs={5}>
                     <p className="comment-notfound">
@@ -577,27 +589,36 @@ export default function ProductPage() {
             ) : (
               <>
                 {currentComments.map((comment) => {
-                      const createdAtDate = new Date(comment.createAt);
-                      const isValidDate = (date) => !isNaN(new Date(date).getTime());
+                  const createdAtDate = new Date(comment.createAt);
+                  const isValidDate = (date) =>
+                    !isNaN(new Date(date).getTime());
 
-                      return (
-                        <div className="review" key={comment.id}>
-                          <div className="customer">
-                            <IoPersonCircleOutline className="icon" />
-                            <span style={{ fontSize: "16px" }}>
-                              {comment.account.firstname} {comment.account.lastname}
-                            </span>
-                            <div className="review-meta" style={{ marginLeft: "10px" }}>
-                              {isValidDate(createdAtDate) ? intlFormatDistance(createdAtDate, new Date()) : "Ngày không hợp lệ"}
-                            </div>
-                          </div>
-
-                          <div className="comment-content" style={{ marginLeft: "42px" }}>
-                            <p style={{ fontSize: "16px" }}>{comment.content}</p>
-                          </div>
+                  return (
+                    <div className="review" key={comment.id}>
+                      <div className="customer">
+                        <IoPersonCircleOutline className="icon" />
+                        <span style={{ fontSize: "16px" }}>
+                          {comment.account.firstname} {comment.account.lastname}
+                        </span>
+                        <div
+                          className="review-meta"
+                          style={{ marginLeft: "10px" }}
+                        >
+                          {isValidDate(createdAtDate)
+                            ? intlFormatDistance(createdAtDate, new Date())
+                            : "Ngày không hợp lệ"}
                         </div>
-                      );
-                    })}
+                      </div>
+
+                      <div
+                        className="comment-content"
+                        style={{ marginLeft: "42px" }}
+                      >
+                        <p style={{ fontSize: "16px" }}>{comment.content}</p>
+                      </div>
+                    </div>
+                  );
+                })}
               </>
             )}
           </div>

@@ -293,7 +293,7 @@ const items = [
 ];
 const FAQsCollapse = () => {
   const onChange = (key) => {
-    console.log(key);
+    // console.log(key);
   };
   return (
     <ConfigProvider

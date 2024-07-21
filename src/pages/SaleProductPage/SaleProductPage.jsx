@@ -43,10 +43,10 @@ const SaleProductPage = () => {
 
   const totalPage = Math.ceil(filteredProducts.length / pageSize);
 
-  console.log("Current Page:", currentPage);
-  console.log("Start Index:", startIndex);
-  console.log("End Index:", endIndex);
-  console.log("Paginated Products:", paginatedProducts);
+  // console.log("Current Page:", currentPage);
+  // console.log("Start Index:", startIndex);
+  // console.log("End Index:", endIndex);
+  // console.log("Paginated Products:", paginatedProducts);
 
   // Function to calculate sale price
   const calculateSalePrice = (originalPrice, discountPercentage) => {

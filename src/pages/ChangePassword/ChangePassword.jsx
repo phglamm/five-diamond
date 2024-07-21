@@ -27,18 +27,18 @@ function ChangePasswordPage() {
   }
 
   async function ChangePassword(value) {
-    console.log(value);
+    // console.log(value);
     try {
       const response = await api.post("reset-password", value);
       localStorage.setItem("token", token);
-      console.log(token);
-      console.log(response);
+      // console.log(token);
+      // console.log(response);
       toast.success("Thay đổi mật khẩu thành công");
       navigate(routes.login);
     } catch (error) {
       toast.error("Đã có lỗi khi thay đổi mật khẩu");
 
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
   return (

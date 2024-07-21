@@ -16,7 +16,7 @@ export default function SearchBar({ placeholder, icon }) {
 
   // Function to handle search logic
   const handleSearch = async (values) => {
-    console.log(values);
+    // console.log(values);
     try {
       let response;
       if (values.name) {

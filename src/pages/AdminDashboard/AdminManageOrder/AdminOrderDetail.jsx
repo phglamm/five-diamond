@@ -33,9 +33,9 @@ export default function AdminOrderDetail() {
       try {
         const response = await api.get(`order/${id}`);
         setOrderDetail(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       } catch (error) {
-        console.log(error.response.data);
+        // console.log(error.response.data);
       }
     }
     fetchOrderDetail();
@@ -87,9 +87,9 @@ export default function AdminOrderDetail() {
     try {
       const response = await api.get(`warranty/productId=${productID}`);
       setWarranty(response.data);
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
   const showModal = (productID) => {

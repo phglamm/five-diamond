@@ -24,7 +24,7 @@ export default function AdminCategory() {
   }
 
   async function AddCategory(value) {
-    console.log(value);
+    // console.log(value);
     try {
       await api.post("category", value);
       setCategory([...category, value]);
@@ -33,7 +33,7 @@ export default function AdminCategory() {
       form.resetFields();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc thêm danh mục");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
 
@@ -49,7 +49,7 @@ export default function AdminCategory() {
   useEffect(() => {}, [category]); // Only re-run this effect when diamond changes
 
   async function deleteCategory(values) {
-    console.log(values.id);
+    // console.log(values.id);
     try {
       Modal.confirm({
         title: "Bạn có chắc muốn xóa danh mục này ?",
@@ -66,7 +66,7 @@ export default function AdminCategory() {
       fetchCategory();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc Xóa");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
 
@@ -83,11 +83,11 @@ export default function AdminCategory() {
       formUpdate.resetFields();
     } catch (error) {
       toast.error("chỉnh sửa thất bại, có lỗi");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
 
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
@@ -157,7 +157,7 @@ export default function AdminCategory() {
                 initialValues={selectedCategory}
                 onValuesChange={(changedValues, allValues) => {
                   setNewData(allValues);
-                  console.log(allValues);
+                  // console.log(allValues);
                 }}
                 form={formUpdate}
                 onFinish={(values) => {

@@ -31,7 +31,7 @@ export default function Header() {
   };
 
   const user = useSelector(selectUser);
-  console.log(user);
+  // console.log(user);
   const getLinkRoute = () => {
     if (user !== null) {
       if (user.role === "DELIVERY") {

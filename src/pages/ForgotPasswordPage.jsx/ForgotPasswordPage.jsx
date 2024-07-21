@@ -23,14 +23,14 @@ function ForgotPasswordPage() {
   }
 
   async function ForgotPassword(value) {
-    console.log(value);
+    // console.log(value);
     try {
       const response = await api.post("forgot-password", value);
-      console.log(response);
+      // console.log(response);
       toast.success("Đã gửi yêu cầu đến Email của bạn");
     } catch (error) {
       toast.error("Có sự cố khi gửi yêu cầu đến Email của bạn");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
   return (
@@ -114,13 +114,13 @@ function ForgotPasswordPage() {
                   Đăng ký tài khoản mới
                 </Link>
 
-                {/* <Link
+                <Link
                   to={routes.changePassword}
                   style={{ color: "#393f81" }}
                   className="link-to"
                 >
                   Đổi Mật Khẩu
-                </Link> */}
+                </Link>
               </div>
             </MDBCardBody>
           </MDBCol>

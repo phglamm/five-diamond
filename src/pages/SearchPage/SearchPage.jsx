@@ -17,7 +17,7 @@ function SearchPage() {
     try {
       const response = await api.get("product-line");
       setProduct(response.data);
-      console.log(response.data);
+      // console.log(response.data);
 
       const uniqueCategories = [
         ...new Set(response.data.map((item) => item.category.id)),

@@ -68,7 +68,7 @@ export default function AdminCover() {
   }
   const showModal = () => {
     fetchDiamond();
-    console.log(shape, carat, size, origin, cut, clarity, color);
+    // console.log(shape, carat, size, origin, cut, clarity, color);
     setIsModalOpen(true);
   };
   const handleOk = () => {
@@ -81,16 +81,16 @@ export default function AdminCover() {
   const showModalUpdate = () => {
     fetchDiamondUpdate();
     formUpdate.setFieldsValue(selectedProductLine);
-    console.log(selectedProductLine);
-    console.log(
-      shapeUpdate,
-      caratUpdate,
-      sizeUpdate,
-      originUpdate,
-      cutUpdate,
-      clarityUpdate,
-      colorUpdate
-    );
+    // console.log(selectedProductLine);
+    // console.log(
+    //   shapeUpdate,
+    //   caratUpdate,
+    //   sizeUpdate,
+    //   originUpdate,
+    //   cutUpdate,
+    //   clarityUpdate,
+    //   colorUpdate
+    // );
     setIsModalOpenUpdate(true);
   };
   const handleOkUpdate = () => {
@@ -134,18 +134,18 @@ export default function AdminCover() {
     );
   };
   async function AddProductLine(value) {
-    console.log(value);
+    // console.log(value);
 
     try {
       const imgURL = await uploadFile(img);
       value.imgURL = imgURL;
-      console.log(value.imgURL);
+      // console.log(value.imgURL);
       value.diamondID = checkedList;
-      console.log(value);
+      // console.log(value);
       const response = await api.post("product-line", value);
-      console.log(response.data);
+      // console.log(response.data);
       toast.success("Thêm sản phẩm thành công");
-      console.log(response.data);
+      // console.log(response.data);
       fetchProductLine();
       form.resetFields();
       setCheckedList([]);
@@ -195,7 +195,7 @@ export default function AdminCover() {
   }, []);
 
   async function deleteProductLine(values) {
-    console.log(values.id);
+    // console.log(values.id);
     try {
       Modal.confirm({
         title: "Bạn có chắc muốn xóa dòng sản phẩm này ?",
@@ -212,14 +212,14 @@ export default function AdminCover() {
       fetchProductLine();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc Xóa");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
 
   async function updateProductLine(values) {
-    console.log(values);
+    // console.log(values);
     const responseProduct = await api.get(`product-line/${values.id}`);
-    console.log(responseProduct.data);
+    // console.log(responseProduct.data);
     if (imgUpdate) {
       const imgURLUpdate = await uploadFile(imgUpdate);
       newData.imgURL = imgURLUpdate;
@@ -236,11 +236,11 @@ export default function AdminCover() {
       ...newData,
     };
 
-    console.log(dataUpdate);
+    // console.log(dataUpdate);
 
     try {
       const response = await api.put(`product-line/${values.id}`, dataUpdate);
-      console.log(response.data);
+      // console.log(response.data);
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công");
       fetchProductLine();
@@ -248,13 +248,13 @@ export default function AdminCover() {
       setCheckedListUpdate([]);
     } catch (error) {
       toast.error("chỉnh sửa thất bại, có lỗi");
-      console.log(error.response.data);
+      // console.log(error.response.data);
       formUpdate.resetFields();
     }
   }
 
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
 
@@ -494,7 +494,7 @@ export default function AdminCover() {
                         placeholder="chọn Hình Dáng"
                         onChange={(value) => {
                           setShapeUpdate(value);
-                          console.log(shapeUpdate);
+                          // console.log(shapeUpdate);
                         }}
                       >
                         <Select.Option value="ROUND">Round</Select.Option>
@@ -542,7 +542,7 @@ export default function AdminCover() {
                         required
                         onChange={(e) => {
                           setColorUpdate(e.target.value);
-                          console.log(colorUpdate);
+                          // console.log(colorUpdate);
                         }}
                       />
                     </Form.Item>
@@ -579,7 +579,7 @@ export default function AdminCover() {
                         placeholder="chọn Độ Cắt"
                         onChange={(value) => {
                           setCutUpdate(value);
-                          console.log(cutUpdate);
+                          // console.log(cutUpdate);
                         }}
                       >
                         <Select.Option value="EXCELLENT">
@@ -835,7 +835,7 @@ export default function AdminCover() {
                         checked={specialUpdate}
                         onChange={(e) => {
                           setSpecialUpdate(e.target.checked);
-                          console.log(specialUpdate);
+                          // console.log(specialUpdate);
                         }}
                       />
                     </Form.Item>
@@ -1031,7 +1031,7 @@ export default function AdminCover() {
                   placeholder="chọn Hình Dáng"
                   onChange={(value) => {
                     setShape(value);
-                    console.log(shape);
+                    // console.log(shape);
                   }}
                 >
                   <Select.Option value="ROUND">Round</Select.Option>
@@ -1079,7 +1079,7 @@ export default function AdminCover() {
                   required
                   onChange={(e) => {
                     setColor(e.target.value);
-                    console.log(color);
+                    // console.log(color);
                   }}
                 />
               </Form.Item>
@@ -1198,7 +1198,7 @@ export default function AdminCover() {
                   checked={special}
                   onChange={(e) => {
                     setSpecial(e.target.checked);
-                    console.log(special);
+                    // console.log(special);
                   }}
                 />
               </Form.Item>

@@ -50,7 +50,7 @@ export default function CheckOut() {
 
   // Use useEffect to log formData changes
   useEffect(() => {
-    console.log("Form data updated:", formData);
+    // console.log("Form data updated:", formData);
   }, [formData]);
 
   useEffect(() => {
@@ -138,7 +138,7 @@ export default function CheckOut() {
   const handleApplyDiscount = async () => {
     try {
       const response = await api.get(`promotion/code/${discountCode}`);
-      console.log(response.data);
+      // console.log(response.data);
       if (user) {
         if (user.rankingMember === "BRONZE") {
           setDiscount(0 + response.data.discountPercentage);
@@ -172,7 +172,7 @@ export default function CheckOut() {
         const amount = String(
           Math.ceil(finalTotal - (finalTotal * discount) / 100)
         );
-        console.log(amount);
+        // console.log(amount);
         const data = {
           fullname: formData.name,
           phone: formData.phone,
@@ -182,14 +182,14 @@ export default function CheckOut() {
           totalAmount: amount,
           promotionCode: discountCode,
         };
-        console.log(data);
+        // console.log(data);
         const response = await api.post("wallet/vnpay", { amount });
-        console.log(response.data);
+        // console.log(response.data);
         window.location.assign(response.data);
         dispatch(order(data));
       } catch (error) {
         toast.error("Đặt Hàng Thất bại");
-        console.log(error.response.data);
+        // console.log(error.response.data);
       }
     }
   };

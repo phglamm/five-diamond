@@ -13,7 +13,7 @@ export default function AdminDiamondPrice() {
   async function fetchPrice() {
     const response = await api.get("diamond-price");
     setPrice(response.data);
-    console.log(response.data);
+    // console.log(response.data);
   }
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function AdminDiamondPrice() {
   }, []);
 
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
 
   const columns = [

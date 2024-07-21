@@ -7,14 +7,13 @@ import { Container, Row, Col } from "react-bootstrap";
 import MyBreadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import { routes } from "../../routes";
 import { Link } from "react-router-dom";
-import api from "../../config/axios"
+import api from "../../config/axios";
 
 import PromotionCard from "../../components/PromotionCard/PromotionCard";
 
 function SaleEventPage() {
   const [promotion, setPromotion] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-
 
   // Fetch promotions
   async function fetchPromotion() {
@@ -24,7 +23,7 @@ function SaleEventPage() {
       (item) => item.deleted === false && new Date(item.endDate) >= currentDate
     );
     setPromotion(filter);
-    console.log(response.data);
+    // console.log(response.data);
   }
 
   // Use effect to fetch promotions on mount
@@ -72,7 +71,6 @@ function SaleEventPage() {
           link3={routes.sale}
         />
 
-
         <div className="sale-banner">
           <img
             className="top-banner"
@@ -119,7 +117,7 @@ function SaleEventPage() {
         </div>
 
         <Row>
-          <div className="promotion-carousel" >
+          <div className="promotion-carousel">
             <FaAngleLeft onClick={prevPromotion} className="carousel-arrow" />
             <div className="sale-content">
               {getVisiblePromotions().map((promo) => (
@@ -134,8 +132,6 @@ function SaleEventPage() {
             <FaAngleRight onClick={nextPromotion} className="carousel-arrow" />
           </div>
         </Row>
-
-
 
         {/* 
         <div className="sale-banner">

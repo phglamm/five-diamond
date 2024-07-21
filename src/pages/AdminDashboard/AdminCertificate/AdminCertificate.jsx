@@ -31,12 +31,12 @@ export default function AdminCertificate() {
   }
 
   async function AddCertificate(value) {
-    console.log(value);
+    // console.log(value);
     try {
       const file = value.fileURL.file.originFileObj;
       const fileURL = await uploadFile(file);
 
-      console.log(file);
+      // console.log(file);
       const certificateData = {
         ...value,
         fileURL,
@@ -49,14 +49,14 @@ export default function AdminCertificate() {
       form.resetFields();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc thêm chứng chỉ");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
 
   async function fetchCertificate() {
     const response = await api.get("certificate");
     setCertificate(response.data);
-    console.log("data....", response.data);
+    // console.log("data....", response.data);
   }
 
   useEffect(() => {
@@ -66,7 +66,7 @@ export default function AdminCertificate() {
   useEffect(() => {}, [certificate]);
 
   async function deleteCertificate(values) {
-    console.log(values.id);
+    // console.log(values.id);
     Modal.confirm({
       title: "Bạn có chắc muốn xóa chứng chỉ này ?",
       onOk: async () => {
@@ -76,14 +76,14 @@ export default function AdminCertificate() {
           fetchCertificate();
         } catch (error) {
           toast.error("Đã có lỗi trong lúc Xóa");
-          console.log(error.response.data);
+          // console.log(error.response.data);
         }
       },
     });
   }
 
   async function updateCertificate(values) {
-    console.log(values);
+    // console.log(values);
 
     try {
       if (fileUpdate) {
@@ -96,20 +96,20 @@ export default function AdminCertificate() {
       const dataUpdate = {
         ...newData,
       };
-      console.log(dataUpdate);
+      // console.log(dataUpdate);
       const response = await api.put(`certificate/${values.id}`, dataUpdate);
-      console.log(response);
+      // console.log(response);
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công");
       fetchCertificate();
       formUpdate.resetFields();
     } catch (error) {
       toast.error("chỉnh sửa thất bại, có lỗi");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
 

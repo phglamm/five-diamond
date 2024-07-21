@@ -20,9 +20,9 @@ function SaleStaffCancleOrderPage() {
     try {
       const response = await api.get(`order/canceled`);
       setCanceledOrder(response.data);
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
   useEffect(() => {
@@ -37,7 +37,7 @@ function SaleStaffCancleOrderPage() {
     try {
       const response = await api.put(`/order/refund/${orderId}`);
 
-      console.log(response);
+      // console.log(response);
       toast.success("Cập nhật thành công");
       fetchOrder();
     } catch (error) {

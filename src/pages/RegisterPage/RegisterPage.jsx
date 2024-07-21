@@ -24,15 +24,15 @@ function RegisterPageCard() {
   const [form] = useForm();
 
   async function RegisterAccount(value) {
-    console.log(value);
+    // console.log(value);
     try {
       const response = await api.post("register", value);
-      console.log(response);
+      // console.log(response);
       toast.success("Tài Khoản của bạn đã được tạo thành công");
       navigate(routes.login);
     } catch (error) {
       toast.error("Đã có lỗi trong việc tạo tài khoản của bạn");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
 
@@ -133,9 +133,11 @@ function RegisterPageCard() {
                       },
                       {
                         validator: (_, value) =>
-                          value && value.isAfter(moment().endOf('day'))
+                          value && value.isAfter(moment().endOf("day"))
                             ? Promise.reject(
-                                new Error("Ngày sinh không được là ngày hiện tại hoặc tương lai")
+                                new Error(
+                                  "Ngày sinh không được là ngày hiện tại hoặc tương lai"
+                                )
                               )
                             : Promise.resolve(),
                       },
@@ -146,7 +148,7 @@ function RegisterPageCard() {
                       style={{ width: "100%" }}
                       format={dateFormat}
                       disabledDate={(current) =>
-                        current && current >= moment().endOf('day')
+                        current && current >= moment().endOf("day")
                       }
                     />
                   </Form.Item>
@@ -210,7 +212,8 @@ function RegisterPageCard() {
                       },
                       {
                         pattern: /^([a-zA-Z0-9@.])*$/,
-                        message: "Mật khẩu của bạn không được chứa ký tự đặc biệt",
+                        message:
+                          "Mật khẩu của bạn không được chứa ký tự đặc biệt",
                       },
                     ]}
                   >
@@ -227,7 +230,8 @@ function RegisterPageCard() {
                       },
                       {
                         pattern: /^([a-zA-Z0-9])*$/,
-                        message: "Mật khẩu của bạn phải không có ký tự đặc biệt",
+                        message:
+                          "Mật khẩu của bạn phải không có ký tự đặc biệt",
                       },
                       {
                         required: true,

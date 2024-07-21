@@ -11,7 +11,7 @@ export default function DiamondPricePage() {
   const fetchDiamondPrices = async () => {
     try {
       const response = await api.get("diamond-price");
-      console.log(response.data);
+      //   console.log(response.data);
       setDiamondPrices(response.data);
     } catch (error) {
       console.error("Error fetching diamond prices:", error);
