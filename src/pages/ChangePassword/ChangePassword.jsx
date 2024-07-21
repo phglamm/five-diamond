@@ -14,27 +14,24 @@ import { useForm } from "antd/es/form/Form";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import axios from "axios";
+import api from "../../config/axios";
+import useGetParams from "../../assets/useGetParams";
 
 function ChangePasswordPage() {
   const navigate = useNavigate();
-  const url = useLocation()
-  const token = new URLSearchParams(url.search).get("token")
-
-
+  const params = useGetParams();
+  const token = params("token");
   const [form] = useForm();
   function hanldeClickSubmit() {
     form.submit();
   }
 
-
   async function ChangePassword(value) {
     console.log(value);
     try {
-      const response = await axios.post("http://157.245.145.162:8080/api/reset-password", value, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const response = await api.post("reset-password", value);
+      localStorage.setItem("token", token);
+      console.log(token);
       console.log(response);
       toast.success("Thay đổi mật khẩu thành công");
       navigate(routes.login);
@@ -50,7 +47,9 @@ function ChangePasswordPage() {
         <MDBRow className="g-0">
           <MDBCol md="6">
             <MDBCardImage
-              src={"https://drive.google.com/thumbnail?id=18Hcw8NVoxtHI0xR1uanZse_ip6F6bGJ6&sz=w1000"}
+              src={
+                "https://drive.google.com/thumbnail?id=18Hcw8NVoxtHI0xR1uanZse_ip6F6bGJ6&sz=w1000"
+              }
               alt="login form"
               className="rounded-start w-100"
             />
@@ -66,7 +65,13 @@ function ChangePasswordPage() {
                 <span className="">Quay Lại Trang Chủ</span>
               </Link>
               <div className="d-flex flex-row mt-2 form-header">
-                <img src={"https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"} alt="" className="form-logo" />
+                <img
+                  src={
+                    "https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"
+                  }
+                  alt=""
+                  className="form-logo"
+                />
                 <span className="h1 fw-bold mb-0">Five Diamond</span>
               </div>
 
@@ -105,7 +110,7 @@ function ChangePasswordPage() {
                   >
                     <Input type="password" required />
                   </Form.Item>
-                  {/* <Form.Item
+                  <Form.Item
                     dependencies={["password"]}
                     required
                     label="Xác nhận mật khẩu"
@@ -129,7 +134,7 @@ function ChangePasswordPage() {
                     ]}
                   >
                     <Input type="password" required />
-                  </Form.Item> */}
+                  </Form.Item>
                   <Button onClick={hanldeClickSubmit} className="form-button">
                     Xác Nhận
                   </Button>

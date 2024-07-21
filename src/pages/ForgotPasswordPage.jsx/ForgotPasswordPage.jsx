@@ -39,7 +39,9 @@ function ForgotPasswordPage() {
         <MDBRow className="g-0">
           <MDBCol md="6">
             <MDBCardImage
-              src={"https://drive.google.com/thumbnail?id=18Hcw8NVoxtHI0xR1uanZse_ip6F6bGJ6&sz=w1000"}
+              src={
+                "https://drive.google.com/thumbnail?id=18Hcw8NVoxtHI0xR1uanZse_ip6F6bGJ6&sz=w1000"
+              }
               alt="login form"
               className="rounded-start w-100"
             />
@@ -55,7 +57,13 @@ function ForgotPasswordPage() {
                 <span className="">Quay Lại Trang Chủ</span>
               </Link>
               <div className="d-flex flex-row mt-2 form-header">
-                <img src={"https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"} alt="" className="form-logo" />
+                <img
+                  src={
+                    "https://drive.google.com/thumbnail?id=1TID9g_LphvHeN1htPBH_0zoxe0o1CqaE&sz=w1000"
+                  }
+                  alt=""
+                  className="form-logo"
+                />
                 <span className="h1 fw-bold mb-0">Five Diamond</span>
               </div>
 
@@ -106,13 +114,13 @@ function ForgotPasswordPage() {
                   Đăng ký tài khoản mới
                 </Link>
 
-                <Link
+                {/* <Link
                   to={routes.changePassword}
                   style={{ color: "#393f81" }}
                   className="link-to"
                 >
                   Đổi Mật Khẩu
-                </Link>
+                </Link> */}
               </div>
             </MDBCardBody>
           </MDBCol>
