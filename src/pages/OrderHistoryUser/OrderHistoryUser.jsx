@@ -10,14 +10,14 @@ import "./OrderHistoryUser.css";
 export default function OrderHistoryUser() {
   const [order, setOrder] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchOrderUser() {
       try {
         const response = await api.get("order");
         // console.log(response.data);
-        setOrder(response.data);
+        const sortNewOrder = response.data.sort((a, b) => b.id - a.id);
+        setOrder(sortNewOrder);
       } catch (error) {
         // console.log(error.response.data);
       }
