@@ -10,24 +10,82 @@ import { Card, Col, Container, Form, Row } from "react-bootstrap";
 import { routes } from "../../../routes";
 import { KeyboardReturn } from "@mui/icons-material";
 import { CloseCircleOutlined } from "@ant-design/icons";
+import moment from "moment";
 
-const customDot = (dot, { status, index }) => (
-  <Popover
-    content={
-      <span>
-        Step {index} status: {status}
-      </span>
-    }
-  >
-    {dot}
-  </Popover>
-);
 export default function AdminOrderDetail() {
   const { id } = useParams();
   const [orderDetail, setOrderDetail] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [warranty, setWarranty] = useState(null);
 
+  const getPopoverContent = (status, index) => {
+    switch (index) {
+      case 0:
+        return <span>Đã đặt hàng</span>;
+      case 1:
+        return (
+          <span>
+            {orderDetail.confirmDate ? (
+              <>
+                {" "}
+                Ngày Cập Nhật:{" "}
+                {moment(orderDetail.confirmDate).format("DD-MM-YYYY HH:mm")}
+              </>
+            ) : (
+              <>Chưa Cập Nhật</>
+            )}
+          </span>
+        );
+      case 2:
+        return (
+          <span>
+            {orderDetail.processingDate ? (
+              <>
+                {" "}
+                Ngày Cập Nhật:{" "}
+                {moment(orderDetail.processingDate).format("DD-MM-YYYY HH:mm")}
+              </>
+            ) : (
+              <>Chưa Cập Nhật</>
+            )}
+          </span>
+        );
+      case 3:
+        return (
+          <span>
+            {orderDetail.shippingDate ? (
+              <>
+                {" "}
+                Ngày Cập Nhật:{" "}
+                {moment(orderDetail.shippingDate).format("DD-MM-YYYY HH:mm")}
+              </>
+            ) : (
+              <>Chưa Cập Nhật</>
+            )}
+          </span>
+        );
+      case 4:
+        return (
+          <span>
+            {orderDetail.deliveryDate ? (
+              <>
+                {" "}
+                Ngày Cập Nhật:{" "}
+                {moment(orderDetail.deliveryDate).format("DD-MM-YYYY HH:mm")}
+              </>
+            ) : (
+              <>Chưa Cập Nhật</>
+            )}
+          </span>
+        );
+      default:
+        return <span>Chưa Cập Nhật</span>;
+    }
+  };
+
+  const customDot = (dot, { status, index }) => (
+    <Popover content={getPopoverContent(status, index)}>{dot}</Popover>
+  );
   useEffect(() => {
     async function fetchOrderDetail() {
       try {

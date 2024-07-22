@@ -109,6 +109,12 @@ export default function AdminOrder() {
       render: (value) => value.toLocaleString() + " đ",
     },
     {
+      title: "Ngày Đặt Hàng",
+      dataIndex: "orderDate",
+      key: "orderDate",
+      render: (text, record) => moment(record.orderDate).format("DD-MM-YYYY"),
+    },
+    {
       title: "Tình trạng",
       dataIndex: "orderStatus",
       key: "orderStatus",
