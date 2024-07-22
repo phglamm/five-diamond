@@ -374,6 +374,9 @@ const TrackingPage = () => {
                   <h1 className="order-canceled-title">
                     Đơn hàng này đã bị hủy
                   </h1>
+                  <h3 className="order-canceled-title">
+                    {/* Lý Do: {orderDetail.reason} */}
+                  </h3>
                   <p className="order-canceled-message">
                     Rất tiếc, đơn hàng của bạn đã bị hủy. Vui lòng liên hệ với
                     chúng tôi nếu bạn có bất kỳ câu hỏi hoặc thắc mắc nào.

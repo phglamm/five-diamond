@@ -407,7 +407,7 @@ export default function ProductPage() {
           </div>
           <div className="info-detail">
             <p style={{ fontWeight: "bold" }}>Số chỉ vàng:</p>
-            <p>{product.weight}g</p>
+            <p>{product.weight}</p>
           </div>
           <div className="info-detail">
             <p style={{ fontWeight: "bold" }}>Số lượng đá phụ:</p>
