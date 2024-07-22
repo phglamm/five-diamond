@@ -352,7 +352,7 @@ button.btn-secondary:hover {
   color: #696969;
 }
 
-.copy-button {
+.copy-buttonfield {
   margin: -32px 8px 0px 8px;
   height: 38px;
   border-radius: 4px;
@@ -360,18 +360,18 @@ button.btn-secondary:hover {
   border: 1px solid #e1e1e1;
 }
 
-.copy-button input {
+.copy-buttonfield input {
   font-family: system-ui;
   font-weight: 700;
-  width: 100%;
+  width: 65%;
   height: 100%;
   border: none;
   outline: none;
   font-size: 15px;
 }
 
-.copy-button button {
-  padding: 0 20px;
+.copy-buttonfield button {
+  padding: 0 30px;
   border-radius: 4px;
   background-color: #38a9b8;
   color: #fff;

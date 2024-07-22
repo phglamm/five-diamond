@@ -491,7 +491,7 @@ export default function CheckOut() {
                       </div>
                     </div>
                     <div
-                      className="copy-button"
+                      className="copy-buttonfield"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <input
