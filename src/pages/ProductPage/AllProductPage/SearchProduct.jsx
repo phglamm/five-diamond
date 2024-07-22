@@ -24,7 +24,7 @@ export default function SearchProduct() {
     collection: [],
     price: [],
   });
-  const pageSize = 20;
+  const pageSize = 6;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,9 +35,9 @@ export default function SearchProduct() {
 
   const handleChangePage = (event, value) => {
     setCurrentPage(value);
-    navigate(`/search-product?page=${value}`, {
-      state: { SearchProduct: product },
-    });
+    // navigate(`/search-product?page=${value}`, {
+    //   state: { SearchProduct: product },
+    // });
   };
 
   const handleSortChange = (value) => {
@@ -109,25 +109,6 @@ export default function SearchProduct() {
           filters.origin.includes(product.origin)) &&
         (filters.collection.length === 0 ||
           filters.collection.includes(product.collection))
-        //   &&
-        // (filters.price.length === 0 ||
-        //   filters.price.some((priceFilter) => {
-        //     if (priceFilter === "under1m") return product.finalPrice < 1000000;
-        //     if (priceFilter === "1mto2m")
-        //       return (
-        //         product.finalPrice >= 1000000 && product.finalPrice < 2000000
-        //       );
-        //     if (priceFilter === "2mto3m")
-        //       return (
-        //         product.finalPrice >= 2000000 && product.finalPrice < 3000000
-        //       );
-        //     if (priceFilter === "3mto5m")
-        //       return (
-        //         product.finalPrice >= 3000000 && product.finalPrice < 5000000
-        //       );
-        //     if (priceFilter === "above5m") return product.finalPrice >= 5000000;
-        //     return false;
-        //   }))
       );
     });
   };
@@ -156,13 +137,6 @@ export default function SearchProduct() {
       "Khuyên Tai": "Khuyên Tai",
       "Vòng Tay": "Vòng Tay",
     },
-    // price: {
-    //   "Dưới 1tr": "under1m",
-    //   "Từ 1tr đến 2tr": "1mto2m",
-    //   "Từ 2tr đến 3tr": "2mto3m",
-    //   "Từ 3tr đến 5tr": "3mto5m",
-    //   "Trên 5tr": "above5m",
-    // },
     shape: {
       Round: "ROUND",
       Oval: "OVAL",
@@ -437,9 +411,9 @@ export default function SearchProduct() {
                   onChange={handleSortChange}
                   value={sortOrder}
                 >
-                  <Option value="none">Sắp xếp</Option>
-                  <Option value="asc">Giá: Thấp đến Cao</Option>
-                  <Option value="desc">Giá: Cao đến Thấp</Option>
+                  <Select.Option value="none">Sắp xếp</Select.Option>
+                  <Select.Option value="asc">Giá: Thấp đến Cao</Select.Option>
+                  <Select.Option value="desc">Giá: Cao đến Thấp</Select.Option>
                 </Select>
               </Col>
             </div>
@@ -447,7 +421,7 @@ export default function SearchProduct() {
             {paginatedProducts.length > 0 ? (
               <Row>
                 {paginatedProducts.map((item, index) => (
-                  <Col key={index} md={3} className="product-card-item">
+                  <Col key={index} xs={4} className="product-card-item">
                     <ProductCard
                       img={item.imgURL}
                       text={item.name}

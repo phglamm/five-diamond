@@ -46,22 +46,6 @@ export default function RowProduct({ banner, products }) {
   }, []);
   return (
     <Row className="rowProduct">
-      {/* <Col xs={6}>
-        <div className="rowBanner">
-          <img src={banner} alt="Collection Banner" />
-        </div>
-      </Col>
-      {filteredProducts.slice(0, 3).map((product, index) => (
-        <Col key={index} xs={2}>
-          <ProductCard
-            id={product.id}
-            img={product.imgURL} // Assuming imgURL is part of product data
-            text={product.name} // Assuming name is part of product data
-            price={`${product.finalPrice.toLocaleString()}đ`} // Assuming finalPrice is part of product data
-          />
-        </Col>
-      ))} */}
-
       {collection.slice(0, 3).map((collection) => (
         <>
           <Col xs={6} key={collection.id}>

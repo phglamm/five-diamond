@@ -10,24 +10,24 @@ import { useEffect, useState } from "react";
 
 const PaymentSuccess = () => {
   const orderPost = useSelector(selectOrder);
-  console.log(orderPost);
+  // console.log(orderPost);
   const navigate = useNavigate();
   const params = useGetParams();
   const status = params("vnp_TransactionStatus");
-  console.log(status);
+  // console.log(status);
   const [orderfull, setOrderfull] = useState(null);
   async function handleSubmitOrder() {
     if (status === "00") {
       try {
         const response = await api.post("order", orderPost);
-        console.log(response.data);
+        // console.log(response.data);
         setOrderfull(response.data);
         navigate(routes.successpayment);
         toast.success("Đặt hàng thành công");
       } catch (error) {
         navigate(routes.failpayment);
         toast("Đặt hàng thất bại");
-        console.log(error.response.data);
+        // console.log(error.response.data);
       }
     } else {
       navigate(routes.failpayment);

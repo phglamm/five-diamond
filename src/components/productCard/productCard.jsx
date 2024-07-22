@@ -23,7 +23,7 @@ export default function ProductCard({
           <img src={img} alt={text} />
         </div>
         <div className="product-text">
-          <p>
+          <p className="product-info-name">
             <Link to={`/chi-tiet-san-pham/${id}`}>{text}</Link>
           </p>
           {salePrice ? (

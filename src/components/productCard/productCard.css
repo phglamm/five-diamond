@@ -1,7 +1,7 @@
 .product-hit {
   margin-top: 30px;
   width: 100%;
-  height: 320px;
+  height: 400px;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   text-align: center;
@@ -13,6 +13,16 @@
   border-radius: 8px;
 }
 
+.product-info-name {
+  margin-top: 5%;
+
+  width: 100%;
+  height: 100px;
+}
+
+.product-text a:hover {
+  color: black;
+}
 .product-img {
   width: 100%;
   height: 200px;

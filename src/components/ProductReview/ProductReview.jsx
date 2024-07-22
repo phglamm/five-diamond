@@ -31,12 +31,12 @@ const ProductReview = ({ productLineId }) => {
 
   async function fetchComments() {
     const response = await api.get(`comment/${productLineId}`);
-    console.log(response.data);
+    // console.log(response.data);
     setComments(response.data);
   }
 
   const handleSendComment = async (value) => {
-    console.log(value);
+    // console.log(value);
     try {
       await api.post("comment", value);
       fetchComments();
@@ -46,7 +46,7 @@ const ProductReview = ({ productLineId }) => {
       toast.error("Gửi đánh giá không thành công!", {
         hideProgressBar: true,
       });
-      console.log({ error });
+      // console.log({ error });
     }
   };
 
@@ -56,7 +56,7 @@ const ProductReview = ({ productLineId }) => {
 
   const handleDeleteComment = async (id) => {
     await api.delete(`comment/${id}`);
-    console.log("Xóa thành công");
+    // console.log("Xóa thành công");
     fetchComments();
   };
 

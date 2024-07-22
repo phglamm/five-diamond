@@ -15,17 +15,17 @@ export default function AdminGoldPrice() {
   async function fetchGoldPrice() {
     try {
       const response = await api.get("gold");
-      console.log(response.data);
+      // console.log(response.data);
       setGoldPrice(response.data);
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
   useEffect(() => {
     fetchGoldPrice();
   }, []);
   async function AddGoldPrice(value) {
-    console.log(value);
+    // console.log(value);
     try {
       await api.post("gold", value);
       setGoldPrice([...goldPrice, value]);
@@ -34,12 +34,12 @@ export default function AdminGoldPrice() {
       form.resetFields();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc thêm giá vàng");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
 
   async function deleteGoldPrice(values) {
-    console.log(values.id);
+    // console.log(values.id);
     try {
       Modal.confirm({
         title: "Bạn có chắc muốn xóa giá vàng này ?",
@@ -56,7 +56,7 @@ export default function AdminGoldPrice() {
       fetchGoldPrice();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc Xóa");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
 
@@ -106,7 +106,7 @@ export default function AdminGoldPrice() {
     },
   ];
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
   return (
     <div className="Admin">

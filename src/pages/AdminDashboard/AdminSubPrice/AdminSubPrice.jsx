@@ -15,17 +15,17 @@ export default function AdminSubPrice() {
   async function fetchSubPrice() {
     try {
       const response = await api.get("sub");
-      console.log(response.data);
+      // console.log(response.data);
       setSubPrice(response.data);
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
   useEffect(() => {
     fetchSubPrice();
   }, []);
   async function AddSubPrice(value) {
-    console.log(value);
+    // console.log(value);
     try {
       await api.post("sub", value);
       setSubPrice([...subPrice, value]);
@@ -34,12 +34,12 @@ export default function AdminSubPrice() {
       form.resetFields();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc thêm giá viên phụ");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
 
   async function deleteSubPrice(values) {
-    console.log(values.id);
+    // console.log(values.id);
     try {
       Modal.confirm({
         title: "Bạn có chắc muốn xóa giá viên phụ này ?",
@@ -56,7 +56,7 @@ export default function AdminSubPrice() {
       fetchSubPrice();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc Xóa");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
 
@@ -99,7 +99,7 @@ export default function AdminSubPrice() {
     },
   ];
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
   return (
     <div className="Admin">

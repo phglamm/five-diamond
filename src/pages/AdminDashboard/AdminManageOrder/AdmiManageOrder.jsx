@@ -12,7 +12,7 @@ export default function AdminOrder() {
   async function fetchOrder() {
     const response = await api.get("order/all");
     setOrder(response.data);
-    console.log(response.data);
+    // console.log(response.data);
   }
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function AdminOrder() {
   }, []);
 
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
 
   const columns = [
