@@ -204,7 +204,7 @@ export default function CheckOut() {
 
   const handleSelectDiscount = (code, discountPercentage) => {
     setDiscountCode(code);
-    setDiscount(discountPercentage);
+    // setDiscount(discountPercentage);
     setShowDiscountModal(false);
   };
 
@@ -408,7 +408,6 @@ export default function CheckOut() {
                   <h6>Giảm giá thành viên: 10% bậc {user.rankingMember} </h6>
                 )}
                 {applyDiscount && <h6>Giảm giá Voucher: {applyDiscount}% </h6>}
-
                 <h6>
                   Số tiền đã giảm:{" "}
                   <span style={{ color: "red" }}>
@@ -464,7 +463,7 @@ export default function CheckOut() {
                 onClick={() =>
                   handleSelectDiscount(
                     discount.code,
-                    discount.discountPercentage
+                    // discount.discountPercentage
                   )
                 }
                 className="custom-listgroup-item"
@@ -491,7 +490,7 @@ export default function CheckOut() {
                       </div>
                     </div>
                     <div
-                      className="copy-button"
+                      className="copy-buttonfield"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <input
