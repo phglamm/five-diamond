@@ -204,7 +204,6 @@ export default function CheckOut() {
 
   const handleSelectDiscount = (code, discountPercentage) => {
     setDiscountCode(code);
-    setDiscount(discountPercentage);
     setShowDiscountModal(false);
   };
 
