@@ -16,6 +16,11 @@ function useRealtime(callback) {
         // console.log(message);
         callback && callback(message);
       });
+
+      stomp.subscribe(`/topic/price`, (message) => {
+        // console.log(message);
+        callback && callback(message);
+      });
     };
     stomp.connect({}, onConnected, null);
   }, []);
