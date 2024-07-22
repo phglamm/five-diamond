@@ -353,10 +353,10 @@ button.btn-secondary:hover {
 }
 
 .copy-buttonfield {
-  margin: -32px 8px 0px 8px;
+  margin: -8% 2% 0 2%;
   height: 38px;
   border-radius: 4px;
-  padding: 0 5px;
+  /* padding: 0 5px; */
   border: 1px solid #e1e1e1;
 }
 
@@ -371,7 +371,7 @@ button.btn-secondary:hover {
 }
 
 .copy-buttonfield button {
-  padding: 0 30px;
+  padding: 0 8%;
   border-radius: 4px;
   background-color: #38a9b8;
   color: #fff;
