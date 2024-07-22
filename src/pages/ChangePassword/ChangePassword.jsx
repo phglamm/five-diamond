@@ -14,9 +14,7 @@ import { useForm } from "antd/es/form/Form";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import axios from "axios";
-import api from "../../config/axios";
 import useGetParams from "../../assets/useGetParams";
-
 function ChangePasswordPage() {
   const navigate = useNavigate();
   const params = useGetParams();
@@ -25,20 +23,25 @@ function ChangePasswordPage() {
   function hanldeClickSubmit() {
     form.submit();
   }
-
   async function ChangePassword(value) {
-    // console.log(value);
+    console.log(value);
     try {
-      const response = await api.post("reset-password", value);
-      localStorage.setItem("token", token);
-      // console.log(token);
-      // console.log(response);
+      const response = await axios.post(
+        "http://178.128.96.22:8080/api/reset-password",
+        value,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response);
       toast.success("Thay đổi mật khẩu thành công");
       navigate(routes.login);
     } catch (error) {
       toast.error("Đã có lỗi khi thay đổi mật khẩu");
 
-      // console.log(error.response.data);
+      console.log(error.response.data);
     }
   }
   return (

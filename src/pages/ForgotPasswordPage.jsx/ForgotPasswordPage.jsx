@@ -113,14 +113,6 @@ function ForgotPasswordPage() {
                 >
                   Đăng ký tài khoản mới
                 </Link>
-
-                <Link
-                  to={routes.changePassword}
-                  style={{ color: "#393f81" }}
-                  className="link-to"
-                >
-                  Đổi Mật Khẩu
-                </Link>
               </div>
             </MDBCardBody>
           </MDBCol>
