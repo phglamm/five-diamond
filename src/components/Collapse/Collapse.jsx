@@ -63,9 +63,9 @@ const itemsNest1 = [
         </p>
         <p className="larger">
           Chi tiết hướng dẫn đo size:
-          <Link to="http://fivediamond.online/huong-dan-do-ni">
+          <Link to="http://fivediamond.shop/huong-dan-do-ni">
             {" "}
-            http://fivediamond.online/huong-dan-do-ni
+            http://fivediamond.shop/huong-dan-do-ni
           </Link>
         </p>
       </>
@@ -131,7 +131,7 @@ const itemsNest3 = [
       <>
         <p className="larger">
           Chính sách thu đổi khi quý khách mua hàng tại trang web
-          http://fivediamond.online/ hoặc sàn Thương mại điện tử của 5Diamond và
+          http://fivediamond.shop/ hoặc sàn Thương mại điện tử của 5Diamond và
           tại cửa hàng đều như nhau.
         </p>
         <p className="larger">
@@ -209,8 +209,8 @@ const itemsNest2 = [
       <>
         <p className="larger">
           Quý khách vui lòng truy cập website:{" "}
-          <Link to="https://www.fivediamond.online/">
-            https://www.fivediamond.online/
+          <Link to="https://www.fivediamond.shop/">
+            https://www.fivediamond.shop/
           </Link>{" "}
           - lựa chọn sản phẩm mình muốn mua, sau đó chọn hình thức thanh toán
           bằng tiền mặt, chuyển khoản, hoặc bằng thẻ tín dụng/thẻ ngân hàng. Sau
