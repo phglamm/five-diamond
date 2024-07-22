@@ -204,6 +204,7 @@ export default function CheckOut() {
 
   const handleSelectDiscount = (code, discountPercentage) => {
     setDiscountCode(code);
+    // setDiscount(discountPercentage);
     setShowDiscountModal(false);
   };
 
@@ -462,8 +463,8 @@ export default function CheckOut() {
                 action
                 onClick={() =>
                   handleSelectDiscount(
-                    discount.code,
-                    discount.discountPercentage
+                    discount.code
+                    // discount.discountPercentage
                   )
                 }
                 className="custom-listgroup-item"
@@ -490,7 +491,7 @@ export default function CheckOut() {
                       </div>
                     </div>
                     <div
-                      className="copy-button"
+                      className="copy-buttonfield"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <input
