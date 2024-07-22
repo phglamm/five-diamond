@@ -412,10 +412,17 @@ const TrackingPage = () => {
                       <span className="tracking-separator">
                         Trạng thái: {getStatus(orderDetail.orderStatus)}
                       </span>
-                      <span className="tracking-separator">
-                        Nhận hàng vào ngày:{" "}
-                        {formatDate(orderDetail.shippingDate)}
-                      </span>
+                      {orderDetail.deliveryDate ? (
+                        <>
+                          {" "}
+                          <span className="tracking-separator">
+                            Nhận hàng vào ngày:{" "}
+                            {formatDate(orderDetail.deliveryDate)}
+                          </span>
+                        </>
+                      ) : (
+                        <></>
+                      )}
                     </span>
                     <hr />
                     <h5>Hành trình đơn hàng</h5>
