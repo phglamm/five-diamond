@@ -478,7 +478,7 @@ export default function AdminCover() {
                       <Input type="text" required></Input>
                     </Form.Item>
 
-                    <Form.Item
+                    {/* <Form.Item
                       className="label-form"
                       label="Hình Dáng"
                       name="shape"
@@ -656,9 +656,7 @@ export default function AdminCover() {
                         readOnly
                         value={checkedListUpdate?.join(", ")}
                       />{" "}
-                    </Form.Item>
-                  </div>
-                  <div className="form-content">
+                    </Form.Item> */}
                     <Form.Item
                       className="label-form"
                       label="Mô Tả"
@@ -700,7 +698,6 @@ export default function AdminCover() {
                     >
                       <Input type="text" required readOnly />
                     </Form.Item>
-
                     <Form.Item
                       className="label-form"
                       label="karat"
@@ -717,6 +714,8 @@ export default function AdminCover() {
                         <Select.Option value="18K">18K</Select.Option>
                       </Select>
                     </Form.Item>
+                  </div>
+                  <div className="form-content">
                     <Form.Item
                       className="label-form"
                       label="Loại Đá phụ"
@@ -800,7 +799,7 @@ export default function AdminCover() {
                         <Select.Option value="FEMALE">Nữ</Select.Option>
                       </Select>
                     </Form.Item>
-                    <Button
+                    {/* <Button
                       icon={<UploadOutlined />}
                       className="admin-upload-button"
                       onClick={showModalUpdate}
@@ -824,7 +823,7 @@ export default function AdminCover() {
                         scroll={{ x: "max-content" }}
                         onChange={onChange}
                       />
-                    </Modal>
+                    </Modal> */}
                     <Form.Item
                       className="label-form"
                       label="Đặc Biệt"

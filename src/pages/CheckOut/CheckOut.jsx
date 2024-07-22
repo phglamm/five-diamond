@@ -462,7 +462,7 @@ export default function CheckOut() {
                 action
                 onClick={() =>
                   handleSelectDiscount(
-                    discount.code,
+                    discount.code
                     // discount.discountPercentage
                   )
                 }

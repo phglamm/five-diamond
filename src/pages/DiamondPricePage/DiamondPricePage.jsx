@@ -4,9 +4,16 @@ import Footer from "../../components/Footer/Footer";
 import { Container, Table } from "react-bootstrap";
 import "./DiamondPricePage.css";
 import api from "../../config/axios";
+import useRealtime from "../../assets/useRealtime";
 
 export default function DiamondPricePage() {
   const [diamondPrices, setDiamondPrices] = useState([]);
+
+  useRealtime(async (body) => {
+    if (body.body === "price") {
+      await fetchDiamondPrices();
+    }
+  });
 
   const fetchDiamondPrices = async () => {
     try {

@@ -12,18 +12,6 @@ import { selectUser } from "../../redux/features/counterSlice";
 import { useSelector } from "react-redux";
 import moment from "moment";
 
-const customDot = (dot, { status, index }) => (
-  <Popover
-    content={
-      <span>
-        Step {index} status: {status}
-      </span>
-    }
-  >
-    {dot}
-  </Popover>
-);
-
 const TrackingPage = () => {
   const { id } = useParams();
   const [orderDetail, setOrderDetail] = useState(null);
@@ -36,7 +24,7 @@ const TrackingPage = () => {
       try {
         const response = await api.get(`order/${id}`);
         setOrderDetail(response.data);
-        // console.log(response.data);
+        console.log(response.data);
       } catch (error) {
         // console.log(error.response.data);
       }
@@ -44,6 +32,74 @@ const TrackingPage = () => {
     fetchOrderDetail();
   }, []);
 
+  const getPopoverContent = (status, index) => {
+    switch (index) {
+      case 0:
+        return <span>Đã đặt hàng</span>;
+      case 1:
+        return (
+          <span>
+            {orderDetail.confirmDate ? (
+              <>
+                {" "}
+                Ngày Cập Nhật:{" "}
+                {moment(orderDetail.confirmDate).format("DD-MM-YYYY HH:mm")}
+              </>
+            ) : (
+              <>Chưa Cập Nhật</>
+            )}
+          </span>
+        );
+      case 2:
+        return (
+          <span>
+            {orderDetail.processingDate ? (
+              <>
+                {" "}
+                Ngày Cập Nhật:{" "}
+                {moment(orderDetail.processingDate).format("DD-MM-YYYY HH:mm")}
+              </>
+            ) : (
+              <>Chưa Cập Nhật</>
+            )}
+          </span>
+        );
+      case 3:
+        return (
+          <span>
+            {orderDetail.shippingDate ? (
+              <>
+                {" "}
+                Ngày Cập Nhật:{" "}
+                {moment(orderDetail.shippingDate).format("DD-MM-YYYY HH:mm")}
+              </>
+            ) : (
+              <>Chưa Cập Nhật</>
+            )}
+          </span>
+        );
+      case 4:
+        return (
+          <span>
+            {orderDetail.deliveryDate ? (
+              <>
+                {" "}
+                Ngày Cập Nhật:{" "}
+                {moment(orderDetail.deliveryDate).format("DD-MM-YYYY HH:mm")}
+              </>
+            ) : (
+              <>Chưa Cập Nhật</>
+            )}
+          </span>
+        );
+      default:
+        return <span>Chưa Cập Nhật</span>;
+    }
+  };
+
+  const customDot = (dot, { status, index }) => (
+    <Popover content={getPopoverContent(status, index)}>{dot}</Popover>
+  );
   async function fetchProductWarranty(productID) {
     try {
       const response = await api.get(`warranty/productId=${productID}`);
@@ -318,6 +374,9 @@ const TrackingPage = () => {
                   <h1 className="order-canceled-title">
                     Đơn hàng này đã bị hủy
                   </h1>
+                  <h3 className="order-canceled-title">
+                    {/* Lý Do: {orderDetail.reason} */}
+                  </h3>
                   <p className="order-canceled-message">
                     Rất tiếc, đơn hàng của bạn đã bị hủy. Vui lòng liên hệ với
                     chúng tôi nếu bạn có bất kỳ câu hỏi hoặc thắc mắc nào.
@@ -356,10 +415,17 @@ const TrackingPage = () => {
                       <span className="tracking-separator">
                         Trạng thái: {getStatus(orderDetail.orderStatus)}
                       </span>
-                      <span className="tracking-separator">
-                        Nhận hàng vào ngày:{" "}
-                        {formatDate(orderDetail.shippingDate)}
-                      </span>
+                      {orderDetail.deliveryDate ? (
+                        <>
+                          {" "}
+                          <span className="tracking-separator">
+                            Nhận hàng vào ngày:{" "}
+                            {formatDate(orderDetail.deliveryDate)}
+                          </span>
+                        </>
+                      ) : (
+                        <></>
+                      )}
                     </span>
                     <hr />
                     <h5>Hành trình đơn hàng</h5>
