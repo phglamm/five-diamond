@@ -1,18 +1,28 @@
 import SideBar from "../../../components/SideBar/SideBar";
-import { Button, Image, Table } from "antd";
+import { Button, DatePicker, Image, Table } from "antd";
 import { useEffect, useState } from "react";
 import "../../AdminDashboard/AdminPage.css";
 
 import api from "../../../config/axios";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 export default function AdminOrder() {
-  const [order, setOrder] = useState([]);
+  const { RangePicker } = DatePicker;
+  const [orders, setOrders] = useState([]);
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [filterStatus, setFilterStatus] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedRange, setSelectedRange] = useState([null, null]);
 
   async function fetchOrder() {
-    const response = await api.get("order/all");
-    setOrder(response.data);
-    console.log(response.data);
+    try {
+      const response = await api.get("order/all");
+      setOrders(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
   }
 
   useEffect(() => {
@@ -22,6 +32,42 @@ export default function AdminOrder() {
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
   };
+
+  const handleFilterChange = (status) => {
+    setFilterStatus(status);
+  };
+
+  const handleDateChange = (dates) => {
+    setSelectedRange(dates);
+  };
+
+  async function filterOrdersByRange(orders, selectedRange) {
+    try {
+      if (selectedRange && selectedRange.length === 2 && selectedRange[0] && selectedRange[1]) {
+        const startDate = moment(selectedRange[0].$d);
+        const endDate = moment(selectedRange[1].$d);
+
+        const filteredOrders = orders.filter((order) => {
+          const orderDate = moment(order.orderDate);
+          return orderDate.isBetween(startDate, endDate, null, '[]');
+        });
+
+        return filteredOrders;
+      }
+      return orders;
+    } catch (error) {
+      console.error("Error filtering orders by range:", error);
+      return [];
+    }
+  }
+
+  useEffect(() => {
+    async function updateFilteredOrders() {
+      const validOrders = await filterOrdersByRange(orders, selectedRange);
+      setFilteredOrders(validOrders);
+    }
+    updateFilteredOrders();
+  }, [orders, selectedRange]);
 
   const columns = [
     {
@@ -62,22 +108,17 @@ export default function AdminOrder() {
       dataIndex: "orderStatus",
       key: "orderStatus",
       render: (value) => {
-        if (value === "PENDING") {
-          return "Đặt Hàng";
-        } else if (value === "CONFIRMED") {
-          return "Xác nhận đơn hàng"; // Example for completed status
-        } else if (value === "PROCESSING") {
-          return "Đang xử lý"; // Example for canceled status
-        } else if (value === "SHIPPED") {
-          return "Đang giao hàng"; // Example for canceled status
-        } else if (value === "DELIVERED") {
-          return "Đã giao hàng"; // Example for canceled status
-        } else if (value === "CANCELED") {
-          return "Đã bị hủy"; // Example for canceled status
-        }
+        const statusMap = {
+          PENDING: "Đặt Hàng",
+          CONFIRMED: "Xác nhận đơn hàng",
+          PROCESSING: "Đang xử lý",
+          SHIPPED: "Đang giao hàng",
+          DELIVERED: "Đã giao hàng",
+          CANCELED: "Đã bị hủy",
+        };
+        return statusMap[value] || value;
       },
     },
-
     {
       title: "Xem đơn hàng",
       key: "view-order",
@@ -92,92 +133,53 @@ export default function AdminOrder() {
       key: "imgURL",
       render: (text, record) => {
         if (record.orderStatus === "DELIVERED") {
-          return (
-            <>
-              <Image
-                src={record.imgConfirmUrl}
-                style={{ width: "150px" }}
-              ></Image>
-            </>
-          );
+          return <Image src={record.imgConfirmUrl} style={{ width: "150px" }} />;
         } else {
-          return (
-            <>
-              <p>Đơn hàng chưa được hoàn tất</p>
-            </>
-          );
+          return <p>Đơn hàng chưa được hoàn tất</p>;
         }
       },
     },
   ];
-  const [filterStatus, setFilterStatus] = useState(null);
-  const handleFilterChange = (status) => {
-    setFilterStatus(status);
-  };
-  const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredOrders = order.filter((ord) => {
-    const matchesStatus =
-      filterStatus === null || ord.orderStatus === filterStatus;
-    const matchesSearchTerm = ord.id
-      .toString()
-      .includes(searchTerm.toLowerCase());
+  const filteredAndSearchedOrders = filteredOrders.filter((ord) => {
+    const matchesStatus = filterStatus === null || ord.orderStatus === filterStatus;
+    const matchesSearchTerm = ord.id.toString().includes(searchTerm.toLowerCase());
     return matchesStatus && matchesSearchTerm;
   });
+
   return (
     <div className="Admin">
-      <SideBar></SideBar>
+      <SideBar />
 
       <div className="admin-content">
         <div className="data-table">
           <h1>Quản Lý Đơn Hàng</h1>
-
+          <RangePicker onChange={handleDateChange} />
           <div className="delivery-staff-filter-buttons-admin">
-            <Button
-              type={filterStatus === null ? "primary" : ""}
-              onClick={() => handleFilterChange(null)}
-            >
+            <Button type={filterStatus === null ? "primary" : ""} onClick={() => handleFilterChange(null)}>
               Tất cả
             </Button>
-            <Button
-              type={filterStatus === "PENDING" ? "primary" : ""}
-              onClick={() => handleFilterChange("PENDING")}
-            >
+            <Button type={filterStatus === "PENDING" ? "primary" : ""} onClick={() => handleFilterChange("PENDING")}>
               Đã đặt hàng
             </Button>
-            <Button
-              type={filterStatus === "CONFIRMED" ? "primary" : ""}
-              onClick={() => handleFilterChange("CONFIRMED")}
-            >
+            <Button type={filterStatus === "CONFIRMED" ? "primary" : ""} onClick={() => handleFilterChange("CONFIRMED")}>
               Đã xác nhận
             </Button>
-            <Button
-              type={filterStatus === "PROCESSING" ? "primary" : ""}
-              onClick={() => handleFilterChange("PROCESSING")}
-            >
+            <Button type={filterStatus === "PROCESSING" ? "primary" : ""} onClick={() => handleFilterChange("PROCESSING")}>
               Đang chuẩn bị hàng
             </Button>
-            <Button
-              type={filterStatus === "SHIPPED" ? "primary" : ""}
-              onClick={() => handleFilterChange("SHIPPED")}
-            >
+            <Button type={filterStatus === "SHIPPED" ? "primary" : ""} onClick={() => handleFilterChange("SHIPPED")}>
               Đang vận chuyển
             </Button>
-            <Button
-              type={filterStatus === "DELIVERED" ? "primary" : ""}
-              onClick={() => handleFilterChange("DELIVERED")}
-            >
+            <Button type={filterStatus === "DELIVERED" ? "primary" : ""} onClick={() => handleFilterChange("DELIVERED")}>
               Đã giao hàng
             </Button>
-            <Button
-              type={filterStatus === "CANCELED" ? "primary" : ""}
-              onClick={() => handleFilterChange("CANCELED")}
-            >
+            <Button type={filterStatus === "CANCELED" ? "primary" : ""} onClick={() => handleFilterChange("CANCELED")}>
               Đã bị hủy
             </Button>
           </div>
           <Table
-            dataSource={filteredOrders}
+            dataSource={filteredAndSearchedOrders}
             columns={columns}
             onChange={onChange}
             pagination={{ pageSize: 5 }}
