@@ -326,6 +326,8 @@ function SaleStaffPage() {
               dataIndex: "orderDate",
               key: "orderDate",
               render: (text) => moment(text).format("DD-MM-YYYY"),
+              sorter: (a, b) => moment(a.orderDate).unix() - moment(b.orderDate).unix(), // Added sorter
+
             },
             {
               title: "Số điện thoại",
