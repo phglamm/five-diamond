@@ -408,7 +408,6 @@ export default function CheckOut() {
                   <h6>Giảm giá thành viên: 10% bậc {user.rankingMember} </h6>
                 )}
                 {applyDiscount && <h6>Giảm giá Voucher: {applyDiscount}% </h6>}
-
                 <h6>
                   Số tiền đã giảm:{" "}
                   <span style={{ color: "red" }}>

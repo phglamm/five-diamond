@@ -135,7 +135,7 @@ h4 {
   white-space: nowrap;
 }
 
-.box > div {
+.box>div {
   display: flex;
   align-items: center;
 }
@@ -218,13 +218,15 @@ Button.custom-listgroup-item:hover {
 button.btn-secondary {
   background-color: #38a9b8;
   border-color: #38a9b8;
-  color: white; /* Ensure the text is white */
+  color: white;
+  /* Ensure the text is white */
   font-size: 12px;
   font-weight: bold;
 }
 
 button.btn-secondary:hover {
-  background-color: #38a9b8; /* Slightly darker blue for hover state */
+  background-color: #38a9b8;
+  /* Slightly darker blue for hover state */
 }
 
 * {
@@ -331,7 +333,7 @@ button.btn-secondary:hover {
 }
 
 .content h1 span {
-  margin-left:3px;
+  margin-left: 3px;
   font-size: 18px;
   font-weight: bold;
 
