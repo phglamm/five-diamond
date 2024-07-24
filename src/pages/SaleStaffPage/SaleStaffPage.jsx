@@ -35,9 +35,9 @@ function SaleStaffPage() {
           )
         );
         setOrder(filteredOrders);
-        console.log(response.data);
+        // console.log(response.data);
       } catch (error) {
-        console.log(error.response.data);
+        // console.log(error.response.data);
       }
     }
     fetchOrder();
@@ -58,7 +58,7 @@ function SaleStaffPage() {
       const response = await api.put(`/order/${orderId}&${user.id}`, {
         orderStatus: newStatus,
       });
-      console.log(response);
+      // console.log(response);
       toast.success("Cập nhật thành công");
       setOrder((prevOrders) =>
         prevOrders.map((order) =>
@@ -72,10 +72,10 @@ function SaleStaffPage() {
 
   const handleCancelOrder = async (values) => {
     const { orderId, reason } = values;
-    console.log(reason);
-    console.log(orderId);
+    // console.log(reason);
+    // console.log(orderId);
     const cancleStatus = "CANCELED";
-    console.log(cancleStatus);
+    // console.log(cancleStatus);
     Modal.confirm({
       title: "Bạn có chắc muốn hủy đơn hàng này ?",
       okText: "Hủy đơn hàng",
@@ -85,11 +85,11 @@ function SaleStaffPage() {
           const responseStatus = await api.put(`/order/${orderId}&${user.id}`, {
             orderStatus: cancleStatus,
           });
-          console.log(responseStatus);
+          // console.log(responseStatus);
           const response = await api.put(`/order/cancel/${orderId}`, {
             canceledNote: reason,
           });
-          console.log(response);
+          // console.log(response);
           toast.success("Cập nhật thành công");
           setOrder((prevOrders) =>
             prevOrders.map((order) =>
@@ -142,7 +142,7 @@ function SaleStaffPage() {
   }
 
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -159,8 +159,8 @@ function SaleStaffPage() {
       return;
     }
     try {
-      console.log(selectedOrder);
-      console.log(selectedStaff);
+      // console.log(selectedOrder);
+      // console.log(selectedStaff);
 
       const response = await api.put(
         `/order/${selectedOrder}&${selectedStaff}`,
@@ -168,7 +168,7 @@ function SaleStaffPage() {
           orderStatus: "PROCESSING",
         }
       );
-      console.log(response.data);
+      // console.log(response.data);
 
       toast.success("Chuyển đơn hàng qua Shipper");
       setOrder((prevOrders) =>
@@ -326,6 +326,8 @@ function SaleStaffPage() {
               dataIndex: "orderDate",
               key: "orderDate",
               render: (text) => moment(text).format("DD-MM-YYYY"),
+              sorter: (a, b) => moment(a.orderDate).unix() - moment(b.orderDate).unix(), // Added sorter
+
             },
             {
               title: "Số điện thoại",

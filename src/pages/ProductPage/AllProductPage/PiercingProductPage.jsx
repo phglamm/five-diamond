@@ -44,7 +44,7 @@ export default function PiercingProductPage() {
       );
       setProduct(PiercingProducts);
       setFilteredProducts(PiercingProducts);
-      console.log(PiercingProducts);
+      // console.log(PiercingProducts);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -124,7 +124,14 @@ export default function PiercingProductPage() {
 
         <Row>
           {paginatedProducts.map((item, index) => (
-            <Col key={index} xs={12} sm={6} md={4} lg={3} className="product-card-item">
+            <Col
+              key={index}
+              xs={12}
+              sm={6}
+              md={4}
+              lg={3}
+              className="product-card-item"
+            >
               <ProductCard
                 img={item.imgURL}
                 text={item.name}

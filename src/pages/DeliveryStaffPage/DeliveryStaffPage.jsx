@@ -29,7 +29,7 @@ function DeliveryStaffPage() {
   const [order, setOrder] = useState([]);
   const [images, setImages] = useState({});
   const user = useSelector(selectUser);
-  console.log(user.id);
+  // console.log(user.id);
   const [formCancleOrder] = useForm();
 
   const handleClickCancleSubmit = () => {
@@ -45,9 +45,9 @@ function DeliveryStaffPage() {
       );
 
       setOrder(filteredOrders);
-      console.log(filteredOrders);
+      // console.log(filteredOrders);
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   }
   useEffect(() => {
@@ -59,7 +59,7 @@ function DeliveryStaffPage() {
       const response = await api.put(`/order/${orderId}&${user.id}`, {
         orderStatus: newStatus,
       });
-      console.log(response.data);
+      // console.log(response.data);
       toast.success("Cập nhật thành công");
       setOrder((prevOrders) =>
         prevOrders.map((order) =>
@@ -67,7 +67,7 @@ function DeliveryStaffPage() {
         )
       );
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
       toast.error("Cập nhật thất bại");
     }
   };
@@ -78,17 +78,17 @@ function DeliveryStaffPage() {
     } else {
       imgURL = null;
     }
-    console.log(imgURL);
-    console.log(newStatus);
+    // console.log(imgURL);
+    // console.log(newStatus);
     try {
       const responseStatus = await api.put(`/order/${orderId}&${user.id}`, {
         orderStatus: newStatus,
       });
-      console.log(responseStatus.data);
+      // console.log(responseStatus.data);
       const response = await api.put(`/order/confirm/${orderId}`, {
         imgConfirmUrl: imgURL,
       });
-      console.log(response.data);
+      // console.log(response.data);
       toast.success("Cập nhật thành công");
       setOrder((prevOrders) =>
         prevOrders.map((order) =>
@@ -103,7 +103,7 @@ function DeliveryStaffPage() {
         return newImages;
       });
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
       toast.error("Cập nhật thất bại");
     }
   };
@@ -156,7 +156,7 @@ function DeliveryStaffPage() {
   };
 
   const handleCannotContactOrder = async (values) => {
-    console.log(values);
+    // console.log(values);
     Modal.confirm({
       title: "Bạn có chắc cập nhật lý do của đơn hàng này ?",
       okText: "Cập nhật đơn hàng",
@@ -167,7 +167,7 @@ function DeliveryStaffPage() {
             `/order/cannot-contact/${values.orderId}`,
             values
           );
-          console.log(response.data);
+          // console.log(response.data);
           toast.success("Cập nhật thành công");
           fetchOrder();
         } catch (error) {

@@ -15,6 +15,7 @@ import api from "../../config/axios";
 import dayjs from "dayjs";
 import { EditOutlined, LockOutlined, FormOutlined } from "@ant-design/icons";
 import { useForm } from "antd/es/form/Form";
+import { toast, ToastContainer } from "react-toastify";
 import { Container } from "react-bootstrap";
 
 function ProfilePage() {
@@ -64,19 +65,20 @@ function ProfilePage() {
   }
 
   const handleUpdateProfile = async (value) => {
-    console.log(value);
+    // console.log(value);
     try {
       const response = await api.put(`/user/${user.id}`, value);
-      console.log(response.data);
+      // console.log(response.data);
       dispatch(login(response.data));
       setVisible(false);
       form.resetFields();
+      toast.success("Cập nhật thông tin thành công");
     } catch (error) {
-      console.error("Error updating user:", error);
+      toast.error("Cập nhật thông tin thất bại");
     }
   };
   const dateOnChange = (date, dateString) => {
-    console.log(date, dateString);
+    // console.log(date, dateString);
   };
 
   function formatDate(dateString) {
@@ -90,6 +92,22 @@ function ProfilePage() {
   // Utility function to get default field value
   function getDefaultFieldValue(field, placeholder) {
     return user && user[field] ? user[field] : placeholder;
+  }
+
+  // Function to map rank values to Vietnamese terms
+  function getRankingMember(rank) {
+    switch (rank) {
+      case "BRONZE":
+        return "Đồng";
+      case "SILVER":
+        return "Bạc";
+      case "GOLD":
+        return "Vàng";
+      case "PLATINUM":
+        return "Bạch kim";
+      default:
+        return "Chưa xác định";
+    }
   }
 
   const fullName = [user.firstname, user.lastname].filter(Boolean).join(" ");
@@ -115,9 +133,9 @@ function ProfilePage() {
                 />
               )}
 
-              <button className="update-img-btn" onClick={handleUpdateClick}>
+              {/* <button className="update-img-btn" onClick={handleUpdateClick}>
                 <EditOutlined />
-              </button>
+              </button> */}
             </div>
           </div>
 
@@ -153,8 +171,8 @@ function ProfilePage() {
                     {user.gender === "MALE"
                       ? "Nam"
                       : user.gender === "FEMALE"
-                      ? "Nữ"
-                      : "Khác"}
+                        ? "Nữ"
+                        : "Khác"}
                   </div>
                 </div>
                 <div className="info-box">
@@ -181,9 +199,19 @@ function ProfilePage() {
                 </div>
 
                 <div className="info-box">
-                  <p>Reward point</p>
-                  <div className="info-value">{user.rewardPoint}</div>
+                  <p>Hạng thành viên</p>
+                  <div className="info-value">
+                    {getRankingMember(user.rankingMember)}
+                  </div>
                 </div>
+
+                <div className="info-box">
+                  <p>Điểm thưởng</p>
+                  <div className="info-value">
+                    {user.rewardPoint.toLocaleString()}
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>

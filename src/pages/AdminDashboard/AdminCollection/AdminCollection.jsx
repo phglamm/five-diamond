@@ -58,26 +58,26 @@ export default function AdminCollection() {
   };
 
   const AddCollection = async (value) => {
-    console.log(value);
+    // console.log(value);
     try {
       value.productLineIds = checkedList;
       const imgURL = await uploadFile(img);
       value.imgURL = imgURL;
-      console.log(value);
+      // console.log(value);
       const response = await api.post("collection", value);
-      console.log(response.data);
+      // console.log(response.data);
       toast.success("Thêm Bộ Sưu Tập thành công");
       fetchCollection();
       form.resetFields();
       setCheckedList([]);
     } catch (error) {
       toast.error("Đã có lỗi trong lúc thêm Bộ Sưu Tập");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   };
 
   const deleteCollection = async (values) => {
-    console.log(values.id);
+    // console.log(values.id);
     try {
       Modal.confirm({
         title: "Bạn có chắc muốn xóa BST này ?",
@@ -94,12 +94,12 @@ export default function AdminCollection() {
       fetchCollection();
     } catch (error) {
       toast.error("Đã có lỗi trong lúc Xóa");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   };
 
   const updateCollection = async (values) => {
-    console.log(values);
+    // console.log(values);
 
     try {
       if (imgUpdate) {
@@ -111,9 +111,9 @@ export default function AdminCollection() {
       const dataUpdate = {
         ...newData,
       };
-      console.log(dataUpdate);
+      // console.log(dataUpdate);
       const response = await api.put(`collection/${values.id}`, dataUpdate);
-      console.log(response);
+      // console.log(response);
       setIsModalUpdateOpen(false);
       toast.success("Chỉnh sửa thành công");
       fetchCollection();
@@ -121,7 +121,7 @@ export default function AdminCollection() {
       formUpdate.resetFields();
     } catch (error) {
       toast.error("chỉnh sửa thất bại, có lỗi");
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   };
 

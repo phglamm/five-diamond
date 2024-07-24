@@ -50,251 +50,254 @@ import AdminOrderDetail from "../pages/AdminDashboard/AdminManageOrder/AdminOrde
 import SaleStaffCancleOrderPage from "../pages/SaleStaffPage/SaleStaffCancleOrder";
 import AdminGoldPrice from "../pages/AdminDashboard/AdminGoldPrice/AdminGoldPrice";
 import AdminSubPrice from "../pages/AdminDashboard/AdminSubPrice/AdminSubPrice";
+import ScrollToTop from "./ScrollToTop";
 
 export default function AppRoute() {
   return (
-    <Routes>
-      <Route path={routes.home} element={<GuestPage />} />
-      <Route path={routes.login} element={<LoginPageCard />} />
-      <Route path={routes.register} element={<RegisterPageCard />} />
-      <Route path={routes.forgot} element={<ForgotPasswordPage />} />
-      <Route path={routes.changePassword} element={<ChangePasswordPage />} />
-      <Route path={routes.faq} element={<FAQPage />} />
-      <Route path={routes.size} element={<SizePage />} />
-      <Route path={routes.bst} element={<CollectionPage />} />
-      <Route path={routes.blog} element={<Blog />} />
-      <Route path={routes.sale} element={<SaleEventPage />} />
-      <Route path={routes.diamondprice} element={<DiamondPricePage />} />
-      {/* <Route path={routes.bstset1} element={<CollectionSet1 />} />
+    <ScrollToTop>
+      <Routes>
+        <Route path={routes.home} element={<GuestPage />} />
+        <Route path={routes.login} element={<LoginPageCard />} />
+        <Route path={routes.register} element={<RegisterPageCard />} />
+        <Route path={routes.forgot} element={<ForgotPasswordPage />} />
+        <Route path={routes.changePassword} element={<ChangePasswordPage />} />
+        <Route path={routes.faq} element={<FAQPage />} />
+        <Route path={routes.size} element={<SizePage />} />
+        <Route path={routes.bst} element={<CollectionPage />} />
+        <Route path={routes.blog} element={<Blog />} />
+        <Route path={routes.sale} element={<SaleEventPage />} />
+        <Route path={routes.diamondprice} element={<DiamondPricePage />} />
+        {/* <Route path={routes.bstset1} element={<CollectionSet1 />} />
       <Route path={routes.bstset2} element={<CollectionSet2 />} />
       <Route path={routes.bstset3} element={<CollectionSet3 />} /> */}
-      <Route
-        path={routes.profile}
-        element={
-          <ProtectedRoute roles={["CUSTOMER"]}>
-            <ProfilePage />
-          </ProtectedRoute>
-        }
-      />
-      <Route path={routes.about} element={<AboutPage />} />
-      <Route path={routes.chain} element={<ChainSizePage />} />
-      <Route path={routes.kienthuc} element={<DiamondKnowledgePage />} />
-      <Route path={routes.accessoryInfor} element={<AccessoryInfor />} />
-      <Route path={routes.warrantyPolicy} element={<WarrantyPolicyPage />} />
-      <Route
-        path={routes.adminDiamond}
-        element={
-          <ProtectedRoute roles={["MANAGER"]}>
-            <AdminDiamond />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path={routes.adminsale}
-        element={
-          <ProtectedRoute roles={["MANAGER"]}>
-            <AdminSaleEvent />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path={routes.adminchart}
-        element={
-          <ProtectedRoute roles={["MANAGER", "ADMIN"]}>
-            <AdminChart />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path={routes.adminstatistics}
-        element={
-          <ProtectedRoute roles={["MANAGER", "ADMIN"]}>
-            <AdminStatistics />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path={routes.adminCover}
-        element={
-          <ProtectedRoute roles={["MANAGER"]}>
-            <AdminCover />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path={routes.adminCategory}
-        element={
-          <ProtectedRoute roles={["MANAGER"]}>
-            <AdminCategory />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path={routes.adminCertificate}
-        element={
-          <ProtectedRoute roles={["MANAGER"]}>
-            <AdminCertificate />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path={routes.adminDiamondPrice}
-        element={
-          <ProtectedRoute roles={["MANAGER"]}>
-            <AdminDiamondPrice />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path={routes.adminUser}
-        element={
-          <ProtectedRoute roles={["MANAGER", "ADMIN"]}>
-            <AdminUser />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path={routes.adminmanageorder}
-        element={
-          <ProtectedRoute roles={["MANAGER"]}>
-            <AdminOrder />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path={routes.adminbst}
-        element={
-          <ProtectedRoute roles={["MANAGER"]}>
-            <AdminCollection />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path={routes.goldprice}
-        element={
-          <ProtectedRoute roles={["MANAGER"]}>
-            <AdminGoldPrice />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path={routes.subprice}
-        element={
-          <ProtectedRoute roles={["MANAGER"]}>
-            <AdminSubPrice />
-          </ProtectedRoute>
-        }
-      />
-      <Route path={routes.notfound} element={<ErrorPage />} />
-      <Route
-        path={routes.cart}
-        element={
-          <ProtectedRoute roles={["CUSTOMER"]}>
-            <CartPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path={routes.checkout}
-        element={
-          <ProtectedRoute roles={["CUSTOMER"]}>
-            <CheckOut />
-          </ProtectedRoute>
-        }
-      />
-      <Route path={routes.productdetail} element={<ProductPage />} />
-      <Route path={`${routes.productdetail}/:id`} element={<ProductPage />} />
+        <Route
+          path={routes.profile}
+          element={
+            <ProtectedRoute roles={["CUSTOMER"]}>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path={routes.about} element={<AboutPage />} />
+        <Route path={routes.chain} element={<ChainSizePage />} />
+        <Route path={routes.kienthuc} element={<DiamondKnowledgePage />} />
+        <Route path={routes.accessoryInfor} element={<AccessoryInfor />} />
+        <Route path={routes.warrantyPolicy} element={<WarrantyPolicyPage />} />
+        <Route
+          path={routes.adminDiamond}
+          element={
+            <ProtectedRoute roles={["MANAGER"]}>
+              <AdminDiamond />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.adminsale}
+          element={
+            <ProtectedRoute roles={["MANAGER"]}>
+              <AdminSaleEvent />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.adminchart}
+          element={
+            <ProtectedRoute roles={["MANAGER", "ADMIN"]}>
+              <AdminChart />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.adminstatistics}
+          element={
+            <ProtectedRoute roles={["MANAGER", "ADMIN"]}>
+              <AdminStatistics />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.adminCover}
+          element={
+            <ProtectedRoute roles={["MANAGER"]}>
+              <AdminCover />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.adminCategory}
+          element={
+            <ProtectedRoute roles={["MANAGER"]}>
+              <AdminCategory />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.adminCertificate}
+          element={
+            <ProtectedRoute roles={["MANAGER"]}>
+              <AdminCertificate />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.adminDiamondPrice}
+          element={
+            <ProtectedRoute roles={["MANAGER"]}>
+              <AdminDiamondPrice />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.adminUser}
+          element={
+            <ProtectedRoute roles={["MANAGER", "ADMIN"]}>
+              <AdminUser />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.adminmanageorder}
+          element={
+            <ProtectedRoute roles={["MANAGER"]}>
+              <AdminOrder />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.adminbst}
+          element={
+            <ProtectedRoute roles={["MANAGER"]}>
+              <AdminCollection />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.goldprice}
+          element={
+            <ProtectedRoute roles={["MANAGER"]}>
+              <AdminGoldPrice />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.subprice}
+          element={
+            <ProtectedRoute roles={["MANAGER"]}>
+              <AdminSubPrice />
+            </ProtectedRoute>
+          }
+        />
+        <Route path={routes.notfound} element={<ErrorPage />} />
+        <Route
+          path={routes.cart}
+          element={
+            <ProtectedRoute roles={["CUSTOMER"]}>
+              <CartPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.checkout}
+          element={
+            <ProtectedRoute roles={["CUSTOMER"]}>
+              <CheckOut />
+            </ProtectedRoute>
+          }
+        />
+        <Route path={routes.productdetail} element={<ProductPage />} />
+        <Route path={`${routes.productdetail}/:id`} element={<ProductPage />} />
 
-      <Route path={routes.saleEvent} element={<SaleEventPage />} />
-      <Route path={routes.saleProduct} element={<SaleProductPage />} />
-      <Route path={routes.vongco} element={<NecklaceProductPage />} />
-      <Route path={routes.vongtay} element={<CuffProductPage />} />
-      <Route path={routes.nhan} element={<ProductRing />} />
-      <Route path={routes.khuyentai} element={<PiercingProductPage />} />
+        <Route path={routes.saleEvent} element={<SaleEventPage />} />
+        <Route path={routes.saleProduct} element={<SaleProductPage />} />
+        <Route path={routes.vongco} element={<NecklaceProductPage />} />
+        <Route path={routes.vongtay} element={<CuffProductPage />} />
+        <Route path={routes.nhan} element={<ProductRing />} />
+        <Route path={routes.khuyentai} element={<PiercingProductPage />} />
 
-      <Route
-        path={routes.tracking}
-        element={
-          <ProtectedRoute
-            roles={["CUSTOMER", "MANAGER", "ADMIN", "SALES", "DELIVERY"]}
-          >
-            <TrackingPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path={routes.successpayment}
-        element={
-          <ProtectedRoute roles={["CUSTOMER"]}>
-            <PaymentSuccess />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path={routes.failpayment}
-        element={
-          <ProtectedRoute roles={["CUSTOMER"]}>
-            <PaymentFail />{" "}
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path={routes.tracking}
+          element={
+            <ProtectedRoute
+              roles={["CUSTOMER", "MANAGER", "ADMIN", "SALES", "DELIVERY"]}
+            >
+              <TrackingPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.successpayment}
+          element={
+            <ProtectedRoute roles={["CUSTOMER"]}>
+              <PaymentSuccess />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.failpayment}
+          element={
+            <ProtectedRoute roles={["CUSTOMER"]}>
+              <PaymentFail />{" "}
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path={`${routes.tracking}/:id`}
-        element={
-          <ProtectedRoute
-            roles={["CUSTOMER", "MANAGER", "ADMIN", "SALES", "DELIVERY"]}
-          >
-            <TrackingPage />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path={`${routes.tracking}/:id`}
+          element={
+            <ProtectedRoute
+              roles={["CUSTOMER", "MANAGER", "ADMIN", "SALES", "DELIVERY"]}
+            >
+              <TrackingPage />
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path={routes.saleStaff}
-        element={
-          <ProtectedRoute roles={["SALES"]}>
-            <SaleStaffPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path={routes.saleStaffCancleOrder}
-        element={
-          <ProtectedRoute roles={["SALES"]}>
-            <SaleStaffCancleOrderPage />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path={routes.saleStaff}
+          element={
+            <ProtectedRoute roles={["SALES"]}>
+              <SaleStaffPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.saleStaffCancleOrder}
+          element={
+            <ProtectedRoute roles={["SALES"]}>
+              <SaleStaffCancleOrderPage />
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path={routes.deliveryStaff}
-        element={
-          <ProtectedRoute roles={["DELIVERY"]}>
-            <DeliveryStaffPage />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path={routes.deliveryStaff}
+          element={
+            <ProtectedRoute roles={["DELIVERY"]}>
+              <DeliveryStaffPage />
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path={routes.orderhistory}
-        element={
-          <ProtectedRoute roles={["CUSTOMER"]}>
-            <OrderHistoryUser />
-          </ProtectedRoute>
-        }
-      />
-      <Route path={`${routes.bst}/:id`} element={<CollectionDetail />} />
-      <Route path={routes.timkiemsanpham} element={<SearchProduct />} />
+        <Route
+          path={routes.orderhistory}
+          element={
+            <ProtectedRoute roles={["CUSTOMER"]}>
+              <OrderHistoryUser />
+            </ProtectedRoute>
+          }
+        />
+        <Route path={`${routes.bst}/:id`} element={<CollectionDetail />} />
+        <Route path={routes.timkiemsanpham} element={<SearchProduct />} />
 
-      <Route
-        path={`adminOrderDetail/:id`}
-        element={
-          <ProtectedRoute roles={["MANAGER", "ADMIN"]}>
-            <AdminOrderDetail />{" "}
-          </ProtectedRoute>
-        }
-      />
-    </Routes>
+        <Route
+          path={`adminOrderDetail/:id`}
+          element={
+            <ProtectedRoute roles={["MANAGER", "ADMIN"]}>
+              <AdminOrderDetail />{" "}
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </ScrollToTop>
   );
 }

@@ -30,7 +30,7 @@ export default function AdminOrder() {
   }, []);
 
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
 
   const handleFilterChange = (status) => {
@@ -43,13 +43,18 @@ export default function AdminOrder() {
 
   async function filterOrdersByRange(orders, selectedRange) {
     try {
-      if (selectedRange && selectedRange.length === 2 && selectedRange[0] && selectedRange[1]) {
+      if (
+        selectedRange &&
+        selectedRange.length === 2 &&
+        selectedRange[0] &&
+        selectedRange[1]
+      ) {
         const startDate = moment(selectedRange[0].$d);
         const endDate = moment(selectedRange[1].$d);
 
         const filteredOrders = orders.filter((order) => {
           const orderDate = moment(order.orderDate);
-          return orderDate.isBetween(startDate, endDate, null, '[]');
+          return orderDate.isBetween(startDate, endDate, null, "[]");
         });
 
         return filteredOrders;
@@ -104,6 +109,12 @@ export default function AdminOrder() {
       render: (value) => value.toLocaleString() + " đ",
     },
     {
+      title: "Ngày Đặt Hàng",
+      dataIndex: "orderDate",
+      key: "orderDate",
+      render: (text, record) => moment(record.orderDate).format("DD-MM-YYYY"),
+    },
+    {
       title: "Tình trạng",
       dataIndex: "orderStatus",
       key: "orderStatus",
@@ -133,7 +144,9 @@ export default function AdminOrder() {
       key: "imgURL",
       render: (text, record) => {
         if (record.orderStatus === "DELIVERED") {
-          return <Image src={record.imgConfirmUrl} style={{ width: "150px" }} />;
+          return (
+            <Image src={record.imgConfirmUrl} style={{ width: "150px" }} />
+          );
         } else {
           return <p>Đơn hàng chưa được hoàn tất</p>;
         }
@@ -142,8 +155,11 @@ export default function AdminOrder() {
   ];
 
   const filteredAndSearchedOrders = filteredOrders.filter((ord) => {
-    const matchesStatus = filterStatus === null || ord.orderStatus === filterStatus;
-    const matchesSearchTerm = ord.id.toString().includes(searchTerm.toLowerCase());
+    const matchesStatus =
+      filterStatus === null || ord.orderStatus === filterStatus;
+    const matchesSearchTerm = ord.id
+      .toString()
+      .includes(searchTerm.toLowerCase());
     return matchesStatus && matchesSearchTerm;
   });
 
@@ -156,25 +172,46 @@ export default function AdminOrder() {
           <h1>Quản Lý Đơn Hàng</h1>
           <RangePicker onChange={handleDateChange} />
           <div className="delivery-staff-filter-buttons-admin">
-            <Button type={filterStatus === null ? "primary" : ""} onClick={() => handleFilterChange(null)}>
+            <Button
+              type={filterStatus === null ? "primary" : ""}
+              onClick={() => handleFilterChange(null)}
+            >
               Tất cả
             </Button>
-            <Button type={filterStatus === "PENDING" ? "primary" : ""} onClick={() => handleFilterChange("PENDING")}>
+            <Button
+              type={filterStatus === "PENDING" ? "primary" : ""}
+              onClick={() => handleFilterChange("PENDING")}
+            >
               Đã đặt hàng
             </Button>
-            <Button type={filterStatus === "CONFIRMED" ? "primary" : ""} onClick={() => handleFilterChange("CONFIRMED")}>
+            <Button
+              type={filterStatus === "CONFIRMED" ? "primary" : ""}
+              onClick={() => handleFilterChange("CONFIRMED")}
+            >
               Đã xác nhận
             </Button>
-            <Button type={filterStatus === "PROCESSING" ? "primary" : ""} onClick={() => handleFilterChange("PROCESSING")}>
+            <Button
+              type={filterStatus === "PROCESSING" ? "primary" : ""}
+              onClick={() => handleFilterChange("PROCESSING")}
+            >
               Đang chuẩn bị hàng
             </Button>
-            <Button type={filterStatus === "SHIPPED" ? "primary" : ""} onClick={() => handleFilterChange("SHIPPED")}>
+            <Button
+              type={filterStatus === "SHIPPED" ? "primary" : ""}
+              onClick={() => handleFilterChange("SHIPPED")}
+            >
               Đang vận chuyển
             </Button>
-            <Button type={filterStatus === "DELIVERED" ? "primary" : ""} onClick={() => handleFilterChange("DELIVERED")}>
+            <Button
+              type={filterStatus === "DELIVERED" ? "primary" : ""}
+              onClick={() => handleFilterChange("DELIVERED")}
+            >
               Đã giao hàng
             </Button>
-            <Button type={filterStatus === "CANCELED" ? "primary" : ""} onClick={() => handleFilterChange("CANCELED")}>
+            <Button
+              type={filterStatus === "CANCELED" ? "primary" : ""}
+              onClick={() => handleFilterChange("CANCELED")}
+            >
               Đã bị hủy
             </Button>
           </div>

@@ -54,7 +54,8 @@
 }
 
 .update-info-btn .icon {
-  padding-right: 12px;
+  padding-right: 2px;
+  color: #1877F2;
 }
 
 
@@ -73,7 +74,8 @@
 }
 
 .change-password-btn .icon {
-  padding-right: 8px;
+  padding-right: 2px;
+  color: #1877F2;
 }
 
 .update-img-btn {

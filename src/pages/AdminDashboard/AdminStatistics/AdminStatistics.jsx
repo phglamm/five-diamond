@@ -57,14 +57,14 @@ export default function AdminStatistics() {
           <div className="widget-table-item">
             <DollarOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
-              <p>{totalRevenue.toLocaleString()}đ</p>
+              <p>{totalRevenue.toLocaleString()} VND</p>
               <span>Tổng doanh thu của năm</span>
             </div>
           </div>
           <div className="widget-table-item">
             <RiseOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
-              <p>{totalProfit.toLocaleString()}đ</p>
+              <p>{totalProfit.toLocaleString()} VND</p>
               <span>Tổng lợi nhuận của năm</span>
             </div>
           </div>

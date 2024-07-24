@@ -16,15 +16,15 @@
   margin-top: 20px;
 }
 
-.sale-staff-filter-buttons > button {
+.sale-staff-filter-buttons>button {
   border-radius: 0 !important;
 }
 
-.sale-staff-filter-buttons > a > .ant-btn {
+.sale-staff-filter-buttons>a>.ant-btn {
   border-radius: 0 !important;
 }
 
-.sale-staff-filter-buttons > a > .ant-btn:hover {
+.sale-staff-filter-buttons>a>.ant-btn:hover {
   color: red !important;
   border-color: red !important;
 }

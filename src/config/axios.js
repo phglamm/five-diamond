@@ -15,7 +15,7 @@ const handleBefore = (config) => {
 };
 
 const handleError = (error) => {
-  console.log(error);
+  // console.log(error);
   return;
 };
 

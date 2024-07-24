@@ -16,10 +16,13 @@
 
 /*copy-button*/
 .copy-button {
+    margin-top: 0px !important;
     font-size: 12px;
     cursor: pointer;
-    border-radius: 10px;
-    margin-left: auto;
+    height: 16px;
+    border: none !important;
+    background: none;
+    box-shadow: none;
 }
 
 

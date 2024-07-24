@@ -6,27 +6,28 @@ import { Container } from "react-bootstrap";
 import { Button, Table, Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import "./OrderHistoryUser.css";
+import moment from "moment";
 
 export default function OrderHistoryUser() {
   const [order, setOrder] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchOrderUser() {
       try {
         const response = await api.get("order");
         console.log(response.data);
-        setOrder(response.data);
+        const sortNewOrder = response.data.sort((a, b) => b.id - a.id);
+        setOrder(sortNewOrder);
       } catch (error) {
-        console.log(error.response.data);
+        // console.log(error.response.data);
       }
     }
     fetchOrderUser();
   }, []);
 
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
 
   const filteredOrders = order.filter((ord) => {
@@ -54,6 +55,12 @@ export default function OrderHistoryUser() {
       dataIndex: "totalAmount",
       key: "totalAmount",
       render: (text) => text.toLocaleString() + " VND",
+    },
+    {
+      title: "Ngày Đặt Hàng",
+      dataIndex: "orderDate",
+      key: "orderDate",
+      render: (text, record) => moment(record.orderDate).format("DD-MM-YYYY"),
     },
     {
       title: "Tình trạng",

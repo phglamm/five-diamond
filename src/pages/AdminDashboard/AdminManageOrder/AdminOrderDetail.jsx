@@ -1,5 +1,5 @@
 import SideBar from "../../../components/SideBar/SideBar";
-import { Popover, Steps } from "antd";
+import { Button, Modal, Popover, Steps } from "antd";
 import { useEffect, useState } from "react";
 import "../../AdminDashboard/AdminPage.css";
 import "../../TrackingPage/TrackingPage.css";
@@ -10,30 +10,90 @@ import { Card, Col, Container, Form, Row } from "react-bootstrap";
 import { routes } from "../../../routes";
 import { KeyboardReturn } from "@mui/icons-material";
 import { CloseCircleOutlined } from "@ant-design/icons";
+import moment from "moment";
 
-const customDot = (dot, { status, index }) => (
-  <Popover
-    content={
-      <span>
-        Step {index} status: {status}
-      </span>
-    }
-  >
-    {dot}
-  </Popover>
-);
 export default function AdminOrderDetail() {
   const { id } = useParams();
   const [orderDetail, setOrderDetail] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [warranty, setWarranty] = useState(null);
 
+  const getPopoverContent = (status, index) => {
+    switch (index) {
+      case 0:
+        return <span>Đã đặt hàng</span>;
+      case 1:
+        return (
+          <span>
+            {orderDetail.confirmDate ? (
+              <>
+                {" "}
+                Ngày Cập Nhật:{" "}
+                {moment(orderDetail.confirmDate).format("DD-MM-YYYY HH:mm")}
+              </>
+            ) : (
+              <>Chưa Cập Nhật</>
+            )}
+          </span>
+        );
+      case 2:
+        return (
+          <span>
+            {orderDetail.processingDate ? (
+              <>
+                {" "}
+                Ngày Cập Nhật:{" "}
+                {moment(orderDetail.processingDate).format("DD-MM-YYYY HH:mm")}
+              </>
+            ) : (
+              <>Chưa Cập Nhật</>
+            )}
+          </span>
+        );
+      case 3:
+        return (
+          <span>
+            {orderDetail.shippingDate ? (
+              <>
+                {" "}
+                Ngày Cập Nhật:{" "}
+                {moment(orderDetail.shippingDate).format("DD-MM-YYYY HH:mm")}
+              </>
+            ) : (
+              <>Chưa Cập Nhật</>
+            )}
+          </span>
+        );
+      case 4:
+        return (
+          <span>
+            {orderDetail.deliveryDate ? (
+              <>
+                {" "}
+                Ngày Cập Nhật:{" "}
+                {moment(orderDetail.deliveryDate).format("DD-MM-YYYY HH:mm")}
+              </>
+            ) : (
+              <>Chưa Cập Nhật</>
+            )}
+          </span>
+        );
+      default:
+        return <span>Chưa Cập Nhật</span>;
+    }
+  };
+
+  const customDot = (dot, { status, index }) => (
+    <Popover content={getPopoverContent(status, index)}>{dot}</Popover>
+  );
   useEffect(() => {
     async function fetchOrderDetail() {
       try {
         const response = await api.get(`order/${id}`);
         setOrderDetail(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       } catch (error) {
-        console.log(error.response.data);
+        // console.log(error.response.data);
       }
     }
     fetchOrderDetail();
@@ -80,6 +140,26 @@ export default function AdminOrderDetail() {
       default:
         return "Chờ xử lý";
     }
+  };
+  async function fetchProductWarranty(productID) {
+    try {
+      const response = await api.get(`warranty/productId=${productID}`);
+      setWarranty(response.data);
+      // console.log(response.data);
+    } catch (error) {
+      // console.log(error.response.data);
+    }
+  }
+  const showModal = (productID) => {
+    setIsModalOpen(true);
+    fetchProductWarranty(productID);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
   };
   return (
     <div className="Admin">
@@ -164,10 +244,9 @@ export default function AdminOrderDetail() {
               </Col>
               <Col md={4}>
                 <h4>THÔNG TIN ĐƠN HÀNG</h4>
-                {orderDetail.orderItems.map((orderItem) => {
-                  const productLine = orderItem.product.productLine;
-                  const diamond = orderItem.product.diamond;
-
+                {orderDetail.orderItems?.map((orderItem) => {
+                  const productLine = orderItem.product?.productLine;
+                  const diamond = orderItem.product?.diamond;
                   return (
                     <div
                       key={productLine?.id}
@@ -177,23 +256,103 @@ export default function AdminOrderDetail() {
                       <img
                         src={productLine?.imgURL}
                         alt="Product Image"
-                        className="checkout-image-admin"
+                        className="checkout-image"
                       />
                       <div className="order-item-details">
                         <h6>{productLine?.name}</h6>
                         <p>Mã SP: {productLine?.id}</p>
-                        <p>Danh mục: {productLine?.category.name}</p>
+                        <p>Danh mục: {productLine?.category?.name}</p>
                         <p>
                           Giá: {productLine?.finalPrice.toLocaleString()} VNĐ
                         </p>
                         <a href={diamond?.certificate?.fileURL} target="_blank">
                           Chứng Chỉ GIA
                         </a>
+                        <Button
+                          onClick={() => showModal(orderItem.product?.id)}
+                          key={orderItem.product?.id}
+                        >
+                          Giấy Bảo Hành
+                        </Button>
                       </div>
                     </div>
                   );
                 })}
 
+                <Modal
+                  title="Giấy Bảo Hành"
+                  open={isModalOpen}
+                  onOk={handleOk}
+                  onCancel={handleCancel}
+                  className="size-guide-modal warrantyModal"
+                  footer={null}
+                >
+                  <div className="warranty-information">
+                    <div className="warranty-customer">
+                      <p>
+                        {warranty?.account?.lastname}{" "}
+                        {warranty?.account?.firstname}
+                      </p>
+                      <p> {warranty?.account?.phone} </p>
+                      <p> {warranty?.account?.email} </p>
+                      <p>
+                        {" "}
+                        {formatDate(warranty?.orderDate)} đến{" "}
+                        {formatDate(warranty?.expiredDate)}
+                      </p>
+                    </div>
+                    <div className="warranty-logo">
+                      <img
+                        src="https://drive.google.com/thumbnail?id=12VOLpkMHkRGT2KYwpINIizy9sT8O3ilL&sz=w1000"
+                        alt="quality-guarantee-logo"
+                      />
+                    </div>
+                  </div>
+                  <table className="warrantyTable">
+                    <tr>
+                      <th>Mã Sản Phẩm</th>
+                      <th>Mã Dòng Sản Phẩm</th>
+                      <th>Tên Dòng Sản Phẩm</th>
+                      <th>Danh Mục</th>
+                      <th>Chất Liệu</th>
+                      <th>Kim Cương Chính</th>
+                      <th>Nguồn Gốc</th>
+                      <th>Mã Số GIA</th>
+                      <th>Giấy Chứng Chỉ</th>
+                    </tr>
+                    <tr>
+                      <td>{warranty?.product?.id}</td>
+                      <td>{warranty?.product?.productLine?.id}</td>
+                      <td>{warranty?.product?.productLine?.name}</td>
+                      <td>{warranty?.product?.productLine?.category?.name}</td>
+                      <td>Vàng {warranty?.product?.productLine?.karat}</td>
+                      <td>{warranty?.product?.diamond?.shape}</td>
+                      <td>
+                        {warranty?.product?.diamond?.origin === "NATURAL" ? (
+                          <>Tự Nhiên</>
+                        ) : (
+                          <>Nhân Tạo</>
+                        )}
+                      </td>
+                      <td>
+                        {
+                          warranty?.product?.diamond?.certificate
+                            ?.giaReportNumber
+                        }
+                      </td>
+                      <td>
+                        <a
+                          href={
+                            warranty?.product?.diamond?.certificate?.fileURL
+                          }
+                          target="_blank"
+                        >
+                          Chứng Chỉ GIA
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+                </Modal>
                 <h5 style={{ marginTop: "5%" }}>
                   Tổng tiền:{" "}
                   <span style={{ color: "red" }}>

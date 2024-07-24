@@ -8,9 +8,9 @@ import {
   RiseOutlined,
   TruckOutlined,
   UserAddOutlined,
-  MinusCircleOutlined
+  MinusCircleOutlined,
 } from "@ant-design/icons";
-import { DatePicker } from 'antd';
+import { DatePicker } from "antd";
 import moment from "moment";
 import api from "../../../config/axios";
 
@@ -70,13 +70,17 @@ export default function AdminChart() {
     async function fetchOrders() {
       try {
         const orderResponse = await api.get("order/all");
-        const filterOrder = orderResponse.data.filter((item) => item.orderStatus != "CANCELED");
-        const filterCanceledOrder = orderResponse.data.filter((item) => item.orderStatus === "CANCELED");
+        const filterOrder = orderResponse.data.filter(
+          (item) => item.orderStatus != "CANCELED"
+        );
+        const filterCanceledOrder = orderResponse.data.filter(
+          (item) => item.orderStatus === "CANCELED"
+        );
 
         setAllOrders(orderResponse.data);
         setOrders(filterOrder);
         setCanceledOrders(filterCanceledOrder);
-        console.log(filterOrder);
+        // console.log(filterOrder);
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
@@ -86,62 +90,82 @@ export default function AdminChart() {
 
   async function filterOrdersByRange(orders, canceledOrders, selectedRange) {
     try {
-      if (selectedRange && selectedRange.length === 2 && selectedRange[0] && selectedRange[1]) {
+      if (
+        selectedRange &&
+        selectedRange.length === 2 &&
+        selectedRange[0] &&
+        selectedRange[1]
+      ) {
         const startDate = moment(selectedRange[0].$d);
         const endDate = moment(selectedRange[1].$d);
-  
-        const filteredOrders = await Promise.all(orders.map(async (order) => {
-          const orderDate = moment(order.orderDate);
-          if (orderDate.isBetween(startDate, endDate, null, '[]')) {
-            const response = await api.get(`order/${order.id}`);
-            const totalAmount = response.data.totalAmount;
-            return { ...order, totalAmount };
-          }
-          return null;
-        }));
-  
-        const filteredCanceledOrders = await Promise.all(canceledOrders.map(async (order) => {
-          const orderDate = moment(order.orderDate);
-          if (orderDate.isBetween(startDate, endDate, null, '[]') && order.orderStatus === "CANCELED") {
-            return { ...order, canceledCount: 1 }; // Assuming each order is counted once
-          }
-          return null;
-        }));
-  
-        const validOrders = filteredOrders.filter(order => order !== null);
-        const validCanceledOrders = filteredCanceledOrders.filter(order => order !== null);
-  
+
+        const filteredOrders = await Promise.all(
+          orders.map(async (order) => {
+            const orderDate = moment(order.orderDate);
+            if (orderDate.isBetween(startDate, endDate, null, "[]")) {
+              const response = await api.get(`order/${order.id}`);
+              const totalAmount = response.data.totalAmount;
+              return { ...order, totalAmount };
+            }
+            return null;
+          })
+        );
+
+        const filteredCanceledOrders = await Promise.all(
+          canceledOrders.map(async (order) => {
+            const orderDate = moment(order.orderDate);
+            if (
+              orderDate.isBetween(startDate, endDate, null, "[]") &&
+              order.orderStatus === "CANCELED"
+            ) {
+              return { ...order, canceledCount: 1 }; // Assuming each order is counted once
+            }
+            return null;
+          })
+        );
+
+        const validOrders = filteredOrders.filter((order) => order !== null);
+        const validCanceledOrders = filteredCanceledOrders.filter(
+          (order) => order !== null
+        );
+
         return {
           validOrders,
-          validCanceledOrders
+          validCanceledOrders,
         };
       }
-  
+
       return {
         validOrders: [],
-        validCanceledOrders: []
+        validCanceledOrders: [],
       };
     } catch (error) {
       console.error("Error filtering orders by range:", error);
       return {
         validOrders: [],
-        validCanceledOrders: []
+        validCanceledOrders: [],
       };
     }
   }
 
   useEffect(() => {
     async function updateFilteredOrders() {
-      const validOrders = await filterOrdersByRange(orders, canceledOrders, selectedRange);
+      const validOrders = await filterOrdersByRange(
+        orders,
+        canceledOrders,
+        selectedRange
+      );
       setFilteredOrders(validOrders);
     }
     updateFilteredOrders();
   }, [orders, selectedRange]);
 
-
   function calculateTotalRevenue(filteredOrders) {
     try {
-      return filteredOrders.validOrders.reduce((total, order) => total + order.totalAmount, 0);
+      return filteredOrders.validOrders?.reduce(
+        (total, order) => total + order.totalAmount,
+        0
+      );
     } catch (error) {
       console.error("Error calculating total revenue:", error);
       return 0;
@@ -150,9 +174,10 @@ export default function AdminChart() {
 
   function calculateTotalProfit(filteredOrders) {
     try {
-      return filteredOrders.validOrders.reduce((total, order) => {
-        const productLineTotal = order.orderItems.reduce(
-          (sum, item) => sum + item.product.productLine.price, 0
+      return filteredOrders.validOrders?.reduce((total, order) => {
+        const productLineTotal = order.orderItems?.reduce(
+          (sum, item) => sum + item.product.productLine.price,
+          0
         );
         return total + (order.totalAmount - productLineTotal);
       }, 0);
@@ -161,8 +186,6 @@ export default function AdminChart() {
       return 0;
     }
   }
-
-
 
   const totalRevenue = calculateTotalRevenue(filteredOrders);
   const totalProfitValue = calculateTotalProfit(filteredOrders);
@@ -181,7 +204,9 @@ export default function AdminChart() {
       revenueByMonth[monthName] = parseFloat(item.totalRevenue || 0);
       ordersByMonth[monthName] = item.list.length;
       profitByMonth[monthName] = parseFloat(item.totalProfit || 0);
-      canceledOrderByMonth[monthName] = item.list.filter((item) => item.orderStatus === "CANCELED").length;
+      canceledOrderByMonth[monthName] = item.list.filter(
+        (item) => item.orderStatus === "CANCELED"
+      ).length;
     });
 
     accountByMonth.forEach((item) => {
@@ -191,11 +216,22 @@ export default function AdminChart() {
       customerByMonth[monthName] = item.customerQuantity || 0;
     });
 
-    return { revenueByMonth, ordersByMonth, profitByMonth, customerByMonth, canceledOrderByMonth };
+    return {
+      revenueByMonth,
+      ordersByMonth,
+      profitByMonth,
+      customerByMonth,
+      canceledOrderByMonth,
+    };
   }
 
-  const { revenueByMonth, ordersByMonth, profitByMonth, customerByMonth, canceledOrderByMonth } =
-    getMonthlyData(statistics, accountByMonth);
+  const {
+    revenueByMonth,
+    ordersByMonth,
+    profitByMonth,
+    customerByMonth,
+    canceledOrderByMonth,
+  } = getMonthlyData(statistics, accountByMonth);
 
   const labels = [
     "Tháng 1",
@@ -315,21 +351,35 @@ export default function AdminChart() {
       totalQuarterlyCustomers += customerByMonth[monthName] || 0;
     }
 
-    return { totalQuarterlyRevenue, totalQuarterlyProfit, totalQuarterlyOrders, totalQuarterlyCustomers, totalQuarterlyCanceledOrders };
+    return {
+      totalQuarterlyRevenue,
+      totalQuarterlyProfit,
+      totalQuarterlyOrders,
+      totalQuarterlyCustomers,
+      totalQuarterlyCanceledOrders,
+    };
   }
 
-  const { totalQuarterlyRevenue, totalQuarterlyProfit, totalQuarterlyOrders, totalQuarterlyCustomers, totalQuarterlyCanceledOrders } =
-    getQuarterlyData(selectedQuarter);
+  const {
+    totalQuarterlyRevenue,
+    totalQuarterlyProfit,
+    totalQuarterlyOrders,
+    totalQuarterlyCustomers,
+    totalQuarterlyCanceledOrders,
+  } = getQuarterlyData(selectedQuarter);
 
   function checkRange(orderDate, selectedRange) {
-    if (selectedRange && selectedRange.length === 2 && selectedRange[0] && selectedRange[1]) {
+    if (
+      selectedRange &&
+      selectedRange.length === 2 &&
+      selectedRange[0] &&
+      selectedRange[1]
+    ) {
       const startDate = moment(selectedRange[0].$d);
       const endDate = moment(selectedRange[1].$d);
-      if (orderDate.isBetween(startDate, endDate, null, '[]')) {
+      if (orderDate.isBetween(startDate, endDate, null, "[]")) {
         return true;
       }
-
-
     }
   }
 
@@ -338,9 +388,10 @@ export default function AdminChart() {
       <SideBar />
       <div className="admin-content">
         <div className="selection-container">
-          <div className="month-selection" style={{ gap: '10px' }}>
-            <p>Chọn khoảng thời gian:</p>
+          <div className="time-selection">
+            <label htmlFor="time">Chọn khoảng thời gian:</label>
             <RangePicker
+              className="time-range-picker"
               onChange={(dates) => {
                 if (dates) {
                   setSelectedRange(dates);
@@ -352,6 +403,7 @@ export default function AdminChart() {
               }}
             />
           </div>
+
           <div className="month-selection">
             <label htmlFor="month">Chọn tháng:</label>
             <select
@@ -370,7 +422,7 @@ export default function AdminChart() {
               ))}
             </select>
           </div>
-          Hoặc
+
           <div className="quarter-selection">
             <label htmlFor="quarter">Chọn quý:</label>
             <select
@@ -390,23 +442,24 @@ export default function AdminChart() {
             </select>
           </div>
         </div>
+
         <div className="widget-table">
           <div className="widget-table-item">
             <DollarOutlined className="widget-table-item-icon" />
             <div className="widget-table-item-text">
               <p>
                 {mode === "quarter"
-                  ? totalQuarterlyRevenue.toLocaleString() + "đ"
+                  ? totalQuarterlyRevenue.toLocaleString() + " VND"
                   : mode === "range"
-                    ? totalRevenue.toLocaleString() + "đ"
-                    : currentMonthRevenue.toLocaleString() + "đ"}
+                  ? totalRevenue.toLocaleString() + " VND"
+                  : currentMonthRevenue.toLocaleString() + " VND"}
               </p>
               <span>
                 {mode === "quarter"
                   ? "Doanh thu của quý"
                   : mode === "range"
-                    ? "Doanh thu"
-                    : "Doanh thu của tháng"}
+                  ? "Doanh thu"
+                  : "Doanh thu của tháng"}
               </span>
             </div>
           </div>
@@ -415,17 +468,17 @@ export default function AdminChart() {
             <div className="widget-table-item-text">
               <p>
                 {mode === "quarter"
-                  ? totalQuarterlyProfit.toLocaleString() + "đ"
+                  ? totalQuarterlyProfit.toLocaleString() + " VND"
                   : mode === "range"
-                    ? totalProfitValue.toLocaleString() + "đ"
-                    : currentMonthProfit.toLocaleString() + "đ"}
+                  ? totalProfitValue.toLocaleString() + " VND"
+                  : currentMonthProfit.toLocaleString() + " VND"}
               </p>
               <span>
                 {mode === "quarter"
                   ? "Lợi nhuận của quý"
                   : mode === "range"
-                    ? "Lợi nhuận"
-                    : "Lợi nhuận của tháng"}
+                  ? "Lợi nhuận"
+                  : "Lợi nhuận của tháng"}
               </span>
             </div>
           </div>
@@ -436,22 +489,23 @@ export default function AdminChart() {
                 {mode === "quarter"
                   ? `${totalQuarterlyOrders} (${totalQuarterlyCanceledOrders} đơn đã hủy)`
                   : mode === "range"
-                    ? `${filteredOrders.validOrders.length} (${filteredOrders.validCanceledOrders.length} đơn đã hủy)`
-                    : `${currentMonthOrder} (${currentMonthCanceledOrder} đơn đã hủy)`}
+                  ? `${filteredOrders.validOrders.length} (${filteredOrders.validCanceledOrders.length} đơn đã hủy)`
+                  : `${currentMonthOrder} (${currentMonthCanceledOrder} đơn đã hủy)`}
               </p>
               <span>
                 {mode === "quarter"
                   ? "Tổng đơn hàng của quý"
                   : mode === "range"
-                    ? "Tổng đơn hàng"
-                    : "Tổng đơn hàng của tháng"}
+                  ? "Tổng đơn hàng"
+                  : "Tổng đơn hàng của tháng"}
               </span>
             </div>
           </div>
           <span>
-            {mode === "range"
-              ? ""
-              : <div className="widget-table-item">
+            {mode === "range" ? (
+              ""
+            ) : (
+              <div className="widget-table-item">
                 <UserAddOutlined className="widget-table-item-icon" />
                 <div className="widget-table-item-text">
                   <p>
@@ -459,13 +513,11 @@ export default function AdminChart() {
                       ? totalQuarterlyCustomers
                       : currentMonthCustomerQuantity}
                   </p>
-                  <span>
-                    Số khách hàng mới
-                  </span>
+                  <span>Số khách hàng mới</span>
                 </div>
-              </div>}
+              </div>
+            )}
           </span>
-
         </div>
         <div className="chart-container">
           <Bar data={data} options={options} />
