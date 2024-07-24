@@ -59,7 +59,6 @@ export default function AdminDiamond() {
       toast.success("Thêm Kim Cương Thành Công");
       fetchDiamond();
       fetchCertificate();
-      form.resetFields();
       setSelectedCertificateId(null);
     } catch (error) {
       toast.error("Đã có lỗi trong lúc thêm kim cương");
@@ -538,6 +537,7 @@ export default function AdminDiamond() {
   ];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
+    fetchCertificate();
     setIsModalOpen(true);
   };
   const handleOk = () => {
