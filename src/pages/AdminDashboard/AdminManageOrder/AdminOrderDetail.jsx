@@ -244,10 +244,9 @@ export default function AdminOrderDetail() {
               </Col>
               <Col md={4}>
                 <h4>THÔNG TIN ĐƠN HÀNG</h4>
-                {orderDetail.orderItems.map((orderItem) => {
-                  const productLine = orderItem.product.productLine;
-                  const diamond = orderItem.product.diamond;
-
+                {orderDetail.orderItems?.map((orderItem) => {
+                  const productLine = orderItem.product?.productLine;
+                  const diamond = orderItem.product?.diamond;
                   return (
                     <div
                       key={productLine?.id}
@@ -257,26 +256,24 @@ export default function AdminOrderDetail() {
                       <img
                         src={productLine?.imgURL}
                         alt="Product Image"
-                        className="checkout-image-admin"
+                        className="checkout-image"
                       />
                       <div className="order-item-details">
                         <h6>{productLine?.name}</h6>
                         <p>Mã SP: {productLine?.id}</p>
-                        <p>Danh mục: {productLine?.category.name}</p>
+                        <p>Danh mục: {productLine?.category?.name}</p>
                         <p>
                           Giá: {productLine?.finalPrice.toLocaleString()} VNĐ
                         </p>
                         <a href={diamond?.certificate?.fileURL} target="_blank">
                           Chứng Chỉ GIA
                         </a>
-                        <div>
-                          <Button
-                            onClick={() => showModal(orderItem.product?.id)}
-                            key={orderItem.product?.id}
-                          >
-                            Giấy Bảo Hành
-                          </Button>
-                        </div>
+                        <Button
+                          onClick={() => showModal(orderItem.product?.id)}
+                          key={orderItem.product?.id}
+                        >
+                          Giấy Bảo Hành
+                        </Button>
                       </div>
                     </div>
                   );

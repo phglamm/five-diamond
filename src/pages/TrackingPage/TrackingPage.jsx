@@ -253,9 +253,9 @@ const TrackingPage = () => {
             </Col>
             <Col md={4}>
               <h4>THÔNG TIN ĐƠN HÀNG</h4>
-              {orderDetail.orderItems.map((orderItem) => {
-                const productLine = orderItem.product.productLine;
-                const diamond = orderItem.product.diamond;
+              {orderDetail.orderItems?.map((orderItem) => {
+                const productLine = orderItem.product?.productLine;
+                const diamond = orderItem.product?.diamond;
                 return (
                   <div
                     key={productLine?.id}
