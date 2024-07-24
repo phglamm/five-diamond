@@ -37,7 +37,7 @@ export default function Header() {
       if (user.role === "DELIVERY") {
         return routes.deliveryStaff;
       } else if (user.role === "SALES") {
-        return routes.salesStaff;
+        return routes.saleStaff;
       } else {
         return routes.home;
       }
