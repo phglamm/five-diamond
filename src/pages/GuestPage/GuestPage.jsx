@@ -58,7 +58,7 @@ export default function GuestPage() {
         </Row>
         <Row>
           {specialpro.map((item, index) => (
-            <Col key={index} className="guest-product-card-item">
+            <Col key={index} className="guest-product-card-item" md={2}>
               <ProductCard
                 img={item.imgURL}
                 text={item.name}
